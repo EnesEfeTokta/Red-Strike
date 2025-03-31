@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
+  m_Name: PlayFabEditorPrefsSO
+  m_EditorClassIdentifier: 
+  DevAccountEmail: enesefetokta009@gmail.com
+  DevAccountToken: tu7fknqfzxy9f1brs3fp675gt34y4fysjcomger3ud36x38x1zn76m6r1h3gcodtgy3anhbkb44zq9br96bssphuswjdgih1hz4cuxkea8wuym8sbr3eb8qarkqm8u45bb453c11uex8sehutocbj6m9pk9k5oxk4zixbu33rzfypsrys56n398hnoj5wruuyqqwmec7
+  SelectedStudio: Rog X Games
+  SdkPath: Assets/PlayFabSDK
+  EdExPath: 
+  LocalCloudScriptPath: 
+  PanelIsShown: 1
+  curMainMenuIdx: 2
+  curSubMenuIdx: 0
