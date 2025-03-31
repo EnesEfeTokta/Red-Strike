@@ -1,0 +1,13 @@
+Canopus III - Low Poly Sci-Fi Desert Units Set 2
+
+Units and building models share the same uv-map coordinates.
+
+The included Photoshop workfiles contain layers indicating the uv-mapping, so new diffuse maps with different colours can be easily created.
+
+The models do not contain any animation tracks.
+
+
+Version 2.0 (2023-01)
+The initial models did not have a pivot point that aligned to Unity's default rotation. A second copy of these models with adjusted pivot points have been added to version 2.0 of this package. These models and prefabs have the suffix '_yup' added to object name.
+
+The previous models, prefabs and scene that had the old rotation value have been placed in the file 'archive.zip'. Some users who own version 1.0 of this package may find these older files useful for compatibility purposes.
