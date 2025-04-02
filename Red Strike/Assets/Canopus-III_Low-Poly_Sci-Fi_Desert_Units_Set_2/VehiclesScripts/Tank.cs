@@ -125,10 +125,13 @@ public class Tank : BaseUnit
 
     private void RotateTank(Vector3 position)
     {
-        Vector3 direction = position - transform.position;
-        direction.y = 0;
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turretRotationSpeed);
+        if (distanceTarget >= Range)
+        {
+            Vector3 direction = position - transform.position;
+            direction.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turretRotationSpeed);
+        }
     }
 
     private void RotateTurret(Vector3 targetPosition)
