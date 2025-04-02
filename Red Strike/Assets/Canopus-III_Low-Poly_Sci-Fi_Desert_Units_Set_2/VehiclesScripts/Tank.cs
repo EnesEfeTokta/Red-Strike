@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class Tank : BaseUnit
 {
@@ -22,6 +23,9 @@ public class Tank : BaseUnit
     public GameObject projectilePrefab; // Mermi prefabı
     public float projectileSpeed = 20f; // Mermi hızı
     private float attackTimer = 0f;
+
+    public ParticleSystem BarrelParticle; // Barrel particle system (for example, smoke or fire effect)
+    public ParticleSystem EngineParticle; // Cannon particle system (for example, smoke or fire effect)
 
     private void Start()
     {
@@ -56,10 +60,12 @@ public class Tank : BaseUnit
 
             RotateTurret(TargetTransform.position);
             AdjustBarrel(TargetTransform.position);
+            RotateTank(TargetTransform.position);
 
             if (distanceTarget <= stoppingDistance)
             {
                 tankState = TankState.Idle;
+                EngineParticle.Stop(); // Engine particle effect
             }
             else if (distanceTarget <= Range)
             {
@@ -70,6 +76,7 @@ public class Tank : BaseUnit
             {
                 tankState = TankState.Moving;
                 Move(TargetTransform.position);
+                EngineParticle.Play(); // Engine particle effect
             }
         }
     }
@@ -87,15 +94,21 @@ public class Tank : BaseUnit
         {
             if (projectilePrefab != null)
             {
+                BarrelParticle.Play();
+                EngineParticle.Stop();
+
                 GameObject projectile = Instantiate(projectilePrefab, CannonTransform.position, CannonTransform.rotation);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
                 if (rb != null)
                 {
-                    rb.linearVelocity = CannonTransform.forward * projectileSpeed; // Mermiyi ileri gönder
+                    rb.linearVelocity = CannonTransform.forward * projectileSpeed;
                 }
-                Destroy(projectile, 5f); // Mermiyi 5 saniye sonra yok et
-                attackTimer = 0f; // Reset timer
+                Destroy(projectile, 5f);
+                attackTimer = 0f;
+
+                BarrelTransform.DOLocalMoveZ(-0.5f, 0.1f).SetRelative().SetEase(Ease.OutQuad)
+                        .OnComplete(() => BarrelTransform.DOLocalMoveZ(0.5f, 0.2f).SetRelative().SetEase(Ease.OutBounce));
             }
         }
     }
@@ -108,6 +121,14 @@ public class Tank : BaseUnit
         {
             transform.position += direction * Speed * Time.deltaTime;
         }
+    }
+
+    private void RotateTank(Vector3 position)
+    {
+        Vector3 direction = position - transform.position;
+        direction.y = 0;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turretRotationSpeed);
     }
 
     private void RotateTurret(Vector3 targetPosition)
@@ -125,7 +146,7 @@ public class Tank : BaseUnit
     private void AdjustBarrel(Vector3 targetPosition)
     {
         Vector3 directionToTarget = targetPosition - BarrelTransform.position;
-        
+
         // Sadece namlunun dikey açısını değiştirmek için Y eksenini sıfırla
         directionToTarget.x = 0;
 
