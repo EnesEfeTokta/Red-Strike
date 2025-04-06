@@ -5,16 +5,19 @@ public abstract class BaseUnit : MonoBehaviour
     #region  Base unit properties
     private float health { get; set; }
     private float speed { get; set; }
-    private float armor { get; set; }
     private float damage { get; set; }
     private float attackCooldown { get; set; }
+    private float energy { get; set; }
 
-    private int repeatShot { get; set; }
+    private float repeatShot { get; set; }
 
     private float range { get; set; }
     private int density { get; set; }
     private bool recreationStatus { get; set; }
     private int recreation { get; set; }
+
+    public SelectableObject selectableObject { get; set; }
+    public VehicleControlUI vehicleControlUI { get; set; }
     #endregion
 
     #region Properties Set/Get
@@ -30,12 +33,6 @@ public abstract class BaseUnit : MonoBehaviour
         set { speed = value; }
     }
 
-    public float Armor
-    {
-        get { return armor; }
-        set { armor = value; }
-    }
-
     public float Damage
     {
         get { return damage; }
@@ -48,7 +45,13 @@ public abstract class BaseUnit : MonoBehaviour
         set { attackCooldown = value; }
     }
 
-    public int RepeatShot
+    public float Energy
+    {
+        get { return energy; }
+        set { energy = value; }
+    }
+
+    public float RepeatShot
     {
         get { return repeatShot; }
         set { repeatShot = value; }
@@ -81,7 +84,7 @@ public abstract class BaseUnit : MonoBehaviour
 
     public virtual void TakeDamage(float damageAmount)
     {
-        float effectiveDamage = damageAmount - armor;
+        float effectiveDamage = damageAmount - attackCooldown;
         Health -= Mathf.Max(effectiveDamage, 0);
         Debug.Log($"{gameObject.name} took {effectiveDamage} damage. Remaining health: {Health}");
         if (Health <= 0)

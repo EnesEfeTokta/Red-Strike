@@ -95,6 +95,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 50 hv 
 - **Hasar Verme Değeri:** 40 dv
 - **Hız:** 300
+- **Enerji:** 500 lt
 - **Atış Tekrarı:** 1 saniye
 - **Menzil:** 8 birim
 - **Yoğunluk:** 5
@@ -107,6 +108,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 150 hv
 - **Hasar Verme Değeri:** 80 dv 
 - **Hız:** 100
+- **Enerji:** 400 lt
 - **Atış Tekrarı:** 3 saniye
 - **Menzil:** 10 birim
 - **Yoğunluk:** 4  
@@ -123,6 +125,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 300 hv
 - **Hasar Verme Değeri:** 220 dv
 - **Hız:** 20
+- **Enerji:** 500 lt
 - **Atış Tekrarı:** 10 saniye
 - **Menzil:** 15 birim
 - **Yoğunluk:** 2
@@ -135,6 +138,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 200 hv 
 - **Hasar Verme Değeri:** 160 dv 
 - **Hız:** 40
+- **Enerji:** 400 lt
 - **Atış Tekrarı:** 7 saniye
 - **Menzil:** 12 birim
 - **Yoğunluk:** 3
@@ -147,6 +151,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 150 hv
 - **Hasar Verme Değeri:** 120 dv
 - **Hız:** 120
+- **Enerji:** 300 lt
 - **Atış Tekrarı:** 4 saniye  
 - **Menzil:** 10 birim
 - **Yoğunluk:** 5
@@ -163,6 +168,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 100 hv
 - **Hasar Verme Değeri:** 60 dv
 - **Hız:** 150
+- **Enerji:** 500 lt
 - **Atış Tekrarı:** 4 saniye
 - **Menzil:** 6 birim
 - **Yoğunluk:** 5
@@ -175,6 +181,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 50 hv
 - **Hasar Verme Değeri:** 60 dv
 - **Hız:** 250
+- **Enerji:** 400 lt
 - **Atış Tekrarı:** 2 saniye
 - **Menzil:** 4 birim
 - **Yoğunluk:** 5
@@ -187,6 +194,7 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Korunma Değeri:** 100 hv
 - **Hasar Verme Değeri:** 70 dv
 - **Hız:** 120
+- **Enerji:** 300 lt
 - **Atış Tekrarı:** 4 saniye
 - **Menzil:** 8 birim
 - **Yoğunluk:** 5

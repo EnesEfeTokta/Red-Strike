@@ -3,7 +3,7 @@ using DG.Tweening;
 
 public class Tank : BaseUnit
 {
-    public TankState tankState;
+    public TankState tankState = TankState.Idle;
     public TankType tankType;
     public float resilience = 1.0f;
 
@@ -27,29 +27,55 @@ public class Tank : BaseUnit
     public ParticleSystem BarrelParticle; // Barrel particle system (for example, smoke or fire effect)
     public ParticleSystem EngineParticle; // Cannon particle system (for example, smoke or fire effect)
 
+    public VehicleControlUI VehicleControlUI;
+
+    private float maxHealth;
+    private float maxEnergy;
+    private float maxAttackCooldown;
+
     private void Start()
     {
         switch (tankType)
         {
             case TankType.A:
                 resilience = 0.8f;
+                Health = maxHealth = 300.0f;
+                Speed = 5.0f;
+                AttackCooldown = maxAttackCooldown = 300.0f;
+                Energy = maxEnergy = 500.0f;
+                Range = 30.0f;
+                RepeatShot = 1.5f;
                 break;
             case TankType.B:
                 resilience = 1.2f;
+                Health = maxHealth = 220.0f;
+                Speed = 9.0f;
+                AttackCooldown = maxAttackCooldown = 200.0f;
+                Energy = maxEnergy = 400.0f;
+                Range = 22.0f;
+                RepeatShot = 0.1f;
                 break;
             case TankType.Combat:
                 resilience = 1.5f;
+                Health = maxHealth = 180.0f;
+                Speed = 15.0f;
+                AttackCooldown = maxAttackCooldown = 150.0f;
+                Energy = maxEnergy = 300.0f;
+                Range = 20.0f;
+                RepeatShot = 0.5f;
                 break;
             default:
                 resilience = 1.0f;
+                Health = maxHealth = 200.0f;
+                Speed = 7.0f;
+                AttackCooldown = maxAttackCooldown = 250.0f;
+                Energy = maxEnergy = 450.0f;
+                Range = 25.0f;
+                RepeatShot = 1.0f;
                 break;
         }
 
         tankState = TankState.Idle;
-
-        Speed = 5f;
-        AttackCooldown = 1.5f;
-        Range = 30f;
     }
 
     private void Update()
@@ -83,21 +109,45 @@ public class Tank : BaseUnit
 
     public override void TakeDamage(float damageAmount)
     {
-        damageAmount *= resilience;
-        base.TakeDamage(damageAmount);
+        float adjustedDamage = damageAmount * resilience;
+        float effectiveDamage = 0;
+
+        if (AttackCooldown > 0)
+        {
+            if (AttackCooldown >= adjustedDamage)
+            {
+                AttackCooldown -= adjustedDamage;
+                effectiveDamage = 0;
+            }
+            else
+            {
+                effectiveDamage = adjustedDamage - AttackCooldown;
+                AttackCooldown = 0;
+            }
+        }
+        else
+        {
+            effectiveDamage = adjustedDamage;
+        }
+
+        Health -= effectiveDamage;
+        Health = Mathf.Max(Health, 0);
+
+        VehicleControlUI.UpdateUIProperties(Health, Energy, AttackCooldown, maxHealth, maxEnergy, maxAttackCooldown);
 
         if (Health <= 0)
         {
             tankState = TankState.Destroyed;
-            EngineParticle.Stop(); // Engine particle effect
-            BarrelParticle.Stop(); // Barrel particle effect
+            EngineParticle.Stop();
+            BarrelParticle.Stop();
         }
     }
+
 
     private void Attack()
     {
         attackTimer += Time.deltaTime;
-        if (attackTimer >= AttackCooldown)
+        if (attackTimer >= RepeatShot)
         {
             if (projectilePrefab != null)
             {

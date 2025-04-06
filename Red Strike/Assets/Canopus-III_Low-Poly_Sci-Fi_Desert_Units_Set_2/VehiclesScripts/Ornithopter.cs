@@ -283,7 +283,7 @@ public class Ornithopter : BaseUnit
             if (bulletRb != null)
             {
                 Vector3 bulletDirection = (adjustedTargetPos - BarrelTransform.position).normalized;
-                bulletRb.velocity = bulletDirection * bulletSpeed;
+                bulletRb.linearVelocity = bulletDirection * bulletSpeed;
 
                 Debug.DrawRay(BarrelTransform.position, bulletDirection * 5f, Color.cyan, 1f);
             }

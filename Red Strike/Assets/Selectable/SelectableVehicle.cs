@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SelectableVehicle : SelectableObject
 {
@@ -9,16 +10,39 @@ public class SelectableVehicle : SelectableObject
 
     private Outline outline;
 
+    public VehicleControlUI vehicleControlUI;
+
+    private bool selected = false;
+    public bool Selected
+    {
+        get { return selected; }
+        set
+        {
+            selected = value;
+            if (value)
+            {
+                outline.On();
+            }
+            else
+            {
+                outline.Off();
+            }
+        }
+    }
+
     private void Start()
     {
         outline = GetComponent<Outline>();
-        outline.Off();
+        Selected = false;
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -27,23 +51,27 @@ public class SelectableVehicle : SelectableObject
                 bool isDoubleClick = (Time.time - lastClickTime) < doubleClickThreshold;
                 lastClickTime = Time.time;
 
-                if (hit.transform == transform)
+                if (hit.transform.IsChildOf(transform))
                 {
                     if (isDoubleClick)
                     {
                         permanentlySelectedObject = hit.transform.gameObject;
-                        outline.On();
-                        outline.OutlineColor = Color.yellow; // Change color to red for permanent selection
-                        outline.OutlineWidth = 10f; // Increase outline width for permanent selection
+                        Selected = true;
+                        outline.OutlineColor = Color.yellow;
+                        outline.OutlineWidth = 10f;
                         Debug.Log("Permanently Selected: " + permanentlySelectedObject.name);
+
+                        vehicleControlUI.OnDeselect();
                     }
                     else
                     {
                         selectedObject = hit.transform.gameObject;
-                        outline.On();
-                        outline.OutlineColor = Color.yellow; // Change color to yellow for temporary selection
-                        outline.OutlineWidth = 5f; // Normal outline width for temporary selection
+                        Selected = true;
+                        outline.OutlineColor = Color.yellow;
+                        outline.OutlineWidth = 5f;
                         Debug.Log("Temporarily Selected: " + selectedObject.name);
+
+                        vehicleControlUI.OnSelect();
                     }
                 }
                 else
@@ -51,15 +79,17 @@ public class SelectableVehicle : SelectableObject
                     if (isDoubleClick && permanentlySelectedObject != null)
                     {
                         Debug.Log("Permanently Deselected: " + permanentlySelectedObject.name);
-                        outline.Off();
+                        Selected = false;
                         permanentlySelectedObject = null;
                     }
                     else if (!isDoubleClick && selectedObject != null)
                     {
                         Debug.Log("Temporarily Deselected: " + selectedObject.name);
-                        outline.Off();
+                        Selected = false;
                         selectedObject = null;
                     }
+
+                    vehicleControlUI.OnDeselect();
                 }
             }
         }
