@@ -85,6 +85,13 @@ public class Tank : BaseUnit
     {
         damageAmount *= resilience;
         base.TakeDamage(damageAmount);
+
+        if (Health <= 0)
+        {
+            tankState = TankState.Destroyed;
+            EngineParticle.Stop(); // Engine particle effect
+            BarrelParticle.Stop(); // Barrel particle effect
+        }
     }
 
     private void Attack()
