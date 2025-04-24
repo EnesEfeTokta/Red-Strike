@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Tank : BaseUnit
 {
@@ -29,12 +30,54 @@ public class Tank : BaseUnit
 
     public VehicleControlUI VehicleControlUI;
 
+    private Attack attack;
+
     private float maxHealth;
     private float maxEnergy;
     private float maxAttackCooldown;
 
+    private bool isSingleSelection { get; set; } = false;
+    public bool IsSingleSelection
+    {
+        get { return isSingleSelection; }
+        set
+        {
+            isSingleSelection = value;
+            isDoubleSelection = false;
+            if (value)
+            {
+                VehicleControlUI.OnSelect();
+            }
+            else
+            {
+                VehicleControlUI.OnDeselect();
+            }
+        }
+    }
+
+    private bool isDoubleSelection { get; set; } = false;
+    public bool IsDoubleSelection
+    {
+        get { return isDoubleSelection; }
+        set
+        {
+            isDoubleSelection = value;
+            isSingleSelection = false;
+            if (value)
+            {
+                VehicleControlUI.OnSelect();
+            }
+            else
+            {
+                VehicleControlUI.OnDeselect();
+            }
+        }
+    }
+
     private void Start()
     {
+        attack = GetComponent<Attack>();
+
         switch (tankType)
         {
             case TankType.A:
@@ -105,6 +148,11 @@ public class Tank : BaseUnit
                 EngineParticle.Play(); // Engine particle effect
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(20);
+        }
     }
 
     public override void TakeDamage(float damageAmount)
@@ -142,10 +190,9 @@ public class Tank : BaseUnit
             BarrelParticle.Stop();
         }
     }
-
-
+    
     private void Attack()
-    {
+    {/*
         attackTimer += Time.deltaTime;
         if (attackTimer >= RepeatShot)
         {
@@ -168,6 +215,7 @@ public class Tank : BaseUnit
                         .OnComplete(() => BarrelTransform.DOLocalMoveZ(0.5f, 0.2f).SetRelative().SetEase(Ease.OutBounce));
             }
         }
+        */
     }
 
     public override void Move(Vector3 targetPosition)

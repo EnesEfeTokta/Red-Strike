@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class SelectableVehicle : SelectableObject
 {
@@ -11,6 +12,23 @@ public class SelectableVehicle : SelectableObject
     private Outline outline;
 
     public VehicleControlUI vehicleControlUI;
+
+    private Tank tank;
+    
+    private GameObject currentlySelectedTarget { get; set; } = null;
+    private List<GameObject> permanentTargets = new List<GameObject>();
+
+    public List<GameObject> PermanentTargets
+    {
+        get { return permanentTargets; }
+        set { permanentTargets = value; }
+    }
+
+    public GameObject CurrentlySelectedTarget
+    {
+        get { return currentlySelectedTarget; }
+        set { currentlySelectedTarget = value; }
+    }
 
     private bool selected = false;
     public bool Selected
@@ -32,6 +50,7 @@ public class SelectableVehicle : SelectableObject
 
     private void Start()
     {
+        tank = GetComponent<Tank>();
         outline = GetComponent<Outline>();
         Selected = false;
     }
@@ -46,6 +65,7 @@ public class SelectableVehicle : SelectableObject
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
+            // Raycast ile tıklanan nesneyi kontrol ediyor.
             if (Physics.Raycast(ray, out hit))
             {
                 bool isDoubleClick = (Time.time - lastClickTime) < doubleClickThreshold;
@@ -59,7 +79,8 @@ public class SelectableVehicle : SelectableObject
                         Selected = true;
                         outline.OutlineColor = Color.yellow;
                         outline.OutlineWidth = 10f;
-                        Debug.Log("Permanently Selected: " + permanentlySelectedObject.name);
+
+                        tank.IsDoubleSelection = true;
 
                         vehicleControlUI.OnDeselect();
                     }
@@ -69,29 +90,152 @@ public class SelectableVehicle : SelectableObject
                         Selected = true;
                         outline.OutlineColor = Color.yellow;
                         outline.OutlineWidth = 5f;
-                        Debug.Log("Temporarily Selected: " + selectedObject.name);
+
+                        tank.IsSingleSelection = true;
 
                         vehicleControlUI.OnSelect();
                     }
                 }
                 else
                 {
-                    if (isDoubleClick && permanentlySelectedObject != null)
+                    if (!hit.transform.gameObject.CompareTag("Enemy")) // Eüer vurulan nesne "Enemy" tagına sahip değilse...
                     {
-                        Debug.Log("Permanently Deselected: " + permanentlySelectedObject.name);
-                        Selected = false;
-                        permanentlySelectedObject = null;
-                    }
-                    else if (!isDoubleClick && selectedObject != null)
-                    {
-                        Debug.Log("Temporarily Deselected: " + selectedObject.name);
-                        Selected = false;
-                        selectedObject = null;
-                    }
+                        // Eğer araç seçilmişse, iptal etme işlemi yapılır.
+                        // Eğer araç seçilmemişse, iptal etme işlemi yapılmaz.
+                        if ((isDoubleClick && permanentlySelectedObject != null) || (!isDoubleClick && selectedObject != null))
+                        {
+                            Selected = false;
+                            outline.OutlineWidth = 0f;
+                            permanentlySelectedObject = null;
+                            selectedObject = null;
 
-                    vehicleControlUI.OnDeselect();
+                            tank.IsDoubleSelection = false;
+                            tank.IsSingleSelection = false;
+                        }
+
+                        // Eğer hedef seçilmişse, iptal etme işlemi yapılır.
+                        // Eğer hedef seçilmemişse, iptal etme işlemi yapılmaz.
+                        if (currentlySelectedTarget != null)
+                            DeselectTarget(currentlySelectedTarget);
+
+                        currentlySelectedTarget = null;
+
+                        foreach (var target in new List<GameObject>(permanentTargets))
+                        {
+                            DeselectTarget(target);
+                        }
+                        permanentTargets.Clear();
+
+                        vehicleControlUI.OnDeselect();
+                    }
+                    else
+                    {
+                        if (selected) // Eğer araç seçilmişse hedef seçilebilir.
+                        {
+                            GameObject clickedTarget = hit.transform.gameObject;
+
+                            bool isAlreadyPermanent = permanentTargets.Contains(clickedTarget);
+                            bool isSingleSelected = currentlySelectedTarget == clickedTarget;
+
+                            if (isDoubleClick)
+                            {
+                                if (isSingleSelected)
+                                {
+                                    DeselectTarget(clickedTarget);
+                                }
+
+                                if (isAlreadyPermanent)
+                                {
+                                    DeselectTarget(clickedTarget);
+                                }
+                                else
+                                {
+                                    SelectPermanentTarget(clickedTarget);
+                                    permanentTargets.Add(clickedTarget);
+                                }
+
+                                currentlySelectedTarget = null;
+                            }
+                            else
+                            {
+                                if (isAlreadyPermanent)
+                                {
+                                    DeselectTarget(clickedTarget);
+                                    permanentTargets.Remove(clickedTarget);
+                                }
+                                else
+                                {
+                                    // Önceki tekli hedefi kaldır
+                                    if (currentlySelectedTarget != null)
+                                        DeselectTarget(currentlySelectedTarget);
+
+                                    SelectTarget(clickedTarget);
+                                    currentlySelectedTarget = clickedTarget;
+                                }
+                            }
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Hedefi seçmek için kullanılır. Seçilen hedefin outline'ını ayarlar ve önceki hedefi iptal eder.
+    /// Eğer hedef zaten seçilmişse, iptal etme işlemi yapılmaz.
+    /// </summary>
+    /// <param name="target">Seçilecek hedef nesnesi.</param>
+    private void SelectTarget(GameObject target)
+    {
+        if (currentlySelectedTarget != null && currentlySelectedTarget != target)
+        {
+            DeselectTarget(currentlySelectedTarget);
+        }
+
+        Outline targetOutline = target.GetComponent<Outline>();
+        if (targetOutline != null)
+        {
+            targetOutline.OutlineWidth = 3f;
+            targetOutline.OutlineColor = Color.red;
+            targetOutline.On();
+        }
+
+        currentlySelectedTarget = target;
+    }
+
+    private void SelectPermanentTarget(GameObject target)
+    {
+        Outline targetOutline = target.GetComponent<Outline>();
+        if (targetOutline != null)
+        {
+            targetOutline.OutlineWidth = 5f;
+            targetOutline.OutlineColor = Color.red;
+            targetOutline.On();
+        }
+    }
+
+
+    /// <summary>
+    /// Hedefi iptal etmek için kullanılır. Seçilen hedefin outline'ını kapatır ve referansı temizler.
+    /// Eğer hedef iptal edilirse, currentlySelectedTarget null olarak ayarlanır.
+    /// </summary>
+    /// <param name="target">Iptal edilecek hedef nesnesi.</param>
+    private void DeselectTarget(GameObject target)
+    {
+        Outline targetOutline = target.GetComponent<Outline>();
+        if (targetOutline != null)
+        {
+            targetOutline.Off();
+        }
+
+        if (target == currentlySelectedTarget)
+        {
+            currentlySelectedTarget = null;
+        }
+
+        if (permanentTargets.Contains(target))
+        {
+            permanentTargets.Remove(target);
         }
     }
 }

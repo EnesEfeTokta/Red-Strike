@@ -18,6 +18,11 @@ public class VehicleSmallPanel : VehicleControlUI
     private float energyBarHeight;
     private float attackCooldownBarHeight;
 
+    private Tween healthWarningTween;
+    private Tween energyWarningTween;
+    private Tween cooldownWarningTween;
+
+
     private void Start()
     {
         vehicleSmallPanelObject.SetActive(false);
@@ -54,7 +59,39 @@ public class VehicleSmallPanel : VehicleControlUI
         healthBarImage.DOFillAmount(healthBarHeight, 0.3f).SetEase(Ease.OutCubic);
         energyBarImage.DOFillAmount(energyBarHeight, 0.3f).SetEase(Ease.OutCubic);
         attackCooldownBarImage.DOFillAmount(attackCooldownBarHeight, 0.3f).SetEase(Ease.OutCubic);
+
+        HandleBarWarning(healthBarImage, healthBarHeight, ref healthWarningTween);
+        HandleBarWarning(energyBarImage, energyBarHeight, ref energyWarningTween);
+        HandleBarWarning(attackCooldownBarImage, attackCooldownBarHeight, ref cooldownWarningTween);
     }
+
+    private void HandleBarWarning(Image barImage, float fillValue, ref Tween tweenRef)
+    {
+        if (fillValue < 0.2f)
+        {
+            if (tweenRef == null || !tweenRef.IsActive())
+            {
+                Color originalColor = barImage.color;
+                tweenRef = barImage.DOColor(barImage.color, 0.3f)
+                    .OnStart(() =>
+                    {
+                        barImage.DOFade(0.3f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+                    });
+            }
+        }
+        else
+        {
+            if (tweenRef != null && tweenRef.IsActive())
+            {
+                tweenRef.Kill();
+                barImage.DOKill();
+                barImage.color = Color.white;
+                barImage.canvasRenderer.SetAlpha(1f);
+            }
+        }
+    }
+
+
 
     private void Slot1ButtonClick()
     {
@@ -76,18 +113,15 @@ public class VehicleSmallPanel : VehicleControlUI
 
     public override void OnSelect()
     {
-        base.OnSelect();
         PanelOpenAnimation(true);
     }
 
     public override void OnDeselect()
     {
-        base.OnDeselect();
         PanelOpenAnimation(false);
     }
     public override void OnClick()
     {
-        base.OnClick();
         vehicleSmallPanelObject.SetActive(!vehicleSmallPanelObject.activeSelf);
     }
 }
