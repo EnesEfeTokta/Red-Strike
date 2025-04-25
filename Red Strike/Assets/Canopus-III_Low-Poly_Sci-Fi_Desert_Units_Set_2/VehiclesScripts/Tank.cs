@@ -11,6 +11,7 @@ public class Tank : BaseUnit
     public Transform BarrelTransform; // Ball barrel (up-down moves)
     public Transform CannonTransform; // The center of the ball (only up-down moves)
     public Transform TurretTransform; // Tower (Right-Sola Returns)
+    public Transform TpsCameraTransform; // TPS camera position (for example, behind the tank)
 
     public Transform TargetTransform; // Aim
     public float turretRotationSpeed = 5f;
@@ -47,10 +48,14 @@ public class Tank : BaseUnit
             if (value)
             {
                 VehicleControlUI.OnSelect();
+                CameraController.Instance.selectedVehicle = transform;
+                CameraController.Instance.tpsCameraPosition = TpsCameraTransform;
             }
             else
             {
                 VehicleControlUI.OnDeselect();
+                CameraController.Instance.selectedVehicle = null;
+                CameraController.Instance.tpsCameraPosition = null;
             }
         }
     }
@@ -66,16 +71,24 @@ public class Tank : BaseUnit
             if (value)
             {
                 VehicleControlUI.OnSelect();
+                CameraController.Instance.selectedVehicle = transform;
+                CameraController.Instance.tpsCameraPosition = TpsCameraTransform;
             }
             else
             {
                 VehicleControlUI.OnDeselect();
+                CameraController.Instance.selectedVehicle = null;
+                CameraController.Instance.tpsCameraPosition = null;
             }
         }
     }
 
+    private Camera mainCamera;
+
     private void Start()
     {
+        mainCamera = Camera.main;
+
         attack = GetComponent<Attack>();
 
         switch (tankType)
@@ -123,35 +136,43 @@ public class Tank : BaseUnit
 
     private void Update()
     {
-        if (TargetTransform != null)
+        if (CameraController.Instance.currentMode != CameraMode.FreeLook)
         {
-            distanceTarget = Vector3.Distance(transform.position, TargetTransform.position);
-
-            RotateTurret(TargetTransform.position);
-            AdjustBarrel(TargetTransform.position);
-            RotateTank(TargetTransform.position);
-
-            if (distanceTarget <= stoppingDistance)
-            {
-                tankState = TankState.Idle;
-                EngineParticle.Stop(); // Engine particle effect
-            }
-            else if (distanceTarget <= Range)
-            {
-                tankState = TankState.Attacking;
-                Attack();
-            }
-            else
-            {
-                tankState = TankState.Moving;
-                Move(TargetTransform.position);
-                EngineParticle.Play(); // Engine particle effect
-            }
+            TpsMove();
+            TpsTowerBarrelRotate();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        else if (CameraController.Instance.currentMode == CameraMode.FreeLook)
         {
-            TakeDamage(20);
+            if (TargetTransform != null)
+            {
+                distanceTarget = Vector3.Distance(transform.position, TargetTransform.position);
+
+                RotateTurret(TargetTransform.position);
+                AdjustBarrel(TargetTransform.position);
+                RotateTank(TargetTransform.position);
+
+                if (distanceTarget <= stoppingDistance)
+                {
+                    tankState = TankState.Idle;
+                    EngineParticle.Stop(); // Engine particle effect
+                }
+                else if (distanceTarget <= Range)
+                {
+                    tankState = TankState.Attacking;
+                    Attack();
+                }
+                else
+                {
+                    tankState = TankState.Moving;
+                    Move(TargetTransform.position);
+                    EngineParticle.Play(); // Engine particle effect
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TakeDamage(20);
+            }
         }
     }
 
@@ -190,7 +211,7 @@ public class Tank : BaseUnit
             BarrelParticle.Stop();
         }
     }
-    
+
     private void Attack()
     {/*
         attackTimer += Time.deltaTime;
@@ -266,6 +287,65 @@ public class Tank : BaseUnit
 
         Quaternion limitedRotation = Quaternion.Euler(angle, BarrelTransform.localRotation.eulerAngles.y, BarrelTransform.localRotation.eulerAngles.z);
         BarrelTransform.localRotation = Quaternion.Slerp(BarrelTransform.localRotation, limitedRotation, Time.deltaTime * barrelRotationSpeed);
+    }
+
+    private void TpsTowerBarrelRotate()
+    {
+        Vector3 cameraForward = mainCamera.transform.forward;
+
+        Vector3 towerDirection = new Vector3(cameraForward.x, 0, cameraForward.z);
+        Quaternion towerRot = Quaternion.LookRotation(towerDirection);
+
+        TurretTransform.rotation = Quaternion.Slerp(TurretTransform.rotation, towerRot, Time.deltaTime * turretRotationSpeed);
+
+        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+
+        Vector2 crosshairPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+        float normalizedCrosshairY = (crosshairPosition.y - screenCenter.y) / (Screen.height / 2);
+
+        float targetAngle = normalizedCrosshairY * maxBarrelAngle;
+
+        targetAngle = Mathf.Clamp(targetAngle, -40f, 10f);
+
+        Quaternion targetRotation = Quaternion.Euler(-targetAngle, BarrelTransform.localRotation.eulerAngles.y, BarrelTransform.localRotation.eulerAngles.z);
+        BarrelTransform.localRotation = Quaternion.Slerp(BarrelTransform.localRotation, targetRotation, Time.deltaTime * 10f);
+
+    }
+
+    private void TpsMove()
+    {
+        float moveInput = Input.GetAxis("Vertical");
+        float turnInput = Input.GetAxis("Horizontal");
+
+        if (moveInput != 0)
+        {
+            transform.position += transform.forward * moveInput * Speed * Time.deltaTime;
+            tankState = TankState.Moving;
+            if (!EngineParticle.isPlaying)
+            {
+                EngineParticle.Play();
+            }
+        }
+
+        if (turnInput != 0)
+        {
+            transform.Rotate(Vector3.up, turnInput * 50 * Time.deltaTime);
+            tankState = TankState.Moving;
+            if (!EngineParticle.isPlaying)
+            {
+                EngineParticle.Play();
+            }
+        }
+
+        if (moveInput == 0 && turnInput == 0)
+        {
+            tankState = TankState.Idle;
+            if (EngineParticle.isPlaying)
+            {
+                EngineParticle.Stop();
+            }
+        }
     }
 
     public enum TankState { Idle, Moving, Attacking, Destroyed }

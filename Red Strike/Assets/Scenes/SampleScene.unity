@@ -297,6 +297,40 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1084066663127890756, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
   m_PrefabInstance: {fileID: 1989701074}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &89602298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89602280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14ef8e21599ebc84a89bc7775da6224d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tankState: 0
+  tankType: 0
+  resilience: 1
+  BarrelTransform: {fileID: 532633737}
+  CannonTransform: {fileID: 532633737}
+  TurretTransform: {fileID: 1383385331}
+  TpsCameraTransform: {fileID: 0}
+  TargetTransform: {fileID: 32125440}
+  turretRotationSpeed: 5
+  barrelRotationSpeed: 3
+  minBarrelAngle: -30
+  maxBarrelAngle: 20
+  stoppingDistance: 20
+  projectilePrefab: {fileID: 8699837864222786616, guid: beb6ea4d225a14c4184713da1d56a3e3, type: 3}
+  projectileSpeed: 20
+  BarrelParticle: {fileID: 1867476386}
+  EngineParticle: {fileID: 1301421376}
+  VehicleControlUI: {fileID: 1392208790}
+  TpsCameraPosition: {fileID: 1472636476}
+  kuleDonmeHizi: 5
+  namluDonmeHizi: 3
+  yukseklikOffset: 0.5
 --- !u!1001 &105365760
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -573,13 +607,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20791169, y: 0, z: 0, w: 0.9781476}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.27059805, y: -0.6532815, z: 0.27059805, w: 0.6532815}
+  m_LocalPosition: {x: 49.9, y: 31.6, z: -17.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1472636476}
-  m_LocalEulerAnglesHint: {x: 24, y: 0, z: 0}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: -90, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,14 +670,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1cea97e91e886245b33e09ba21e9621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMode: 0
+  selectedVehicle: {fileID: 0}
   moveSpeed: 20
   zoomSpeed: 5
   rotateSpeed: 100
   verticalSpeed: 10
+  tpsCameraPosition: {fileID: 0}
+  heightOffset: 2
+  tpsSensitivityX: 2
+  tpsSensitivityY: 2
+  minVerticalAngle: 5
+  maxVerticalAngle: 40
+  currentYaw: 0
+  currentPitch: 0
   panLimitX: {x: -50, y: 50}
   panLimitZ: {x: -50, y: 50}
   panLimitY: {x: 5, y: 50}
-  minZoom: 10
+  minZoom: 5
   maxZoom: 50
 --- !u!1 &410087039
 GameObject:
@@ -766,6 +810,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!4 &532633737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3839854121636632337, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
+  m_PrefabInstance: {fileID: 1989701074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &665465152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,6 +1258,112 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3515409906739383745, guid: 6871a52976c58464789f49cf4f336f46, type: 3}
   m_PrefabInstance: {fileID: 105365760}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1153819850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1153819854}
+  - component: {fileID: 1153819853}
+  - component: {fileID: 1153819852}
+  - component: {fileID: 1153819851}
+  m_Layer: 5
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1153819851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153819850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1153819852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153819850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1153819853
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153819850}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &1153819854
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153819850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!198 &1301421376 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6044582730576924204, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
+  m_PrefabInstance: {fileID: 1989701074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1346339272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,6 +1443,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1383385331 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8302996236328736485, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
+  m_PrefabInstance: {fileID: 1989701074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1392208790 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2380299604889084420, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
@@ -1309,9 +1469,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1472636476}
   m_Layer: 0
-  m_Name: FpsCameraPosition
+  m_Name: TpsCameraPosition
   m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 2800000, guid: 7cba34d70552e144586a4d3ce4a33de5, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1324,13 +1484,17 @@ Transform:
   m_GameObject: {fileID: 1472636475}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.5, z: -7}
+  m_LocalPosition: {x: 0, y: 8.95, z: -10.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 330585546}
+  m_Children: []
   m_Father: {fileID: 89602297}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &1867476386 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2936386347997107327, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
+  m_PrefabInstance: {fileID: 1989701074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1989701074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1395,6 +1559,10 @@ PrefabInstance:
       propertyPath: VehicleControlUI
       value: 
       objectReference: {fileID: 1392208790}
+    - target: {fileID: 5338492385654189122, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
+      propertyPath: TpsCameraTransform
+      value: 
+      objectReference: {fileID: 1472636476}
     - target: {fileID: 7104034661035184618, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1428,11 +1596,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 306438625495933438, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 89602290}
+    - targetCorrespondingSourceObject: {fileID: 306438625495933438, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 89602298}
   m_SourcePrefab: {fileID: 100100000, guid: 066e771bcb048a643b4ef5d4554f90e5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 665465156}
@@ -1442,3 +1614,4 @@ SceneRoots:
   - {fileID: 834845365}
   - {fileID: 105365760}
   - {fileID: 1346339275}
+  - {fileID: 1153819854}

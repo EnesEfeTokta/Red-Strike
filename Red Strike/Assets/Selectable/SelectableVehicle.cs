@@ -57,6 +57,9 @@ public class SelectableVehicle : SelectableObject
 
     private void Update()
     {
+        if (CameraController.Instance.currentMode != CameraMode.FreeLook)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             if (EventSystem.current.IsPointerOverGameObject())
