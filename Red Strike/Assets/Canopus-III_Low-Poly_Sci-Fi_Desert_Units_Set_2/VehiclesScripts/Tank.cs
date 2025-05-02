@@ -31,7 +31,7 @@ public class Tank : BaseUnit
 
     public VehicleControlUI VehicleControlUI;
 
-    private Attack attack;
+    private TankAttack attack;
 
     private float maxHealth;
     private float maxEnergy;
@@ -89,7 +89,7 @@ public class Tank : BaseUnit
     {
         mainCamera = Camera.main;
 
-        attack = GetComponent<Attack>();
+        attack = GetComponent<TankAttack>();
 
         switch (tankType)
         {
@@ -320,6 +320,11 @@ public class Tank : BaseUnit
 
         if (moveInput != 0)
         {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveInput *= 1.7f;;
+            }
+
             transform.position += transform.forward * moveInput * Speed * Time.deltaTime;
             tankState = TankState.Moving;
             if (!EngineParticle.isPlaying)

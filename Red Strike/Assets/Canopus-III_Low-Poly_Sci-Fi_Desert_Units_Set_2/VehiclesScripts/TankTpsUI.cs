@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TankTpsUı : MonoBehaviour
+public class TankTpsUI : MonoBehaviour
 {
     [SerializeField] private RawImage compassBar;
     [SerializeField] private Text compassText;
