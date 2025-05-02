@@ -5,25 +5,29 @@ public class DashedLine : MonoBehaviour
     private LineRenderer lineRenderer;
     public Material dashedLineMaterial;
 
-    private SelectableVehicle selectableVehicle;
+    private Tank tank;
 
-    public LineRenderer LineRenderer
+    private void Awake()
     {
-        get { return lineRenderer; }
-        set { lineRenderer = value; }
-    }
+        lineRenderer = GetComponent<LineRenderer>();
+        tank = GetComponent<Tank>();
 
-    private void Start()
-    {
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        selectableVehicle = GetComponent<SelectableVehicle>();
+        if (dashedLineMaterial != null)
+        {
+            lineRenderer.material = dashedLineMaterial;
+        }
+        else
+        {
+            Debug.LogWarning("DashedLine: dashedLineMaterial atanmamış!", this);
 
-        lineRenderer.material = dashedLineMaterial;
+            lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply")); // Geçici fallback
+        }
+
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.positionCount = 0;
-        lineRenderer.textureMode = LineTextureMode.Tile; // Doku tekrar etsin
-        lineRenderer.alignment = LineAlignment.View;     // Kamera ile hizalanma
+        lineRenderer.textureMode = LineTextureMode.Tile;
+        lineRenderer.alignment = LineAlignment.View;
     }
 
     private void Update()
@@ -33,28 +37,17 @@ public class DashedLine : MonoBehaviour
 
     private void UpdateTargetLine()
     {
-        if (selectableVehicle.Selected)
+        if (tank != null && tank.CurrentFreeLookTarget != null)
         {
-            if (selectableVehicle.CurrentlySelectedTarget != null)
-            {
-                Vector3 startPos = transform.position + Vector3.up * 0.1f;
-                Vector3 targetPos = selectableVehicle.CurrentlySelectedTarget.transform.position + Vector3.up * 0.1f;
+            Vector3 startPos = transform.position + Vector3.up * 0.1f;
+            Vector3 targetPos = tank.CurrentFreeLookTarget.position + Vector3.up * 0.1f;
 
-                lineRenderer.positionCount = 2;
-                lineRenderer.SetPosition(0, startPos);
-                lineRenderer.SetPosition(1, targetPos);
-            }
-            else
-            {
-                Vector3 startPos = transform.position + Vector3.up * 0.1f;
+            lineRenderer.positionCount = 2;
+            lineRenderer.SetPosition(0, startPos);
+            lineRenderer.SetPosition(1, targetPos);
 
-                lineRenderer.positionCount = selectableVehicle.PermanentTargets.Count+1;
-                lineRenderer.SetPosition(0, startPos);
-                for (int i = 0; i < selectableVehicle.PermanentTargets.Count; i++)
-                {
-                    lineRenderer.SetPosition(i+1, selectableVehicle.PermanentTargets[i].transform.position + Vector3.up * 0.1f);
-                }
-            }
+            float distance = Vector3.Distance(startPos, targetPos);
+            lineRenderer.material.mainTextureScale = new Vector2(distance * 2f, 1f);
         }
         else
         {

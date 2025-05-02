@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class SelectableVehicle : SelectableObject
 {
-    private GameObject selectedObject;
-    private GameObject permanentlySelectedObject;
     private float lastClickTime = 0f;
     private const float doubleClickThreshold = 0.3f;
 
@@ -14,22 +12,6 @@ public class SelectableVehicle : SelectableObject
     public VehicleControlUI vehicleControlUI;
 
     private Tank tank;
-    
-    private GameObject currentlySelectedTarget { get; set; } = null;
-    private List<GameObject> permanentTargets = new List<GameObject>();
-
-    public List<GameObject> PermanentTargets
-    {
-        get { return permanentTargets; }
-        set { permanentTargets = value; }
-    }
-
-    public GameObject CurrentlySelectedTarget
-    {
-        get { return currentlySelectedTarget; }
-        set { currentlySelectedTarget = value; }
-    }
-
     private bool selected = false;
     public bool Selected
     {
@@ -52,12 +34,17 @@ public class SelectableVehicle : SelectableObject
     {
         tank = GetComponent<Tank>();
         outline = GetComponent<Outline>();
+
+        if (tank == null) Debug.LogError("SelectableVehicle bir Tank component'i bulamadı!", this);
+        if (outline == null) Debug.LogWarning("SelectableVehicle bir Outline component'i bulamadı!", this);
+
         Selected = false;
+        if (outline != null) outline.OutlineWidth = 0f;
     }
 
     private void Update()
     {
-        if (CameraController.Instance.currentMode != CameraMode.FreeLook)
+        if (CameraController.Instance == null || CameraController.Instance.currentMode != CameraMode.FreeLook || tank == null)
             return;
 
         if (Input.GetMouseButtonDown(0))
@@ -68,177 +55,182 @@ public class SelectableVehicle : SelectableObject
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Raycast ile tıklanan nesneyi kontrol ediyor.
             if (Physics.Raycast(ray, out hit))
             {
                 bool isDoubleClick = (Time.time - lastClickTime) < doubleClickThreshold;
                 lastClickTime = Time.time;
 
-                if (hit.transform.IsChildOf(transform))
+                if (hit.transform.IsChildOf(transform) || hit.transform == transform)
                 {
                     if (isDoubleClick)
                     {
-                        permanentlySelectedObject = hit.transform.gameObject;
                         Selected = true;
-                        outline.OutlineColor = Color.yellow;
-                        outline.OutlineWidth = 10f;
+                        if (outline != null) { outline.OutlineColor = Color.yellow; outline.OutlineWidth = 10f; }
 
                         tank.IsDoubleSelection = true;
-
-                        vehicleControlUI.OnDeselect();
                     }
                     else
                     {
-                        selectedObject = hit.transform.gameObject;
                         Selected = true;
-                        outline.OutlineColor = Color.yellow;
-                        outline.OutlineWidth = 5f;
+                        if (outline != null) { outline.OutlineColor = Color.yellow; outline.OutlineWidth = 5f; }
 
                         tank.IsSingleSelection = true;
 
-                        vehicleControlUI.OnSelect();
+                        if (vehicleControlUI != null) vehicleControlUI.OnSelect();
+                    }
+                }
+                else if (hit.transform.CompareTag("Enemy"))
+                {
+                    if (tank.IsSingleSelection || tank.IsDoubleSelection)
+                    {
+                        GameObject clickedTarget = hit.transform.gameObject;
+                        HandleTargetSelection(clickedTarget, isDoubleClick);
                     }
                 }
                 else
                 {
-                    if (!hit.transform.gameObject.CompareTag("Enemy")) // Eüer vurulan nesne "Enemy" tagına sahip değilse...
+                    if (tank.IsSingleSelection || tank.IsDoubleSelection)
                     {
-                        // Eğer araç seçilmişse, iptal etme işlemi yapılır.
-                        // Eğer araç seçilmemişse, iptal etme işlemi yapılmaz.
-                        if ((isDoubleClick && permanentlySelectedObject != null) || (!isDoubleClick && selectedObject != null))
-                        {
-                            Selected = false;
-                            outline.OutlineWidth = 0f;
-                            permanentlySelectedObject = null;
-                            selectedObject = null;
+                        Selected = false;
+                        if (outline != null) outline.OutlineWidth = 0f;
 
-                            tank.IsDoubleSelection = false;
-                            tank.IsSingleSelection = false;
-                        }
-
-                        // Eğer hedef seçilmişse, iptal etme işlemi yapılır.
-                        // Eğer hedef seçilmemişse, iptal etme işlemi yapılmaz.
-                        if (currentlySelectedTarget != null)
-                            DeselectTarget(currentlySelectedTarget);
-
-                        currentlySelectedTarget = null;
-
-                        foreach (var target in new List<GameObject>(permanentTargets))
-                        {
-                            DeselectTarget(target);
-                        }
-                        permanentTargets.Clear();
-
-                        vehicleControlUI.OnDeselect();
+                        tank.IsDoubleSelection = false;
+                        tank.IsSingleSelection = false;
+                        if (vehicleControlUI != null) vehicleControlUI.OnDeselect();
                     }
-                    else
-                    {
-                        if (selected) // Eğer araç seçilmişse hedef seçilebilir.
-                        {
-                            GameObject clickedTarget = hit.transform.gameObject;
 
-                            bool isAlreadyPermanent = permanentTargets.Contains(clickedTarget);
-                            bool isSingleSelected = currentlySelectedTarget == clickedTarget;
-
-                            if (isDoubleClick)
-                            {
-                                if (isSingleSelected)
-                                {
-                                    DeselectTarget(clickedTarget);
-                                }
-
-                                if (isAlreadyPermanent)
-                                {
-                                    DeselectTarget(clickedTarget);
-                                }
-                                else
-                                {
-                                    SelectPermanentTarget(clickedTarget);
-                                    permanentTargets.Add(clickedTarget);
-                                }
-
-                                currentlySelectedTarget = null;
-                            }
-                            else
-                            {
-                                if (isAlreadyPermanent)
-                                {
-                                    DeselectTarget(clickedTarget);
-                                    permanentTargets.Remove(clickedTarget);
-                                }
-                                else
-                                {
-                                    // Önceki tekli hedefi kaldır
-                                    if (currentlySelectedTarget != null)
-                                        DeselectTarget(currentlySelectedTarget);
-
-                                    SelectTarget(clickedTarget);
-                                    currentlySelectedTarget = clickedTarget;
-                                }
-                            }
-                        }
-                    }
+                    DeselectAllTargets();
+                    tank.ClearAllFreeLookTargets();
                 }
+            }
+            else
+            {
+                if (tank.IsSingleSelection || tank.IsDoubleSelection)
+                {
+                    Selected = false;
+                    if (outline != null) outline.OutlineWidth = 0f;
+                    tank.IsDoubleSelection = false;
+                    tank.IsSingleSelection = false;
+                    if (vehicleControlUI != null) vehicleControlUI.OnDeselect();
+                }
+
+                DeselectAllTargets();
+                tank.ClearAllFreeLookTargets();
+            }
+        }
+    }
+
+    // Hedef seçme mantığını yönetir
+    private void HandleTargetSelection(GameObject target, bool isDoubleClick)
+    {
+        bool isAlreadyPermanent = tank.PermanentFreeLookTargets.Contains(target.transform);
+        bool isCurrentlySingle = tank.CurrentFreeLookTarget == target.transform;
+
+        if (isDoubleClick)
+        {
+            if (isAlreadyPermanent)
+            {
+                DeselectTargetVisuals(target);
+                tank.RemoveFreeLookTarget(target.transform);
+            }
+            else
+            {
+                if (isCurrentlySingle)
+                {
+                    DeselectTargetVisuals(target);
+                    tank.SetFreeLookTarget(null);
+                }
+
+                SelectPermanentTargetVisuals(target);
+                tank.AddFreeLookTarget(target.transform);
+            }
+        }
+        else
+        {
+            if (isAlreadyPermanent)
+            {
+                DeselectTargetVisuals(target);
+                tank.RemoveFreeLookTarget(target.transform);
+            }
+            else if (isCurrentlySingle)
+            {
+                DeselectTargetVisuals(target);
+                tank.SetFreeLookTarget(null);
+            }
+            else
+            {
+                if (tank.CurrentFreeLookTarget != null)
+                {
+                    DeselectTargetVisuals(tank.CurrentFreeLookTarget.gameObject);
+                }
+
+                SelectTargetVisuals(target);
+                tank.SetFreeLookTarget(target.transform);
             }
         }
     }
 
     /// <summary>
-    /// Hedefi seçmek için kullanılır. Seçilen hedefin outline'ını ayarlar ve önceki hedefi iptal eder.
-    /// Eğer hedef zaten seçilmişse, iptal etme işlemi yapılmaz.
+    /// Bir hedefin tekil seçildiğini gösteren görsel efekti (Outline) ayarlar.
     /// </summary>
-    /// <param name="target">Seçilecek hedef nesnesi.</param>
-    private void SelectTarget(GameObject target)
+    private void SelectTargetVisuals(GameObject target)
     {
-        if (currentlySelectedTarget != null && currentlySelectedTarget != target)
-        {
-            DeselectTarget(currentlySelectedTarget);
-        }
-
         Outline targetOutline = target.GetComponent<Outline>();
         if (targetOutline != null)
         {
             targetOutline.OutlineWidth = 3f;
             targetOutline.OutlineColor = Color.red;
+            targetOutline.enabled = true;
             targetOutline.On();
         }
-
-        currentlySelectedTarget = target;
     }
 
-    private void SelectPermanentTarget(GameObject target)
+    /// <summary>
+    /// Bir hedefin kalıcı seçildiğini gösteren görsel efekti (Outline) ayarlar.
+    /// </summary>
+    private void SelectPermanentTargetVisuals(GameObject target)
     {
         Outline targetOutline = target.GetComponent<Outline>();
         if (targetOutline != null)
         {
             targetOutline.OutlineWidth = 5f;
             targetOutline.OutlineColor = Color.red;
+            targetOutline.enabled = true;
             targetOutline.On();
         }
     }
 
-
     /// <summary>
-    /// Hedefi iptal etmek için kullanılır. Seçilen hedefin outline'ını kapatır ve referansı temizler.
-    /// Eğer hedef iptal edilirse, currentlySelectedTarget null olarak ayarlanır.
+    /// Bir hedefin seçimini kaldıran görsel efekti (Outline) kapatır.
     /// </summary>
-    /// <param name="target">Iptal edilecek hedef nesnesi.</param>
-    private void DeselectTarget(GameObject target)
+    private void DeselectTargetVisuals(GameObject target)
     {
+        if (target == null) return;
         Outline targetOutline = target.GetComponent<Outline>();
         if (targetOutline != null)
         {
+            targetOutline.OutlineWidth = 0f;
+            targetOutline.enabled = false;
             targetOutline.Off();
         }
+    }
 
-        if (target == currentlySelectedTarget)
+    /// <summary>
+    /// Tüm mevcut hedeflerin görsel seçim efektlerini kaldırır.
+    /// </summary>
+    private void DeselectAllTargets()
+    {
+        if (tank.CurrentFreeLookTarget != null)
         {
-            currentlySelectedTarget = null;
+            DeselectTargetVisuals(tank.CurrentFreeLookTarget.gameObject);
         }
 
-        if (permanentTargets.Contains(target))
+        List<Transform> targetsToDeselect = new List<Transform>(tank.PermanentFreeLookTargets);
+        foreach (var targetTransform in targetsToDeselect)
         {
-            permanentTargets.Remove(target);
+            if (targetTransform != null)
+                DeselectTargetVisuals(targetTransform.gameObject);
         }
     }
+
 }
