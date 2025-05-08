@@ -168,7 +168,7 @@ public class CameraController : MonoBehaviour
 
         if (selectedVehicle != null)
         {
-            Vector3 offset = new Vector3(0f, heightOffset, -7f);
+            Vector3 offset = new Vector3(0f, heightOffset, -15f);
             Quaternion rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
             Vector3 desiredPosition = selectedVehicle.position + rotation * offset;
 
