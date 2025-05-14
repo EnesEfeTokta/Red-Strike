@@ -41,6 +41,8 @@ public class Tank : BaseUnit
     private float maxHealth;
     private float maxEnergy;
     private float maxAttackCooldown;
+    
+    private Camera mainCamera;
 
     private bool isSingleSelection { get; set; } = false;
     public bool IsSingleSelection
@@ -99,8 +101,6 @@ public class Tank : BaseUnit
             }
         }
     }
-
-    private Camera mainCamera;
 
     private void Awake()
     {
