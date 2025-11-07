@@ -34,18 +34,9 @@ public class CameraController : MonoBehaviour
     public float minZoom = 5f;
     public float maxZoom = 50f;
 
-    private Vector3 cameraPosition;
-    public Vector3 CameraPosition
-    {
-        get { return cameraPosition; }
-        set { cameraPosition = value; }
-    }
-    private Vector3 cameraRotation;
-    public Vector3 CameraRotation
-    {
-        get { return cameraRotation; }
-        set { cameraRotation = value; }
-    }
+    public Vector3 cameraPosition;
+
+    public Vector3 cameraRotation;
 
     private Vector3 lastMousePosition;
 
