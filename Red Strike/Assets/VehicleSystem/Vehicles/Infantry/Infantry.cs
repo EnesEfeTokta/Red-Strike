@@ -29,7 +29,7 @@ namespace VehicleSystem.Vehicles.Infantry
 
         private void IdleAnimation()
         {
-            // Play idle animation
+            
         }
     }
 }

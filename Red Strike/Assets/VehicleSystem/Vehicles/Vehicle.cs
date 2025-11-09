@@ -15,6 +15,8 @@ namespace VehicleSystem.Vehicles
 
         public ParticleSystem smokeEffect;
 
+        public Animator animator;
+
         protected bool isMoving = false;
         private bool isDestroyed = false;
         private bool isRefueling = false;
@@ -44,6 +46,8 @@ namespace VehicleSystem.Vehicles
                 {
                     isMoving = true;
                     MoveTo(targetObject.transform.position);
+                    animator.SetBool("isRunning", true);
+                    animator.SetBool("isIdle", false);
                     fuelLevel -= Time.deltaTime * vehicleData.fuelConsumptionRate;
                     if (fuelLevel <= 0)
                     {
@@ -54,6 +58,8 @@ namespace VehicleSystem.Vehicles
                 else
                 {
                     isMoving = false;
+                    animator.SetBool("isRunning", false);
+                    animator.SetBool("isIdle", true);
                 }
             }
 
