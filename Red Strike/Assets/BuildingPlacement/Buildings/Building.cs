@@ -8,7 +8,6 @@ namespace BuildingPlacement.Buildings
         public Building buildingData;
         public ParticleSystem[] buildEffects;
 
-
         private float health;
         private float maxHealth = 100f;
 
