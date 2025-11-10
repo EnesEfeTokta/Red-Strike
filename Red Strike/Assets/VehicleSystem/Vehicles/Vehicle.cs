@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.Video;
 
 namespace VehicleSystem.Vehicles
 {
@@ -6,16 +8,23 @@ namespace VehicleSystem.Vehicles
     {
         public VehicleSystem.Vehicle vehicleData;
         protected float speed;
+        protected float coverageAreaRadius;
         private float fuelLevel;
-        private float health;
+        protected float health;
         private float maxHealth = 100f;
         private float stoppingDistance = 1.5f;
+        protected int maxAmmunition = 30;
+        protected int currentAmmunition = 30;
+        protected int reloadCounter = 0;
+        protected float bulletDamage = 10f;
+        protected float bulletSpeed = 20f;
+        protected float reloadTime = 1.5f;
+
+        protected GameObject bulletPrefab;
 
         public GameObject targetObject;
 
         public ParticleSystem smokeEffect;
-
-        public Animator animator;
 
         protected bool isMoving = false;
         private bool isDestroyed = false;
@@ -23,11 +32,25 @@ namespace VehicleSystem.Vehicles
         private bool isAttacking = false;
         private bool isRepairing = false;
 
+        private Coroutine attackCoroutine;
+
         private void Start()
         {
+            Setup();
+        }
+
+        private void Setup()
+        {
             speed = vehicleData.speed;
+            coverageAreaRadius = vehicleData.coverageAreaRadius;
             fuelLevel = vehicleData.fuelCapacity;
             stoppingDistance = vehicleData.stoppingDistance;
+            maxAmmunition = vehicleData.maxAmmunition;
+            currentAmmunition = maxAmmunition;
+            bulletDamage = vehicleData.bulletDamage;
+            bulletSpeed = vehicleData.bulletSpeed;
+            reloadTime = vehicleData.reloadTime;
+            bulletPrefab = vehicleData.bulletPrefab;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
         }
@@ -36,31 +59,39 @@ namespace VehicleSystem.Vehicles
         {
             if (targetObject == null)
             {
+                StopAttacking();
                 isMoving = false;
+            }
+
+            float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
+
+            if (distanceToTarget > stoppingDistance && distanceToTarget < coverageAreaRadius)
+            {
+                isMoving = true;
+                StopAttacking();
+                MoveTo(targetObject.transform.position);
+
+
+                fuelLevel -= Time.deltaTime * vehicleData.fuelConsumptionRate;
+                if (fuelLevel <= 0)
+                {
+                    fuelLevel = 0;
+                    isMoving = false;
+                }
+            }
+            else if (distanceToTarget <= stoppingDistance && distanceToTarget < coverageAreaRadius)
+            {
+                isMoving = false;
+
+                if (!isAttacking)
+                {
+                    StartAttacking();
+                }
             }
             else
             {
-                float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
-
-                if (distanceToTarget > stoppingDistance)
-                {
-                    isMoving = true;
-                    MoveTo(targetObject.transform.position);
-                    animator.SetBool("isRunning", true);
-                    animator.SetBool("isIdle", false);
-                    fuelLevel -= Time.deltaTime * vehicleData.fuelConsumptionRate;
-                    if (fuelLevel <= 0)
-                    {
-                        fuelLevel = 0;
-                        isMoving = false;
-                    }
-                }
-                else
-                {
-                    isMoving = false;
-                    animator.SetBool("isRunning", false);
-                    animator.SetBool("isIdle", true);
-                }
+                isMoving = false;
+                StopAttacking();
             }
 
             UpdateSmokeEffect();
@@ -88,6 +119,45 @@ namespace VehicleSystem.Vehicles
 
             destination.y = 0;
             transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+        }
+
+        private void StartAttacking()
+        {
+            isAttacking = true;
+            if (attackCoroutine == null)
+            {
+                attackCoroutine = StartCoroutine(AttackRoutine());
+            }
+        }
+
+        private void StopAttacking()
+        {
+            isAttacking = false;
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
+            }
+        }
+
+        protected virtual IEnumerator AttackRoutine()
+        {
+            while (isAttacking)
+            {
+                FireShot();
+                yield return new WaitForSeconds(reloadTime);
+            }
+        }
+
+        protected virtual void FireShot()
+        {
+            // Implement firing logic in derived classes
+        }
+
+        protected virtual void ReloadAmmunition()
+        {
+            reloadCounter++;
+            currentAmmunition = maxAmmunition;
         }
     }
 }
