@@ -12,9 +12,24 @@ namespace VehicleSystem.Vehicles.Infantry
             BarrelAimAtTarget();
         }
 
-        public void Attack()
+        protected override void FireShot()
         {
-            // Infantry attack logic here
+            base.FireShot();
+
+            BarrelAimAtTarget();
+            
+            if (bulletPrefab != null && currentAmmunition > 0)
+            {
+                GameObject bullet = Instantiate(bulletPrefab, barrelTransform.position, barrelTransform.rotation);
+                bullet.GetComponent<Rigidbody>().linearVelocity = barrelTransform.forward * bulletSpeed;
+                
+                currentAmmunition--;
+            }
+            else if (currentAmmunition <= 0)
+            {
+                Debug.Log("Out of ammunition, reloading...");
+                ReloadAmmunition();
+            }
         }
 
         public void Defend()
@@ -25,11 +40,6 @@ namespace VehicleSystem.Vehicles.Infantry
         private void BarrelAimAtTarget()
         {
             // Aim the barrel towards the target object
-        }
-
-        private void IdleAnimation()
-        {
-            
         }
     }
 }
