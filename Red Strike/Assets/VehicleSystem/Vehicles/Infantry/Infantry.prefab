@@ -99,9 +99,9 @@ GameObject:
   - component: {fileID: 8904613013280499988}
   - component: {fileID: 1372456515518772119}
   - component: {fileID: 5451263510283566131}
-  - component: {fileID: 7991467895363326585}
   - component: {fileID: 4721096002988197284}
   - component: {fileID: 3693194386570448113}
+  - component: {fileID: 6205490724256130415}
   m_Layer: 0
   m_Name: Infantry
   m_TagString: Vehicle
@@ -200,33 +200,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.92428327, y: 2.3581991, z: 0.77220917}
   m_Center: {x: -0.0028606653, y: 1.1671863, z: 0.094394684}
---- !u!54 &7991467895363326585
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 224654450759790032}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!95 &4721096002988197284
 Animator:
   serializedVersion: 7
@@ -240,7 +213,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: f154ca0c733b7d94bbbb3b7cacbabfa9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -264,8 +237,29 @@ MonoBehaviour:
   vehicleData: {fileID: 11400000, guid: b049ed01ebeaf174e82c98ba0beb4efa, type: 2}
   targetObject: {fileID: 0}
   smokeEffect: {fileID: 6418470162434313253}
-  animator: {fileID: 4721096002988197284}
   barrelTransform: {fileID: 5232528194509916586}
+--- !u!195 &6205490724256130415
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224654450759790032}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.23
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.35
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &4026002200766182170
 GameObject:
   m_ObjectHideFlags: 0

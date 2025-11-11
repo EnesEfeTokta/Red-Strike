@@ -6,17 +6,9 @@ namespace VehicleSystem.Vehicles.Infantry
     {
         public Transform barrelTransform;
 
-        protected override void MoveTo(Vector3 destination)
-        {
-            base.MoveTo(destination);
-            BarrelAimAtTarget();
-        }
-
         protected override void FireShot()
         {
             base.FireShot();
-
-            BarrelAimAtTarget();
             
             if (bulletPrefab != null && currentAmmunition > 0)
             {
@@ -35,11 +27,6 @@ namespace VehicleSystem.Vehicles.Infantry
         public void Defend()
         {
             // Infantry defend logic here
-        }
-
-        private void BarrelAimAtTarget()
-        {
-            // Aim the barrel towards the target object
         }
     }
 }

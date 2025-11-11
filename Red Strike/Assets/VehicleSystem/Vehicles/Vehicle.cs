@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Video;
+using UnityEngine.AI;
 
 namespace VehicleSystem.Vehicles
 {
+    [RequireComponent(typeof(NavMeshAgent))]
     public class Vehicle : MonoBehaviour
     {
         public VehicleSystem.Vehicle vehicleData;
         protected float speed;
         protected float coverageAreaRadius;
         private float fuelLevel;
+        private float fuelConsumptionRate;
         protected float health;
         private float maxHealth = 100f;
         private float stoppingDistance = 1.5f;
@@ -24,7 +26,11 @@ namespace VehicleSystem.Vehicles
 
         public GameObject targetObject;
 
+        
+
         public ParticleSystem smokeEffect;
+
+        private NavMeshAgent agent;
 
         protected bool isMoving = false;
         private bool isDestroyed = false;
@@ -36,6 +42,11 @@ namespace VehicleSystem.Vehicles
 
         private void Start()
         {
+            agent = GetComponent<NavMeshAgent>();
+
+            agent.speed = vehicleData.speed;
+            agent.stoppingDistance = vehicleData.stoppingDistance;
+            agent.angularSpeed = vehicleData.turnSpeed;
             Setup();
         }
 
@@ -44,6 +55,7 @@ namespace VehicleSystem.Vehicles
             speed = vehicleData.speed;
             coverageAreaRadius = vehicleData.coverageAreaRadius;
             fuelLevel = vehicleData.fuelCapacity;
+            fuelConsumptionRate = vehicleData.fuelConsumptionRate;
             stoppingDistance = vehicleData.stoppingDistance;
             maxAmmunition = vehicleData.maxAmmunition;
             currentAmmunition = maxAmmunition;
@@ -55,33 +67,40 @@ namespace VehicleSystem.Vehicles
             health = maxHealth;
         }
 
+        public (float, int, int) GetVehicleStatus()
+        {
+            return (fuelLevel, currentAmmunition, maxAmmunition);
+        }
+
         private void Update()
         {
             if (targetObject == null)
             {
-                StopAttacking();
-                isMoving = false;
-            }
-
-            float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
-
-            if (distanceToTarget > stoppingDistance && distanceToTarget < coverageAreaRadius)
-            {
-                isMoving = true;
-                StopAttacking();
-                MoveTo(targetObject.transform.position);
-
-
-                fuelLevel -= Time.deltaTime * vehicleData.fuelConsumptionRate;
-                if (fuelLevel <= 0)
+                if (agent.hasPath)
                 {
-                    fuelLevel = 0;
-                    isMoving = false;
+                    agent.isStopped = true;
+                    agent.ResetPath();
                 }
+                StopAttacking();
+                isMoving = false;
+                return;
             }
-            else if (distanceToTarget <= stoppingDistance && distanceToTarget < coverageAreaRadius)
+
+            if (fuelLevel <= 0)
+            {
+                fuelLevel = 0;
+                agent.isStopped = true;
+                StopAttacking();
+                isMoving = false;
+                return;
+            }
+
+            agent.SetDestination(targetObject.transform.position);
+
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
                 isMoving = false;
+                LookAtTarget();
 
                 if (!isAttacking)
                 {
@@ -90,11 +109,31 @@ namespace VehicleSystem.Vehicles
             }
             else
             {
-                isMoving = false;
+                agent.isStopped = false;
+                isMoving = true;
                 StopAttacking();
+
+                ConsumeFuel();
             }
 
             UpdateSmokeEffect();
+        }
+
+        private void ConsumeFuel()
+        {
+            if (isMoving && fuelLevel > 0)
+            {
+                fuelLevel -= fuelConsumptionRate * Time.deltaTime;
+                fuelLevel = Mathf.Max(0, fuelLevel);
+            }
+        }
+
+        private void LookAtTarget()
+        {
+            Vector3 direction = (targetObject.transform.position - transform.position).normalized;
+            direction.y = 0;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
         }
 
         private void UpdateSmokeEffect()
@@ -109,16 +148,6 @@ namespace VehicleSystem.Vehicles
             {
                 smokeEffect.Stop();
             }
-        }
-
-        protected virtual void MoveTo(Vector3 destination)
-        {
-            Vector3 lookPosition = destination;
-            lookPosition.y = transform.position.y;
-            transform.LookAt(lookPosition);
-
-            destination.y = 0;
-            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
         }
 
         private void StartAttacking()
