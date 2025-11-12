@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using VehicleSystem;
 using BuildingPlacement;
+using UI;
+using System.Linq;
 
 namespace InputController
 {
@@ -13,19 +15,14 @@ namespace InputController
         private Camera mainCamera;
         public BuildingsDatabase buildingsDatabase;
         private Dictionary<string, int> buildingCounts = new Dictionary<string, int>();
-        public Button[] createBuildButtons;
         private Building selectedBuilding;
         private List<GameObject> placedObjects = new List<GameObject>();
         public float minDistanceBetweenObjects = 5f;
-        public VehiclesDetailManager vehiclesDetailManager;
+        public GameHUDController gameHUDController;
 
         private void Start()
         {
             mainCamera = Camera.main;
-            foreach (Button button in createBuildButtons)
-            {
-                button.onClick.AddListener(() => OnCreateBuildingButtonClicked(button));
-            }
         }
 
         private void Update()
@@ -85,6 +82,21 @@ namespace InputController
             }
         }
 
+        public void SelectBuildingToPlace(string buildingName)
+        {
+            Building buildingToSelect = buildingsDatabase.buildings.FirstOrDefault(b => b.buildingName == buildingName);
+
+            if (buildingToSelect != null)
+            {
+                selectedBuilding = buildingToSelect;
+                Debug.Log("Seçilen bina: " + selectedBuilding.buildingName + ". Yerleştirmek için araziye tıklayın.");
+            }
+            else
+            {
+                Debug.LogError(buildingName + " isminde bir bina veritabanında bulunamadı!");
+            }
+        }
+
         private void SelectObject()
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -96,26 +108,16 @@ namespace InputController
 
                 if (clickedVehicle != null)
                 {
-                    vehiclesDetailManager.UpdateVehicleDetails(clickedVehicle);
+                    gameHUDController.ShowVehicleDetails(clickedVehicle);
                 }
                 else
                 {
-                    vehiclesDetailManager.HideDetailsPanel();
+                    gameHUDController.HideVehicleDetails();
                 }
             }
             else
             {
-                vehiclesDetailManager.HideDetailsPanel();
-            }
-        }
-
-        private void OnCreateBuildingButtonClicked(Button button)
-        {
-            int buttonIndex = System.Array.IndexOf(createBuildButtons, button);
-            if (buttonIndex >= 0 && buttonIndex < buildingsDatabase.buildings.Count)
-            {
-                selectedBuilding = buildingsDatabase.buildings[buttonIndex];
-                Debug.Log("Seçilen bina: " + selectedBuilding.buildingName + ". Yerleştirmek için araziye tıklayın.");
+                gameHUDController.HideVehicleDetails();
             }
         }
 
