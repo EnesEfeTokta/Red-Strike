@@ -4,14 +4,15 @@ using UnityEngine.AI;
 
 namespace VehicleSystem.Vehicles
 {
-    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(BoxCollider))]
     public class Vehicle : MonoBehaviour
     {
         public VehicleSystem.Vehicle vehicleData;
         protected float speed;
         protected float coverageAreaRadius;
-        private float fuelLevel;
-        private float fuelConsumptionRate;
+        protected float turnSpeed;
+        protected float fuelLevel;
+        protected float fuelConsumptionRate;
         protected float health;
         private float maxHealth = 100f;
         private float stoppingDistance = 1.5f;
@@ -35,18 +36,13 @@ namespace VehicleSystem.Vehicles
         protected bool isMoving = false;
         private bool isDestroyed = false;
         private bool isRefueling = false;
-        private bool isAttacking = false;
+        protected bool isAttacking = false;
         private bool isRepairing = false;
 
         private Coroutine attackCoroutine;
 
-        private void Start()
+        protected virtual void Start()
         {
-            agent = GetComponent<NavMeshAgent>();
-
-            agent.speed = vehicleData.speed;
-            agent.stoppingDistance = vehicleData.stoppingDistance;
-            agent.angularSpeed = vehicleData.turnSpeed;
             Setup();
         }
 
@@ -54,6 +50,7 @@ namespace VehicleSystem.Vehicles
         {
             speed = vehicleData.speed;
             coverageAreaRadius = vehicleData.coverageAreaRadius;
+            turnSpeed = vehicleData.turnSpeed;
             fuelLevel = vehicleData.fuelCapacity;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
             stoppingDistance = vehicleData.stoppingDistance;
@@ -72,54 +69,11 @@ namespace VehicleSystem.Vehicles
             return (vehicleData.vehicleName, fuelLevel, currentAmmunition, maxAmmunition);
         }
 
-        private void Update()
+        protected virtual void Update()
         {
-            if (targetObject == null)
-            {
-                if (agent.hasPath)
-                {
-                    agent.isStopped = true;
-                    agent.ResetPath();
-                }
-                StopAttacking();
-                isMoving = false;
-                return;
-            }
-
-            if (fuelLevel <= 0)
-            {
-                fuelLevel = 0;
-                agent.isStopped = true;
-                StopAttacking();
-                isMoving = false;
-                return;
-            }
-
-            agent.SetDestination(targetObject.transform.position);
-
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                isMoving = false;
-                LookAtTarget();
-
-                if (!isAttacking)
-                {
-                    StartAttacking();
-                }
-            }
-            else
-            {
-                agent.isStopped = false;
-                isMoving = true;
-                StopAttacking();
-
-                ConsumeFuel();
-            }
-
-            UpdateSmokeEffect();
         }
 
-        private void ConsumeFuel()
+        protected virtual void ConsumeFuel()
         {
             if (isMoving && fuelLevel > 0)
             {
@@ -128,7 +82,7 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        private void LookAtTarget()
+        protected virtual void LookAtTarget()
         {
             Vector3 direction = (targetObject.transform.position - transform.position).normalized;
             direction.y = 0;
@@ -136,7 +90,7 @@ namespace VehicleSystem.Vehicles
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
         }
 
-        private void UpdateSmokeEffect()
+        protected virtual void UpdateSmokeEffect()
         {
             if (smokeEffect == null) return;
 
@@ -150,7 +104,7 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        private void StartAttacking()
+        protected virtual void StartAttacking()
         {
             isAttacking = true;
             if (attackCoroutine == null)
@@ -159,7 +113,7 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        private void StopAttacking()
+        protected virtual void StopAttacking()
         {
             isAttacking = false;
             if (attackCoroutine != null)

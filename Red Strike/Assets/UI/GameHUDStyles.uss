@@ -1,13 +1,13 @@
 .side-panel {
     position: absolute;
-    left: 12px;
-    top: 46px;
+    left: 20px;
+    top: 50px;
     flex-direction: column;
 }
 
 .info-panel {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 50px;
     background-color: rgba(45, 45, 45, 0.85);
     padding: 15px;
@@ -17,9 +17,9 @@
 
 .unit-panel {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    transform: ;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     flex-direction: row;
 }
 
@@ -46,35 +46,12 @@
     white-space: normal;
 }
 
-.unit-button--large {
-    width: 130px;
-    font-size: 18px;
-}
+.unit-button--large { width: 130px; font-size: 18px; }
+.unit-button--medium { width: 100px; }
+.unit-button--small { width: 80px; font-size: 12px; }
 
-.unit-button--medium {
-    width: 100px;
-}
-
-.unit-button--small {
-    width: 80px;
-    font-size: 12px;
-}
-
-.build-button:hover {
-    background-color: rgba(90, 90, 90, 0.95);
-}
-
-.unit-button:hover {
-    background-color: rgba(90, 90, 90, 0.95);
-}
-
-.build-button:active {
-    background-color: rgb(120, 120, 120);
-}
-
-.unit-button:active {
-    background-color: rgb(120, 120, 120);
-}
+.build-button:hover, .unit-button:hover { background-color: rgba(90, 90, 90, 0.95); }
+.build-button:active, .unit-button:active { background-color: rgba(120, 120, 120, 1); }
 
 .details-title {
     color: white;

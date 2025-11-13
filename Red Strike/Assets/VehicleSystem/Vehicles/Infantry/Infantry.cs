@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VehicleSystem.Vehicles.Infantry
 {
-    public class Infantry : Vehicle
+    public class Infantry : GroundVehicle
     {
         public Transform barrelTransform;
 
