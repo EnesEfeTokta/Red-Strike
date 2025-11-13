@@ -1,0 +1,142 @@
+using UnityEngine;
+
+namespace VehicleSystem.Vehicles
+{
+    public class AirVehicle : Vehicle
+    {
+        public float cruisingAltitude = 60f;
+        public float attackAltitude = 20f;
+        public float attackLobeRadius = 70f;
+        public float loiterRadius = 40f;
+        public float maxBankAngle = 35f;
+        public float bankSpeed = 4f;
+        private enum AirState { TakingOff, Loitering, Engaging, Attacking }
+        private AirState currentState = AirState.TakingOff;
+        private Vector3 loiterCenterPoint;
+        private float loiterTimer = 0f;
+        private bool orbitingRightLobe = true;
+        private Vector3 attackAxis;
+        private float currentBankAngleZ = 0f;
+
+        protected override void Start()
+        {
+            base.Start();
+            loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
+        }
+
+        protected override void Update()
+        {
+            switch (currentState)
+            {
+                case AirState.TakingOff: HandleTakingOff(); break;
+                case AirState.Loitering: HandleLoitering(); break;
+                case AirState.Engaging: HandleEngaging(); break;
+                case AirState.Attacking: HandleAttacking(); break;
+            }
+            isMoving = true;
+            ConsumeFuel();
+        }
+
+        private void HandleTakingOff()
+        {
+            Vector3 takeoffTarget = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
+            MoveAndLook(takeoffTarget, 1.0f);
+            if (transform.position.y >= cruisingAltitude - 1.0f)
+            {
+                currentState = AirState.Loitering;
+                loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
+            }
+        }
+
+        private void HandleLoitering()
+        {
+            if (targetObject != null) { currentState = AirState.Engaging; return; }
+            loiterTimer += Time.deltaTime;
+            float xOffset = Mathf.Sin(loiterTimer * 0.4f) * loiterRadius;
+            float zOffset = Mathf.Cos(loiterTimer * 0.8f) * loiterRadius;
+            Vector3 targetPos = loiterCenterPoint + new Vector3(xOffset, 0, zOffset);
+            MoveAndLook(targetPos);
+        }
+
+        private void HandleEngaging()
+        {
+            if (targetObject == null) { currentState = AirState.Loitering; return; }
+
+            float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
+            
+            if (distanceToTarget <= attackLobeRadius * 1.5f)
+            {
+                Vector3 directionToTarget = (targetObject.transform.position - transform.position).normalized;
+                attackAxis = Vector3.Cross(directionToTarget, Vector3.up).normalized;
+                currentState = AirState.Attacking;
+                return;
+            }
+            
+            Vector3 targetPos = targetObject.transform.position;
+            targetPos.y = cruisingAltitude;
+            MoveAndLook(targetPos);
+        }
+
+        private void HandleAttacking()
+        {
+            if (targetObject == null) { StopAttacking(); currentState = AirState.Loitering; return; }
+            
+            Vector3 targetGroundPos = new Vector3(targetObject.transform.position.x, 0, targetObject.transform.position.z);
+            Vector3 myGroundPos = new Vector3(transform.position.x, 0, transform.position.z);
+            
+            Vector3 focalPointRight = targetGroundPos + attackAxis * attackLobeRadius;
+            Vector3 focalPointLeft = targetGroundPos - attackAxis * attackLobeRadius;
+            
+            Vector3 currentFocalPoint = orbitingRightLobe ? focalPointRight : focalPointLeft;
+
+            Vector3 fromTargetToMe = myGroundPos - targetGroundPos;
+            float sideDot = Vector3.Dot(fromTargetToMe, attackAxis);
+            if (orbitingRightLobe && sideDot < 0) { orbitingRightLobe = false; }
+            else if (!orbitingRightLobe && sideDot > 0) { orbitingRightLobe = true; }
+
+            Vector3 directionToFocal = (currentFocalPoint - myGroundPos).normalized;
+            Vector3 tangentOffset = Vector3.Cross(directionToFocal, Vector3.up);
+            Vector3 orbitPoint = currentFocalPoint + tangentOffset * attackLobeRadius;
+
+            float facingRatio = Vector3.Dot(transform.forward, (targetGroundPos - myGroundPos).normalized);
+
+            float desiredAltitude = Mathf.Lerp(cruisingAltitude, attackAltitude, (facingRatio + 1) / 2f);
+            orbitPoint.y = desiredAltitude;
+            
+            if (facingRatio > 0.7f && Vector3.Distance(myGroundPos, targetGroundPos) < attackLobeRadius)
+            {
+                if (!isAttacking) { StartAttacking(); }
+            }
+            else
+            {
+                if (isAttacking) { StopAttacking(); }
+            }
+            
+            MoveAndLook(orbitPoint);
+        }
+
+        void MoveAndLook(Vector3 targetPosition, float turnMultiplier = 0.25f)
+        {
+            Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+            if (directionToTarget.sqrMagnitude > 0.01f)
+            {
+                transform.position += transform.forward * vehicleData.speed * Time.deltaTime;
+
+                Vector3 localTargetDir = transform.InverseTransformDirection(directionToTarget);
+
+                float targetBankAngle = -localTargetDir.x * maxBankAngle;
+
+                currentBankAngleZ = Mathf.Lerp(currentBankAngleZ, targetBankAngle, Time.deltaTime * bankSpeed);
+
+                Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
+
+                Vector3 euler = targetLookRotation.eulerAngles;
+                euler.z = currentBankAngleZ;
+
+                Quaternion finalRotation = Quaternion.Euler(euler);
+                
+                transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, Time.deltaTime * vehicleData.turnSpeed * turnMultiplier);
+            }
+        }
+    }
+}
