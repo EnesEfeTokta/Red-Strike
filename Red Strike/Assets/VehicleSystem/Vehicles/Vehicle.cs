@@ -27,8 +27,6 @@ namespace VehicleSystem.Vehicles
 
         public GameObject targetObject;
 
-        
-
         public ParticleSystem smokeEffect;
 
         private NavMeshAgent agent;
