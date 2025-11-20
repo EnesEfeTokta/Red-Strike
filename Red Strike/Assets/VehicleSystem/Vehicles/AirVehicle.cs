@@ -18,10 +18,28 @@ namespace VehicleSystem.Vehicles
         private Vector3 attackAxis;
         private float currentBankAngleZ = 0f;
 
+        [Tooltip("Hız, dönüş hızı gibi değerlerdeki +/- sapma oranı. 0.1 = %10 (UNUTMA SAKIN)")]
+        [Range(0, 0.5f)]
+        public float parameterVariance = 0.1f;
+        public float altitudeVariance = 5f;
+
+        private float effectiveSpeed;
+        private float effectiveTurnSpeed;
+        private float effectiveAttackRadius;
+        private float altitudeOffset;
+
         protected override void Start()
         {
             base.Start();
             loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
+
+            loiterTimer = Random.Range(0f, 100f);
+
+            effectiveSpeed = vehicleData.speed * Random.Range(1f - parameterVariance, 1f + parameterVariance);
+            effectiveTurnSpeed = vehicleData.turnSpeed * Random.Range(1f - parameterVariance, 1f + parameterVariance);
+            effectiveAttackRadius = attackLobeRadius * Random.Range(1f - parameterVariance, 1f + parameterVariance);
+
+            altitudeOffset = Random.Range(-altitudeVariance, altitudeVariance);
         }
 
         protected override void Update()
@@ -63,30 +81,30 @@ namespace VehicleSystem.Vehicles
             if (targetObject == null) { currentState = AirState.Loitering; return; }
 
             float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
-            
-            if (distanceToTarget <= attackLobeRadius * 1.5f)
+
+            if (distanceToTarget <= effectiveAttackRadius * 1.5f)
             {
                 Vector3 directionToTarget = (targetObject.transform.position - transform.position).normalized;
                 attackAxis = Vector3.Cross(directionToTarget, Vector3.up).normalized;
                 currentState = AirState.Attacking;
                 return;
             }
-            
+
             Vector3 targetPos = targetObject.transform.position;
-            targetPos.y = cruisingAltitude;
+            targetPos.y = cruisingAltitude + altitudeOffset;
             MoveAndLook(targetPos);
         }
 
         private void HandleAttacking()
         {
             if (targetObject == null) { StopAttacking(); currentState = AirState.Loitering; return; }
-            
+
             Vector3 targetGroundPos = new Vector3(targetObject.transform.position.x, 0, targetObject.transform.position.z);
             Vector3 myGroundPos = new Vector3(transform.position.x, 0, transform.position.z);
-            
-            Vector3 focalPointRight = targetGroundPos + attackAxis * attackLobeRadius;
-            Vector3 focalPointLeft = targetGroundPos - attackAxis * attackLobeRadius;
-            
+
+            Vector3 focalPointRight = targetGroundPos + attackAxis * effectiveAttackRadius;
+            Vector3 focalPointLeft = targetGroundPos - attackAxis * effectiveAttackRadius;
+
             Vector3 currentFocalPoint = orbitingRightLobe ? focalPointRight : focalPointLeft;
 
             Vector3 fromTargetToMe = myGroundPos - targetGroundPos;
@@ -100,9 +118,9 @@ namespace VehicleSystem.Vehicles
 
             float facingRatio = Vector3.Dot(transform.forward, (targetGroundPos - myGroundPos).normalized);
 
-            float desiredAltitude = Mathf.Lerp(cruisingAltitude, attackAltitude, (facingRatio + 1) / 2f);
+            float desiredAltitude = Mathf.Lerp(cruisingAltitude + altitudeOffset, attackAltitude + altitudeOffset, (facingRatio + 1) / 2f);
             orbitPoint.y = desiredAltitude;
-            
+
             if (facingRatio > 0.7f && Vector3.Distance(myGroundPos, targetGroundPos) < attackLobeRadius)
             {
                 if (!isAttacking) { StartAttacking(); }
@@ -111,16 +129,16 @@ namespace VehicleSystem.Vehicles
             {
                 if (isAttacking) { StopAttacking(); }
             }
-            
+
             MoveAndLook(orbitPoint);
         }
 
-        void MoveAndLook(Vector3 targetPosition, float turnMultiplier = 0.25f)
+        private void MoveAndLook(Vector3 targetPosition, float turnMultiplier = 0.25f)
         {
             Vector3 directionToTarget = (targetPosition - transform.position).normalized;
             if (directionToTarget.sqrMagnitude > 0.01f)
             {
-                transform.position += transform.forward * vehicleData.speed * Time.deltaTime;
+                transform.position += transform.forward * effectiveSpeed * Time.deltaTime;
 
                 Vector3 localTargetDir = transform.InverseTransformDirection(directionToTarget);
 
@@ -134,8 +152,8 @@ namespace VehicleSystem.Vehicles
                 euler.z = currentBankAngleZ;
 
                 Quaternion finalRotation = Quaternion.Euler(euler);
-                
-                transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, Time.deltaTime * vehicleData.turnSpeed * turnMultiplier);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, Time.deltaTime * effectiveTurnSpeed * turnMultiplier);
             }
         }
     }
