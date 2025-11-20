@@ -4900,25 +4900,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: bankSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: maxBankAngle
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
       propertyPath: targetObject
       value: 
       objectReference: {fileID: 460729958}
-    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: attackAltitude
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: attackLobeRadius
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.97344
