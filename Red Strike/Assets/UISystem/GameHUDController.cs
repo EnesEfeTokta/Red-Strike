@@ -8,6 +8,8 @@ namespace UISystem
         public InputController.InputController inputController;
         protected UIDocument uiDocument;
         protected VisualElement root;
+        protected VisualElement buildingDynamicContentContainer;
+        protected VisualElement vehicleDynamicContentContainer;
 
         protected virtual void OnEnable() 
         {
@@ -18,6 +20,8 @@ namespace UISystem
                 return;
             }
             root = uiDocument.rootVisualElement;
+            buildingDynamicContentContainer = root.Q<VisualElement>("building-dynamic-content-container");
+            vehicleDynamicContentContainer = root.Q<VisualElement>("vehicle-dynamic-content-container");
         }
 
         protected virtual void OnDisable() { /* Boş bırakıldı, alt sınıflar tarafından geçersiz kılınabilir */ }

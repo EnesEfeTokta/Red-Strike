@@ -8,8 +8,10 @@ namespace BuildingPlacement.Buildings
         public Building buildingData;
         public ParticleSystem[] buildEffects;
 
-        private float health;
+        protected float health;
         private float maxHealth = 100f;
+        public float CurrentHealth => health;
+        public string BuildingName => buildingData != null ? buildingData.name : gameObject.name;
 
         private void Start()
         {
@@ -29,11 +31,6 @@ namespace BuildingPlacement.Buildings
             {
                 // Burada hasar hesaplaması yapılabilir.
             }
-        }
-
-        public (string, float) GetBuildingStatus()
-        {
-            return (gameObject.name, health);
         }
     }
 

@@ -1,6 +1,12 @@
 using UnityEngine;
 using BuildingPlacement;
 
-public class EnergyTower : BuildingPlacement.Buildings.Building
+namespace BuildingPlacement.Buildings
 {
+    public class EnergyTower : Building
+    {
+        // TEST
+        public float CurrentCapacity = 500f;
+        public float Density = 0.8f;
+    }
 }

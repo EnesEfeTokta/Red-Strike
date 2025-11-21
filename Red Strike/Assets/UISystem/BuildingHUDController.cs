@@ -1,4 +1,3 @@
-using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.UIElements;
 using BuildingPlacement.Buildings;
@@ -7,103 +6,136 @@ namespace UISystem
 {
     public class BuildingHUDController : GameHUDController
     {
-        private Button mainStationButton;
-        private Button hangarButton;
-        private Button energyTowerButton;
+        [Header("Templates (UXML)")]
+        public VisualTreeAsset mainStationTemplate;
+        public VisualTreeAsset hangarTemplate;
+        public VisualTreeAsset energyTowerTemplate;
 
+        private VisualElement buildingDetailsPanel;
+        private Label sharedBuildTypeLabel;
+        private Label sharedHealthLabel;
+        
+        // Main Station
+        private Label msShieldLabel;
 
-        #region Main Station Details
-        private VisualElement mainStationDetailsPanel;
-        private Label mainStationNameLabel;
-        private Label mainStationHealthLabel;
+        // Hangar
+        private Label hIsReadyLabel;
+        private Label hProductionLabel;
+
+        // Energy Tower
+        private Label etCapacityLabel;
+        private Label etDensityLabel;
 
         private Building currentlySelectedBuilding;
-        #endregion
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            mainStationDetailsPanel = root.Q<VisualElement>("main-station-details-panel");
-            mainStationNameLabel = mainStationDetailsPanel.Q<Label>("build-type-label");
-            mainStationHealthLabel = mainStationDetailsPanel.Q<Label>("building-health-label");
+            buildingDetailsPanel = root.Q<VisualElement>("building-details-panel");
+            sharedBuildTypeLabel = root.Q<Label>("shared-build-type-label");
+            sharedHealthLabel = root.Q<Label>("shared-health-label");
 
-            mainStationButton = root.Q<Button>("main-station-button");
-            hangarButton = root.Q<Button>("hangar-button");
-            energyTowerButton = root.Q<Button>("energy-tower-button");
+            var mainStationBtn = root.Q<Button>("main-station-button");
+            var hangarBtn = root.Q<Button>("hangar-button");
+            var energyTowerBtn = root.Q<Button>("energy-tower-button");
 
-            mainStationButton.clicked += OnMainStationClicked;
-            hangarButton.clicked += OnHangarClicked;
-            energyTowerButton.clicked += OnEnergyTowerClicked;
+            if(mainStationBtn != null) mainStationBtn.clicked += () => OnBuildingButtonClicked("Main Station");
+            if(hangarBtn != null) hangarBtn.clicked += () => OnBuildingButtonClicked("Hangar");
+            if(energyTowerBtn != null) energyTowerBtn.clicked += () => OnBuildingButtonClicked("Energy Tower");
 
             HideBuildingDetails();
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-
-            mainStationButton.clicked -= OnMainStationClicked;
-            hangarButton.clicked -= OnHangarClicked;
-            energyTowerButton.clicked -= OnEnergyTowerClicked;
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (currentlySelectedBuilding != null)
+            if (currentlySelectedBuilding != null && buildingDetailsPanel.style.display == DisplayStyle.Flex)
             {
-                RefreshVehicleDetails();
+                UpdateBuildingData();
             }
         }
 
-        private void RefreshVehicleDetails()
+        public void ShowBuildingDetails(Building building)
         {
-            var status = currentlySelectedBuilding.GetBuildingStatus();
-            string buildingName = status.Item1;
-            string health = status.Item2.ToString("F1");
-            mainStationNameLabel.text = buildingName;
-            mainStationHealthLabel.text = "Health: " + health;
+            if (building == null) return;
+
+            currentlySelectedBuilding = building;
+            
+            sharedBuildTypeLabel.text = building.BuildingName;
+            
+            buildingDynamicContentContainer.Clear();
+            
+            if (building is MainStation)
+            {
+                InstantiateTemplate(mainStationTemplate);
+                msShieldLabel = buildingDynamicContentContainer.Q<Label>("shield-label");
+            }
+            else if (building is Hangar)
+            {
+                InstantiateTemplate(hangarTemplate);
+                hIsReadyLabel = buildingDynamicContentContainer.Q<Label>("is-ready-label");
+                hProductionLabel = buildingDynamicContentContainer.Q<Label>("in-production-label");
+            }
+            else if (building is EnergyTower)
+            {
+                InstantiateTemplate(energyTowerTemplate);
+                etCapacityLabel = buildingDynamicContentContainer.Q<Label>("capacity-label");
+                etDensityLabel = buildingDynamicContentContainer.Q<Label>("density-label");
+            }
+
+            buildingDetailsPanel.style.display = DisplayStyle.Flex;
         }
 
         public void HideBuildingDetails()
         {
             currentlySelectedBuilding = null;
-            mainStationDetailsPanel.style.display = DisplayStyle.None;
+            if(buildingDetailsPanel != null)
+                buildingDetailsPanel.style.display = DisplayStyle.None;
         }
 
-        public void ShowBuildingDetails(Building buildingToShow)
+        private void UpdateBuildingData()
         {
-            currentlySelectedBuilding = buildingToShow;
-            mainStationDetailsPanel.style.display = DisplayStyle.Flex;
+            sharedHealthLabel.text = $"Health: {currentlySelectedBuilding.CurrentHealth:F0}";
+
+            if (currentlySelectedBuilding is MainStation ms)
+            {
+                if (msShieldLabel != null) 
+                    msShieldLabel.text = $"Shield: {ms.ShieldAmount:F0}%";
+            }
+            else if (currentlySelectedBuilding is Hangar hg)
+            {
+                if (hIsReadyLabel != null) 
+                    hIsReadyLabel.text = $"Is Ready: {hg.IsReady}";
+                if (hProductionLabel != null) 
+                    hProductionLabel.text = $"Prod: {hg.InProductionUnitName}";
+            }
+            else if (currentlySelectedBuilding is EnergyTower et)
+            {
+                if (etCapacityLabel != null) 
+                    etCapacityLabel.text = $"Capacity: {et.CurrentCapacity}";
+                if (etDensityLabel != null) 
+                    etDensityLabel.text = $"Density: {et.Density}";
+            }
+        }
+
+        private void InstantiateTemplate(VisualTreeAsset template)
+        {
+            if (template != null)
+            {
+                template.CloneTree(buildingDynamicContentContainer);
+            }
+            else
+            {
+                Debug.LogWarning("İstenen yapı için UXML Template atanmamış!");
+            }
         }
 
         private void OnBuildingButtonClicked(string buildingName)
         {
             if (inputController != null)
-            {
                 inputController.SelectBuildingToPlace(buildingName);
-            }
-            else
-            {
-                Debug.LogError("InputController referansı GameHUDController'da atanmamış!");
-            }
-        }
-
-        private void OnMainStationClicked()
-        {
-            OnBuildingButtonClicked("Main Station");
-        }
-
-        private void OnHangarClicked()
-        {
-            OnBuildingButtonClicked("Hangar");
-        }
-
-        private void OnEnergyTowerClicked()
-        {
-            OnBuildingButtonClicked("Energy Tower");
         }
     }
 }

@@ -65,9 +65,9 @@ namespace VehicleSystem.Vehicles
             health = maxHealth;
         }
 
-        public (string, float, int, int) GetVehicleStatus()
+        public (string, float, int, int, float) GetVehicleStatus()
         {
-            return (vehicleData.vehicleName, fuelLevel, currentAmmunition, maxAmmunition);
+            return (vehicleData.vehicleName, fuelLevel, currentAmmunition, maxAmmunition, health);
         }
 
         protected virtual void Update()
