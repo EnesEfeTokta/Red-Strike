@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 
 public abstract class SelectableObject : MonoBehaviour
@@ -12,3 +13,4 @@ public abstract class SelectableObject : MonoBehaviour
         Debug.Log(gameObject.name + " deselected!");
     }
 }
+*/

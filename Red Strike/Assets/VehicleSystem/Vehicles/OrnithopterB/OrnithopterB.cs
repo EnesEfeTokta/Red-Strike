@@ -1,0 +1,51 @@
+using UnityEngine;
+using VehicleSystem;
+
+namespace VehicleSystem.Vehicles.OrnithopterB
+{
+    public class OrnithopterB : AirVehicle
+    {
+        public Transform barrelPoint_A;
+        public Transform barrelPoint_B;
+        public Transform barrelTransform;
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (targetObject != null && isAttacking)
+            {
+                LookAtTarget(targetObject.transform);
+            }
+        }
+
+        protected override void FireShot()
+        {
+            base.FireShot();
+
+            if (bulletPrefab != null && currentAmmunition > 0)
+            {
+                GameObject bullet_A = Instantiate(bulletPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
+                bullet_A.GetComponent<Rigidbody>().linearVelocity = barrelPoint_A.forward * bulletSpeed;
+
+                GameObject bullet_B = Instantiate(bulletPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
+                bullet_B.GetComponent<Rigidbody>().linearVelocity = barrelPoint_B.forward * bulletSpeed;
+
+                currentAmmunition -= 2;
+            }
+            else if (currentAmmunition <= 0)
+            {
+                Debug.Log("Out of ammunition, reloading...");
+                ReloadAmmunition();
+            }
+        }
+
+        private void LookAtTarget(Transform target)
+        {
+            Vector3 directionToTarget = target.position - barrelTransform.position;
+            Vector3 localDirection = transform.InverseTransformDirection(directionToTarget);
+            Quaternion targetLocalRotation = Quaternion.LookRotation(localDirection);
+            barrelTransform.localRotation = Quaternion.Slerp(barrelTransform.localRotation, targetLocalRotation, Time.deltaTime * turnSpeed);
+        }
+    }
+}

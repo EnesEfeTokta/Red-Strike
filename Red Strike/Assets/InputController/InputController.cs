@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using VehicleSystem;
+using VehicleSystem.Vehicles;
 using BuildingPlacement;
-using UI;
+using UISystem;
 using System.Linq;
 
 namespace InputController
@@ -18,7 +17,8 @@ namespace InputController
         private Building selectedBuilding;
         private List<GameObject> placedObjects = new List<GameObject>();
         public float minDistanceBetweenObjects = 5f;
-        public GameHUDController gameHUDController;
+        public VehiclesHUDController vehiclesHUDController;
+        public BuildingHUDController buildingHUDController;
 
         private void Start()
         {
@@ -104,21 +104,33 @@ namespace InputController
 
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
             {
-                VehicleSystem.Vehicles.Vehicle clickedVehicle = hitInfo.collider.GetComponent<VehicleSystem.Vehicles.Vehicle>();
-
-                if (clickedVehicle != null)
+                switch (hitInfo.collider.tag)
                 {
-                    gameHUDController.ShowVehicleDetails(clickedVehicle);
-                }
-                else
-                {
-                    gameHUDController.HideVehicleDetails();
+                    case "Build":
+                        BuildingPlacement.Buildings.Building building = hitInfo.collider.GetComponent<BuildingPlacement.Buildings.Building>();
+                        buildingHUDController.ShowBuildingDetails(building);
+                        vehiclesHUDController.HideVehicleDetails();
+                        break;
+                    case "Vehicle":
+                        Vehicle clickedVehicle = hitInfo.collider.GetComponent<Vehicle>();
+                        vehiclesHUDController.ShowVehicleDetails(clickedVehicle);
+                        buildingHUDController.HideBuildingDetails();
+                        break;
+                    default:
+                        DeselectAll();
+                        break;
                 }
             }
             else
             {
-                gameHUDController.HideVehicleDetails();
+                DeselectAll();
             }
+        }
+
+        private void DeselectAll()
+        {
+            vehiclesHUDController.HideVehicleDetails();
+            buildingHUDController.HideBuildingDetails();
         }
 
         private bool IsPositionValid(Vector3 position)

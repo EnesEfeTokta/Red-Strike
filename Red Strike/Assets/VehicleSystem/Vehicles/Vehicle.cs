@@ -27,8 +27,6 @@ namespace VehicleSystem.Vehicles
 
         public GameObject targetObject;
 
-        
-
         public ParticleSystem smokeEffect;
 
         private NavMeshAgent agent;
@@ -44,6 +42,9 @@ namespace VehicleSystem.Vehicles
         protected virtual void Start()
         {
             Setup();
+            agent = GetComponent<NavMeshAgent>();
+            agent.speed = speed;
+            agent.stoppingDistance = stoppingDistance;
         }
 
         private void Setup()

@@ -30,6 +30,11 @@ namespace BuildingPlacement.Buildings
                 // Burada hasar hesaplaması yapılabilir.
             }
         }
+
+        public (string, float) GetBuildingStatus()
+        {
+            return (gameObject.name, health);
+        }
     }
 
     public enum PlayerType
