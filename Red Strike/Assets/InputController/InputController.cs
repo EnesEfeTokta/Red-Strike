@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using VehicleSystem;
+using VehicleSystem.Vehicles;
 using BuildingPlacement;
 using UISystem;
 using System.Linq;
@@ -19,6 +18,7 @@ namespace InputController
         private List<GameObject> placedObjects = new List<GameObject>();
         public float minDistanceBetweenObjects = 5f;
         public VehiclesHUDController vehiclesHUDController;
+        public BuildingHUDController buildingHUDController;
 
         private void Start()
         {
@@ -107,21 +107,30 @@ namespace InputController
                 switch (hitInfo.collider.tag)
                 {
                     case "Build":
-                        Debug.Log("Bina seçildi: " + hitInfo.collider.name);
+                        BuildingPlacement.Buildings.Building building = hitInfo.collider.GetComponent<BuildingPlacement.Buildings.Building>();
+                        buildingHUDController.ShowBuildingDetails(building);
+                        vehiclesHUDController.HideVehicleDetails();
                         break;
                     case "Vehicle":
-                        VehicleSystem.Vehicles.Vehicle clickedVehicle = hitInfo.collider.GetComponent<VehicleSystem.Vehicles.Vehicle>();
+                        Vehicle clickedVehicle = hitInfo.collider.GetComponent<Vehicle>();
                         vehiclesHUDController.ShowVehicleDetails(clickedVehicle);
+                        buildingHUDController.HideBuildingDetails();
                         break;
                     default:
-                        vehiclesHUDController.HideVehicleDetails();
+                        DeselectAll();
                         break;
                 }
             }
             else
             {
-                vehiclesHUDController.HideVehicleDetails();
+                DeselectAll();
             }
+        }
+
+        private void DeselectAll()
+        {
+            vehiclesHUDController.HideVehicleDetails();
+            buildingHUDController.HideBuildingDetails();
         }
 
         private bool IsPositionValid(Vector3 position)

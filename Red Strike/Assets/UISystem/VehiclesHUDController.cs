@@ -19,20 +19,14 @@ namespace UISystem
         {
             base.OnEnable();
 
-            uiDocument = GetComponent<UIDocument>();
-            if (uiDocument == null)
-            {
-                Debug.LogError("Bu objede UIDocument bileşeni bulunamadı!", this);
-                return;
-            }
-            var root = uiDocument.rootVisualElement;
-
             detailsPanel = root.Q<VisualElement>("details-panel");
 
             vehicleNameLabel = root.Q<Label>("vehicle-name-label");
             fuelLabel = root.Q<Label>("fuel-label");
             ammoLabel = root.Q<Label>("ammo-label");
             targetLabel = root.Q<Label>("target-label");
+
+            HideVehicleDetails();
         }
 
         protected override void Update()

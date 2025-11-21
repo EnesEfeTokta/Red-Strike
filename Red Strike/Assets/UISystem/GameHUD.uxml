@@ -16,19 +16,8 @@
         </ui:VisualElement>
         <ui:VisualElement name="main-station-details-panel" class="info-panel" visible="false" >
             <ui:Label text="Build Type:" name="build-type-label" class="details-title" />
-            <ui:Label text="Health:" name="health-label" class="details-text" />
+            <ui:Label text="Health:" name="building-health-label" class="details-text" />
         </ui:VisualElement>
-        <ui:VisualElement name="hangar-details-panel" class="info-panel" visible="false" >
-            <ui:Label text="Build Type:" name="build-type-label" class="details-title" />
-            <ui:Label text="Health:" name="health-label" class="details-text" />
-            <ui:Label text="IsReady:" name="is-ready-label" class="details-text" />
-            <ui:Label text="Being Produced:" name="being-produced-label" class="details-text" />
-        </ui:VisualElement>
-        <ui:VisualElement name="energy-tower-details-panel" class="info-panel" visible="false" >
-            <ui:Label text="Build Type:" name="build-type-label" class="details-title" />
-            <ui:Label text="Health:" name="health-label" class="details-text" />
-            <ui:Label text="Occupancy:" name="occupancy-label" class="details-text" />
-            <ui:Label text="Density:" name="density-label" class="details-text" />
-        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

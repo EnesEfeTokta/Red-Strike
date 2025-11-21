@@ -870,6 +870,7 @@ MonoBehaviour:
   buildingsDatabase: {fileID: 11400000, guid: 93b080ce34c08df468e7afea3e6569c6, type: 2}
   minDistanceBetweenObjects: 25
   vehiclesHUDController: {fileID: 422005013}
+  buildingHUDController: {fileID: 422005014}
 --- !u!1 &1702380761
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7568800842816226781}
   - component: {fileID: 3418134255132300912}
   - component: {fileID: -4322946230525120543}
+  - component: {fileID: 5647536224997323072}
   m_Layer: 6
   m_Name: EnergyTower
   m_TagString: Build
@@ -130,6 +131,27 @@ MonoBehaviour:
   buildEffects:
   - {fileID: 2273246402830813632}
   - {fileID: 9072490561556554335}
+--- !u!65 &5647536224997323072
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4083171081778293073}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.9999995, y: 6.974897, z: 4.9999995}
+  m_Center: {x: 0, y: 3.4874485, z: 0}
 --- !u!1001 &1993968208826293375
 PrefabInstance:
   m_ObjectHideFlags: 0

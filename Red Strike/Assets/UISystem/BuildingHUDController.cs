@@ -1,5 +1,7 @@
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.UIElements;
+using BuildingPlacement.Buildings;
 
 namespace UISystem
 {
@@ -9,17 +11,22 @@ namespace UISystem
         private Button hangarButton;
         private Button energyTowerButton;
 
+
+        #region Main Station Details
+        private VisualElement mainStationDetailsPanel;
+        private Label mainStationNameLabel;
+        private Label mainStationHealthLabel;
+
+        private Building currentlySelectedBuilding;
+        #endregion
+
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            uiDocument = GetComponent<UIDocument>();
-            if (uiDocument == null)
-            {
-                Debug.LogError("Bu objede UIDocument bileşeni bulunamadı!", this);
-                return;
-            }
-            var root = uiDocument.rootVisualElement;
+            mainStationDetailsPanel = root.Q<VisualElement>("main-station-details-panel");
+            mainStationNameLabel = mainStationDetailsPanel.Q<Label>("build-type-label");
+            mainStationHealthLabel = mainStationDetailsPanel.Q<Label>("building-health-label");
 
             mainStationButton = root.Q<Button>("main-station-button");
             hangarButton = root.Q<Button>("hangar-button");
@@ -28,6 +35,8 @@ namespace UISystem
             mainStationButton.clicked += OnMainStationClicked;
             hangarButton.clicked += OnHangarClicked;
             energyTowerButton.clicked += OnEnergyTowerClicked;
+
+            HideBuildingDetails();
         }
 
         protected override void OnDisable()
@@ -37,6 +46,37 @@ namespace UISystem
             mainStationButton.clicked -= OnMainStationClicked;
             hangarButton.clicked -= OnHangarClicked;
             energyTowerButton.clicked -= OnEnergyTowerClicked;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (currentlySelectedBuilding != null)
+            {
+                RefreshVehicleDetails();
+            }
+        }
+
+        private void RefreshVehicleDetails()
+        {
+            var status = currentlySelectedBuilding.GetBuildingStatus();
+            string buildingName = status.Item1;
+            string health = status.Item2.ToString("F1");
+            mainStationNameLabel.text = buildingName;
+            mainStationHealthLabel.text = "Health: " + health;
+        }
+
+        public void HideBuildingDetails()
+        {
+            currentlySelectedBuilding = null;
+            mainStationDetailsPanel.style.display = DisplayStyle.None;
+        }
+
+        public void ShowBuildingDetails(Building buildingToShow)
+        {
+            currentlySelectedBuilding = buildingToShow;
+            mainStationDetailsPanel.style.display = DisplayStyle.Flex;
         }
 
         private void OnBuildingButtonClicked(string buildingName)
