@@ -422,6 +422,7 @@ GameObject:
   - component: {fileID: 422005012}
   - component: {fileID: 422005011}
   - component: {fileID: 422005013}
+  - component: {fileID: 422005014}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -472,7 +473,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 422005010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1319797b3d6c7554099d236168d17075, type: 3}
+  m_Script: {fileID: 11500000, guid: b9196fefff361e148875260ff54b24a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputController: {fileID: 1556403732}
+--- !u!114 &422005014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422005010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d5e1bc8a892c841afaa940cb019eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inputController: {fileID: 1556403732}
@@ -855,7 +869,7 @@ MonoBehaviour:
     m_Bits: 64
   buildingsDatabase: {fileID: 11400000, guid: 93b080ce34c08df468e7afea3e6569c6, type: 2}
   minDistanceBetweenObjects: 25
-  gameHUDController: {fileID: 422005013}
+  vehiclesHUDController: {fileID: 422005013}
 --- !u!1 &1702380761
 GameObject:
   m_ObjectHideFlags: 0
