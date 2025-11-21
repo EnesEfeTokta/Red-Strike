@@ -1,5 +1,11 @@
 using UnityEngine;
 
-public class Hangar : BuildingPlacement.Buildings.Building
+namespace BuildingPlacement.Buildings
 {
+    public class Hangar : Building
+    {
+        // TEST
+        public bool IsReady = true;
+        public string InProductionUnitName = "Tank";
+    }
 }

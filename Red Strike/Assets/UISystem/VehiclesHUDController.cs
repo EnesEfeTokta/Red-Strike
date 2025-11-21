@@ -12,6 +12,7 @@ namespace UISystem
         private Label fuelLabel;
         private Label ammoLabel;
         private Label targetLabel;
+        private Label healthLabel;
 
         private Vehicle currentlySelectedVehicle;
 
@@ -19,12 +20,13 @@ namespace UISystem
         {
             base.OnEnable();
 
-            detailsPanel = root.Q<VisualElement>("details-panel");
+            detailsPanel = root.Q<VisualElement>("vehicle-details-panel");
 
-            vehicleNameLabel = root.Q<Label>("vehicle-name-label");
-            fuelLabel = root.Q<Label>("fuel-label");
-            ammoLabel = root.Q<Label>("ammo-label");
-            targetLabel = root.Q<Label>("target-label");
+            vehicleNameLabel = detailsPanel.Q<Label>("shared-vehicle-type-label");
+            fuelLabel = detailsPanel.Q<Label>("shared-fuel-label");
+            ammoLabel = detailsPanel.Q<Label>("shared-bullets-label");
+            targetLabel = detailsPanel.Q<Label>("shared-target-label");
+            healthLabel = detailsPanel.Q<Label>("shared-health-label");
 
             HideVehicleDetails();
         }
@@ -51,6 +53,7 @@ namespace UISystem
             fuelLabel.text = "Fuel Level: " + fuel;
             ammoLabel.text = "Ammunition: " + ammo;
             targetLabel.text = "Target: " + targetName;
+            healthLabel.text = "Health: " + status.Item5.ToString("F1");
         }
 
         public void HideVehicleDetails()

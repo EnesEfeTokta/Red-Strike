@@ -107,15 +107,21 @@ namespace InputController
                 switch (hitInfo.collider.tag)
                 {
                     case "Build":
-                        BuildingPlacement.Buildings.Building building = hitInfo.collider.GetComponent<BuildingPlacement.Buildings.Building>();
-                        buildingHUDController.ShowBuildingDetails(building);
-                        vehiclesHUDController.HideVehicleDetails();
+                        BuildingPlacement.Buildings.Building clickedBuilding = hitInfo.collider.GetComponent<BuildingPlacement.Buildings.Building>();
+
+                        if (clickedBuilding != null)
+                        {
+                            buildingHUDController.ShowBuildingDetails(clickedBuilding);
+                            if (vehiclesHUDController != null) vehiclesHUDController.HideVehicleDetails();
+                        }
                         break;
+
                     case "Vehicle":
                         Vehicle clickedVehicle = hitInfo.collider.GetComponent<Vehicle>();
-                        vehiclesHUDController.ShowVehicleDetails(clickedVehicle);
+                        if (vehiclesHUDController != null) vehiclesHUDController.ShowVehicleDetails(clickedVehicle);
                         buildingHUDController.HideBuildingDetails();
                         break;
+
                     default:
                         DeselectAll();
                         break;
@@ -129,7 +135,7 @@ namespace InputController
 
         private void DeselectAll()
         {
-            vehiclesHUDController.HideVehicleDetails();
+            if (vehiclesHUDController != null) vehiclesHUDController.HideVehicleDetails();
             buildingHUDController.HideBuildingDetails();
         }
 
