@@ -42,6 +42,9 @@ namespace VehicleSystem.Vehicles
         protected virtual void Start()
         {
             Setup();
+            agent = GetComponent<NavMeshAgent>();
+            agent.speed = speed;
+            agent.stoppingDistance = stoppingDistance;
         }
 
         private void Setup()

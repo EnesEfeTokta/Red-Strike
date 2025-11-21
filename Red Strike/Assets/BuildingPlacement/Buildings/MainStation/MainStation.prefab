@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3935020676131032200}
   - component: {fileID: 5269824642355325504}
   - component: {fileID: 9197393951426874775}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MainStation
-  m_TagString: Untagged
+  m_TagString: Build
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 7222708778872805534}
   - component: {fileID: 3247585214088121816}
   - component: {fileID: 3606189966915286940}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: struct_Headquarters_Guard_A_yup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,6 +303,10 @@ PrefabInstance:
       value: msVFX_Stylized Smoke 4
       objectReference: {fileID: 0}
     - target: {fileID: 6813416509558619124, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813416509558619124, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -388,6 +392,10 @@ PrefabInstance:
     - target: {fileID: 985483039366664255, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
       propertyPath: m_Name
       value: msVFX_Stylized Smoke 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 985483039366664255, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1110556030845387871, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
       propertyPath: ShapeModule.angle

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VehicleSystem;
 using BuildingPlacement;
-using UI;
+using UISystem;
 using System.Linq;
 
 namespace InputController
@@ -18,7 +18,7 @@ namespace InputController
         private Building selectedBuilding;
         private List<GameObject> placedObjects = new List<GameObject>();
         public float minDistanceBetweenObjects = 5f;
-        public GameHUDController gameHUDController;
+        public VehiclesHUDController vehiclesHUDController;
 
         private void Start()
         {
@@ -104,20 +104,23 @@ namespace InputController
 
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
             {
-                VehicleSystem.Vehicles.Vehicle clickedVehicle = hitInfo.collider.GetComponent<VehicleSystem.Vehicles.Vehicle>();
-
-                if (clickedVehicle != null)
+                switch (hitInfo.collider.tag)
                 {
-                    gameHUDController.ShowVehicleDetails(clickedVehicle);
-                }
-                else
-                {
-                    gameHUDController.HideVehicleDetails();
+                    case "Build":
+                        Debug.Log("Bina seçildi: " + hitInfo.collider.name);
+                        break;
+                    case "Vehicle":
+                        VehicleSystem.Vehicles.Vehicle clickedVehicle = hitInfo.collider.GetComponent<VehicleSystem.Vehicles.Vehicle>();
+                        vehiclesHUDController.ShowVehicleDetails(clickedVehicle);
+                        break;
+                    default:
+                        vehiclesHUDController.HideVehicleDetails();
+                        break;
                 }
             }
             else
             {
-                gameHUDController.HideVehicleDetails();
+                vehiclesHUDController.HideVehicleDetails();
             }
         }
 
