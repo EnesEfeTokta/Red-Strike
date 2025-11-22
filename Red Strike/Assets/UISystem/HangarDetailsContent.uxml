@@ -1,9 +1,20 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UISystem/GameHUDStyles.uss?fileID=7433441132597879392&amp;guid=76481a45a761bb147acf1059658d7ddd&amp;type=3#GameHUDStyles" />
-    <ui:VisualElement name="root-container">
-        <ui:VisualElement name="hangar-content" class="dynamic-content">
-            <ui:Label text="Is Ready:" name="is-ready-label" class="details-text" />
-            <ui:Label text="In production:" name="in-production-label" class="details-text" />
-        </ui:VisualElement>
+    <ui:VisualElement name="hangar-content-area">
+
+        <!-- Shared Labels -->
+        <ui:Label text="Is Ready:" name="is-ready-label" class="details-text" />
+        <ui:Label text="In production:" name="in-production-label" class="details-text" />
+
+        <!-- Create Vehicle -->
+        <ui:Button text="Create Infantry" name="infantry-create-button" class="action-button" />
+        <ui:Button text="Create Trike" name="trike-create-button" class="action-button" />
+        <ui:Button text="Create Quad" name="quad-create-button" class="action-button" />
+        <ui:Button text="Create Tank Combat" name="tank-combat-create-button" class="action-button" />
+        <ui:Button text="Create Tank Heavy A" name="tank-heavy-a-create-button" class="action-button" />
+        <ui:Button text="Create Tank Heavy B" name="tank-heavy-b-create-button" class="action-button" />
+        <ui:Button text="Create Ornithopter A" name="ornithopter-a-create-button" class="action-button" />
+        <ui:Button text="Create Ornithopter B" name="ornithopter-b-create-button" class="action-button" />
+            
     </ui:VisualElement>
 </ui:UXML>

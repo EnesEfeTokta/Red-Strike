@@ -4,11 +4,15 @@ using VehicleSystem.Vehicles;
 using BuildingPlacement;
 using UISystem;
 using System.Linq;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace InputController
 {
     public class InputController : MonoBehaviour
     {
+        public UIDocument gameUIDocument;
+
         public LayerMask terrainLayer;
         public LayerMask selectableLayer;
         private Camera mainCamera;
@@ -36,6 +40,11 @@ namespace InputController
 
             if (Input.GetMouseButtonDown(0))
             {
+                if (IsPointerOverUI())
+                {
+                    return;
+                }
+
                 if (selectedBuilding != null)
                 {
                     PlaceBuilding();
@@ -45,6 +54,21 @@ namespace InputController
                     SelectObject();
                 }
             }
+        }
+
+        private bool IsPointerOverUI()
+        {
+            if (gameUIDocument == null) return false;
+
+            Vector2 mousePosition = Input.mousePosition;
+            Vector2 pointerPosition = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
+            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(pointerPosition);
+
+            if (pickedElement == null) return false;
+            if (pickedElement.name == "root-container") return false;
+            if (pickedElement == gameUIDocument.rootVisualElement) return false;
+            
+            return true;
         }
 
         private void PlaceBuilding()

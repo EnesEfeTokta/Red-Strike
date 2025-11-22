@@ -6,6 +6,8 @@ namespace VehicleSystem
     public class Vehicle : ScriptableObject
     {
         public string vehicleName;
+        public VehicleTypes vehicleType;
+        public GameObject vehiclePrefab;
         public float speed;
         public float coverageAreaRadius;
         public float turnSpeed;

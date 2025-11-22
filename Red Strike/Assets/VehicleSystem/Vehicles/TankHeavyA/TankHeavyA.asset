@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: TankHeavyA
   m_EditorClassIdentifier: 
   vehicleName: Tank Heavy A
+  vehicleType: 4
+  vehiclePrefab: {fileID: 4738606819510252206, guid: 5da929ed199dc6c43aa09de6252e7e4a, type: 3}
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 5

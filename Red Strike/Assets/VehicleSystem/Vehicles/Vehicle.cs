@@ -32,10 +32,7 @@ namespace VehicleSystem.Vehicles
         private NavMeshAgent agent;
 
         protected bool isMoving = false;
-        private bool isDestroyed = false;
-        private bool isRefueling = false;
         protected bool isAttacking = false;
-        private bool isRepairing = false;
 
         private Coroutine attackCoroutine;
 

@@ -221,6 +221,9 @@ MonoBehaviour:
   buildEffects:
   - {fileID: 1855726554393846403}
   - {fileID: 4273443631821389091}
+  IsReady: 1
+  InProductionUnitName: None
+  vehiclesDatabase: {fileID: 11400000, guid: 5d4883896aa0b5146966a880184eb941, type: 2}
 --- !u!65 &7209396890379076767
 BoxCollider:
   m_ObjectHideFlags: 0

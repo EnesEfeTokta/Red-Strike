@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95dd56b3e70aa34489817e4df0ffa7c4, type: 3}
   m_Name: VehiclesDatabase
   m_EditorClassIdentifier: 
-  vehicles: []
+  vehicles:
+  - {fileID: 11400000, guid: b049ed01ebeaf174e82c98ba0beb4efa, type: 2}
+  - {fileID: 11400000, guid: 6b721204d4c46a24db720117c7fd198c, type: 2}
+  - {fileID: 11400000, guid: ce97c2204a6a39643bf1b985564c1deb, type: 2}
+  - {fileID: 11400000, guid: 1f1539dd50fac9945990afd398d5ff90, type: 2}
+  - {fileID: 11400000, guid: 0d1e17da9fb2af947b26c9a568ced7d5, type: 2}
+  - {fileID: 11400000, guid: 2401c75b324e39040b0b2d2edbfe5039, type: 2}
+  - {fileID: 11400000, guid: 5d7c72c6670df4e408f287de587d7085, type: 2}
+  - {fileID: 11400000, guid: e188ef8daa801334c82cd841cb6d6fcc, type: 2}
