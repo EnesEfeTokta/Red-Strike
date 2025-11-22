@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: OrnithopterA
   m_EditorClassIdentifier: 
   vehicleName: Ornithopter A
+  vehicleType: 6
+  vehiclePrefab: {fileID: 5287324194948881211, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
   speed: 50
   coverageAreaRadius: 50
   turnSpeed: 5

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Infantry
   m_EditorClassIdentifier: 
   vehicleName: Infantry
+  vehicleType: 0
+  vehiclePrefab: {fileID: 224654450759790032, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 5
