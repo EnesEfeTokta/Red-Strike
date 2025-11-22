@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UISystem/GameHUDStyles.uss?fileID=7433441132597879392&amp;guid=76481a45a761bb147acf1059658d7ddd&amp;type=3#GameHUDStyles" />
-    <ui:VisualElement name="root-container" style="flex-grow: 1;">
-        <ui:VisualElement name="energy-tower-content" class="info-panel">
+    <ui:VisualElement name="root-container">
+        <ui:VisualElement name="energy-tower-content" class="dynamic-content">
             <ui:Label text="Capacity:" name="capacity-label" class="details-text" />
             <ui:Label text="Density:" name="density-label" class="details-text" />
         </ui:VisualElement>

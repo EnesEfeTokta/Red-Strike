@@ -1,30 +1,36 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:engine="UnityEngine.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/GameHUDStyles.uss?fileID=7433441132597879392&amp;guid=76481a45a761bb147acf1059658d7ddd&amp;type=3#GameHUDStyles" />
-    <ui:VisualElement name="root-container" style="width: 100%; height: 100%; justify-content: space-between; align-items: stretch;">
-        <ui:VisualElement name="top-bar-container" style="height: 30px; background-color: rgba(20, 20, 20, 0.9);" />
-        <ui:VisualElement name="middle-content" style="flex-grow: 1;" />
+    <ui:VisualElement name="root-container" style="width: 100%; height: 100%;">
 
+        <!-- TOP BAR -->
+        <ui:VisualElement name="top-bar-container" class="top-bar" />
+
+        <!-- SIDE PANEL (LEFT) -->
         <ui:VisualElement name="left-panel" class="side-panel">
             <ui:Button text="Main Station" name="main-station-button" class="build-button" />
             <ui:Button text="Hangar" name="hangar-button" class="build-button" />
             <ui:Button text="Energy Tower" name="energy-tower-button" class="build-button" />
         </ui:VisualElement>
 
+        <!-- BUILDING DETAILS PANEL (RIGHT) -->
         <ui:VisualElement name="building-details-panel" class="info-panel" visible="false">
             <ui:Label text="Build Type:" name="shared-build-type-label" class="details-title" />
             <ui:Label text="Health:" name="shared-health-label" class="details-text" />
 
-            <ui:VisualElement name="building-dynamic-content-container" />
+            <!-- CONTENT AREA (dynamic) -->
+            <ui:VisualElement name="building-dynamic-content-container" class="dynamic-content" />
         </ui:VisualElement>
 
+        <!-- VEHICLE DETAILS PANEL (RIGHT) -->
         <ui:VisualElement name="vehicle-details-panel" class="info-panel" visible="false">
-            <ui:Label text="Vehicle Type:" name="shared-vehicle-type-label" class="details-title" />
-            <ui:Label text="Health:" name="shared-health-label" class="details-text" />
-            <ui:Label text="Target:" name="shared-target-label" class="details-text" />
-            <ui:Label text="Fuel:" name="shared-fuel-label" class="details-text" />
-            <ui:Label text="Bullets:" name="shared-bullets-label" class="details-text" />
+            <ui:Label text="Vehicle:" name="shared-vehicle-name-label" class="details-title" />
+            <ui:Label text="Health:" name="shared-vehicle-health-label" class="details-text" />
+            <ui:Label text="Fuel:" name="shared-vehicle-fuel-label" class="details-text" />
+            <ui:Label text="Ammunition:" name="shared-vehicle-ammo-label" class="details-text" />
+            <ui:Label text="Target:" name="shared-vehicle-target-label" class="details-text" />
 
-            <ui:VisualElement name="vehicle-dynamic-content-container" />
+            <!-- CONTENT AREA (dynamic) -->
+            <ui:VisualElement name="vehicle-dynamic-content-container" class="dynamic-content" />
         </ui:VisualElement>
 
     </ui:VisualElement>

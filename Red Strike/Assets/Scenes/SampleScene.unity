@@ -490,6 +490,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputController: {fileID: 1556403732}
+  mainStationTemplate: {fileID: 9197481963319205126, guid: 7e5b2e72160062249ab83c27bd5a52e7, type: 3}
+  hangarTemplate: {fileID: 9197481963319205126, guid: 5a649d49f0f531a49a7cdedc28d5fce4, type: 3}
+  energyTowerTemplate: {fileID: 9197481963319205126, guid: 11d450df22e338a49886331ef99c2108, type: 3}
 --- !u!1 &460729958
 GameObject:
   m_ObjectHideFlags: 0
