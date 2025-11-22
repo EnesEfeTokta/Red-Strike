@@ -1,9 +1,24 @@
+/* TOP BAR ------------------------------------------------------- */
+
+.top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background-color: rgba(20, 20, 20, 0.9);
+}
+
+/* LEFT PANEL ----------------------------------------------------- */
+
 .side-panel {
     position: absolute;
     left: 20px;
     top: 50px;
     flex-direction: column;
 }
+
+/* DETAILS PANELS (RIGHT) ---------------------------------------- */
 
 .info-panel {
     position: absolute;
@@ -12,56 +27,50 @@
     background-color: rgba(45, 45, 45, 0.85);
     padding: 15px;
     border-radius: 5px;
-    min-width: 200px;
+    min-width: 240px;
+    height: auto; 
 }
 
-.unit-panel {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    flex-direction: row;
+.dynamic-content {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
+
+/* BUTTONS --------------------------------------------------------- */
 
 .build-button {
-    width: 120px;
-    height: 50px;
-    background-color: rgba(60, 60, 60, 0.9);
+    width: 140px;
+    height: 45px;
+    background-color: rgba(60,60,60,0.9);
     color: white;
     border-width: 0;
-    border-radius: 3px;
+    border-radius: 4px;
     margin-bottom: 10px;
     font-size: 14px;
 }
 
-.unit-button {
-    height: 60px;
-    background-color: rgba(60, 60, 60, 0.9);
-    color: white;
-    border-width: 0;
-    border-radius: 3px;
-    margin: 0 4px;
-    font-size: 14px;
-    -unity-text-align: middle-center;
-    white-space: normal;
+.build-button:hover {
+    background-color: rgba(90, 90, 90, 0.95);
 }
 
-.unit-button--large { width: 130px; font-size: 18px; }
-.unit-button--medium { width: 100px; }
-.unit-button--small { width: 80px; font-size: 12px; }
+.build-button:active {
+    background-color: rgba(120, 120, 120, 1);
+}
 
-.build-button:hover, .unit-button:hover { background-color: rgba(90, 90, 90, 0.95); }
-.build-button:active, .unit-button:active { background-color: rgba(120, 120, 120, 1); }
+/* TEXT STYLES --------------------------------------------------- */
 
 .details-title {
     color: white;
-    font-size: 24px;
+    font-size: 20px;
     -unity-font-style: bold;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .details-text {
     color: rgb(220, 220, 220);
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
