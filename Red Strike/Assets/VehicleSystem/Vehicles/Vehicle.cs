@@ -8,50 +8,41 @@ namespace VehicleSystem.Vehicles
     public class Vehicle : MonoBehaviour
     {
         public VehicleSystem.Vehicle vehicleData;
+
+        public GameObject targetObject;
+        public ParticleSystem smokeEffect;
+
         protected float speed;
-        protected float coverageAreaRadius;
         protected float turnSpeed;
         protected float fuelLevel;
         protected float fuelConsumptionRate;
         protected float health;
-        private float maxHealth = 100f;
-        private float stoppingDistance = 1.5f;
+        protected float maxHealth;
+        protected float stoppingDistance;
+
         protected int maxAmmunition = 30;
         protected int currentAmmunition = 30;
         protected int reloadCounter = 0;
         protected float bulletDamage = 10f;
         protected float bulletSpeed = 20f;
         protected float reloadTime = 1.5f;
-
         protected GameObject bulletPrefab;
-
-        public GameObject targetObject;
-
-        public ParticleSystem smokeEffect;
-
-        private NavMeshAgent agent;
 
         protected bool isMoving = false;
         protected bool isAttacking = false;
-
         private Coroutine attackCoroutine;
 
         protected virtual void Start()
         {
             Setup();
-            agent = GetComponent<NavMeshAgent>();
-            agent.speed = speed;
-            agent.stoppingDistance = stoppingDistance;
         }
 
         private void Setup()
         {
             speed = vehicleData.speed;
-            coverageAreaRadius = vehicleData.coverageAreaRadius;
             turnSpeed = vehicleData.turnSpeed;
             fuelLevel = vehicleData.fuelCapacity;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
-            stoppingDistance = vehicleData.stoppingDistance;
             maxAmmunition = vehicleData.maxAmmunition;
             currentAmmunition = maxAmmunition;
             bulletDamage = vehicleData.bulletDamage;
@@ -60,11 +51,20 @@ namespace VehicleSystem.Vehicles
             bulletPrefab = vehicleData.bulletPrefab;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
+            stoppingDistance = vehicleData.stoppingDistance;
         }
 
         public (string, float, int, int, float) GetVehicleStatus()
         {
             return (vehicleData.vehicleName, fuelLevel, currentAmmunition, maxAmmunition, health);
+        }
+
+        public virtual void SetTargetEnemy(GameObject enemy)
+        {
+            if (fuelLevel <= 0) return;
+
+            targetObject = enemy;
+            isMoving = true;
         }
 
         protected virtual void Update()
@@ -82,10 +82,14 @@ namespace VehicleSystem.Vehicles
 
         protected virtual void LookAtTarget()
         {
-            Vector3 direction = (targetObject.transform.position - transform.position).normalized;
-            direction.y = 0;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, agent.angularSpeed * Time.deltaTime);
+             if (targetObject == null) return;
+             Vector3 direction = (targetObject.transform.position - transform.position).normalized;
+             direction.y = 0;
+             if (direction != Vector3.zero)
+             {
+                 Quaternion lookRotation = Quaternion.LookRotation(direction);
+                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
+             }
         }
 
         protected virtual void UpdateSmokeEffect()
