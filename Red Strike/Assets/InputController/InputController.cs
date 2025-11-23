@@ -25,7 +25,10 @@ namespace InputController
         public VehiclesHUDController vehiclesHUDController;
         public BuildingHUDController buildingHUDController;
 
-        private SelectionHighlighter currentSelectionHighlighter;
+        private SelectionHighlighter vehicleHighlighter;
+        private SelectionHighlighter targetHighlighter;
+
+        private SelectionHighlighter tempBuildingHighlighter;
 
         private void Start()
         {
@@ -53,7 +56,7 @@ namespace InputController
                 }
                 else
                 {
-                    SelectObject();
+                    HandleObjectSelection();
                 }
             }
         }
@@ -127,7 +130,7 @@ namespace InputController
             }
         }
 
-        private void SelectObject()
+        private void HandleObjectSelection()
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
@@ -138,36 +141,57 @@ namespace InputController
 
                 if (currentSelectedVehicle != null && hitObject.CompareTag("Enemy"))
                 {
-                    Debug.Log($"Araç ({currentSelectedVehicle.name}) hedefe ({hitObject.name}) gönderiliyor.");
+                    Debug.Log($"Araç ({currentSelectedVehicle.name}) hedefe ({hitObject.name}) kilitlendi.");
                     currentSelectedVehicle.SetTargetEnemy(hitObject);
-                    DeselectAll();
+
+                    if (targetHighlighter != null)
+                        targetHighlighter.DisableHighlight();
+
+                    targetHighlighter = GetHighlighter(hitObject);
+                    if (targetHighlighter != null)
+                        targetHighlighter.EnableHighlight();
 
                     return;
                 }
 
                 DeselectAll();
 
-                currentSelectionHighlighter = hitObject.GetComponent<SelectionHighlighter>();
-                if (currentSelectionHighlighter == null) currentSelectionHighlighter = hitObject.GetComponentInParent<SelectionHighlighter>();
-
                 switch (hitObject.tag)
                 {
                     case "Vehicle":
-                        if (currentSelectionHighlighter != null) currentSelectionHighlighter.EnableHighlight();
+                        currentSelectedVehicle = hitObject.GetComponent<Vehicle>();
 
-                        Vehicle v = hitObject.GetComponent<Vehicle>();
-                        if (v != null)
+                        if (currentSelectedVehicle != null)
                         {
-                            currentSelectedVehicle = v;
-                            if (vehiclesHUDController != null) vehiclesHUDController.ShowVehicleDetails(v);
+                            vehicleHighlighter = GetHighlighter(hitObject);
+                            if (vehicleHighlighter != null)
+                                vehicleHighlighter.EnableHighlight();
+
+                            if (currentSelectedVehicle.targetObject != null)
+                            {
+                                targetHighlighter = GetHighlighter(currentSelectedVehicle.targetObject);
+                                if (targetHighlighter != null)
+                                    targetHighlighter.EnableHighlight();
+                            }
+
+                            if (vehiclesHUDController != null)
+                                vehiclesHUDController.ShowVehicleDetails(currentSelectedVehicle);
                         }
                         break;
 
                     case "Build":
-                        if (currentSelectionHighlighter != null) currentSelectionHighlighter.EnableHighlight();
+                        tempBuildingHighlighter = GetHighlighter(hitObject);
+                        if (tempBuildingHighlighter != null)
+                            tempBuildingHighlighter.EnableHighlight();
 
                         var b = hitObject.GetComponent<BuildingPlacement.Buildings.Building>();
                         if (b != null) buildingHUDController.ShowBuildingDetails(b);
+                        break;
+
+                    case "Enemy":
+                        tempBuildingHighlighter = GetHighlighter(hitObject);
+                        if (tempBuildingHighlighter != null)
+                            tempBuildingHighlighter.EnableHighlight();
                         break;
 
                     default:
@@ -183,20 +207,39 @@ namespace InputController
 
         private void DeselectAll()
         {
-            // UI Gizle 
+            // 1. UI Kapat
             if (vehiclesHUDController != null) vehiclesHUDController.HideVehicleDetails();
             if (buildingHUDController != null) buildingHUDController.HideBuildingDetails();
 
-            // Outline Kapat
-            if (currentSelectionHighlighter != null)
+            // 2. Outline'ları Kapat
+            if (vehicleHighlighter != null)
             {
-                currentSelectionHighlighter.DisableHighlight();
-                currentSelectionHighlighter = null;
+                vehicleHighlighter.DisableHighlight();
+                vehicleHighlighter = null;
             }
 
-            // Hafızayı temizle
+            if (targetHighlighter != null)
+            {
+                targetHighlighter.DisableHighlight();
+                targetHighlighter = null;
+            }
+
+            if (tempBuildingHighlighter != null)
+            {
+                tempBuildingHighlighter.DisableHighlight();
+                tempBuildingHighlighter = null;
+            }
+
+            // 3. Hafızayı Temizle
             currentSelectedVehicle = null;
             currentSelectedBuilding = null;
+        }
+
+        private SelectionHighlighter GetHighlighter(GameObject obj)
+        {
+            var hl = obj.GetComponent<SelectionHighlighter>();
+            if (hl == null) hl = obj.GetComponentInParent<SelectionHighlighter>();
+            return hl;
         }
 
         private bool IsPositionValid(Vector3 position)
