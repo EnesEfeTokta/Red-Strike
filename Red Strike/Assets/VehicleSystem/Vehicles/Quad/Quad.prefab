@@ -132,6 +132,8 @@ GameObject:
   - component: {fileID: 4870466573893007274}
   - component: {fileID: 5052494845539565231}
   - component: {fileID: 644802133139982732}
+  - component: {fileID: 144131922059011378}
+  - component: {fileID: 8503807617094654840}
   m_Layer: 6
   m_Name: Quad
   m_TagString: Vehicle
@@ -273,6 +275,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.2922087, y: 2.2530563, z: 3.7806263}
   m_Center: {x: 0.00000035762787, y: 1.1144267, z: 0.07975197}
+--- !u!114 &144131922059011378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855602119919018044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 6
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &8503807617094654840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855602119919018044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 0, g: 0.30699968, b: 1, a: 1}
 --- !u!1 &2461709354163637371
 GameObject:
   m_ObjectHideFlags: 0

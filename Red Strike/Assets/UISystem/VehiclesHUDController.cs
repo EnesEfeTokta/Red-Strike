@@ -22,11 +22,11 @@ namespace UISystem
 
             detailsPanel = root.Q<VisualElement>("vehicle-details-panel");
 
-            vehicleNameLabel = detailsPanel.Q<Label>("shared-vehicle-type-label");
-            fuelLabel = detailsPanel.Q<Label>("shared-fuel-label");
-            ammoLabel = detailsPanel.Q<Label>("shared-bullets-label");
-            targetLabel = detailsPanel.Q<Label>("shared-target-label");
-            healthLabel = detailsPanel.Q<Label>("shared-health-label");
+            vehicleNameLabel = detailsPanel.Q<Label>("shared-vehicle-name-label");
+            fuelLabel = detailsPanel.Q<Label>("shared-vehicle-fuel-label");
+            ammoLabel = detailsPanel.Q<Label>("shared-vehicle-ammo-label");
+            targetLabel = detailsPanel.Q<Label>("shared-vehicle-target-label");
+            healthLabel = detailsPanel.Q<Label>("shared-vehicle-health-label");
 
             HideVehicleDetails();
         }
