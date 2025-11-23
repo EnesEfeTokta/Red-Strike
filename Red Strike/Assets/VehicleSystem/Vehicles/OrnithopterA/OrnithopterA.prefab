@@ -360,6 +360,8 @@ GameObject:
   - component: {fileID: 4781528735690942694}
   - component: {fileID: -2782345837604721076}
   - component: {fileID: 8976528752417907667}
+  - component: {fileID: -7383160287662194403}
+  - component: {fileID: 2943530171432822899}
   m_Layer: 6
   m_Name: OrnithopterA
   m_TagString: Vehicle
@@ -460,6 +462,8 @@ MonoBehaviour:
   loiterRadius: 40
   maxBankAngle: 100
   bankSpeed: 30
+  parameterVariance: 0.1
+  altitudeVariance: 5
   barrelPoint_A: {fileID: 4048120109068463893}
   barrelPoint_B: {fileID: 6325185049854432032}
   barrelTransform: {fileID: 4166134374202684327}
@@ -484,6 +488,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 8.058117, y: 0.8789258, z: 4.9957886}
   m_Center: {x: -0.045124054, y: 0.77452874, z: -1.1807823}
+--- !u!114 &-7383160287662194403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5287324194948881211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &2943530171432822899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5287324194948881211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 0, g: 0.30980393, b: 1, a: 1}
 --- !u!1 &6668774594517803529
 GameObject:
   m_ObjectHideFlags: 0

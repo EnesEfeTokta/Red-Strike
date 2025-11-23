@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 5887222033232122100}
   - component: {fileID: 4300293253737379183}
   - component: {fileID: 5635271485289339787}
+  - component: {fileID: -1365047618099618624}
+  - component: {fileID: -6850382634200757815}
   m_Layer: 6
   m_Name: TankCombat
   m_TagString: Vehicle
@@ -239,6 +241,37 @@ MonoBehaviour:
   barrelTransform_A: {fileID: 3078767204428068666}
   barrelTransform_B: {fileID: 131032920175620672}
   barrelPoint: {fileID: 3199288987291660335}
+--- !u!114 &-1365047618099618624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203167273799240367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &-6850382634200757815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6203167273799240367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 0, g: 0.30980393, b: 1, a: 1}
 --- !u!1 &6459648109048817068
 GameObject:
   m_ObjectHideFlags: 0

@@ -4834,6 +4834,8 @@ GameObject:
   - component: {fileID: 4241142022791166180}
   - component: {fileID: 2380932260903897159}
   - component: {fileID: 3156332687679153054}
+  - component: {fileID: 2123463027437707053}
+  - component: {fileID: 2706938469962528233}
   m_Layer: 6
   m_Name: TankHeavyA
   m_TagString: Vehicle
@@ -4972,3 +4974,34 @@ MonoBehaviour:
   barrelTransform_A: {fileID: 3558465198071365023}
   barrelTransform_B: {fileID: 7985542087437650708}
   barrelPoint: {fileID: 3123314548533229251}
+--- !u!114 &2123463027437707053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4738606819510252206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &2706938469962528233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4738606819510252206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 0, g: 0.30980393, b: 1, a: 1}

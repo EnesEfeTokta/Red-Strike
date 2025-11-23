@@ -24,6 +24,8 @@ namespace InputController
         public VehiclesHUDController vehiclesHUDController;
         public BuildingHUDController buildingHUDController;
 
+        private SelectionHighlighter currentSelectionHighlighter;
+
         private void Start()
         {
             mainCamera = Camera.main;
@@ -67,7 +69,7 @@ namespace InputController
             if (pickedElement == null) return false;
             if (pickedElement.name == "root-container") return false;
             if (pickedElement == gameUIDocument.rootVisualElement) return false;
-            
+
             return true;
         }
 
@@ -89,6 +91,10 @@ namespace InputController
                         return;
                     }
                     GameObject placedObject = Instantiate(selectedBuilding.buildingPrefab, spawnPosition, Quaternion.identity);
+
+                    if (placedObject.GetComponent<SelectionHighlighter>() == null)
+                        placedObject.AddComponent<SelectionHighlighter>();
+
                     placedObjects.Add(placedObject);
 
                     if (buildingCounts.ContainsKey(selectedBuilding.buildingName))
@@ -128,6 +134,14 @@ namespace InputController
 
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
             {
+                DeselectAll();
+
+                currentSelectionHighlighter = hitInfo.collider.GetComponent<SelectionHighlighter>();
+
+
+                if (currentSelectionHighlighter != null)
+                    currentSelectionHighlighter.EnableHighlight();
+
                 switch (hitInfo.collider.tag)
                 {
                     case "Build":
@@ -142,6 +156,7 @@ namespace InputController
 
                     case "Vehicle":
                         Vehicle clickedVehicle = hitInfo.collider.GetComponent<Vehicle>();
+
                         if (vehiclesHUDController != null) vehiclesHUDController.ShowVehicleDetails(clickedVehicle);
                         buildingHUDController.HideBuildingDetails();
                         break;
@@ -161,6 +176,12 @@ namespace InputController
         {
             if (vehiclesHUDController != null) vehiclesHUDController.HideVehicleDetails();
             buildingHUDController.HideBuildingDetails();
+
+            if (currentSelectionHighlighter != null)
+            {
+                currentSelectionHighlighter.DisableHighlight();
+                currentSelectionHighlighter = null;
+            }
         }
 
         private bool IsPositionValid(Vector3 position)
