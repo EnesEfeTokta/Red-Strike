@@ -351,7 +351,7 @@ MonoBehaviour:
   moveSpeed: 20
   fastMoveMultiplier: 2
   smoothTime: 0.1
-  zoomSpeed: 5
+  zoomSpeed: 140
   minZoom: 5
   maxZoom: 50
   rotateSpeed: 15
