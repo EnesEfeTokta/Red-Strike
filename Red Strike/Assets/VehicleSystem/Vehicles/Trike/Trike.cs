@@ -7,6 +7,7 @@ namespace VehicleSystem.Vehicles.Trike
     {
         public Transform barrelTransform;
         public Transform barrelPoint;
+        public ParticleSystem muzzleFlashEffect;
 
         protected override void Update()
         {
@@ -26,6 +27,7 @@ namespace VehicleSystem.Vehicles.Trike
             {
                 GameObject bullet = Instantiate(bulletPrefab, barrelPoint.position, barrelPoint.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletSpeed;
+                muzzleFlashEffect.Play();
 
                 currentAmmunition--;
             }

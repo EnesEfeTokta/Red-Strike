@@ -5,6 +5,7 @@ namespace VehicleSystem.Vehicles.Infantry
     public class Infantry : GroundVehicle
     {
         public Transform barrelTransform;
+        public ParticleSystem muzzleFlashEffect;
 
         protected override void FireShot()
         {
@@ -14,6 +15,8 @@ namespace VehicleSystem.Vehicles.Infantry
             {
                 GameObject bullet = Instantiate(bulletPrefab, barrelTransform.position, barrelTransform.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelTransform.forward * bulletSpeed;
+                
+                muzzleFlashEffect.Play();
                 
                 currentAmmunition--;
             }

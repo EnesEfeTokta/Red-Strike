@@ -240,6 +240,7 @@ MonoBehaviour:
   targetObject: {fileID: 0}
   smokeEffect: {fileID: 6418470162434313253}
   barrelTransform: {fileID: 5232528194509916586}
+  muzzleFlashEffect: {fileID: 2526253149622914439}
 --- !u!195 &6205490724256130415
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -682,5 +683,10 @@ PrefabInstance:
 --- !u!4 &2526253149603514567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+  m_PrefabInstance: {fileID: 2526253149603385921}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2526253149622914439 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
   m_PrefabInstance: {fileID: 2526253149603385921}
   m_PrefabAsset: {fileID: 0}
