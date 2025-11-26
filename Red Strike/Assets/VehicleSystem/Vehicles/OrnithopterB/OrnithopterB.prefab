@@ -469,6 +469,8 @@ MonoBehaviour:
   barrelPoint_A: {fileID: 5423563311206911032}
   barrelPoint_B: {fileID: 3703916012389026853}
   barrelTransform: {fileID: 7442443419788325056}
+  muzzleFlashEffect_A: {fileID: 3305473121763289850}
+  muzzleFlashEffect_B: {fileID: 2556295512537200851}
 --- !u!65 &6800533291024861918
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -756,6 +758,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
   m_PrefabInstance: {fileID: 2556295512518715157}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &2556295512537200851 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+  m_PrefabInstance: {fileID: 2556295512518715157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3305473121747957052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -840,6 +847,11 @@ PrefabInstance:
 --- !u!4 &3305473121748086714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+  m_PrefabInstance: {fileID: 3305473121747957052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3305473121763289850 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
   m_PrefabInstance: {fileID: 3305473121747957052}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7070246878021864195

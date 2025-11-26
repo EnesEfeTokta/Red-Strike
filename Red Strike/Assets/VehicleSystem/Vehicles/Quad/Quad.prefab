@@ -255,6 +255,8 @@ MonoBehaviour:
   barrelTransform_B: {fileID: 8411674165249010950}
   barrelPoint_A: {fileID: 7815611630938202165}
   barrelPoint_B: {fileID: 4024077173830389784}
+  muzzleFlashEffect_A: {fileID: 6530692227220039361}
+  muzzleFlashEffect_B: {fileID: 2894073490027751320}
 --- !u!65 &644802133139982732
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -779,6 +781,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+--- !u!198 &2894073490027751320 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+  m_PrefabInstance: {fileID: 2894073490042042462}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2894073490041905880 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
@@ -865,6 +872,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+--- !u!198 &6530692227220039361 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}
+  m_PrefabInstance: {fileID: 6530692227238525191}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6530692227238388609 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: f47cb9d88f4bc6c4bb7441e962c2c1a5, type: 3}

@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:engine="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/GameHUDStyles.uss?fileID=7433441132597879392&amp;guid=76481a45a761bb147acf1059658d7ddd&amp;type=3#GameHUDStyles" />
+    
+    <ui:VisualElement name="root-container" style="width: 100%; height: 100%; background-color: #736b6bff;">
+        <ui:Button text="Play" name="play-game-button" class="action-button" />
+        <ui:Button text="Quit" name="quit-button" class="action-button" />
+        <ui:Button text="Info" name="info-button" class="action-button" />
+    </ui:VisualElement>
+
+</ui:UXML>

@@ -8,6 +8,7 @@ namespace VehicleSystem.Vehicles.TankHeavyA
         public Transform barrelTransform_A;
         public Transform barrelTransform_B;
         public Transform barrelPoint;
+        public ParticleSystem muzzleFlashEffect;
 
         protected override void Update()
         {
@@ -27,7 +28,8 @@ namespace VehicleSystem.Vehicles.TankHeavyA
             {
                 GameObject bullet = Instantiate(bulletPrefab, barrelPoint.position, barrelPoint.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletSpeed;
-
+                muzzleFlashEffect.Play();
+                
                 currentAmmunition--;
             }
             else if (currentAmmunition <= 0)
