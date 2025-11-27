@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BuildingPlacement
 {
-    [CreateAssetMenu(fileName = "NewBuilding", menuName = "Building")]
+    [CreateAssetMenu(fileName = "NewBuilding", menuName = "Buildings/BuildingsDatabase")]
     public class Building : ScriptableObject
     {
         public string buildingName;

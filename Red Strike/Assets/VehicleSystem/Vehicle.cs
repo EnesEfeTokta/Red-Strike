@@ -20,6 +20,6 @@ namespace VehicleSystem
         public float bulletSpeed;
         public float reloadTime;
 
-        public GameObject bulletPrefab;
+        public AmmunitionSystem.Ammunition ammunition;
     }
 }

@@ -26,7 +26,7 @@ namespace VehicleSystem.Vehicles
         protected float bulletDamage = 10f;
         protected float bulletSpeed = 20f;
         protected float reloadTime = 1.5f;
-        protected GameObject bulletPrefab;
+        protected AmmunitionSystem.Ammunition ammunition;
 
         protected bool isMoving = false;
         protected bool isAttacking = false;
@@ -48,7 +48,7 @@ namespace VehicleSystem.Vehicles
             bulletDamage = vehicleData.bulletDamage;
             bulletSpeed = vehicleData.bulletSpeed;
             reloadTime = vehicleData.reloadTime;
-            bulletPrefab = vehicleData.bulletPrefab;
+            ammunition = vehicleData.ammunition;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
             stoppingDistance = vehicleData.stoppingDistance;

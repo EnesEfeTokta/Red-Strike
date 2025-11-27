@@ -26,4 +26,4 @@ MonoBehaviour:
   bulletDamage: 20
   bulletSpeed: 50
   reloadTime: 1
-  bulletPrefab: {fileID: 8699837864222786616, guid: beb6ea4d225a14c4184713da1d56a3e3, type: 3}
+  ammunition: {fileID: 11400000, guid: 22882af161684a743a3776628e0fe427, type: 2}

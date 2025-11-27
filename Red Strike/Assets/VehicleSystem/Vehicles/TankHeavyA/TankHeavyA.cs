@@ -24,9 +24,9 @@ namespace VehicleSystem.Vehicles.TankHeavyA
         {
             base.FireShot();
 
-            if (bulletPrefab != null && currentAmmunition > 0)
+            if (ammunition != null && currentAmmunition > 0)
             {
-                GameObject bullet = Instantiate(bulletPrefab, barrelPoint.position, barrelPoint.rotation);
+                GameObject bullet = Instantiate(ammunition.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletSpeed;
                 muzzleFlashEffect.Play();
                 

@@ -14,13 +14,23 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicBullet
 
         private void Start()
         {
+            Debug.Log($"Firing bullet with Damage: {ammunitionData.damage}, Speed: {ammunitionData.speed}");
             rb.linearVelocity = transform.forward * ammunitionData.speed;
-            Destroy(gameObject, ammunitionData.range / ammunitionData.speed);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            Destroy(gameObject);
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log($"Hit enemy: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
+                // Here you would typically access the enemy's health component and apply damage
+            }
+
+            if (ownerVehicle.gameObject != collision.gameObject)
+            {
+                Debug.Log("Bullet collided with: " + collision.gameObject.name);
+                Destroy(gameObject);
+            }
         }
     }
 }

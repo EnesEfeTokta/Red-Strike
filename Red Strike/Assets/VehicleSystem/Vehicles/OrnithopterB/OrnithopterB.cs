@@ -25,13 +25,13 @@ namespace VehicleSystem.Vehicles.OrnithopterB
         {
             base.FireShot();
 
-            if (bulletPrefab != null && currentAmmunition > 0)
+            if (ammunition != null && currentAmmunition > 0)
             {
-                GameObject bullet_A = Instantiate(bulletPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
+                GameObject bullet_A = Instantiate(ammunition.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
                 bullet_A.GetComponent<Rigidbody>().linearVelocity = barrelPoint_A.forward * bulletSpeed;
                 muzzleFlashEffect_A.Play();
 
-                GameObject bullet_B = Instantiate(bulletPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
+                GameObject bullet_B = Instantiate(ammunition.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
                 bullet_B.GetComponent<Rigidbody>().linearVelocity = barrelPoint_B.forward * bulletSpeed;
                 muzzleFlashEffect_B.Play();
 

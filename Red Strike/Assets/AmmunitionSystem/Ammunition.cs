@@ -10,5 +10,6 @@ namespace AmmunitionSystem
         public float damage;
         public float speed;
         public float range;
+        public GameObject ammunitionPrefab;
     }
 }
