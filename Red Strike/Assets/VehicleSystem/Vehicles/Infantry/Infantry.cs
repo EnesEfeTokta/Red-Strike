@@ -11,9 +11,9 @@ namespace VehicleSystem.Vehicles.Infantry
         {
             base.FireShot();
             
-            if (bulletPrefab != null && currentAmmunition > 0)
+            if (ammunition != null && currentAmmunition > 0)
             {
-                GameObject bullet = Instantiate(bulletPrefab, barrelTransform.position, barrelTransform.rotation);
+                GameObject bullet = Instantiate(ammunition.ammunitionPrefab, barrelTransform.position, barrelTransform.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelTransform.forward * bulletSpeed;
                 
                 muzzleFlashEffect.Play();
