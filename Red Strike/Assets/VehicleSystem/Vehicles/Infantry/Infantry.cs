@@ -15,6 +15,7 @@ namespace VehicleSystem.Vehicles.Infantry
             {
                 GameObject bullet = Instantiate(ammunition.ammunitionPrefab, barrelTransform.position, barrelTransform.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelTransform.forward * bulletSpeed;
+                bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
                 
                 muzzleFlashEffect.Play();
                 

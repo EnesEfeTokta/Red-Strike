@@ -38626,7 +38626,6 @@ GameObject:
   - component: {fileID: 9121617190121544589}
   - component: {fileID: 2293753302773689924}
   - component: {fileID: 1376801267528177256}
-  - component: {fileID: 8814227815217592895}
   m_Layer: 0
   m_Name: WFX_Explosion LandMine
   m_TagString: Untagged
@@ -43436,19 +43435,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8814227815217592895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5560542776148128134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnlyDeactivate: 0
 --- !u!1 &5706539488319380662
 GameObject:
   m_ObjectHideFlags: 0
@@ -53324,7 +53310,7 @@ MonoBehaviour:
   barrelTransform_A: {fileID: 3078767204428068666}
   barrelTransform_B: {fileID: 131032920175620672}
   barrelPoint: {fileID: 3199288987291660335}
-  muzzleFlashEffect: {fileID: 0}
+  muzzleFlashEffect: {fileID: 2293753302773689924}
 --- !u!114 &-1365047618099618624
 MonoBehaviour:
   m_ObjectHideFlags: 0

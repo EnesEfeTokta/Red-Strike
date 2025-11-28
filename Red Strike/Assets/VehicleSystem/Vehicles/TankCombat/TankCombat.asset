@@ -26,4 +26,4 @@ MonoBehaviour:
   bulletDamage: 20
   bulletSpeed: 5
   reloadTime: 1
-  ammunition: {fileID: 11400000, guid: 22882af161684a743a3776628e0fe427, type: 2}
+  ammunition: {fileID: 11400000, guid: 5ef71d70c67b5bc4d964f8e71bd005ea, type: 2}
