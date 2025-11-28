@@ -28,6 +28,8 @@ namespace VehicleSystem.Vehicles.TankHeavyB
             {
                 GameObject bullet = Instantiate(ammunition.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
                 bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletSpeed;
+                bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
+                
                 muzzleFlashEffect.Play();
 
                 currentAmmunition--;
