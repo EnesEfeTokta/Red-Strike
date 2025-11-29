@@ -4,6 +4,7 @@ namespace VehicleSystem.Vehicles.Quad
 {
     public class Quad : GroundVehicle
     {
+        [Header("Quad Settings")]
         public Transform barrelTransform_A;
         public Transform barrelTransform_B;
         public Transform barrelPoint_A;
@@ -25,21 +26,21 @@ namespace VehicleSystem.Vehicles.Quad
         {
             base.FireShot();
 
-            if (ammunition != null && currentAmmunition > 0)
+            if (ammunition_bullet != null && currentAmmunition_bullet > 0)
             {
-                GameObject bullet_A = Instantiate(ammunition.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
-                bullet_A.GetComponent<Rigidbody>().linearVelocity = barrelPoint_A.forward * bulletSpeed;
+                GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
+                bullet_A.GetComponent<Rigidbody>().linearVelocity = barrelPoint_A.forward * bulletAmmunitionSettings.ammunition.speed;
                 bullet_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
                 muzzleFlashEffect_A.Play();
 
-                GameObject bullet_B = Instantiate(ammunition.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
-                bullet_B.GetComponent<Rigidbody>().linearVelocity = barrelPoint_B.forward * bulletSpeed;
+                GameObject bullet_B = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
+                bullet_B.GetComponent<Rigidbody>().linearVelocity = barrelPoint_B.forward * bulletAmmunitionSettings.ammunition.speed;
                 bullet_B.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
                 muzzleFlashEffect_B.Play();
 
-                currentAmmunition -= 2;
+                currentAmmunition_bullet -= 2;
             }
-            else if (currentAmmunition <= 0)
+            else if (currentAmmunition_bullet <= 0)
             {
                 Debug.Log("Out of ammunition, reloading...");
                 ReloadAmmunition();

@@ -1,14 +1,16 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.AI;
+using AmmunitionSystem;
 
 namespace VehicleSystem.Vehicles
 {
     [RequireComponent(typeof(BoxCollider))]
     public class Vehicle : MonoBehaviour
     {
+        [Header("Vehicle Data")]
         public VehicleSystem.Vehicle vehicleData;
 
+        [Header("Runtime Settings")]
         public GameObject targetObject;
         public ParticleSystem smokeEffect;
 
@@ -20,13 +22,17 @@ namespace VehicleSystem.Vehicles
         protected float maxHealth;
         protected float stoppingDistance;
 
-        protected int maxAmmunition = 30;
-        protected int currentAmmunition = 30;
-        protected int reloadCounter = 0;
-        protected float bulletDamage = 10f;
-        protected float bulletSpeed = 20f;
-        protected float reloadTime = 1.5f;
-        protected AmmunitionSystem.Ammunition ammunition;
+        // Bullet ammunition
+        protected int currentAmmunition_bullet = 30;
+        protected int reloadCounter_bullet = 0;
+        protected Ammunition ammunition_bullet;
+        protected VehicleAmmunition bulletAmmunitionSettings;
+
+        // Rocket ammunition
+        protected int currentAmmunition_rocket = 10;
+        protected int reloadCounter_rocket = 0;
+        protected Ammunition ammunition_rocket;
+        protected VehicleAmmunition rocketAmmunitionSettings;
 
         protected bool isMoving = false;
         protected bool isAttacking = false;
@@ -41,22 +47,39 @@ namespace VehicleSystem.Vehicles
         {
             speed = vehicleData.speed;
             turnSpeed = vehicleData.turnSpeed;
-            fuelLevel = vehicleData.fuelCapacity;
-            fuelConsumptionRate = vehicleData.fuelConsumptionRate;
-            maxAmmunition = vehicleData.maxAmmunition;
-            currentAmmunition = maxAmmunition;
-            bulletDamage = vehicleData.bulletDamage;
-            bulletSpeed = vehicleData.bulletSpeed;
-            reloadTime = vehicleData.reloadTime;
-            ammunition = vehicleData.ammunition;
+            stoppingDistance = vehicleData.stoppingDistance;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
-            stoppingDistance = vehicleData.stoppingDistance;
+            fuelLevel = vehicleData.fuelCapacity;
+            fuelConsumptionRate = vehicleData.fuelConsumptionRate;
+
+            if (vehicleData.ammunitionSettings != null)
+            {
+                foreach (var ammoSetting in vehicleData.ammunitionSettings)
+                {
+                    if (ammoSetting.isEnabled)
+                    {
+                        switch (ammoSetting.ammunitionType)
+                        {
+                            case AmmunitionType.Bullet:
+                                bulletAmmunitionSettings = ammoSetting;
+                                ammunition_bullet = ammoSetting.ammunition;
+                                currentAmmunition_bullet = ammoSetting.maxAmmunition;
+                                break;
+                            case AmmunitionType.Rocket:
+                                rocketAmmunitionSettings = ammoSetting;
+                                ammunition_rocket = ammoSetting.ammunition;
+                                currentAmmunition_rocket = ammoSetting.maxAmmunition;
+                                break;
+                        }
+                    }
+                }
+            }
         }
 
         public (string, float, int, int, float) GetVehicleStatus()
         {
-            return (vehicleData.vehicleName, fuelLevel, currentAmmunition, maxAmmunition, health);
+            return (vehicleData.vehicleName, fuelLevel, currentAmmunition_bullet, bulletAmmunitionSettings.maxAmmunition, health);
         }
 
         public virtual void SetTargetEnemy(GameObject enemy)
@@ -130,7 +153,7 @@ namespace VehicleSystem.Vehicles
             while (isAttacking)
             {
                 FireShot();
-                yield return new WaitForSeconds(reloadTime);
+                yield return new WaitForSeconds(bulletAmmunitionSettings.reloadTime);
             }
         }
 
@@ -139,10 +162,15 @@ namespace VehicleSystem.Vehicles
             // Implement firing logic in derived classes
         }
 
+        protected virtual void LaunchRocket()
+        {
+            // Implement missile launching logic in derived classes
+        }
+
         protected virtual void ReloadAmmunition()
         {
-            reloadCounter++;
-            currentAmmunition = maxAmmunition;
+            reloadCounter_bullet++;
+            currentAmmunition_bullet = bulletAmmunitionSettings.maxAmmunition;
         }
     }
 }

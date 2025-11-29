@@ -1,10 +1,10 @@
 using UnityEngine;
-using VehicleSystem.Vehicles;
 
 namespace VehicleSystem.Vehicles.TankHeavyA
 {
     public class TankHeavyA : GroundVehicle
     {
+        [Header("Tank Heavy A Settings")]
         public Transform barrelTransform_A;
         public Transform barrelTransform_B;
         public Transform barrelPoint;
@@ -24,17 +24,17 @@ namespace VehicleSystem.Vehicles.TankHeavyA
         {
             base.FireShot();
 
-            if (ammunition != null && currentAmmunition > 0)
+            if (ammunition_bullet != null && currentAmmunition_bullet > 0)
             {
-                GameObject bullet = Instantiate(ammunition.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
-                bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletSpeed;
+                GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
+                bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletAmmunitionSettings.ammunition.speed;
                 bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
                 
                 muzzleFlashEffect.Play();
                 
-                currentAmmunition--;
+                currentAmmunition_bullet--;
             }
-            else if (currentAmmunition <= 0)
+            else if (currentAmmunition_bullet <= 0)
             {
                 Debug.Log("Out of ammunition, reloading...");
                 ReloadAmmunition();
