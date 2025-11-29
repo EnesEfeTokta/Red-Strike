@@ -14,7 +14,6 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
 
         private void Start()
         {
-            Debug.Log($"Firing bullet with Damage: {ammunitionData.damage}, Speed: {ammunitionData.speed}");
             rb.linearVelocity = transform.forward * ammunitionData.speed;
         }
 
@@ -28,7 +27,6 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
 
             if (ownerVehicle.gameObject != collision.gameObject)
             {
-                Debug.Log("Bullet collided with: " + collision.gameObject.name);
                 Destroy(gameObject);
             }
         }

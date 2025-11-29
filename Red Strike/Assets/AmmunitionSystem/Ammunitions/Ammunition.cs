@@ -6,5 +6,8 @@ namespace AmmunitionSystem.Ammunitions
     {
         public AmmunitionSystem.Ammunition ammunitionData;
         public VehicleSystem.Vehicles.Vehicle ownerVehicle;
+        public virtual void SetRocket(Transform targetTransform)
+        {
+        }
     }
 }

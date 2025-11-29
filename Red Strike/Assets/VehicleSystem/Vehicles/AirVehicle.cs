@@ -7,6 +7,7 @@ namespace VehicleSystem.Vehicles
         public float cruisingAltitude = 60f;
         public float attackAltitude = 20f;
         public float attackLobeRadius = 70f;
+        public float rocketRangeMultiplier = 3.0f;
         public float loiterRadius = 40f;
         public float maxBankAngle = 35f;
         public float bankSpeed = 4f;
@@ -26,6 +27,7 @@ namespace VehicleSystem.Vehicles
         private float effectiveSpeed;
         private float effectiveTurnSpeed;
         private float effectiveAttackRadius;
+        private float effectiveRocketRange;
         private float altitudeOffset;
 
         protected override void Start()
@@ -39,11 +41,15 @@ namespace VehicleSystem.Vehicles
             effectiveTurnSpeed = vehicleData.turnSpeed * Random.Range(1f - parameterVariance, 1f + parameterVariance);
             effectiveAttackRadius = attackLobeRadius * Random.Range(1f - parameterVariance, 1f + parameterVariance);
 
+            effectiveRocketRange = effectiveAttackRadius * rocketRangeMultiplier;
+
             altitudeOffset = Random.Range(-altitudeVariance, altitudeVariance);
         }
 
         protected override void Update()
         {
+            base.Update();
+
             switch (currentState)
             {
                 case AirState.TakingOff: HandleTakingOff(); break;
@@ -82,6 +88,11 @@ namespace VehicleSystem.Vehicles
 
             float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
 
+            if (distanceToTarget <= effectiveRocketRange)
+            {
+                CheckAndFireWeapons(distanceToTarget, fireRockets: true, fireBullets: false);
+            }
+
             if (distanceToTarget <= effectiveAttackRadius * 1.5f)
             {
                 Vector3 directionToTarget = (targetObject.transform.position - transform.position).normalized;
@@ -97,7 +108,7 @@ namespace VehicleSystem.Vehicles
 
         private void HandleAttacking()
         {
-            if (targetObject == null) { StopAttacking(); currentState = AirState.Loitering; return; }
+            if (targetObject == null) { currentState = AirState.Loitering; return; }
 
             Vector3 targetGroundPos = new Vector3(targetObject.transform.position.x, 0, targetObject.transform.position.z);
             Vector3 myGroundPos = new Vector3(transform.position.x, 0, transform.position.z);
@@ -121,16 +132,40 @@ namespace VehicleSystem.Vehicles
             float desiredAltitude = Mathf.Lerp(cruisingAltitude + altitudeOffset, attackAltitude + altitudeOffset, (facingRatio + 1) / 2f);
             orbitPoint.y = desiredAltitude;
 
-            if (facingRatio > 0.7f && Vector3.Distance(myGroundPos, targetGroundPos) < attackLobeRadius)
+            float dist = Vector3.Distance(transform.position, targetObject.transform.position);
+
+            if (facingRatio > 0.7f)
             {
-                if (!isAttacking) { StartAttacking(); }
+                // Mermi menzili: effectiveAttackRadius civarı
+                // Roket menzili: effectiveRocketRange
+                bool canFireBullets = dist < effectiveAttackRadius * 1.2f; // Biraz tolerans
+                bool canFireRockets = dist < effectiveRocketRange;
+
+                CheckAndFireWeapons(dist, canFireRockets, canFireBullets);
             }
-            else
+
+            if (facingRatio > 0.7f)
             {
-                if (isAttacking) { StopAttacking(); }
+                bool canFireBullets = dist < effectiveAttackRadius * 1.2f; // Biraz tolerans
+                bool canFireRockets = dist < effectiveRocketRange;
+
+                CheckAndFireWeapons(dist, canFireRockets, canFireBullets);
             }
 
             MoveAndLook(orbitPoint);
+        }
+
+        private void CheckAndFireWeapons(float distance, bool fireRockets, bool fireBullets)
+        {
+            // Hedefe yeterince dönük müyüz?
+            Vector3 dirToTarget = (targetObject.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, dirToTarget);
+
+            if (angle < 20f) // Eğer hedefe 20 derece içinde bakıyorsak
+            {
+                if (fireRockets) TryFireRockets();
+                if (fireBullets) TryFireBullets();
+            }
         }
 
         private void MoveAndLook(Vector3 targetPosition, float turnMultiplier = 0.25f)

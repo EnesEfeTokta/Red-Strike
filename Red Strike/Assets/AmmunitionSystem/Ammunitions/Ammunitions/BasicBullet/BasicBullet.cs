@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicBullet
+namespace AmmunitionSystem.Ammunitions.BasicBullet
 {
     [RequireComponent(typeof(Rigidbody))]
     public class BasicBullet : Ammunition
@@ -14,23 +14,24 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicBullet
 
         private void Start()
         {
-            Debug.Log($"Firing bullet with Damage: {ammunitionData.damage}, Speed: {ammunitionData.speed}");
             rb.linearVelocity = transform.forward * ammunitionData.speed;
+            
+            Destroy(gameObject, ammunitionData.lifetime);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject) return;
+            
+            if (collision.gameObject.CompareTag("Ammunition")) return;
+
             if (collision.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log($"Hit enemy: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-                // Here you would typically access the enemy's health component and apply damage
+                // collision.gameObject.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
             }
 
-            if (ownerVehicle.gameObject != collision.gameObject)
-            {
-                Debug.Log("Bullet collided with: " + collision.gameObject.name);
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 }
