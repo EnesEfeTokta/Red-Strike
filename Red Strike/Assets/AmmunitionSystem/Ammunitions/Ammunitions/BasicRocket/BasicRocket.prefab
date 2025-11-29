@@ -5053,6 +5053,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasicRocket
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c55d3227e1e80664b85bbbab7f559dfd, type: 3}
+      propertyPath: m_TagString
+      value: Ammunition
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -7511558181221131132, guid: c55d3227e1e80664b85bbbab7f559dfd, type: 3}
     - {fileID: -5754084199372789682, guid: c55d3227e1e80664b85bbbab7f559dfd, type: 3}
@@ -5131,10 +5135,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &-7221417610533484965
 MonoBehaviour:
@@ -5150,6 +5154,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammunitionData: {fileID: 11400000, guid: 7199de5af23451c4ca4d2919b6b44983, type: 2}
   ownerVehicle: {fileID: 0}
+  explosionEffectPrefab: {fileID: 100006, guid: 7c442b9b6852b8a4f93306f3d154d471, type: 3}
+  target: {fileID: 0}
+  speed: 20
+  rotationSpeed: 5
+  accelerationRate: 1.5
 --- !u!1001 &2066377962604646727
 PrefabInstance:
   m_ObjectHideFlags: 0

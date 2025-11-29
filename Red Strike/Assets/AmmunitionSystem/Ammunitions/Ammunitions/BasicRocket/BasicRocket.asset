@@ -17,4 +17,5 @@ MonoBehaviour:
   damage: 90
   speed: 40
   range: -1
+  lifetime: 10
   ammunitionPrefab: {fileID: 595683329615967435, guid: ab318667f38c4db4ebc5472f6d16eed0, type: 3}

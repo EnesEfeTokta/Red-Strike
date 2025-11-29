@@ -899,6 +899,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+      propertyPath: attackLobeRadius
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+      propertyPath: rocketRangeMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.576313

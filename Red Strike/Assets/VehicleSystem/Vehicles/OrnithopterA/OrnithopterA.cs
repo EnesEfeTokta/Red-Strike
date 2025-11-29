@@ -1,4 +1,5 @@
 using UnityEngine;
+using AmmunitionSystem.Ammunitions;
 
 namespace VehicleSystem.Vehicles.OrnithopterA
 {
@@ -18,7 +19,7 @@ namespace VehicleSystem.Vehicles.OrnithopterA
         {
             base.Update();
 
-            if (targetObject != null && isAttacking)
+            if (targetObject != null)
             {
                 LookAtTarget(targetObject.transform);
             }
@@ -26,49 +27,47 @@ namespace VehicleSystem.Vehicles.OrnithopterA
 
         protected override void FireShot()
         {
-            base.FireShot();
-
             if (ammunition_bullet != null && currentAmmunition_bullet > 0)
             {
-                GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
-                bullet_A.GetComponent<Rigidbody>().linearVelocity = barrelPoint_A.forward * bulletAmmunitionSettings.ammunition.speed;
-                bullet_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
+                if(targetObject == null) return;
 
-                muzzleFlashEffect_A.Play();
-
-                GameObject bullet_B = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
-                bullet_B.GetComponent<Rigidbody>().linearVelocity = barrelPoint_B.forward * bulletAmmunitionSettings.ammunition.speed;
-                bullet_B.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
+                Vector3 directionA = (targetObject.transform.position - barrelPoint_A.position).normalized;
+                Quaternion rotationA = Quaternion.LookRotation(directionA);
                 
-                muzzleFlashEffect_B.Play();
+                GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_A.position, rotationA);
+                var bulletScriptA = bullet_A.GetComponent<Ammunition>();
+                if(bulletScriptA != null) bulletScriptA.ownerVehicle = this;
+
+                if(muzzleFlashEffect_A != null) muzzleFlashEffect_A.Play();
+
+                Vector3 directionB = (targetObject.transform.position - barrelPoint_B.position).normalized;
+                Quaternion rotationB = Quaternion.LookRotation(directionB);
+
+                GameObject bullet_B = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_B.position, rotationB);
+                
+                var bulletScriptB = bullet_B.GetComponent<Ammunition>();
+                if(bulletScriptB != null) bulletScriptB.ownerVehicle = this;
+                
+                if(muzzleFlashEffect_B != null) muzzleFlashEffect_B.Play();
 
                 currentAmmunition_bullet -= 2;
-            }
-            else if (currentAmmunition_bullet <= 0)
-            {
-                Debug.Log("Out of ammunition, reloading...");
-                ReloadAmmunition();
             }
         }
 
         protected override void LaunchRocket()
         {
-            base.LaunchRocket();
-
             if (ammunition_rocket != null)
             {
                 GameObject rocket_A = Instantiate(ammunition_rocket.ammunitionPrefab, rocketLaunchPoint_A.position, rocketLaunchPoint_A.rotation);
-                rocket_A.GetComponent<Rigidbody>().linearVelocity = rocketLaunchPoint_A.forward * rocketAmmunitionSettings.ammunition.speed;
-                rocket_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
+                rocket_A.GetComponent<Ammunition>().ownerVehicle = this;
+                rocket_A.GetComponent<Ammunition>().SetRocket(targetObject.transform);
 
                 GameObject rocket_B = Instantiate(ammunition_rocket.ammunitionPrefab, rocketLaunchPoint_B.position, rocketLaunchPoint_B.rotation);
-                rocket_B.GetComponent<Rigidbody>().linearVelocity = rocketLaunchPoint_B.forward * rocketAmmunitionSettings.ammunition.speed;
-                rocket_B.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
+                rocket_B.GetComponent<Ammunition>().ownerVehicle = this;
+                rocket_B.GetComponent<Ammunition>().SetRocket(targetObject.transform);
+
                 currentAmmunition_rocket -= 2;
-            }
-            else
-            {
-                Debug.Log("No rockets available to launch.");
+                RocketObjectVisibility(false);
             }
         }
 
@@ -80,11 +79,21 @@ namespace VehicleSystem.Vehicles.OrnithopterA
             barrelTransform.localRotation = Quaternion.Slerp(barrelTransform.localRotation, targetLocalRotation, Time.deltaTime * turnSpeed);
         }
 
+        protected override void ReloadRocketAmmunition()
+        {
+            base.ReloadRocketAmmunition();
+            RocketObjectVisibility(true);
+            Debug.Log("Rockets Reloaded");
+        }
+
         private void RocketObjectVisibility(bool isVisible)
         {
-            foreach (GameObject rocket in rocketObject)
+            if (rocketObject != null)
             {
-                rocket.SetActive(isVisible);
+                foreach (GameObject rocket in rocketObject)
+                {
+                    if (rocket != null) rocket.SetActive(isVisible);
+                }
             }
         }
     }

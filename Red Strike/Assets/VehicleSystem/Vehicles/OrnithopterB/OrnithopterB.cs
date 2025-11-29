@@ -15,7 +15,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
         {
             base.Update();
 
-            if (targetObject != null && isAttacking)
+            if (targetObject != null)
             {
                 LookAtTarget(targetObject.transform);
             }

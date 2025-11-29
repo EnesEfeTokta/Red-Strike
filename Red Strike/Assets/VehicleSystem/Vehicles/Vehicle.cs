@@ -27,16 +27,16 @@ namespace VehicleSystem.Vehicles
         protected int reloadCounter_bullet = 0;
         protected Ammunition ammunition_bullet;
         protected VehicleAmmunition bulletAmmunitionSettings;
+        protected float bulletCooldownTimer = 0f;
 
         // Rocket ammunition
         protected int currentAmmunition_rocket = 10;
         protected int reloadCounter_rocket = 0;
         protected Ammunition ammunition_rocket;
         protected VehicleAmmunition rocketAmmunitionSettings;
+        protected float rocketCooldownTimer = 0f;
 
         protected bool isMoving = false;
-        protected bool isAttacking = false;
-        private Coroutine attackCoroutine;
 
         protected virtual void Start()
         {
@@ -82,6 +82,13 @@ namespace VehicleSystem.Vehicles
             return (vehicleData.vehicleName, fuelLevel, currentAmmunition_bullet, bulletAmmunitionSettings.maxAmmunition, health);
         }
 
+        public (int currentRockets, int maxRockets) GetRocketStatus()
+        {
+            if (rocketAmmunitionSettings != null)
+                return (currentAmmunition_rocket, rocketAmmunitionSettings.maxAmmunition);
+            return (0, 0);
+        }
+
         public virtual void SetTargetEnemy(GameObject enemy)
         {
             if (fuelLevel <= 0) return;
@@ -92,6 +99,8 @@ namespace VehicleSystem.Vehicles
 
         protected virtual void Update()
         {
+            if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
+            if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
         }
 
         protected virtual void ConsumeFuel()
@@ -105,14 +114,14 @@ namespace VehicleSystem.Vehicles
 
         protected virtual void LookAtTarget()
         {
-             if (targetObject == null) return;
-             Vector3 direction = (targetObject.transform.position - transform.position).normalized;
-             direction.y = 0;
-             if (direction != Vector3.zero)
-             {
-                 Quaternion lookRotation = Quaternion.LookRotation(direction);
-                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
-             }
+            if (targetObject == null) return;
+            Vector3 direction = (targetObject.transform.position - transform.position).normalized;
+            direction.y = 0;
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
+            }
         }
 
         protected virtual void UpdateSmokeEffect()
@@ -129,31 +138,42 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        protected virtual void StartAttacking()
+        public virtual void TryFireBullets()
         {
-            isAttacking = true;
-            if (attackCoroutine == null)
+            if (bulletAmmunitionSettings == null || !bulletAmmunitionSettings.isEnabled) return;
+
+            if (bulletCooldownTimer <= 0)
             {
-                attackCoroutine = StartCoroutine(AttackRoutine());
+                if (currentAmmunition_bullet > 0)
+                {
+                    FireShot();
+                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime; // Ateşleme hızı
+                }
+                else
+                {
+                    ReloadAmmunition();
+                    // Reload süresini ekleyebilirsin, şimdilik ateşleme hızını ekliyorum
+                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime * 2;
+                }
             }
         }
 
-        protected virtual void StopAttacking()
+        public virtual void TryFireRockets()
         {
-            isAttacking = false;
-            if (attackCoroutine != null)
-            {
-                StopCoroutine(attackCoroutine);
-                attackCoroutine = null;
-            }
-        }
+            if (rocketAmmunitionSettings == null || !rocketAmmunitionSettings.isEnabled) return;
 
-        protected virtual IEnumerator AttackRoutine()
-        {
-            while (isAttacking)
+            if (rocketCooldownTimer <= 0)
             {
-                FireShot();
-                yield return new WaitForSeconds(bulletAmmunitionSettings.reloadTime);
+                if (currentAmmunition_rocket > 0)
+                {
+                    LaunchRocket();
+                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime; // Roket bekleme süresi
+                }
+                else
+                {
+                    ReloadRocketAmmunition();
+                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime * 2;
+                }
             }
         }
 
@@ -169,8 +189,15 @@ namespace VehicleSystem.Vehicles
 
         protected virtual void ReloadAmmunition()
         {
-            reloadCounter_bullet++;
             currentAmmunition_bullet = bulletAmmunitionSettings.maxAmmunition;
+        }
+
+        protected virtual void ReloadRocketAmmunition()
+        {
+            if (rocketAmmunitionSettings != null)
+            {
+                currentAmmunition_rocket = rocketAmmunitionSettings.maxAmmunition;
+            }
         }
     }
 }
