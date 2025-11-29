@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b19e548f46bcef448895e524e04b721, type: 3}
+  m_Name: BasicRocket
+  m_EditorClassIdentifier: 
+  ammunitionType: 2
+  ammunitionName: Basic Rocket
+  damage: 90
+  speed: 40
+  range: -1
+  ammunitionPrefab: {fileID: 595683329615967435, guid: ab318667f38c4db4ebc5472f6d16eed0, type: 3}
