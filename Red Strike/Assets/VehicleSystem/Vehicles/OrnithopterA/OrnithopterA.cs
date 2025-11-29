@@ -9,9 +9,15 @@ namespace VehicleSystem.Vehicles.OrnithopterA
         public Transform barrelPoint_A;
         public Transform barrelPoint_B;
         public Transform barrelTransform;
+
+        [Header("Muzzle Flash Effects")]
         public ParticleSystem muzzleFlashEffect_A;
         public ParticleSystem muzzleFlashEffect_B;
-        public GameObject[] rocketObject;
+
+        [Header("Rocket Settings")]
+        public GameObject[] rocketObjects;
+
+        [Header("Launch Points")]
         public Transform rocketLaunchPoint_A;
         public Transform rocketLaunchPoint_B;
 
@@ -88,9 +94,9 @@ namespace VehicleSystem.Vehicles.OrnithopterA
 
         private void RocketObjectVisibility(bool isVisible)
         {
-            if (rocketObject != null)
+            if (rocketObjects != null)
             {
-                foreach (GameObject rocket in rocketObject)
+                foreach (GameObject rocket in rocketObjects)
                 {
                     if (rocket != null) rocket.SetActive(isVisible);
                 }

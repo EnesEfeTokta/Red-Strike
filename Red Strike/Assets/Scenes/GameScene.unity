@@ -891,7 +891,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1477491037
+--- !u!1001 &1180023427
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -899,63 +899,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: attackLobeRadius
-      value: 50
+    - target: {fileID: 5848915433920635072, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
+      propertyPath: m_Name
+      value: OrnithopterB
       objectReference: {fileID: 0}
-    - target: {fileID: -2782345837604721076, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: rocketRangeMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.576313
+      value: 8.426697
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.00000047683716
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -62.8
+      value: -65.12383
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4442516632743243454, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+    - target: {fileID: 9215832435080281461, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5287324194948881211, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
-      propertyPath: m_Name
-      value: OrnithopterA
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a35a82b670e35ac4aa3594152075595d, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
 --- !u!1 &1556403729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,4 +1224,4 @@ SceneRoots:
   - {fileID: 422005012}
   - {fileID: 117385835}
   - {fileID: 1772906554}
-  - {fileID: 1477491037}
+  - {fileID: 1180023427}
