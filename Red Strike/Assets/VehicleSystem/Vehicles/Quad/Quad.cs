@@ -9,8 +9,6 @@ namespace VehicleSystem.Vehicles.Quad
         public Transform barrelTransform_B;
         public Transform barrelPoint_A;
         public Transform barrelPoint_B;
-        public ParticleSystem muzzleFlashEffect_A;
-        public ParticleSystem muzzleFlashEffect_B;
 
         protected override void Update()
         {
@@ -26,25 +24,13 @@ namespace VehicleSystem.Vehicles.Quad
         {
             base.FireShot();
 
-            if (ammunition_bullet != null && currentAmmunition_bullet > 0)
-            {
-                GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
-                bullet_A.GetComponent<Rigidbody>().linearVelocity = barrelPoint_A.forward * bulletAmmunitionSettings.ammunition.speed;
-                bullet_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-                muzzleFlashEffect_A.Play();
+            GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
+            bullet_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
 
-                GameObject bullet_B = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
-                bullet_B.GetComponent<Rigidbody>().linearVelocity = barrelPoint_B.forward * bulletAmmunitionSettings.ammunition.speed;
-                bullet_B.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-                muzzleFlashEffect_B.Play();
+            GameObject bullet_B = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
+            bullet_B.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
 
-                currentAmmunition_bullet -= 2;
-            }
-            else if (currentAmmunition_bullet <= 0)
-            {
-                Debug.Log("Out of ammunition, reloading...");
-                ReloadAmmunition();
-            }
+            currentAmmunition_bullet -= 2;
         }
 
         private void LookAtTarget(Transform target)

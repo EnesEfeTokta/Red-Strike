@@ -8,7 +8,6 @@ namespace VehicleSystem.Vehicles.TankHeavyB
         public Transform barrelTransform_A;
         public Transform barrelTransform_B;
         public Transform barrelPoint;
-        public ParticleSystem muzzleFlashEffect;
 
         protected override void Update()
         {
@@ -24,21 +23,10 @@ namespace VehicleSystem.Vehicles.TankHeavyB
         {
             base.FireShot();
 
-            if (ammunition_bullet != null && currentAmmunition_bullet > 0)
-            {
-                GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
-                bullet.GetComponent<Rigidbody>().linearVelocity = barrelPoint.forward * bulletAmmunitionSettings.ammunition.speed;
-                bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-                
-                muzzleFlashEffect.Play();
+            GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
+            bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
 
-                currentAmmunition_bullet--;
-            }
-            else if (currentAmmunition_bullet <= 0)
-            {
-                Debug.Log("Out of ammunition, reloading...");
-                ReloadAmmunition();
-            }
+            currentAmmunition_bullet--;
         }
 
         private void LookAtTarget(Transform target)

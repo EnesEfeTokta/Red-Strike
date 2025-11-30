@@ -7,24 +7,18 @@ namespace VehicleSystem.Vehicles.OrnithopterB
     public class OrnithopterB : AirVehicle
     {
         [Header("Ornithopter B Settings")]
-        public Transform barrelPoint_A;
-        public Transform barrelPoint_B;
+        [Header("Bullet Settings")]
+        public Transform[] barrelPoints;
         public Transform barrelTransform;
-
-        [Header("Muzzle Flash Effects")]
-        public ParticleSystem muzzleFlashEffect_A;
-        public ParticleSystem muzzleFlashEffect_B;
 
         [Header("Rocket Settings")]
         [Tooltip("Sıralama: 0=SolA, 1=SolB, 2=SağA, 3=SağB")]
         public GameObject[] rocketObjects;
-        
+
         [Header("Launch Points")]
-        public Transform rocketLaunchLeftPoint_A;
-        public Transform rocketLaunchLeftPoint_B;
+        public Transform[] rocketLaunchLeftPoints;
         [Space]
-        public Transform rocketLaunchRightPoint_A;
-        public Transform rocketLaunchRightPoint_B;
+        public Transform[] rocketLaunchRightPoints;
 
         private bool isFiringSalvo = false;
 
@@ -40,29 +34,23 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
         protected override void FireShot()
         {
-            if (ammunition_bullet != null && currentAmmunition_bullet > 0)
+            for (int i = 0; i < barrelPoints.Length; i++)
             {
-                if(targetObject == null) return;
+                Transform barrelPoint = barrelPoints[i];
 
-                Vector3 directionA = (targetObject.transform.position - barrelPoint_A.position).normalized;
-                Quaternion rotationA = Quaternion.LookRotation(directionA);
-                CreateBullet(barrelPoint_A.position, rotationA);
-                if(muzzleFlashEffect_A != null) muzzleFlashEffect_A.Play();
-
-                Vector3 directionB = (targetObject.transform.position - barrelPoint_B.position).normalized;
-                Quaternion rotationB = Quaternion.LookRotation(directionB);
-                CreateBullet(barrelPoint_B.position, rotationB);
-                if(muzzleFlashEffect_B != null) muzzleFlashEffect_B.Play();
-
-                currentAmmunition_bullet -= 2;
+                Vector3 direction = (targetObject.transform.position - barrelPoint.position).normalized;
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                CreateBullet(barrelPoint.position, rotation);
             }
+
+            currentAmmunition_bullet -= 2;
         }
 
         private void CreateBullet(Vector3 pos, Quaternion rot)
         {
             GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, pos, rot);
             var bulletScript = bullet.GetComponent<Ammunition>();
-            if(bulletScript != null) bulletScript.ownerVehicle = this;
+            if (bulletScript != null) bulletScript.ownerVehicle = this;
         }
 
         protected override void LaunchRocket()
@@ -78,8 +66,8 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
             if (currentAmmunition_rocket >= 2 && targetObject != null)
             {
-                FireSingleRocket(rocketLaunchLeftPoint_A);
-                FireSingleRocket(rocketLaunchLeftPoint_B);
+                FireSingleRocket(rocketLaunchLeftPoints[0]);
+                FireSingleRocket(rocketLaunchLeftPoints[1]);
 
                 SetRocketVisualInternal(0, false);
                 SetRocketVisualInternal(1, false);
@@ -91,15 +79,15 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
             if (currentAmmunition_rocket >= 2 && targetObject != null)
             {
-                FireSingleRocket(rocketLaunchRightPoint_A);
-                FireSingleRocket(rocketLaunchRightPoint_B);
+                FireSingleRocket(rocketLaunchRightPoints[0]);
+                FireSingleRocket(rocketLaunchRightPoints[1]);
 
                 SetRocketVisualInternal(2, false);
                 SetRocketVisualInternal(3, false);
 
                 currentAmmunition_rocket -= 2;
             }
-            
+
             isFiringSalvo = false;
         }
 
@@ -127,7 +115,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
         protected override void ReloadRocketAmmunition()
         {
             base.ReloadRocketAmmunition();
-            
+
             RocketObjectVisibility(true);
             Debug.Log("Ornithopter B: Rockets Reloaded");
         }

@@ -4,6 +4,7 @@ namespace VehicleSystem.Vehicles
 {
     public class AirVehicle : Vehicle
     {
+        [Header("Air Combat Settings")]
         public float cruisingAltitude = 60f;
         public float attackAltitude = 20f;
         public float attackLobeRadius = 70f;

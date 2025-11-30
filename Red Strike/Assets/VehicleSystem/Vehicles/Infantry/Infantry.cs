@@ -6,27 +6,39 @@ namespace VehicleSystem.Vehicles.Infantry
     {
         [Header("Infantry Settings")]
         public Transform barrelTransform;
-        public ParticleSystem muzzleFlashEffect;
+        public Transform barrelPoint;
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (targetObject != null)
+            {
+                LookAtTarget(targetObject.transform);
+            }
+        }
 
         protected override void FireShot()
         {
             base.FireShot();
-            
-            if (ammunition_bullet != null && currentAmmunition_bullet > 0)
-            {
-                GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, barrelTransform.position, barrelTransform.rotation);
-                bullet.GetComponent<Rigidbody>().linearVelocity = barrelTransform.forward * bulletAmmunitionSettings.ammunition.speed;
-                bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-                
-                muzzleFlashEffect.Play();
-                
-                currentAmmunition_bullet--;
-            }
-            else if (currentAmmunition_bullet <= 0)
-            {
-                Debug.Log("Out of ammunition, reloading...");
-                ReloadAmmunition();
-            }
+
+            GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
+            bullet.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
+
+            currentAmmunition_bullet--;
+        }
+
+        private void LookAtTarget(Transform target)
+        {
+            Vector3 directionToTarget = target.position - barrelTransform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            Vector3 localTargetEuler = (Quaternion.Inverse(transform.rotation) * targetRotation).eulerAngles;
+
+            float targetX = localTargetEuler.x;
+
+            Quaternion newLocalRotation = Quaternion.Euler(targetX, 0, 0);
+
+            barrelTransform.localRotation = Quaternion.Slerp(barrelTransform.localRotation, newLocalRotation, Time.deltaTime * turnSpeed);
         }
 
         public void Defend()

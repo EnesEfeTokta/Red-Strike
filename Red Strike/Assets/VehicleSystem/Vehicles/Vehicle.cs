@@ -14,6 +14,10 @@ namespace VehicleSystem.Vehicles
         public GameObject targetObject;
         public ParticleSystem smokeEffect;
 
+        [Header("Muzzle Flash Settings")]
+        public ParticleSystem[] muzzleFlashEffects;
+        public Light[] muzzleFlashLights;
+
         protected float speed;
         protected float turnSpeed;
         protected float fuelLevel;
@@ -147,12 +151,15 @@ namespace VehicleSystem.Vehicles
                 if (currentAmmunition_bullet > 0)
                 {
                     FireShot();
-                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime; // Ateşleme hızı
+
+                    EnableMuzzleFlashEffects();
+                    Invoke("DisableMuzzleFlashLights", 0.1f);
+
+                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime;
                 }
                 else
                 {
                     ReloadAmmunition();
-                    // Reload süresini ekleyebilirsin, şimdilik ateşleme hızını ekliyorum
                     bulletCooldownTimer = bulletAmmunitionSettings.reloadTime * 2;
                 }
             }
@@ -167,12 +174,46 @@ namespace VehicleSystem.Vehicles
                 if (currentAmmunition_rocket > 0)
                 {
                     LaunchRocket();
-                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime; // Roket bekleme süresi
+
+                    EnableMuzzleFlashEffects();
+                    Invoke("DisableMuzzleFlashLights", 0.1f);
+
+                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime;
                 }
                 else
                 {
                     ReloadRocketAmmunition();
                     rocketCooldownTimer = rocketAmmunitionSettings.reloadTime * 2;
+                }
+            }
+        }
+
+        private void EnableMuzzleFlashEffects()
+        {
+            foreach (var effect in muzzleFlashEffects)
+            {
+                if (effect != null)
+                {
+                    effect.Play();
+                }
+            }
+
+            foreach (var light in muzzleFlashLights)
+            {
+                if (light != null)
+                {
+                    light.enabled = true;
+                }
+            }
+        }
+
+        private void DisableMuzzleFlashLights()
+        {
+            foreach (var light in muzzleFlashLights)
+            {
+                if (light != null)
+                {
+                    light.enabled = false;
                 }
             }
         }

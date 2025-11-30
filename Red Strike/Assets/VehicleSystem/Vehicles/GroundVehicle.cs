@@ -10,7 +10,7 @@ namespace VehicleSystem.Vehicles
         private NavMeshAgent agent;
 
         [Header("Ground Combat Settings")]
-        [Tooltip("Agent'ın durma mesafesinden bağımsız olarak roket atabileceği maksimum mesafe.")]
+        // Agent'ın durma mesafesinden bağımsız olarak roket atabileceği maksimum mesafe.
         public float rocketAttackRange = 40f; 
 
         protected override void Start()
@@ -18,12 +18,10 @@ namespace VehicleSystem.Vehicles
             base.Start();
 
             agent = GetComponent<NavMeshAgent>();
+            
             agent.speed = vehicleData.speed;
-            
             agent.stoppingDistance = vehicleData.stoppingDistance; 
-            
             agent.angularSpeed = vehicleData.turnSpeed;
-            
             agent.updateRotation = false; 
         }
 
