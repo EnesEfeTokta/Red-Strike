@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Collections;
 using AmmunitionSystem;
+using System.Linq;
+using BuildingPlacement.Buildings;
 
 namespace VehicleSystem.Vehicles
 {
@@ -14,9 +15,14 @@ namespace VehicleSystem.Vehicles
         public GameObject targetObject;
         public ParticleSystem smokeEffect;
 
+        [Header("Muzzle Flash Settings")]
+        public ParticleSystem[] muzzleFlashEffects;
+        public Light[] muzzleFlashLights;
+
         protected float speed;
         protected float turnSpeed;
         protected float fuelLevel;
+        protected float maxFuel;
         protected float fuelConsumptionRate;
         protected float health;
         protected float maxHealth;
@@ -38,6 +44,9 @@ namespace VehicleSystem.Vehicles
 
         protected bool isMoving = false;
 
+        protected GameObject nearestEnergyTower;
+        protected bool isRefueling = false;
+
         protected virtual void Start()
         {
             Setup();
@@ -50,7 +59,8 @@ namespace VehicleSystem.Vehicles
             stoppingDistance = vehicleData.stoppingDistance;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
-            fuelLevel = vehicleData.fuelCapacity;
+            maxFuel = vehicleData.fuelCapacity;
+            fuelLevel = maxFuel;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
 
             if (vehicleData.ammunitionSettings != null)
@@ -112,16 +122,21 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        protected virtual void LookAtTarget()
+        protected void FindNearestEnergyTower()
         {
-            if (targetObject == null) return;
-            Vector3 direction = (targetObject.transform.position - transform.position).normalized;
-            direction.y = 0;
-            if (direction != Vector3.zero)
+            GameObject[] energyTowers = GameObject.FindGameObjectsWithTag("Build")
+                .Where(b => b.GetComponent<EnergyTower>() != null)
+                .ToArray();
+
+            if (energyTowers.Length == 0)
             {
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
+                nearestEnergyTower = null;
+                return;
             }
+
+            nearestEnergyTower = energyTowers
+                .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
+                .FirstOrDefault();
         }
 
         protected virtual void UpdateSmokeEffect()
@@ -147,12 +162,15 @@ namespace VehicleSystem.Vehicles
                 if (currentAmmunition_bullet > 0)
                 {
                     FireShot();
-                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime; // Ateşleme hızı
+
+                    EnableMuzzleFlashEffects();
+                    Invoke("DisableMuzzleFlashLights", 0.1f);
+
+                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime;
                 }
                 else
                 {
                     ReloadAmmunition();
-                    // Reload süresini ekleyebilirsin, şimdilik ateşleme hızını ekliyorum
                     bulletCooldownTimer = bulletAmmunitionSettings.reloadTime * 2;
                 }
             }
@@ -167,12 +185,46 @@ namespace VehicleSystem.Vehicles
                 if (currentAmmunition_rocket > 0)
                 {
                     LaunchRocket();
-                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime; // Roket bekleme süresi
+
+                    EnableMuzzleFlashEffects();
+                    Invoke("DisableMuzzleFlashLights", 0.1f);
+
+                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime;
                 }
                 else
                 {
                     ReloadRocketAmmunition();
                     rocketCooldownTimer = rocketAmmunitionSettings.reloadTime * 2;
+                }
+            }
+        }
+
+        private void EnableMuzzleFlashEffects()
+        {
+            foreach (var effect in muzzleFlashEffects)
+            {
+                if (effect != null)
+                {
+                    effect.Play();
+                }
+            }
+
+            foreach (var light in muzzleFlashLights)
+            {
+                if (light != null)
+                {
+                    light.enabled = true;
+                }
+            }
+        }
+
+        private void DisableMuzzleFlashLights()
+        {
+            foreach (var light in muzzleFlashLights)
+            {
+                if (light != null)
+                {
+                    light.enabled = false;
                 }
             }
         }

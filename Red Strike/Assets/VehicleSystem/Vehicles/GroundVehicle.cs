@@ -1,6 +1,6 @@
 using UnityEngine;
-using VehicleSystem;
 using UnityEngine.AI;
+using System.Linq;
 
 namespace VehicleSystem.Vehicles
 {
@@ -10,8 +10,7 @@ namespace VehicleSystem.Vehicles
         private NavMeshAgent agent;
 
         [Header("Ground Combat Settings")]
-        [Tooltip("Agent'ın durma mesafesinden bağımsız olarak roket atabileceği maksimum mesafe.")]
-        public float rocketAttackRange = 40f; 
+        public float rocketAttackRange = 40f;
 
         protected override void Start()
         {
@@ -19,23 +18,19 @@ namespace VehicleSystem.Vehicles
 
             agent = GetComponent<NavMeshAgent>();
             agent.speed = vehicleData.speed;
-            
-            agent.stoppingDistance = vehicleData.stoppingDistance; 
-            
+            agent.stoppingDistance = vehicleData.stoppingDistance;
             agent.angularSpeed = vehicleData.turnSpeed;
-            
-            agent.updateRotation = false; 
+            agent.updateRotation = false;
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (fuelLevel <= 0)
+            if (fuelLevel <= 0 || isRefueling)
             {
-                fuelLevel = 0;
-                if (agent.enabled && agent.isOnNavMesh) agent.isStopped = true;
-                isMoving = false;
+                HandleRefuelingState();
+                UpdateSmokeEffect();
                 return;
             }
 
@@ -50,7 +45,7 @@ namespace VehicleSystem.Vehicles
                 return;
             }
 
-            LookAtTarget();
+            LookAtTarget(targetObject.transform.position);
 
             if (agent.enabled && agent.isOnNavMesh)
             {
@@ -64,13 +59,77 @@ namespace VehicleSystem.Vehicles
                 }
                 else
                 {
-                    isMoving = false; 
+                    isMoving = false;
                 }
             }
-            
-            HandleCombat();
 
+            HandleCombat();
             UpdateSmokeEffect();
+        }
+
+        private void HandleRefuelingState()
+        {
+            isRefueling = true;
+
+            if (nearestEnergyTower == null)
+            {
+                FindNearestEnergyTower();
+
+                if (nearestEnergyTower == null)
+                {
+                    agent.isStopped = true;
+                    isMoving = false;
+                    return;
+                }
+            }
+
+            if (agent.enabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = false;
+
+                if (Vector3.Distance(agent.destination, nearestEnergyTower.transform.position) > 1.0f)
+                {
+                    agent.SetDestination(nearestEnergyTower.transform.position);
+                }
+
+                isMoving = true;
+                LookAtTarget(nearestEnergyTower.transform.position);
+
+                float distToTower = Vector3.Distance(transform.position, nearestEnergyTower.transform.position);
+
+                if (distToTower <= 10.0f)
+                {
+                    Refuel();
+                }
+            }
+        }
+
+        private void Refuel()
+        {
+            isMoving = false;
+            agent.isStopped = true;
+
+            fuelLevel += vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
+
+            if (fuelLevel >= vehicleData.fuelCapacity)
+            {
+                fuelLevel = vehicleData.fuelCapacity;
+                isRefueling = false;
+                nearestEnergyTower = null;
+                agent.ResetPath();
+            }
+        }
+
+        private void LookAtTarget(Vector3 targetPos)
+        {
+            Vector3 dirToTarget = (targetPos - transform.position).normalized;
+            dirToTarget.y = 0;
+
+            if (dirToTarget != Vector3.zero)
+            {
+                Quaternion lookRot = Quaternion.LookRotation(dirToTarget);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, vehicleData.turnSpeed * Time.deltaTime);
+            }
         }
 
         private void HandleCombat()
@@ -78,18 +137,22 @@ namespace VehicleSystem.Vehicles
             if (targetObject == null) return;
 
             float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
-            
-            Vector3 dirToTarget = (targetObject.transform.position - transform.position).normalized;
+
+            Vector3 dirToTarget = targetObject.transform.position - transform.position;
+            dirToTarget.y = 0;
+
+            if (dirToTarget.sqrMagnitude < 0.001f) dirToTarget = transform.forward;
+
             float angle = Vector3.Angle(transform.forward, dirToTarget);
-            
-            if (angle < 15f)
+
+            if (angle < 20f)
             {
                 if (distanceToTarget <= rocketAttackRange)
                 {
                     TryFireRockets();
                 }
 
-                if (distanceToTarget <= agent.stoppingDistance + 2.0f)
+                if (distanceToTarget <= agent.stoppingDistance + 5.0f)
                 {
                     TryFireBullets();
                 }

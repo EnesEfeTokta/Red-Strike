@@ -26,10 +26,10 @@ MonoBehaviour:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 30
-    reloadTime: 1
+    reloadTime: 0.1
     ammunition: {fileID: 11400000, guid: 22882af161684a743a3776628e0fe427, type: 2}
   - isEnabled: 1
     ammunitionType: 2
     maxAmmunition: 4
-    reloadTime: 15
+    reloadTime: 1
     ammunition: {fileID: 11400000, guid: 7199de5af23451c4ca4d2919b6b44983, type: 2}

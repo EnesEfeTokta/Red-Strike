@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vehicleName: Tank Combat
   vehicleType: 3
-  vehiclePrefab: {fileID: 6203167273799240367, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+  vehiclePrefab: {fileID: 6447347669934246735, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 5
@@ -26,5 +26,5 @@ MonoBehaviour:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 20
-    reloadTime: 5
+    reloadTime: 1
     ammunition: {fileID: 11400000, guid: 5ef71d70c67b5bc4d964f8e71bd005ea, type: 2}
