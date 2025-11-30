@@ -11,18 +11,18 @@ namespace VehicleSystem.Vehicles
 
         [Header("Ground Combat Settings")]
         // Agent'ın durma mesafesinden bağımsız olarak roket atabileceği maksimum mesafe.
-        public float rocketAttackRange = 40f; 
+        public float rocketAttackRange = 40f;
 
         protected override void Start()
         {
             base.Start();
 
             agent = GetComponent<NavMeshAgent>();
-            
+
             agent.speed = vehicleData.speed;
-            agent.stoppingDistance = vehicleData.stoppingDistance; 
+            agent.stoppingDistance = vehicleData.stoppingDistance;
             agent.angularSpeed = vehicleData.turnSpeed;
-            agent.updateRotation = false; 
+            agent.updateRotation = false;
         }
 
         protected override void Update()
@@ -62,10 +62,10 @@ namespace VehicleSystem.Vehicles
                 }
                 else
                 {
-                    isMoving = false; 
+                    isMoving = false;
                 }
             }
-            
+
             HandleCombat();
 
             UpdateSmokeEffect();
@@ -76,10 +76,17 @@ namespace VehicleSystem.Vehicles
             if (targetObject == null) return;
 
             float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
-            
+
             Vector3 dirToTarget = (targetObject.transform.position - transform.position).normalized;
+            dirToTarget.y = 0;
+
+            if (dirToTarget.sqrMagnitude < 0.001f)
+            {
+                dirToTarget = transform.forward;
+            }
+
             float angle = Vector3.Angle(transform.forward, dirToTarget);
-            
+
             if (angle < 15f)
             {
                 if (distanceToTarget <= rocketAttackRange)

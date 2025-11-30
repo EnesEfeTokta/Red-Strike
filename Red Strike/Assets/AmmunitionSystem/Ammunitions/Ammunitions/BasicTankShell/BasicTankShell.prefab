@@ -5053,6 +5053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammunitionData: {fileID: 11400000, guid: 5ef71d70c67b5bc4d964f8e71bd005ea, type: 2}
   ownerVehicle: {fileID: 0}
+  explosionEffectPrefab: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
 --- !u!54 &124524468962142996
 Rigidbody:
   m_ObjectHideFlags: 0

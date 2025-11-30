@@ -6,6 +6,8 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
     public class BasicTankShell : Ammunition
     {
         private Rigidbody rb;
+        public GameObject explosionEffectPrefab;
+        private bool hasExploded = false;
 
         private void Awake()
         {
@@ -15,20 +17,34 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
         private void Start()
         {
             rb.linearVelocity = transform.forward * ammunitionData.speed;
+            Destroy(gameObject, ammunitionData.lifetime);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (hasExploded) return;
+
+            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject)
+                return;
+
+            if (collision.gameObject.CompareTag("Ammunition"))
+                return;
+
+            hasExploded = true;
+
+            if (explosionEffectPrefab != null)
+            {
+                GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(explosionEffect, 2f);
+            }
+
             if (collision.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log($"Hit enemy: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-                // Here you would typically access the enemy's health component and apply damage
+                // örn: collision.gameObject.GetComponent<Health>()?.TakeDamage(ammunitionData.damage);
             }
 
-            if (ownerVehicle.gameObject != collision.gameObject)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 }

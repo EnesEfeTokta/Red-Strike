@@ -1091,6 +1091,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16678156d05891545a8ea7f1b6b4e7f6, type: 3}
+--- !u!1001 &1864555597
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2101350289756070789, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_Height
+      value: 11.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.426407
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -65.34317
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4592109742520757630, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447347669934246735, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+      propertyPath: m_Name
+      value: TankCombat
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1105,3 +1166,4 @@ SceneRoots:
   - {fileID: 422005012}
   - {fileID: 117385835}
   - {fileID: 1772906554}
+  - {fileID: 1864555597}

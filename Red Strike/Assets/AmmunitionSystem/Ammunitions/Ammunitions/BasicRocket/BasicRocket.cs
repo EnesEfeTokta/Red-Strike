@@ -18,7 +18,6 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            rb.useGravity = false;
             currentSpeed = speed * 0.5f;
         }
 
