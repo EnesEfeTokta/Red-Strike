@@ -12,15 +12,22 @@ namespace VehicleSystem.Vehicles
         public float loiterRadius = 40f;
         public float maxBankAngle = 35f;
         public float bankSpeed = 4f;
-        private enum AirState { TakingOff, Loitering, Engaging, Attacking }
+
+        private enum AirState { TakingOff, Loitering, Engaging, Attacking, Refueling }
         private AirState currentState = AirState.TakingOff;
+
+        private enum RefuelStage { Calculating, Approaching, Gliding, Landed }
+        private RefuelStage currentRefuelStage = RefuelStage.Calculating;
+
+        private Vector3 approachPoint;
+        private Vector3 landingPoint;
+
         private Vector3 loiterCenterPoint;
         private float loiterTimer = 0f;
         private bool orbitingRightLobe = true;
         private Vector3 attackAxis;
         private float currentBankAngleZ = 0f;
 
-        [Tooltip("Hız, dönüş hızı gibi değerlerdeki +/- sapma oranı. 0.1 = %10 (UNUTMA SAKIN)")]
         [Range(0, 0.5f)]
         public float parameterVariance = 0.1f;
         public float altitudeVariance = 5f;
@@ -35,21 +42,30 @@ namespace VehicleSystem.Vehicles
         {
             base.Start();
             loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
-
             loiterTimer = Random.Range(0f, 100f);
 
             effectiveSpeed = vehicleData.speed * Random.Range(1f - parameterVariance, 1f + parameterVariance);
             effectiveTurnSpeed = vehicleData.turnSpeed * Random.Range(1f - parameterVariance, 1f + parameterVariance);
             effectiveAttackRadius = attackLobeRadius * Random.Range(1f - parameterVariance, 1f + parameterVariance);
-
             effectiveRocketRange = effectiveAttackRadius * rocketRangeMultiplier;
-
             altitudeOffset = Random.Range(-altitudeVariance, altitudeVariance);
         }
 
         protected override void Update()
         {
             base.Update();
+
+            if (fuelLevel <= 0 || isRefueling)
+            {
+                if (currentState != AirState.Refueling)
+                {
+                    currentState = AirState.Refueling;
+                    currentRefuelStage = RefuelStage.Calculating;
+                }
+                
+                HandleRefueling();
+                return;
+            }
 
             switch (currentState)
             {
@@ -58,15 +74,138 @@ namespace VehicleSystem.Vehicles
                 case AirState.Engaging: HandleEngaging(); break;
                 case AirState.Attacking: HandleAttacking(); break;
             }
+            
             isMoving = true;
             ConsumeFuel();
         }
 
+        private void HandleRefueling()
+        {
+            isRefueling = true;
+
+            if (nearestEnergyTower == null)
+            {
+                FindNearestEnergyTower();
+                if (nearestEnergyTower == null) return;
+            }
+
+            switch (currentRefuelStage)
+            {
+                case RefuelStage.Calculating:
+                    CalculateLandingPath();
+                    break;
+                case RefuelStage.Approaching:
+                    ExecuteApproach();
+                    break;
+                case RefuelStage.Gliding:
+                    ExecuteGlide();
+                    break;
+                case RefuelStage.Landed:
+                    ExecuteRefuel();
+                    break;
+            }
+        }
+
+        private void CalculateLandingPath()
+        {
+            Vector3 towerPos = nearestEnergyTower.transform.position;
+            Vector3 myPos = transform.position;
+
+            Vector3 directionFromTower = (myPos - towerPos).normalized;
+            landingPoint = towerPos + (directionFromTower * 10f);
+            landingPoint.y = towerPos.y;
+
+            approachPoint = landingPoint + (directionFromTower * 80f);
+            approachPoint.y = cruisingAltitude;
+
+            currentRefuelStage = RefuelStage.Approaching;
+        }
+
+        private void ExecuteApproach()
+        {
+            MoveAndLook(approachPoint, 1.0f);
+
+            if (Vector3.Distance(transform.position, approachPoint) < 5.0f)
+            {
+                currentRefuelStage = RefuelStage.Gliding;
+            }
+        }
+
+        private void ExecuteGlide()
+        {
+            isMoving = true;
+            float glideSpeed = effectiveSpeed * 0.6f;
+
+            transform.position = Vector3.MoveTowards(transform.position, landingPoint, glideSpeed * Time.deltaTime);
+
+            Vector3 vectorToLanding = landingPoint - transform.position;
+            Vector3 flatDirection = vectorToLanding;
+            flatDirection.y = 0;
+
+            if (flatDirection != Vector3.zero)
+            {
+                // A) Hedefe doğrudan bakış (Burun aşağı)
+                Quaternion diveRotation = Quaternion.LookRotation(vectorToLanding);
+                
+                // B) Ufka düz bakış (Yere paralel)
+                Quaternion flatRotation = Quaternion.LookRotation(flatDirection);
+
+                // C) Yükseklik farkı
+                float altitude = transform.position.y - landingPoint.y;
+
+                // D) Karışım Oranı: 
+                float blendFactor = Mathf.Clamp01(altitude / 15.0f);
+
+                // Rotasyonları karıştır: Yere yaklaştıkça burnunu kaldırır
+                Quaternion targetRot = Quaternion.Lerp(flatRotation, diveRotation, blendFactor);
+
+                // Yumuşak geçiş uygula
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 3f);
+            }
+            
+            currentBankAngleZ = Mathf.Lerp(currentBankAngleZ, 0, Time.deltaTime * bankSpeed);
+
+            // 3. Yere temas kontrolü
+            if (Vector3.Distance(transform.position, landingPoint) < 0.5f)
+            {
+                currentRefuelStage = RefuelStage.Landed;
+            }
+        }
+
+        private void ExecuteRefuel()
+        {
+            isMoving = false;
+
+            Vector3 euler = transform.rotation.eulerAngles;
+            transform.rotation = Quaternion.Euler(0, euler.y, 0);
+
+            fuelLevel += vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
+
+            if (fuelLevel >= vehicleData.fuelCapacity)
+            {
+                fuelLevel = vehicleData.fuelCapacity;
+                isRefueling = false;
+                nearestEnergyTower = null;
+
+                currentState = AirState.TakingOff;
+
+                Vector3 takeoffDir = (transform.position - nearestEnergyTower.transform.position).normalized;
+                Vector3 takeoffPoint = transform.position + (takeoffDir * 60f); // İleri
+                takeoffPoint.y = cruisingAltitude; // Ve yukarı
+                
+                loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
+            }
+        }
+
         private void HandleTakingOff()
         {
-            Vector3 takeoffTarget = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
-            MoveAndLook(takeoffTarget, 1.0f);
-            if (transform.position.y >= cruisingAltitude - 1.0f)
+            Vector3 takeoffTarget = transform.position + (transform.forward * 50f) + (Vector3.up * 20f);
+            
+            if (takeoffTarget.y > cruisingAltitude) takeoffTarget.y = cruisingAltitude;
+
+            MoveAndLook(takeoffTarget, 0.5f);
+
+            if (transform.position.y >= cruisingAltitude - 5.0f)
             {
                 currentState = AirState.Loitering;
                 loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
@@ -116,53 +255,37 @@ namespace VehicleSystem.Vehicles
 
             Vector3 focalPointRight = targetGroundPos + attackAxis * effectiveAttackRadius;
             Vector3 focalPointLeft = targetGroundPos - attackAxis * effectiveAttackRadius;
-
             Vector3 currentFocalPoint = orbitingRightLobe ? focalPointRight : focalPointLeft;
 
             Vector3 fromTargetToMe = myGroundPos - targetGroundPos;
             float sideDot = Vector3.Dot(fromTargetToMe, attackAxis);
-            if (orbitingRightLobe && sideDot < 0) { orbitingRightLobe = false; }
-            else if (!orbitingRightLobe && sideDot > 0) { orbitingRightLobe = true; }
+            if (orbitingRightLobe && sideDot < 0) orbitingRightLobe = false;
+            else if (!orbitingRightLobe && sideDot > 0) orbitingRightLobe = true;
 
             Vector3 directionToFocal = (currentFocalPoint - myGroundPos).normalized;
             Vector3 tangentOffset = Vector3.Cross(directionToFocal, Vector3.up);
             Vector3 orbitPoint = currentFocalPoint + tangentOffset * attackLobeRadius;
 
             float facingRatio = Vector3.Dot(transform.forward, (targetGroundPos - myGroundPos).normalized);
-
             float desiredAltitude = Mathf.Lerp(cruisingAltitude + altitudeOffset, attackAltitude + altitudeOffset, (facingRatio + 1) / 2f);
             orbitPoint.y = desiredAltitude;
-
             float dist = Vector3.Distance(transform.position, targetObject.transform.position);
 
             if (facingRatio > 0.7f)
             {
-                // Mermi menzili: effectiveAttackRadius civarı
-                // Roket menzili: effectiveRocketRange
-                bool canFireBullets = dist < effectiveAttackRadius * 1.2f; // Biraz tolerans
+                bool canFireBullets = dist < effectiveAttackRadius * 1.2f;
                 bool canFireRockets = dist < effectiveRocketRange;
-
                 CheckAndFireWeapons(dist, canFireRockets, canFireBullets);
             }
-
-            if (facingRatio > 0.7f)
-            {
-                bool canFireBullets = dist < effectiveAttackRadius * 1.2f; // Biraz tolerans
-                bool canFireRockets = dist < effectiveRocketRange;
-
-                CheckAndFireWeapons(dist, canFireRockets, canFireBullets);
-            }
-
             MoveAndLook(orbitPoint);
         }
 
         private void CheckAndFireWeapons(float distance, bool fireRockets, bool fireBullets)
         {
-            // Hedefe yeterince dönük müyüz?
             Vector3 dirToTarget = (targetObject.transform.position - transform.position).normalized;
             float angle = Vector3.Angle(transform.forward, dirToTarget);
 
-            if (angle < 20f) // Eğer hedefe 20 derece içinde bakıyorsak
+            if (angle < 20f)
             {
                 if (fireRockets) TryFireRockets();
                 if (fireBullets) TryFireBullets();
@@ -175,20 +298,13 @@ namespace VehicleSystem.Vehicles
             if (directionToTarget.sqrMagnitude > 0.01f)
             {
                 transform.position += transform.forward * effectiveSpeed * Time.deltaTime;
-
                 Vector3 localTargetDir = transform.InverseTransformDirection(directionToTarget);
-
                 float targetBankAngle = -localTargetDir.x * maxBankAngle;
-
                 currentBankAngleZ = Mathf.Lerp(currentBankAngleZ, targetBankAngle, Time.deltaTime * bankSpeed);
-
                 Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
-
                 Vector3 euler = targetLookRotation.eulerAngles;
                 euler.z = currentBankAngleZ;
-
                 Quaternion finalRotation = Quaternion.Euler(euler);
-
                 transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, Time.deltaTime * effectiveTurnSpeed * turnMultiplier);
             }
         }

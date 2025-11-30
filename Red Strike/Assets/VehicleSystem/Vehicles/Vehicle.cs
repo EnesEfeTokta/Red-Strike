@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Collections;
 using AmmunitionSystem;
+using System.Linq;
+using BuildingPlacement.Buildings;
 
 namespace VehicleSystem.Vehicles
 {
@@ -21,6 +22,7 @@ namespace VehicleSystem.Vehicles
         protected float speed;
         protected float turnSpeed;
         protected float fuelLevel;
+        protected float maxFuel;
         protected float fuelConsumptionRate;
         protected float health;
         protected float maxHealth;
@@ -42,6 +44,9 @@ namespace VehicleSystem.Vehicles
 
         protected bool isMoving = false;
 
+        protected GameObject nearestEnergyTower;
+        protected bool isRefueling = false;
+
         protected virtual void Start()
         {
             Setup();
@@ -54,7 +59,8 @@ namespace VehicleSystem.Vehicles
             stoppingDistance = vehicleData.stoppingDistance;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
-            fuelLevel = vehicleData.fuelCapacity;
+            maxFuel = vehicleData.fuelCapacity;
+            fuelLevel = maxFuel;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
 
             if (vehicleData.ammunitionSettings != null)
@@ -116,16 +122,21 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        protected virtual void LookAtTarget()
+        protected void FindNearestEnergyTower()
         {
-            if (targetObject == null) return;
-            Vector3 direction = (targetObject.transform.position - transform.position).normalized;
-            direction.y = 0;
-            if (direction != Vector3.zero)
+            GameObject[] energyTowers = GameObject.FindGameObjectsWithTag("Build")
+                .Where(b => b.GetComponent<EnergyTower>() != null)
+                .ToArray();
+
+            if (energyTowers.Length == 0)
             {
-                Quaternion lookRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
+                nearestEnergyTower = null;
+                return;
             }
+
+            nearestEnergyTower = energyTowers
+                .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
+                .FirstOrDefault();
         }
 
         protected virtual void UpdateSmokeEffect()
