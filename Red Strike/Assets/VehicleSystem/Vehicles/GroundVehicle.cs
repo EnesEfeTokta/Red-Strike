@@ -74,7 +74,6 @@ namespace VehicleSystem.Vehicles
             if (nearestEnergyTower == null)
             {
                 FindNearestEnergyTower();
-
                 if (nearestEnergyTower == null)
                 {
                     agent.isStopped = true;
@@ -87,7 +86,8 @@ namespace VehicleSystem.Vehicles
             {
                 agent.isStopped = false;
 
-                if (Vector3.Distance(agent.destination, nearestEnergyTower.transform.position) > 1.0f)
+                // Kuleye doğru git
+                if (Vector3.Distance(agent.destination, nearestEnergyTower.transform.position) > 2.0f)
                 {
                     agent.SetDestination(nearestEnergyTower.transform.position);
                 }
@@ -97,7 +97,9 @@ namespace VehicleSystem.Vehicles
 
                 float distToTower = Vector3.Distance(transform.position, nearestEnergyTower.transform.position);
 
-                if (distToTower <= 10.0f)
+                // DÜZELTME: Mesafeyi artırdık (10 -> 20). 
+                // Çünkü ilk araç kuleyi kapatırsa ikinci araç biraz uzakta kalsa bile dolum yapabilsin.
+                if (distToTower <= 20.0f) 
                 {
                     Refuel();
                 }
@@ -109,13 +111,29 @@ namespace VehicleSystem.Vehicles
             isMoving = false;
             agent.isStopped = true;
 
-            fuelLevel += vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
+            // 1. İstenen miktar
+            float requestedAmount = vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
 
-            if (fuelLevel >= vehicleData.fuelCapacity)
+            // 2. Kuleden al
+            float receivedAmount = 0f;
+            if (targetTowerScript != null)
             {
-                fuelLevel = vehicleData.fuelCapacity;
+                receivedAmount = targetTowerScript.GiveEnergy(requestedAmount);
+            }
+
+            // 3. Depoya ekle
+            fuelLevel += receivedAmount;
+
+            // 4. Çıkış Koşulları:
+            // - Depo dolduysa (fuelLevel >= Capacity)
+            // - VEYA Kule boşaldıysa (istedik ama 0 aldık: requested > 0 && received <= 0)
+            if (fuelLevel >= vehicleData.fuelCapacity || (requestedAmount > 0 && receivedAmount <= 0))
+            {
+                fuelLevel = Mathf.Min(fuelLevel, vehicleData.fuelCapacity);
+                
                 isRefueling = false;
-                nearestEnergyTower = null;
+                DisconnectFromTower(); // Kule kaydını sil
+                
                 agent.ResetPath();
             }
         }

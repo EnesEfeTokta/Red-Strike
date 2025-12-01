@@ -116,9 +116,9 @@ namespace UISystem
             else if (currentlySelectedBuilding is EnergyTower et)
             {
                 if (etCapacityLabel != null) 
-                    etCapacityLabel.text = $"Capacity: {et.CurrentCapacity}";
+                    etCapacityLabel.text = $"Capacity: {et.GetStatus().current:F0} / {et.GetStatus().max:F0}";
                 if (etDensityLabel != null) 
-                    etDensityLabel.text = $"Density: {et.Density}";
+                    etDensityLabel.text = $"Density: {et.GetStatus().count:F0} / {et.GetStatus().limit:F0}";
             }
         }
 
