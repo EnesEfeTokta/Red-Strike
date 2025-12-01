@@ -18,7 +18,7 @@ MonoBehaviour:
   speed: 20
   coverageAreaRadius: 20
   turnSpeed: 20
-  stoppingDistance: 5
+  stoppingDistance: 20
   maxHealth: 100
   fuelCapacity: 100
   fuelConsumptionRate: 0.7
@@ -26,5 +26,5 @@ MonoBehaviour:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 30
-    reloadTime: 1
+    reloadTime: 0.17
     ammunition: {fileID: 11400000, guid: 22882af161684a743a3776628e0fe427, type: 2}

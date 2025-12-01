@@ -47,6 +47,8 @@ namespace VehicleSystem.Vehicles
         protected GameObject nearestEnergyTower;
         protected bool isRefueling = false;
 
+        protected EnergyTower targetTowerScript;
+
         protected virtual void Start()
         {
             Setup();
@@ -122,21 +124,51 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        protected void FindNearestEnergyTower()
+        protected virtual void FindNearestEnergyTower()
         {
-            GameObject[] energyTowers = GameObject.FindGameObjectsWithTag("Build")
-                .Where(b => b.GetComponent<EnergyTower>() != null)
-                .ToArray();
+            // Etraftaki kuleleri bul
+            GameObject[] towers = GameObject.FindGameObjectsWithTag("Build");
 
-            if (energyTowers.Length == 0)
+            if (towers.Length == 0)
             {
                 nearestEnergyTower = null;
                 return;
             }
 
-            nearestEnergyTower = energyTowers
-                .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
-                .FirstOrDefault();
+            var bestTower = Enumerable.FirstOrDefault(
+                Enumerable.OrderBy(
+                    Enumerable.Where(
+                        Enumerable.Select(towers, t => t.GetComponent<EnergyTower>()),
+                        script => script != null && script.IsAvailable()
+                    ),
+                    script => Vector3.Distance(transform.position, script.transform.position)
+                )
+            );
+
+            if (bestTower != null)
+            {
+                if (bestTower.NewVehicleConnected(this))
+                {
+                    nearestEnergyTower = bestTower.gameObject;
+                    targetTowerScript = bestTower;
+                }
+                else
+                {
+                    // Yer kalmadıysa null yap
+                    nearestEnergyTower = null;
+                    targetTowerScript = null;
+                }
+            }
+        }
+
+        protected void DisconnectFromTower()
+        {
+            if (targetTowerScript != null)
+            {
+                targetTowerScript.VehicleDisconnected(this);
+                targetTowerScript = null;
+                nearestEnergyTower = null;
+            }
         }
 
         protected virtual void UpdateSmokeEffect()

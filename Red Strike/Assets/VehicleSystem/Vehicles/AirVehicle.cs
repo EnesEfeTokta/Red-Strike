@@ -62,7 +62,7 @@ namespace VehicleSystem.Vehicles
                     currentState = AirState.Refueling;
                     currentRefuelStage = RefuelStage.Calculating;
                 }
-                
+
                 HandleRefueling();
                 return;
             }
@@ -74,7 +74,7 @@ namespace VehicleSystem.Vehicles
                 case AirState.Engaging: HandleEngaging(); break;
                 case AirState.Attacking: HandleAttacking(); break;
             }
-            
+
             isMoving = true;
             ConsumeFuel();
         }
@@ -86,7 +86,11 @@ namespace VehicleSystem.Vehicles
             if (nearestEnergyTower == null)
             {
                 FindNearestEnergyTower();
-                if (nearestEnergyTower == null) return;
+
+                if (nearestEnergyTower == null)
+                {
+                    return;
+                }
             }
 
             switch (currentRefuelStage)
@@ -146,7 +150,7 @@ namespace VehicleSystem.Vehicles
             {
                 // A) Hedefe doğrudan bakış (Burun aşağı)
                 Quaternion diveRotation = Quaternion.LookRotation(vectorToLanding);
-                
+
                 // B) Ufka düz bakış (Yere paralel)
                 Quaternion flatRotation = Quaternion.LookRotation(flatDirection);
 
@@ -162,7 +166,7 @@ namespace VehicleSystem.Vehicles
                 // Yumuşak geçiş uygula
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 3f);
             }
-            
+
             currentBankAngleZ = Mathf.Lerp(currentBankAngleZ, 0, Time.deltaTime * bankSpeed);
 
             // 3. Yere temas kontrolü
@@ -179,28 +183,39 @@ namespace VehicleSystem.Vehicles
             Vector3 euler = transform.rotation.eulerAngles;
             transform.rotation = Quaternion.Euler(0, euler.y, 0);
 
-            fuelLevel += vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
+            float requestedAmount = vehicleData.fuelCapacity * 0.2f * Time.deltaTime; // TODO: Ayarlanabilir, ScriptableObject'tan çekilebilir
 
-            if (fuelLevel >= vehicleData.fuelCapacity)
+            float receivedAmount = 0f;
+            if (targetTowerScript != null)
             {
-                fuelLevel = vehicleData.fuelCapacity;
+                receivedAmount = targetTowerScript.GiveEnergy(requestedAmount);
+            }
+
+            fuelLevel += receivedAmount;
+
+            if (fuelLevel >= vehicleData.fuelCapacity || (requestedAmount > 0 && receivedAmount <= 0))
+            {
+                fuelLevel = Mathf.Min(fuelLevel, vehicleData.fuelCapacity);
                 isRefueling = false;
-                nearestEnergyTower = null;
+                DisconnectFromTower();
 
                 currentState = AirState.TakingOff;
 
-                Vector3 takeoffDir = (transform.position - nearestEnergyTower.transform.position).normalized;
-                Vector3 takeoffPoint = transform.position + (takeoffDir * 60f); // İleri
-                takeoffPoint.y = cruisingAltitude; // Ve yukarı
-                
+                Vector3 takeoffDir = transform.forward;
+
+                Vector3 takeoffPoint = transform.position + (takeoffDir * 60f);
+                takeoffPoint.y = cruisingAltitude;
+
                 loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
+
+                currentRefuelStage = RefuelStage.Calculating;
             }
         }
 
         private void HandleTakingOff()
         {
             Vector3 takeoffTarget = transform.position + (transform.forward * 50f) + (Vector3.up * 20f);
-            
+
             if (takeoffTarget.y > cruisingAltitude) takeoffTarget.y = cruisingAltitude;
 
             MoveAndLook(takeoffTarget, 0.5f);
