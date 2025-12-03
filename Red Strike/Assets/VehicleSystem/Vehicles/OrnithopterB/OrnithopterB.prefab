@@ -34938,15 +34938,15 @@ MonoBehaviour:
   muzzleFlashLights:
   - {fileID: 7471699319632300459}
   - {fileID: 3441073963759958482}
-  cruisingAltitude: 75
+  cruisingAltitude: 50
   attackAltitude: 2.4
   attackLobeRadius: 50
   rocketRangeMultiplier: 3
-  loiterRadius: 117
+  loiterRadius: 40
   maxBankAngle: 100
-  bankSpeed: 260
+  bankSpeed: 30
   parameterVariance: 0.12
-  altitudeVariance: 11
+  altitudeVariance: 6
   barrelPoints:
   - {fileID: 5423563311206911032}
   - {fileID: 3703916012389026853}
@@ -34997,7 +34997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
+  outlineWidth: 3
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
