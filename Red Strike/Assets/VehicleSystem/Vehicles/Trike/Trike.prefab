@@ -9905,8 +9905,6 @@ MonoBehaviour:
   rocketAttackRange: 40
   barrelTransform: {fileID: 6033592794117790598}
   barrelPoint: {fileID: 1820199072841553551}
-  muzzleFlashEffect: {fileID: 0}
-  muzzleFlashLight: {fileID: 0}
 --- !u!65 &2436856578806251895
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9942,7 +9940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
+  outlineWidth: 3
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

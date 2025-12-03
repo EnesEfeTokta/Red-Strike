@@ -29169,7 +29169,6 @@ MonoBehaviour:
   barrelTransform_A: {fileID: 3558465198071365023}
   barrelTransform_B: {fileID: 7985542087437650708}
   barrelPoint: {fileID: 3123314548533229251}
-  muzzleFlashEffect: {fileID: 8087049311471242793}
 --- !u!114 &2123463027437707053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29184,7 +29183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
+  outlineWidth: 3
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

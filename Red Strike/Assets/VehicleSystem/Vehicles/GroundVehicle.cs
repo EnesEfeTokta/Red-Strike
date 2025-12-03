@@ -86,7 +86,6 @@ namespace VehicleSystem.Vehicles
             {
                 agent.isStopped = false;
 
-                // Kuleye doğru git
                 if (Vector3.Distance(agent.destination, nearestEnergyTower.transform.position) > 2.0f)
                 {
                     agent.SetDestination(nearestEnergyTower.transform.position);
@@ -97,13 +96,13 @@ namespace VehicleSystem.Vehicles
 
                 float distToTower = Vector3.Distance(transform.position, nearestEnergyTower.transform.position);
 
-                // DÜZELTME: Mesafeyi artırdık (10 -> 20). 
-                // Çünkü ilk araç kuleyi kapatırsa ikinci araç biraz uzakta kalsa bile dolum yapabilsin.
                 if (distToTower <= 20.0f) 
                 {
                     Refuel();
                 }
             }
+
+            vehicleUI.SetVehicleStatusIconToRefueling();
         }
 
         private void Refuel()
@@ -112,7 +111,7 @@ namespace VehicleSystem.Vehicles
             agent.isStopped = true;
 
             // 1. İstenen miktar
-            float requestedAmount = vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
+            float requestedAmount = vehicleData.fuelCapacity * 0.2f * Time.deltaTime; // TODO: Sabit değer yerine ayarlanabilir yapılabilir, ScriptableObject'tan çekilebilir
 
             // 2. Kuleden al
             float receivedAmount = 0f;
@@ -132,9 +131,14 @@ namespace VehicleSystem.Vehicles
                 fuelLevel = Mathf.Min(fuelLevel, vehicleData.fuelCapacity);
                 
                 isRefueling = false;
-                DisconnectFromTower(); // Kule kaydını sil
+                DisconnectFromTower();
                 
                 agent.ResetPath();
+            }
+
+            if (fuelLevel > vehicleData.fuelCapacity / 4)
+            {
+                vehicleUI.ClearVehicleStatusIcon();
             }
         }
 

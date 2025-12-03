@@ -6,6 +6,7 @@ using BuildingPlacement.Buildings;
 namespace VehicleSystem.Vehicles
 {
     [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(VehicleUI))]
     public class Vehicle : MonoBehaviour
     {
         [Header("Vehicle Data")]
@@ -18,6 +19,10 @@ namespace VehicleSystem.Vehicles
         [Header("Muzzle Flash Settings")]
         public ParticleSystem[] muzzleFlashEffects;
         public Light[] muzzleFlashLights;
+
+        [Header("Energy Warning Settings")]
+        [Range(0f, 1f)]
+        public float lowEnergyThreshold = 0.3f; // %30'un altında uyarı
 
         protected float speed;
         protected float turnSpeed;
@@ -49,9 +54,13 @@ namespace VehicleSystem.Vehicles
 
         protected EnergyTower targetTowerScript;
 
+        protected VehicleUI vehicleUI;
+
         protected virtual void Start()
         {
+            vehicleUI = GetComponent<VehicleUI>();
             Setup();
+            UpdateVehicleStatusIcon();
         }
 
         private void Setup()
@@ -113,6 +122,8 @@ namespace VehicleSystem.Vehicles
         {
             if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
             if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
+            
+            UpdateVehicleStatusIcon();
         }
 
         protected virtual void ConsumeFuel()
@@ -124,9 +135,26 @@ namespace VehicleSystem.Vehicles
             }
         }
 
+        protected virtual void UpdateVehicleStatusIcon()
+        {
+            if (vehicleUI == null) return;
+
+            if (isRefueling)
+            {
+                vehicleUI.SetVehicleStatusIconToRefueling();
+            }
+            else if (fuelLevel <= maxFuel * lowEnergyThreshold)
+            {
+                vehicleUI.SetVehicleStatusIconToWarning();
+            }
+            else
+            {
+                vehicleUI.ClearVehicleStatusIcon();
+            }
+        }
+
         protected virtual void FindNearestEnergyTower()
         {
-            // Etraftaki kuleleri bul
             GameObject[] towers = GameObject.FindGameObjectsWithTag("Build");
 
             if (towers.Length == 0)
@@ -154,7 +182,6 @@ namespace VehicleSystem.Vehicles
                 }
                 else
                 {
-                    // Yer kalmadıysa null yap
                     nearestEnergyTower = null;
                     targetTowerScript = null;
                 }
