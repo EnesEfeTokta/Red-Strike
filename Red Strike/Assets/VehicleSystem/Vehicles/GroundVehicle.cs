@@ -152,7 +152,7 @@ namespace VehicleSystem.Vehicles
                 Quaternion lookRot = Quaternion.LookRotation(dirToTarget);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, vehicleData.turnSpeed * Time.deltaTime);
             }
-        }
+        } 
 
         private void HandleCombat()
         {
