@@ -215,6 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c758935046a67489542a05c26f0445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamId: 0
+  playerType: 0
   vehicleData: {fileID: 11400000, guid: b049ed01ebeaf174e82c98ba0beb4efa, type: 2}
   targetObject: {fileID: 0}
   smokeEffect: {fileID: 6418470162434313253}
@@ -291,9 +293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650cec5020a2d824390b2a1467f157c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningIcon: {fileID: 0}
-  refuelingIcon: {fileID: 0}
-  vehicleStatusIcon: {fileID: 0}
+  warningIcon: {fileID: 21300000, guid: 16226a473d4c20e4ab2b9a59d7d6e1cd, type: 3}
+  refuelingIcon: {fileID: 21300000, guid: df18adcb4e7a18e408cf2f8b48d22c32, type: 3}
+  vehicleStatusIcon: {fileID: 4785686242897834873}
 --- !u!1 &2526253149603484897
 GameObject:
   m_ObjectHideFlags: 0
