@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace BuildingPlacement.Buildings
 {
-    public class Building : MonoBehaviour
+    public class Building : Unit.Unit
     {
-        public PlayerType playerType;
         public Building buildingData;
         public ParticleSystem[] buildEffects;
 
@@ -27,10 +26,14 @@ namespace BuildingPlacement.Buildings
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Bullet"))
-            {
-                // Burada hasar hesaplaması yapılabilir.
-            }
+            var unit = collision.gameObject.GetComponent<Unit.Unit>();
+            if (unit == null)
+                return;
+
+            if (unit.teamId == teamId)
+                return;
+
+            Debug.Log($"Building {BuildingName} collided with unit: {collision.gameObject.name}");
         }
     }
 

@@ -21,7 +21,7 @@ MonoBehaviour:
   stoppingDistance: 15
   maxHealth: 100
   fuelCapacity: 100
-  fuelConsumptionRate: 20
+  fuelConsumptionRate: 5
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0

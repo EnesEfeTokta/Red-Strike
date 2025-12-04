@@ -1,4 +1,6 @@
 using UnityEngine;
+using VehicleSystem.Vehicles;
+using BuildingPlacement.Buildings;
 
 namespace AmmunitionSystem.Ammunitions.BasicBullet
 {
@@ -15,23 +17,27 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
         private void Start()
         {
             rb.linearVelocity = transform.forward * ammunitionData.speed;
-            
+
             Destroy(gameObject, ammunitionData.lifetime);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject) return;
-            
-            if (collision.gameObject.CompareTag("Ammunition")) return;
+            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject)
+                return;
 
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                Debug.Log($"Hit enemy: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-                // collision.gameObject.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
-            }
+            var unit = collision.gameObject.GetComponent<Unit.Unit>();
+            if (unit == null)
+                return;
+
+            if (unit.teamId == ownerVehicle.teamId)
+                return;
+
+            Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
+            // unit.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
 
             Destroy(gameObject);
         }
+
     }
 }
