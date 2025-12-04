@@ -7,7 +7,7 @@ namespace VehicleSystem.Vehicles
 {
     [RequireComponent(typeof(BoxCollider))]
     [RequireComponent(typeof(VehicleUI))]
-    public class Vehicle : MonoBehaviour
+    public class Vehicle : Unit.Unit
     {
         [Header("Vehicle Data")]
         public VehicleSystem.Vehicle vehicleData;

@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace BuildingPlacement.Buildings
 {
-    public class Building : MonoBehaviour
+    public class Building : Unit.Unit
     {
-        public PlayerType playerType;
         public Building buildingData;
         public ParticleSystem[] buildEffects;
 
