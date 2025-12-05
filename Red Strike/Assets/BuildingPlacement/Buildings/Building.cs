@@ -25,6 +25,20 @@ namespace BuildingPlacement.Buildings
             health = maxHealth;
         }
 
+        public override void TakeDamage(float damage)
+        {
+            health -= damage;
+            health = Mathf.Max(0, health);
+
+            Debug.Log($"Building {BuildingName} took {damage} damage. Remaining health: {health}");
+
+            if (health <= 0)
+            {
+                Debug.Log($"Building {BuildingName} destroyed.");
+                Destroy(gameObject);
+            }
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             var unit = collision.gameObject.GetComponent<Unit.Unit>();

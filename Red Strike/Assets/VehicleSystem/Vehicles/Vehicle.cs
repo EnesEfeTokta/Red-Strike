@@ -310,5 +310,19 @@ namespace VehicleSystem.Vehicles
                 currentAmmunition_rocket = rocketAmmunitionSettings.maxAmmunition;
             }
         }
+
+        public override void TakeDamage(float damage)
+        {
+            health -= damage;
+            health = Mathf.Max(0, health);
+
+            Debug.Log($"Vehicle {vehicleData.vehicleName} took {damage} damage. Remaining health: {health}");
+
+            if (health <= 0)
+            {
+                Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
+                Destroy(gameObject);
+            }
+        }
     }
 }

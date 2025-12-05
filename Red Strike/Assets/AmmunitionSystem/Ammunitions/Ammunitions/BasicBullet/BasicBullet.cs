@@ -31,8 +31,7 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
             if (unit.teamId == ownerVehicle.teamId)
                 return;
 
-            Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-            // unit.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
+            unit.TakeDamage(ammunitionData.damage);
 
             Destroy(gameObject);
         }

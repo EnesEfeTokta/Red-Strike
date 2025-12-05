@@ -1,5 +1,4 @@
 using UnityEngine;
-using BuildingPlacement.Buildings;
 
 namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
 {
@@ -36,7 +35,7 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
                 return;
 
             Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-            // unit.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
+            unit.TakeDamage(ammunitionData.damage);
 
             hasExploded = true;
 
