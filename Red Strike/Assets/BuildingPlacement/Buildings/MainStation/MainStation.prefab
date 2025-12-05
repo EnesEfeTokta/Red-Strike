@@ -104,13 +104,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fdd334c99237f47ae7f97bed928889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamId: 0
   playerType: 0
+  unitType: 1
   buildingData: {fileID: 5269824642355325504}
   buildEffects:
   - {fileID: 8204242674232356029}
   - {fileID: 4710826401873965783}
   radarTransform: {fileID: 7222708778872805534}
   radarRotationSpeed: 280
+  ShieldAmount: 100
 --- !u!95 &9197393951426874775
 Animator:
   serializedVersion: 7
