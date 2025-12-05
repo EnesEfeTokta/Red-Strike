@@ -1,6 +1,4 @@
 using UnityEngine;
-using VehicleSystem.Vehicles;
-using BuildingPlacement.Buildings;
 
 namespace AmmunitionSystem.Ammunitions.BasicBullet
 {
@@ -38,6 +36,5 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
 
             Destroy(gameObject);
         }
-
     }
 }

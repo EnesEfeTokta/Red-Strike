@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unit;
 
 namespace BuildingPlacement.Buildings
 {
@@ -35,11 +36,5 @@ namespace BuildingPlacement.Buildings
 
             Debug.Log($"Building {BuildingName} collided with unit: {collision.gameObject.name}");
         }
-    }
-
-    public enum PlayerType
-    {
-        Red,
-        Blue
     }
 }

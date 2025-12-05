@@ -58,8 +58,15 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject)
                 return;
 
-            if (collision.gameObject.CompareTag("Ammunition"))
+            var unit = collision.gameObject.GetComponent<Unit.Unit>();
+            if (unit == null)
                 return;
+
+            if (unit.teamId == ownerVehicle.teamId)
+                return;
+
+            Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
+            // unit.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
 
             hasExploded = true;
 
@@ -67,12 +74,6 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             {
                 GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
                 Destroy(explosionEffect, 2f);
-            }
-
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                Debug.Log($"Hit enemy: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-                // örn: collision.gameObject.GetComponent<Health>()?.TakeDamage(ammunitionData.damage);
             }
 
             Destroy(gameObject);

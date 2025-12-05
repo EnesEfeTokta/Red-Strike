@@ -1,4 +1,3 @@
-using BuildingPlacement.Buildings;
 using UnityEngine;
 
 namespace Unit
@@ -7,7 +6,6 @@ namespace Unit
     {
         [Header("Unit Info")]
         public int teamId;
-
         public PlayerType playerType;
     }
 }
