@@ -66,7 +66,7 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
                 return;
 
             Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
-            // unit.GetComponent<HealthSystem>()?.TakeDamage(ammunitionData.damage);
+            unit.TakeDamage(ammunitionData.damage);
 
             hasExploded = true;
 
