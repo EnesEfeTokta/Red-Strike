@@ -126,11 +126,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6eab0dde3f71446a801665164dc283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamId: 0
   playerType: 0
+  unitType: 1
   buildingData: {fileID: -4322946230525120543}
   buildEffects:
   - {fileID: 2273246402830813632}
   - {fileID: 9072490561556554335}
+  maxCapacity: 500
+  currentCapacity: 0
+  maxDensity: 3
+  rechargeRate: 10
+  isActive: 1
 --- !u!65 &5647536224997323072
 BoxCollider:
   m_ObjectHideFlags: 0

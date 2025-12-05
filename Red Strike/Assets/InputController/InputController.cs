@@ -30,6 +30,8 @@ namespace InputController
 
         private SelectionHighlighter tempBuildingHighlighter;
 
+        public int teamId = 0;
+
         private void Start()
         {
             mainCamera = Camera.main;
@@ -135,83 +137,90 @@ namespace InputController
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
+            if (!Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
             {
-                GameObject hitObject = hitInfo.collider.gameObject;
-
-                if (currentSelectedVehicle != null && hitObject.CompareTag("Enemy"))
-                {
-                    Debug.Log($"Araç ({currentSelectedVehicle.name}) hedefe ({hitObject.name}) kilitlendi.");
-                    currentSelectedVehicle.SetTargetEnemy(hitObject);
-
-                    if (targetHighlighter != null)
-                        targetHighlighter.DisableHighlight();
-
-                    targetHighlighter = GetHighlighter(hitObject);
-                    if (targetHighlighter != null)
-                        targetHighlighter.EnableHighlight();
-
-                    return;
-                }
-
                 DeselectAll();
-
-                switch (hitObject.tag)
-                {
-                    case "Vehicle":
-                        currentSelectedVehicle = hitObject.GetComponent<Vehicle>();
-
-                        if (currentSelectedVehicle != null)
-                        {
-                            vehicleHighlighter = GetHighlighter(hitObject);
-                            if (vehicleHighlighter != null)
-                                vehicleHighlighter.EnableHighlight();
-
-                            if (currentSelectedVehicle.targetObject != null)
-                            {
-                                targetHighlighter = GetHighlighter(currentSelectedVehicle.targetObject);
-                                if (targetHighlighter != null)
-                                    targetHighlighter.EnableHighlight();
-                            }
-
-                            if (vehiclesHUDController != null)
-                                vehiclesHUDController.ShowVehicleDetails(currentSelectedVehicle);
-                        }
-                        break;
-
-                    case "Build":
-                        tempBuildingHighlighter = GetHighlighter(hitObject);
-                        if (tempBuildingHighlighter != null)
-                            tempBuildingHighlighter.EnableHighlight();
-
-                        var b = hitObject.GetComponent<BuildingPlacement.Buildings.Building>();
-                        if (b != null) buildingHUDController.ShowBuildingDetails(b);
-                        break;
-
-                    case "Enemy":
-                        tempBuildingHighlighter = GetHighlighter(hitObject);
-                        if (tempBuildingHighlighter != null)
-                            tempBuildingHighlighter.EnableHighlight();
-                        break;
-
-                    default:
-                        DeselectAll();
-                        break;
-                }
+                return;
             }
-            else
+
+            var unit = hitInfo.collider.GetComponent<Unit.Unit>();
+            if (unit == null)
             {
                 DeselectAll();
+                return;
+            }
+
+            bool isFriendly = unit.teamId == teamId;
+            bool isEnemy = unit.teamId != teamId;
+
+            if (isEnemy && currentSelectedVehicle == null)
+            {
+                Debug.Log("Düşman hedef seçemezsin çünkü önce bir araç seçmen lazım.");
+                return;
+            }
+
+            if (isEnemy)
+            {
+                Debug.Log($"Araç {currentSelectedVehicle.name} hedefe kilitlendi: {unit.name}");
+
+                currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
+
+                if (targetHighlighter != null)
+                    targetHighlighter.DisableHighlight();
+
+                targetHighlighter = GetHighlighter(unit.gameObject);
+                if (targetHighlighter != null)
+                    targetHighlighter.EnableHighlight();
+
+                return;
+            }
+
+            DeselectAll();
+
+            switch (unit.unitType)
+            {
+                case Unit.UnitType.Vehicle:
+                    currentSelectedVehicle = unit.GetComponent<Vehicle>();
+
+                    if (currentSelectedVehicle != null)
+                    {
+                        vehicleHighlighter = GetHighlighter(unit.gameObject);
+                        if (vehicleHighlighter != null)
+                            vehicleHighlighter.EnableHighlight();
+
+                        if (currentSelectedVehicle.targetObject != null)
+                        {
+                            targetHighlighter = GetHighlighter(currentSelectedVehicle.targetObject);
+                            if (targetHighlighter != null)
+                                targetHighlighter.EnableHighlight();
+                        }
+
+                        vehiclesHUDController?.ShowVehicleDetails(currentSelectedVehicle);
+                    }
+                    break;
+
+                case Unit.UnitType.Building:
+                    tempBuildingHighlighter = GetHighlighter(unit.gameObject);
+                    tempBuildingHighlighter?.EnableHighlight();
+
+                    var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
+                    if (building != null)
+                        buildingHUDController.ShowBuildingDetails(building);
+
+                    break;
+
+                default:
+                    DeselectAll();
+                    break;
             }
         }
 
+
         private void DeselectAll()
         {
-            // 1. UI Kapat
             if (vehiclesHUDController != null) vehiclesHUDController.HideVehicleDetails();
             if (buildingHUDController != null) buildingHUDController.HideBuildingDetails();
 
-            // 2. Outline'ları Kapat
             if (vehicleHighlighter != null)
             {
                 vehicleHighlighter.DisableHighlight();
@@ -230,7 +239,6 @@ namespace InputController
                 tempBuildingHighlighter = null;
             }
 
-            // 3. Hafızayı Temizle
             currentSelectedVehicle = null;
             currentSelectedBuilding = null;
         }

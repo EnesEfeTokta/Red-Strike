@@ -777,6 +777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamId: 5
   playerType: 0
+  unitType: 0
 --- !u!1 &483664587 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 224654450759790032, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
@@ -1236,6 +1237,7 @@ MonoBehaviour:
   minDistanceBetweenObjects: 25
   vehiclesHUDController: {fileID: 422005013}
   buildingHUDController: {fileID: 422005014}
+  teamId: 0
 --- !u!1 &1702380761
 GameObject:
   m_ObjectHideFlags: 0
