@@ -1,0 +1,62 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UISystem/Menu/MenuStyles.uss?fileID=7433441132597879392&amp;guid=bdd1d98f0e1c09b4f9e1bffe1a445df9&amp;type=3#MenuStyles" />
+    
+    <!-- Ana Ekran (Background ve Menü) -->
+    <ui:VisualElement name="Background" class="background" style="display: flex;">
+        <ui:VisualElement name="menu-container" class="menu-container">
+            <ui:Label text="RED&#10;STRIKE" name="game-title" class="game-title" />
+            
+            <ui:Button text="PLAY GAME (Enter)" name="play-button" class="menu-btn" />
+            <ui:Button text="OPTIONS (O)" name="options-button" class="menu-btn" />
+            <ui:Button text="QUIT (Q)" name="quit-button" class="menu-btn quit-btn" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- Ayarlar Ekranı (Varsayılan olarak gizli) -->
+    <ui:VisualElement name="settings-overlay" class="settings-overlay" style="display: none;">
+        <ui:VisualElement name="SettingsPanel" class="settings-panel">
+            <ui:Label text="OPTIONS" class="settings-header" />
+            
+            <ui:Label text="AUDIO LEVELS" class="section-header" />
+            
+            <ui:VisualElement class="row">
+                <ui:Label text="MASTER VOLUME" class="setting-label" />
+                <ui:Slider high-value="100" low-value="0" value="75" name="master-volume-slider" class="sci-fi-slider" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="row">
+                <ui:Label text="MUSIC" class="setting-label" />
+                <ui:Slider high-value="100" low-value="0" value="50" name="music-slider" class="sci-fi-slider" />
+            </ui:VisualElement>
+            
+            <ui:Label text="VISUALS" class="section-header" style="margin-top: 20px;" />
+            
+            <ui:VisualElement class="row">
+                <ui:Label text="FULLSCREEN MODE" class="setting-label" />
+                <ui:Toggle name="fullscreen-toggle" class="sci-fi-toggle" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="footer">
+                <ui:Button text="APPLY" name="apply-button" class="action-btn apply-btn" />
+                <ui:Button text="BACK" name="back-button" class="action-btn back-btn" />
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- Çıkış Onay Ekranı -->
+    <ui:VisualElement name="quit-overlay" class="settings-overlay" style="display: none;">
+        <ui:VisualElement name="quit-panel" class="confirmation-panel">
+
+            <ui:Label text="SYSTEM WARNING" name="quit-header" class="warning-header" />
+            
+            <ui:Label text="ARE YOU SURE YOU WANT TO QUIT?" name="quit-message" class="warning-message" />
+
+            <ui:VisualElement class="footer" style="justify-content: center; border-top-color: rgba(255, 50, 50, 0.3);">
+                <ui:Button text="YES, QUIT" name="confirm-quit-button" class="action-btn destructive-btn" />
+                <ui:Button text="CANCEL" name="cancel-quit-button" class="action-btn cancel-btn" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

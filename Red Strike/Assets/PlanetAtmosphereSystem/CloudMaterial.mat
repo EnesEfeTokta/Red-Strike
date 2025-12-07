@@ -42,7 +42,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _GunesYonu: {r: -1, g: 0, b: 0, a: 0}
-    - _SunDirection: {r: -0, g: 0.4099231, b: -0.9121201, a: 0}
+    - _SunDirection: {r: -0.43632787, g: 0.5071199, b: -0.7432681, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8499732345945835446
