@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,12 +19,19 @@ namespace UISystem.MainMenu
         public CinemachineCamera cinemachineCamera_B;
         public CinemachineCamera cinemachineCamera_C;
 
+        [Header("Spaceship Animation")]
+        public GameObject spaceShip;
+        public float shipDuraction = 5f;
+        public Vector3 shipStartPosition;
+        public Vector3 targetPosition;
+
         public enum MenuState { MainMenu, OptionsMenu, CreditsMenu }
         private MenuState currentMenuState = MenuState.MainMenu;
 
         private UIDocument document;
         private VisualElement mainMenuContainer;
         private VisualElement quitOverlay;
+        private VisualElement fadePanel;
         private VisualElement settingsOverlay;
         private Slider masterVolumeSlider;
         private Toggle fullscreenToggle;
@@ -31,6 +39,18 @@ namespace UISystem.MainMenu
         private void Awake()
         {
             document = GetComponent<UIDocument>();
+        }
+
+        private void Start()
+        {
+            // Initialize spaceship position
+            if (spaceShip != null)
+            {
+                spaceShip.transform.position = shipStartPosition;
+            }
+
+            // Set initial camera priorities
+            SetCameraPriority_MainMenu(10, 0, 0);
         }
 
         private void OnEnable()
@@ -61,6 +81,9 @@ namespace UISystem.MainMenu
 
             if (confirmQuitBtn != null) confirmQuitBtn.clicked += () => OnApplicationQuit();
             if (cancelQuitBtn != null) cancelQuitBtn.clicked += () => CanselQuit();
+
+            fadePanel = root.Q<VisualElement>("fade-panel");
+            fadePanel.style.opacity = 0f;
         }
 
         private void Update()
@@ -83,7 +106,7 @@ namespace UISystem.MainMenu
 
         private void InputHandler()
         {
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 OnPlayButtonPressed();
             }
@@ -101,6 +124,14 @@ namespace UISystem.MainMenu
         {
             // Load the main game scene
             CameraTransition(MenuState.MainMenu);
+
+            cinemachineCamera_A.Target.TrackingTarget = spaceShip.transform;
+
+            fadePanel.style.display = DisplayStyle.Flex;
+            fadePanel.style.opacity = 1f;
+            mainMenuContainer.style.display = DisplayStyle.None;
+
+            StartCoroutine(SpaceShipAnimation());
         }
 
         private void OnOptionsButtonPressed()
@@ -182,6 +213,21 @@ namespace UISystem.MainMenu
         {
             Debug.Log("Application is quitting...");
             Application.Quit();
+        }
+
+        private IEnumerator SpaceShipAnimation()
+        {
+            Vector3 initialPosition = spaceShip.transform.position;
+            float elapsed = 0f;
+
+            while (elapsed < shipDuraction)
+            {
+                spaceShip.transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsed / shipDuraction);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            spaceShip.transform.position = targetPosition;
         }
     }
 }
