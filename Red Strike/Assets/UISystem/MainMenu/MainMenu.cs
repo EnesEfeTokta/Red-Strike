@@ -83,7 +83,7 @@ namespace UISystem.MainMenu
 
         private void InputHandler()
         {
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.Enter))
             {
                 OnPlayButtonPressed();
             }
