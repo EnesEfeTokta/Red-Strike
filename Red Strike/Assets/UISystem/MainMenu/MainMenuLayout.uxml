@@ -59,4 +59,6 @@
 
         </ui:VisualElement>
     </ui:VisualElement>
+
+    <ui:VisualElement name="fade-panel" class="fade-panel" style="display: none;" />
 </ui:UXML>
