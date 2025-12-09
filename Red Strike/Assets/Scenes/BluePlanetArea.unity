@@ -344,7 +344,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1200
+  far clip plane: 500000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -401,7 +401,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -5673,6 +5673,7 @@ GameObject:
   - component: {fileID: 1936849620}
   - component: {fileID: 1936849619}
   - component: {fileID: 1936849621}
+  - component: {fileID: 1936849622}
   m_Layer: 0
   m_Name: SunLight
   m_TagString: Untagged
@@ -5783,6 +5784,21 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1936849622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936849618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 902d3dd2f52a3ac4ab39f0e3bb13d3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sunLight: {fileID: 0}
+  dayDurationInSeconds: 120
+  timeElapsed: 0
 --- !u!1 &2126698095
 GameObject:
   m_ObjectHideFlags: 0
@@ -5873,6 +5889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sunLight: {fileID: 1936849619}
+  dayDurationInSeconds: 60
   atmosphereMaterial: {fileID: 2100000, guid: 2408ec61631a3e24db680f86b5b150a7, type: 2}
   cloudMaterial: {fileID: 2100000, guid: 452202a9af21f504594d57e7b894652a, type: 2}
   fogMaterial: {fileID: 2100000, guid: cb5b62743c9506845aa26111364535f4, type: 2}
