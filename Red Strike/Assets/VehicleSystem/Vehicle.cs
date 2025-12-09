@@ -20,6 +20,9 @@ namespace VehicleSystem
         public float fuelCapacity;
         public float fuelConsumptionRate;
 
+        [Header("Effects")]
+        public ParticleSystem explosionEffect;
+
         [Header("Ammunition Settings")]
         public List<VehicleAmmunition> ammunitionSettings = new List<VehicleAmmunition>();
     }

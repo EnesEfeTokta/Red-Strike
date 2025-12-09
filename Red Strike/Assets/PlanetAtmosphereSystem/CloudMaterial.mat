@@ -41,6 +41,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
+    - _Color: {r: 0, g: 1.0177532, b: 1.5933679, a: 1}
     - _GunesYonu: {r: -1, g: 0, b: 0, a: 0}
     - _SunDirection: {r: -0, g: 0.4099231, b: -0.9121201, a: 0}
   m_BuildTextureStacks: []

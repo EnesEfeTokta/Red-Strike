@@ -321,6 +321,7 @@ namespace VehicleSystem.Vehicles
             if (health <= 0)
             {
                 Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
+                Instantiate(vehicleData.explosionEffect, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
