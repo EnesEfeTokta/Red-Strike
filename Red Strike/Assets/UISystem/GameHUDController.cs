@@ -5,11 +5,16 @@ namespace UISystem
 {
     public class GameHUDController : MonoBehaviour
     {
-        public InputController.InputController inputController;
+        protected InputController.InputController inputController;
         protected UIDocument uiDocument;
         protected VisualElement root;
         protected VisualElement buildingDynamicContentContainer;
         protected VisualElement vehicleDynamicContentContainer;
+
+        private void Start()
+        {
+            inputController = GetComponent<InputController.InputController>();
+        }
 
         protected virtual void OnEnable() 
         {

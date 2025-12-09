@@ -1077,6 +1077,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3693194386570448113, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
+      propertyPath: vehicleData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693194386570448113, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
       propertyPath: targetObject
       value: 
       objectReference: {fileID: 483664587}
@@ -1237,7 +1241,7 @@ MonoBehaviour:
   minDistanceBetweenObjects: 25
   vehiclesHUDController: {fileID: 422005013}
   buildingHUDController: {fileID: 422005014}
-  teamId: 0
+  teamId: 1
 --- !u!1 &1702380761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,6 +1321,10 @@ PrefabInstance:
     - target: {fileID: 3693194386570448113, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
       propertyPath: teamId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693194386570448113, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
+      propertyPath: vehicleData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3693194386570448113, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
       propertyPath: targetObject
