@@ -77,9 +77,8 @@ namespace InputController
         {
             if (gameUIDocument == null) return false;
 
-            Vector2 mousePosition = Input.mousePosition;
-            Vector2 pointerPosition = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
-            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(pointerPosition);
+            Vector2 panelLocalPos = RuntimePanelUtils.ScreenToPanel(gameUIDocument.rootVisualElement.panel, Input.mousePosition);
+            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(panelLocalPos);
 
             if (pickedElement == null) return false;
             if (pickedElement.name == "root-container") return false;

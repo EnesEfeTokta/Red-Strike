@@ -29,8 +29,8 @@ namespace UISystem
             vehicleDynamicContentContainer = root.Q<VisualElement>("vehicle-dynamic-content-container");
         }
 
-        protected virtual void OnDisable() { /* Boş bırakıldı, alt sınıflar tarafından geçersiz kılınabilir */ }
+        protected virtual void OnDisable() { }
 
-        protected virtual void Update() { /* Boş bırakıldı, alt sınıflar tarafından geçersiz kılınabilir */ }
+        protected virtual void Update() { }
     }
 }
