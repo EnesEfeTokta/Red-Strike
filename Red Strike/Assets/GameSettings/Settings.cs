@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace GameSettings
 {
+    [CreateAssetMenu(fileName = "Settings", menuName = "Game Settings/Settings", order = 1)]
     public class Settings : ScriptableObject
     {
         [Header("Audio Settings")]
