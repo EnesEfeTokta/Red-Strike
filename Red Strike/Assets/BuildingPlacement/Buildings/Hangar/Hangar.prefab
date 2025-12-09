@@ -221,7 +221,7 @@ MonoBehaviour:
   teamId: 0
   playerType: 1
   unitType: 1
-  buildingData: {fileID: 5840819227562748720}
+  buildingData: {fileID: 11400000, guid: a20ea262914989645a27af443d4c8b0b, type: 2}
   buildEffects:
   - {fileID: 1855726554393846403}
   - {fileID: 4273443631821389091}

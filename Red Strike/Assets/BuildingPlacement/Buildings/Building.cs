@@ -5,7 +5,7 @@ namespace BuildingPlacement.Buildings
 {
     public class Building : Unit.Unit
     {
-        public Building buildingData;
+        public BuildingPlacement.Building buildingData;
         public ParticleSystem[] buildEffects;
 
         protected float health;
@@ -21,7 +21,7 @@ namespace BuildingPlacement.Buildings
                 main.startColor = playerType == PlayerType.Red ? Color.red : Color.blue;
             }
 
-            maxHealth = buildingData.health;
+            maxHealth = buildingData.maxHealth;
             health = maxHealth;
         }
 
@@ -35,6 +35,7 @@ namespace BuildingPlacement.Buildings
             if (health <= 0)
             {
                 Debug.Log($"Building {BuildingName} destroyed.");
+                Instantiate(buildingData.explosionEffect, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }

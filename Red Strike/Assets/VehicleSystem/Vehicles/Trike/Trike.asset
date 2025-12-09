@@ -22,6 +22,7 @@ MonoBehaviour:
   maxHealth: 100
   fuelCapacity: 100
   fuelConsumptionRate: 0.7
+  explosionEffect: {fileID: 19800002, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0
