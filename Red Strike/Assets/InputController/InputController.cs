@@ -4,7 +4,6 @@ using VehicleSystem.Vehicles;
 using BuildingPlacement;
 using UISystem;
 using System.Linq;
-using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 namespace InputController
@@ -22,8 +21,8 @@ namespace InputController
         private Vehicle currentSelectedVehicle;
         private List<GameObject> placedObjects = new List<GameObject>();
         public float minDistanceBetweenObjects = 5f;
-        public VehiclesHUDController vehiclesHUDController;
-        public BuildingHUDController buildingHUDController;
+        private VehiclesHUDController vehiclesHUDController;
+        private BuildingHUDController buildingHUDController;
 
         private SelectionHighlighter vehicleHighlighter;
         private SelectionHighlighter targetHighlighter;
@@ -35,6 +34,9 @@ namespace InputController
         private void Start()
         {
             mainCamera = Camera.main;
+
+            vehiclesHUDController = GetComponent<VehiclesHUDController>();
+            buildingHUDController = GetComponent<BuildingHUDController>();
         }
 
         private void Update()
@@ -43,6 +45,14 @@ namespace InputController
             {
                 DeselectAll();
                 return;
+            }
+
+            if (tempBuildingHighlighter != null)
+            {
+                if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.R))
+                {
+                    tempBuildingHighlighter.transform.Rotate(0, 90, 0);
+                }
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -67,9 +77,8 @@ namespace InputController
         {
             if (gameUIDocument == null) return false;
 
-            Vector2 mousePosition = Input.mousePosition;
-            Vector2 pointerPosition = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
-            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(pointerPosition);
+            Vector2 panelLocalPos = RuntimePanelUtils.ScreenToPanel(gameUIDocument.rootVisualElement.panel, Input.mousePosition);
+            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(panelLocalPos);
 
             if (pickedElement == null) return false;
             if (pickedElement.name == "root-container") return false;
@@ -95,6 +104,7 @@ namespace InputController
                         Debug.Log(currentSelectedBuilding.buildingName + " için maksimum yerleştirme limitine ulaşıldı.");
                         return;
                     }
+
                     GameObject placedObject = Instantiate(currentSelectedBuilding.buildingPrefab, spawnPosition, Quaternion.identity);
 
                     if (placedObject.GetComponent<SelectionHighlighter>() == null)
@@ -108,6 +118,9 @@ namespace InputController
                         buildingCounts[currentSelectedBuilding.buildingName] = 1;
 
                     currentSelectedBuilding = null;
+                    // Bir bina koyduktan sonra rotasyonu sıfırlamak isterseniz bu satırı açın:
+                    // currentRotation = Quaternion.identity; 
+
                     Debug.Log(placedObject.name + " yerleştirildi.");
                 }
                 else

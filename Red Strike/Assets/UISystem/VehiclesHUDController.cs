@@ -22,6 +22,12 @@ namespace UISystem
 
             detailsPanel = root.Q<VisualElement>("vehicle-details-panel");
 
+            if (detailsPanel == null)
+            {
+                Debug.LogError("vehicle-details-panel bulunamadı! UXML'i kontrol edin.");
+                return;
+            }
+
             vehicleNameLabel = detailsPanel.Q<Label>("shared-vehicle-name-label");
             fuelLabel = detailsPanel.Q<Label>("shared-vehicle-fuel-label");
             ammoLabel = detailsPanel.Q<Label>("shared-vehicle-ammo-label");
@@ -35,7 +41,7 @@ namespace UISystem
         {
             base.Update();
 
-            if (currentlySelectedVehicle != null)
+            if (currentlySelectedVehicle != null && detailsPanel.style.display == DisplayStyle.Flex)
             {
                 RefreshVehicleDetails();
             }
@@ -43,29 +49,35 @@ namespace UISystem
 
         private void RefreshVehicleDetails()
         {
+            if (currentlySelectedVehicle == null) return;
+
             var status = currentlySelectedVehicle.GetVehicleStatus();
+            
             string vehicleName = status.Item1;
             string fuel = status.Item2.ToString("F1");
-            string ammo = status.Item3 + " / " + status.Item4;
+            string ammo = $"{status.Item3} / {status.Item4}";
             string targetName = currentlySelectedVehicle.targetObject != null ? currentlySelectedVehicle.targetObject.name : "None";
+            string health = status.Item5.ToString("F0");
 
-            vehicleNameLabel.text = vehicleName;
-            fuelLabel.text = "Fuel Level: " + fuel;
-            ammoLabel.text = "Ammunition: " + ammo;
-            targetLabel.text = "Target: " + targetName;
-            healthLabel.text = "Health: " + status.Item5.ToString("F1");
+            if(vehicleNameLabel != null) vehicleNameLabel.text = vehicleName;
+            if(fuelLabel != null) fuelLabel.text = $"Fuel: {fuel}";
+            if(ammoLabel != null) ammoLabel.text = $"Ammo: {ammo}";
+            if(targetLabel != null) targetLabel.text = $"Target: {targetName}";
+            if(healthLabel != null) healthLabel.text = $"Health: {health}";
         }
 
         public void HideVehicleDetails()
         {
             currentlySelectedVehicle = null;
-            detailsPanel.style.display = DisplayStyle.None;
+            if (detailsPanel != null)
+                detailsPanel.style.display = DisplayStyle.None;
         }
 
         public void ShowVehicleDetails(Vehicle vehicleToShow)
         {
             currentlySelectedVehicle = vehicleToShow;
-            detailsPanel.style.display = DisplayStyle.Flex;
+            if (detailsPanel != null)
+                detailsPanel.style.display = DisplayStyle.Flex;
         }
     }
 }

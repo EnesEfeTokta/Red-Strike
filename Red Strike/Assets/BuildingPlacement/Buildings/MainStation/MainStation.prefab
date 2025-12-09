@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5269824642355325504}
   - component: {fileID: 9197393951426874775}
   - component: {fileID: 8693801915148640960}
+  - component: {fileID: 5126050239305511073}
+  - component: {fileID: 5994895244335871503}
   m_Layer: 6
   m_Name: MainStation
   m_TagString: Build
@@ -157,6 +159,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 7.0085044, z: 10}
   m_Center: {x: 0, y: 3.5042522, z: 0}
+--- !u!114 &5126050239305511073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8096343076459658438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 3.7
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &5994895244335871503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8096343076459658438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionColor: {r: 0, g: 0.681592, b: 1, a: 1}
 --- !u!1 &8342596905262714567
 GameObject:
   m_ObjectHideFlags: 0

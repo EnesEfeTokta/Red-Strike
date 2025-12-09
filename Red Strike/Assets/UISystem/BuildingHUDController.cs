@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 using BuildingPlacement.Buildings;
 using VehicleSystem;
@@ -7,22 +6,20 @@ namespace UISystem
 {
     public class BuildingHUDController : GameHUDController
     {
-        [Header("Templates (UXML)")]
-        public VisualTreeAsset mainStationTemplate;
-        public VisualTreeAsset hangarTemplate;
-        public VisualTreeAsset energyTowerTemplate;
-
-        protected VisualElement buildingDetailsPanel;
+        private VisualElement buildingDetailsPanel;
+        
         private Label sharedBuildTypeLabel;
         private Label sharedHealthLabel;
         
-        private Label msShieldLabel;
+        private VisualElement mainStationContent;
+        private VisualElement hangarContent;
+        private VisualElement energyTowerContent;
 
+        private Label msShieldLabel;
         private Label hIsReadyLabel;
         private Label hProductionLabel;
-
         private Label etCapacityLabel;
-        private Label etDensityLabel;
+        private Label etDensityLabel; 
 
         protected Building currentlySelectedBuilding;
 
@@ -33,6 +30,27 @@ namespace UISystem
             buildingDetailsPanel = root.Q<VisualElement>("building-details-panel");
             sharedBuildTypeLabel = root.Q<Label>("shared-build-type-label");
             sharedHealthLabel = root.Q<Label>("shared-health-label");
+
+            mainStationContent = root.Q<VisualElement>("main-station-content-area");
+            hangarContent = root.Q<VisualElement>("hangar-content-area");
+            energyTowerContent = root.Q<VisualElement>("energy-tower-content-area");
+
+            if (mainStationContent != null)
+                msShieldLabel = mainStationContent.Q<Label>("shield-label");
+
+            if (energyTowerContent != null)
+            {
+                etCapacityLabel = energyTowerContent.Q<Label>("capacity-label");
+                etDensityLabel = energyTowerContent.Q<Label>("density-label");
+            }
+
+            if (hangarContent != null)
+            {
+                hIsReadyLabel = hangarContent.Q<Label>("is-ready-label");
+                hProductionLabel = hangarContent.Q<Label>("in-production-label");
+                
+                BindHangarButtons();
+            }
 
             var mainStationBtn = root.Q<Button>("main-station-button");
             var hangarBtn = root.Q<Button>("hangar-button");
@@ -48,7 +66,6 @@ namespace UISystem
         protected override void Update()
         {
             base.Update();
-
             if (currentlySelectedBuilding != null && buildingDetailsPanel.style.display == DisplayStyle.Flex)
             {
                 UpdateBuildingData();
@@ -61,28 +78,20 @@ namespace UISystem
 
             currentlySelectedBuilding = building;
             sharedBuildTypeLabel.text = building.BuildingName;
-            
-            buildingDynamicContentContainer.Clear();
-            
+
+            HideAllContents();
+
             if (building is MainStation)
             {
-                InstantiateTemplate(mainStationTemplate);
-                msShieldLabel = buildingDynamicContentContainer.Q<Label>("shield-label");
+                if(mainStationContent != null) mainStationContent.style.display = DisplayStyle.Flex;
             }
-            else if (building is Hangar hangarScript)
+            else if (building is Hangar)
             {
-                InstantiateTemplate(hangarTemplate);
-                
-                hIsReadyLabel = buildingDynamicContentContainer.Q<Label>("is-ready-label");
-                hProductionLabel = buildingDynamicContentContainer.Q<Label>("in-production-label");
-
-                SetupHangarButtons(hangarScript);
+                if(hangarContent != null) hangarContent.style.display = DisplayStyle.Flex;
             }
             else if (building is EnergyTower)
             {
-                InstantiateTemplate(energyTowerTemplate);
-                etCapacityLabel = buildingDynamicContentContainer.Q<Label>("capacity-label");
-                etDensityLabel = buildingDynamicContentContainer.Q<Label>("density-label");
+                if(energyTowerContent != null) energyTowerContent.style.display = DisplayStyle.Flex;
             }
 
             buildingDetailsPanel.style.display = DisplayStyle.Flex;
@@ -95,6 +104,13 @@ namespace UISystem
                 buildingDetailsPanel.style.display = DisplayStyle.None;
         }
 
+        private void HideAllContents()
+        {
+            if (mainStationContent != null) mainStationContent.style.display = DisplayStyle.None;
+            if (hangarContent != null) hangarContent.style.display = DisplayStyle.None;
+            if (energyTowerContent != null) energyTowerContent.style.display = DisplayStyle.None;
+        }
+
         private void UpdateBuildingData()
         {
             if (currentlySelectedBuilding == null) return;
@@ -103,56 +119,47 @@ namespace UISystem
 
             if (currentlySelectedBuilding is MainStation ms)
             {
-                if (msShieldLabel != null) 
-                    msShieldLabel.text = $"Shield: {ms.ShieldAmount:F0}%";
+                if (msShieldLabel != null) msShieldLabel.text = $"Shield: {ms.ShieldAmount:F0}%";
             }
             else if (currentlySelectedBuilding is Hangar hg)
             {
-                if (hIsReadyLabel != null) 
-                    hIsReadyLabel.text = $"Is Ready: {hg.IsReady}";
-                if (hProductionLabel != null) 
-                    hProductionLabel.text = $"Prod: {hg.InProductionUnitName}"; 
+                if (hIsReadyLabel != null) hIsReadyLabel.text = $"Is Ready: {hg.IsReady}";
+                if (hProductionLabel != null) hProductionLabel.text = $"Prod: {hg.InProductionUnitName}"; 
             }
             else if (currentlySelectedBuilding is EnergyTower et)
             {
-                if (etCapacityLabel != null) 
-                    etCapacityLabel.text = $"Capacity: {et.GetStatus().current:F0} / {et.GetStatus().max:F0}";
-                if (etDensityLabel != null) 
-                    etDensityLabel.text = $"Density: {et.GetStatus().count:F0} / {et.GetStatus().limit:F0}";
+                if (etCapacityLabel != null) etCapacityLabel.text = $"Capacity: {et.GetStatus().current:F0} / {et.GetStatus().max:F0}";
+                if (etDensityLabel != null) etDensityLabel.text = $"Density: {et.GetStatus().count:F0} / {et.GetStatus().limit:F0}";
             }
         }
 
-        private void SetupHangarButtons(Hangar hangar)
+        private void BindHangarButtons()
         {
-            void BindVehicleBtn(string btnName, VehicleTypes type)
+            if (hangarContent == null) return;
+
+            void BindBtn(string btnName, VehicleTypes type)
             {
-                Button btn = buildingDynamicContentContainer.Q<Button>(btnName);
-                
+                Button btn = hangarContent.Q<Button>(btnName);
                 if (btn != null)
                 {
                     btn.clicked += () => 
                     {
-                        hangar.CreateVehicle(type); 
+                        if (currentlySelectedBuilding is Hangar currentHangar)
+                        {
+                            currentHangar.CreateVehicle(type);
+                        }
                     };
                 }
             }
 
-            BindVehicleBtn("infantry-create-button", VehicleTypes.Infantry);
-            BindVehicleBtn("trike-create-button", VehicleTypes.Trike);
-            BindVehicleBtn("quad-create-button", VehicleTypes.Quad);
-            BindVehicleBtn("tank-combat-create-button", VehicleTypes.Tank_Combat);
-            BindVehicleBtn("tank-heavy-a-create-button", VehicleTypes.Tank_Heavy_A);
-            BindVehicleBtn("tank-heavy-b-create-button", VehicleTypes.Tank_Heavy_B);
-            BindVehicleBtn("ornithopter-a-create-button", VehicleTypes.Ornithopter_A);
-            BindVehicleBtn("ornithopter-b-create-button", VehicleTypes.Ornithopter_B);
-        }
-
-        private void InstantiateTemplate(VisualTreeAsset template)
-        {
-            if (template != null)
-            {
-                template.CloneTree(buildingDynamicContentContainer);
-            }
+            BindBtn("infantry-create-button", VehicleTypes.Infantry);
+            BindBtn("trike-create-button", VehicleTypes.Trike);
+            BindBtn("quad-create-button", VehicleTypes.Quad);
+            BindBtn("tank-combat-create-button", VehicleTypes.Tank_Combat);
+            BindBtn("tank-heavy-a-create-button", VehicleTypes.Tank_Heavy_A);
+            BindBtn("tank-heavy-b-create-button", VehicleTypes.Tank_Heavy_B);
+            BindBtn("ornithopter-a-create-button", VehicleTypes.Ornithopter_A);
+            BindBtn("ornithopter-b-create-button", VehicleTypes.Ornithopter_B);
         }
 
         private void OnBuildingCategoryClicked(string buildingName)

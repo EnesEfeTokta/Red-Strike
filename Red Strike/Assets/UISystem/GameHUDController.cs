@@ -5,11 +5,16 @@ namespace UISystem
 {
     public class GameHUDController : MonoBehaviour
     {
-        public InputController.InputController inputController;
+        protected InputController.InputController inputController;
         protected UIDocument uiDocument;
         protected VisualElement root;
         protected VisualElement buildingDynamicContentContainer;
         protected VisualElement vehicleDynamicContentContainer;
+
+        private void Start()
+        {
+            inputController = GetComponent<InputController.InputController>();
+        }
 
         protected virtual void OnEnable() 
         {
@@ -24,8 +29,8 @@ namespace UISystem
             vehicleDynamicContentContainer = root.Q<VisualElement>("vehicle-dynamic-content-container");
         }
 
-        protected virtual void OnDisable() { /* Boş bırakıldı, alt sınıflar tarafından geçersiz kılınabilir */ }
+        protected virtual void OnDisable() { }
 
-        protected virtual void Update() { /* Boş bırakıldı, alt sınıflar tarafından geçersiz kılınabilir */ }
+        protected virtual void Update() { }
     }
 }

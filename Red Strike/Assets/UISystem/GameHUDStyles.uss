@@ -1,75 +1,107 @@
+/* Üst Bar: Kesinlikle tıklanabilir */
 .top-bar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 30px;
-    background-color: rgba(20, 20, 20, 0.9);
+    background-color: rgba(20, 20, 20, 0.95);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Sol Panel: ARTIK TIKLAMALARI YAKALAR */
+/* Önceki halinde rengi yoktu, buton arasına basınca panel kapanıyordu. */
 .side-panel {
     position: absolute;
     left: 20px;
     top: 50px;
     flex-direction: column;
+    /* Tıklamayı yakalaması için çok hafif de olsa bir renk şart */
+    background-color: rgba(0, 0, 0, 0.2); 
+    padding: 10px;
+    border-radius: 5px;
 }
 
+/* Sağ Bilgi Paneli: Zaten rengi vardı, sağlama aldık */
 .info-panel {
     position: absolute;
     right: 20px;
     top: 50px;
-    background-color: rgba(45, 45, 45, 0.85);
+    /* Bu renk sayesinde Pick fonksiyonu bu paneli "görür" */
+    background-color: rgba(45, 45, 45, 0.95);
     padding: 15px;
     border-radius: 5px;
     min-width: 240px;
     height: auto;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Dinamik İçerik Alanı */
 .dynamic-content {
     margin-top: 10px;
     padding-top: 10px;
     border-top-width: 1px;
     border-top-color: rgba(255, 255, 255, 0.2);
     width: 100%;
+    /* İçerik olmasa bile yer kaplasın ki tıklanabilsin */
+    min-height: 20px; 
 }
 
+/* Bina Üretim Butonları */
 .build-button {
     width: 140px;
     height: 45px;
     background-color: rgba(60, 60, 60, 0.9);
     color: white;
-    border-width: 0;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.5);
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 5px; /* Butonlar arası boşluk */
     font-size: 14px;
+    -unity-font-style: bold;
 }
 
 .build-button:hover {
-    background-color: rgba(90, 90, 90, 0.95);
+    background-color: rgba(90, 90, 90, 1);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .build-button:active {
-    background-color: rgb(120, 120, 120);
+    background-color: rgb(40, 40, 40);
 }
 
+/* Araç Üretim Butonları */
 .action-button {
-    width: 200px;
-    height: 45px;
-    background-color: rgba(60, 60, 60, 0.9);
+    width: 100%; /* Parent genişliğine uyum sağlasın */
+    height: 40px;
+    background-color: rgba(70, 80, 90, 0.9);
     color: white;
     border-width: 0;
     border-radius: 4px;
-    margin-bottom: 10px;
-    font-size: 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
 }
 
+.action-button:hover {
+    background-color: rgba(90, 100, 110, 1);
+}
+
+.action-button:active {
+    background-color: rgb(50, 60, 70);
+}
+
+/* Başlıklar */
 .details-title {
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     -unity-font-style: bold;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.5);
 }
 
+/* Metinler */
 .details-text {
     color: rgb(220, 220, 220);
     font-size: 14px;
