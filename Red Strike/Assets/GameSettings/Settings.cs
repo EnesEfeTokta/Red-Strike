@@ -10,6 +10,6 @@ namespace GameSettings
         public float musicVolume = 0.8f;
 
         [Header("Graphics Settings")]
-        public bool fullscreen = true;
+        public bool isFullscreen = true;
     }
 }

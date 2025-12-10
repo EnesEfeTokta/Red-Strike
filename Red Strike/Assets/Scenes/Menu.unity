@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sunLight: {fileID: 1371548475}
+  dayDurationInSeconds: 120
   atmosphereMaterial: {fileID: 2100000, guid: 2408ec61631a3e24db680f86b5b150a7, type: 2}
   cloudMaterial: {fileID: 2100000, guid: 452202a9af21f504594d57e7b894652a, type: 2}
   fogMaterial: {fileID: 2100000, guid: cb5b62743c9506845aa26111364535f4, type: 2}
@@ -825,6 +826,7 @@ MonoBehaviour:
   shipDuraction: 8
   shipStartPosition: {x: 2.24, y: -0.6, z: -19}
   targetPosition: {x: 2.24, y: -0.6, z: -9.72}
+  settings: {fileID: 11400000, guid: e041f970da61a87429a66823e0614072, type: 2}
 --- !u!4 &1693417822
 Transform:
   m_ObjectHideFlags: 0
