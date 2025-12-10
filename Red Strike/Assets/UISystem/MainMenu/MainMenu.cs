@@ -2,6 +2,8 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
+using GameSettings;
+using UnityEngine.SceneManagement;
 
 namespace UISystem.MainMenu
 {
@@ -25,6 +27,9 @@ namespace UISystem.MainMenu
         public Vector3 shipStartPosition;
         public Vector3 targetPosition;
 
+        [Header("Settings ScriptableObject")]
+        public Settings settings;
+
         public enum MenuState { MainMenu, OptionsMenu, CreditsMenu }
         private MenuState currentMenuState = MenuState.MainMenu;
 
@@ -34,6 +39,7 @@ namespace UISystem.MainMenu
         private VisualElement fadePanel;
         private VisualElement settingsOverlay;
         private Slider masterVolumeSlider;
+        private Slider musicVolumeSlider;
         private Toggle fullscreenToggle;
 
         private void Awake()
@@ -61,6 +67,7 @@ namespace UISystem.MainMenu
             var backBtn = root.Q<Button>("back-button");
             var applyBtn = root.Q<Button>("apply-button");
             masterVolumeSlider = root.Q<Slider>("master-volume-slider");
+            musicVolumeSlider = root.Q<Slider>("music-volume-slider");
             fullscreenToggle = root.Q<Toggle>("fullscreen-toggle");
 
             if (backBtn != null) backBtn.clicked += () => BackToMainMenu();
@@ -72,7 +79,7 @@ namespace UISystem.MainMenu
             var quitBtn = root.Q<Button>("quit-button");
 
             if (startBtn != null) startBtn.clicked += () => OnPlayButtonPressed();
-            if (settingsBtn != null) settingsBtn.clicked += () => OnOptionsButtonPressed();
+            if (settingsBtn != null) settingsBtn.clicked += () => OnOptionsButtonPressed(); 
             if (quitBtn != null) quitBtn.clicked += () => OnExitButtonPressed();
 
             quitOverlay = root.Q<VisualElement>("quit-overlay");
@@ -122,7 +129,6 @@ namespace UISystem.MainMenu
 
         private void OnPlayButtonPressed()
         {
-            // Load the main game scene
             CameraTransition(MenuState.MainMenu);
 
             cinemachineCamera_A.Target.TrackingTarget = spaceShip.transform;
@@ -132,6 +138,8 @@ namespace UISystem.MainMenu
             mainMenuContainer.style.display = DisplayStyle.None;
 
             StartCoroutine(SpaceShipAnimation());
+
+            Invoke("GoToPlayScene", shipDuraction + 1);
         }
 
         private void OnOptionsButtonPressed()
@@ -143,6 +151,11 @@ namespace UISystem.MainMenu
 
             settingsOverlay.style.display = DisplayStyle.Flex;
             mainMenuContainer.style.display = DisplayStyle.None;
+
+            // Load current settings
+            masterVolumeSlider.value = settings.masterVolume;
+            musicVolumeSlider.value = settings.musicVolume;
+            fullscreenToggle.value = settings.isFullscreen;
         }
 
         private void OnExitButtonPressed()
@@ -188,7 +201,11 @@ namespace UISystem.MainMenu
             AudioListener.volume = masterVolume;
             Screen.fullScreen = isFullscreen;
 
-            Debug.Log("Settings applied: Master Volume = " + masterVolume + ", Fullscreen = " + isFullscreen);
+            settings.masterVolume = masterVolume;
+            settings.musicVolume = musicVolumeSlider.value;
+            settings.isFullscreen = isFullscreen;
+
+            BackToMainMenu();
         }
 
         private void BackToMainMenu()
@@ -213,6 +230,11 @@ namespace UISystem.MainMenu
         {
             Debug.Log("Application is quitting...");
             Application.Quit();
+        }
+
+        private void GoToPlayScene()
+        {
+            SceneManager.LoadScene("BluePlanet");
         }
 
         private IEnumerator SpaceShipAnimation()
