@@ -5,6 +5,7 @@ using BuildingPlacement;
 using UISystem;
 using System.Linq;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 namespace InputController
 {
@@ -98,6 +99,19 @@ namespace InputController
 
                 if (IsPositionValid(spawnPosition))
                 {
+                    bool isThereMainBuilding = placedObjects.Any(obj => obj.GetComponent<BuildingPlacement.Buildings.MainStation>() != null);
+                    if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
+                    {
+                        Debug.Log("Önce bir Ana Üs yerleştirmeniz gerekiyor. Ana Üs olmadan başka binalar yerleştiremezsiniz.");
+                        currentSelectedBuilding = null;
+                        return;
+                    }
+                    if (currentSelectedBuilding.buildingName == "Main Station" && isThereMainBuilding)
+                    {
+                        Debug.Log("Zaten bir Ana Üs yerleştirildi.");
+                        currentSelectedBuilding = null;
+                        return;
+                    }
                     if (buildingCounts.ContainsKey(currentSelectedBuilding.buildingName) &&
                         buildingCounts[currentSelectedBuilding.buildingName] >= currentSelectedBuilding.maxCreatedUnits)
                     {
@@ -117,9 +131,7 @@ namespace InputController
                     else
                         buildingCounts[currentSelectedBuilding.buildingName] = 1;
 
-                    currentSelectedBuilding = null;
-                    // Bir bina koyduktan sonra rotasyonu sıfırlamak isterseniz bu satırı açın:
-                    // currentRotation = Quaternion.identity; 
+                    currentSelectedBuilding = null; 
 
                     Debug.Log(placedObject.name + " yerleştirildi.");
                 }
@@ -227,7 +239,6 @@ namespace InputController
                     break;
             }
         }
-
 
         private void DeselectAll()
         {
