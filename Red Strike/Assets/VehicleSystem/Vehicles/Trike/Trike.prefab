@@ -9875,8 +9875,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6432059217527170791}
   - {fileID: 6033592794117790598}
@@ -9974,6 +9974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamId: 0
   playerType: 0
+  unitType: 0
   vehicleData: {fileID: 11400000, guid: 6b721204d4c46a24db720117c7fd198c, type: 2}
   targetObject: {fileID: 0}
   smokeEffect: {fileID: 65928624315414662}
