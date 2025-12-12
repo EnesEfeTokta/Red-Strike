@@ -3,14 +3,12 @@
     <Style src="project://database/Assets/UI%20Toolkit/GameHUDStyles.uss?fileID=7433441132597879392&amp;guid=76481a45a761bb147acf1059658d7ddd&amp;type=3#GameHUDStyles" />
 
     <!-- ROOT CONTAINER -->
-    <!-- picking-mode="Ignore" yaptık ki ekrandaki boş yerlere tıklayınca oyun algılasın. -->
     <ui:VisualElement name="root-container" picking-mode="Ignore" style="width: 100%; height: 100%;">
 
         <!-- TOP BAR -->
         <ui:VisualElement name="top-bar-container" class="top-bar" picking-mode="Position" />
 
         <!-- LEFT PANEL (Bina Seçim Menüsü) -->
-        <!-- picking-mode="Position" sayesinde buraya tıklayınca arkaya geçmez -->
         <ui:VisualElement name="left-panel" class="side-panel" picking-mode="Position">
             <ui:Button text="Main Station" name="main-station-button" class="build-button" />
             <ui:Button text="Hangar" name="hangar-button" class="build-button" />
@@ -18,7 +16,6 @@
         </ui:VisualElement>
 
         <!-- RIGHT PANEL 1: BUILDING DETAILS (Bina Bilgi Paneli) -->
-        <!-- picking-mode="Position" eklendi. Panele tıklayınca kapanmaz. -->
         <ui:VisualElement name="building-details-panel" class="info-panel" visible="false" picking-mode="Position">
             
             <!-- Ortak Başlıklar -->
@@ -32,7 +29,6 @@
             <ui:VisualElement name="building-dynamic-content-container">
 
                 <!-- 1. MAIN STATION CONTENT -->
-                <!-- Varsayılan olarak gizli (display: none) -->
                 <ui:VisualElement name="main-station-content-area" style="display: none;">
                     <ui:Label text="Shield:" name="shield-label" class="details-text" />
                 </ui:VisualElement>
