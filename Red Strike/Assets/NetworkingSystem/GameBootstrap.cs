@@ -32,14 +32,14 @@ namespace NetworkingSystem
             Debug.Log($"Oyun Başlatıldı. Mod: {mode}");
         }
 
-        public void StartHost()
+        public async void StartHost()
         {
-            StartGame(GameMode.Host);
+            await StartGame(GameMode.Host);
         }
 
-        public void StartClient()
+        public async void StartClient()
         {
-            StartGame(GameMode.Client);
+            await StartGame(GameMode.Client);
         }
     }
 }
