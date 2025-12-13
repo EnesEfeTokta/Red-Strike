@@ -24598,6 +24598,7 @@ GameObject:
   - component: {fileID: 144131922059011378}
   - component: {fileID: 8503807617094654840}
   - component: {fileID: 714959567893770600}
+  - component: {fileID: 5605741865209945561}
   m_Layer: 6
   m_Name: Quad
   m_TagString: Vehicle
@@ -24797,6 +24798,24 @@ MonoBehaviour:
   warningIcon: {fileID: 21300000, guid: 16226a473d4c20e4ab2b9a59d7d6e1cd, type: 3}
   refuelingIcon: {fileID: 21300000, guid: df18adcb4e7a18e408cf2f8b48d22c32, type: 3}
   vehicleStatusIcon: {fileID: 8277337813219073883}
+--- !u!114 &5605741865209945561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855602119919018044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2950305368
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &2066256228391248142
 GameObject:
   m_ObjectHideFlags: 0

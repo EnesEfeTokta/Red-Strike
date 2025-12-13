@@ -29099,6 +29099,7 @@ GameObject:
   - component: {fileID: 6298329524963412463}
   - component: {fileID: 4702574813254291020}
   - component: {fileID: 2466049015545958726}
+  - component: {fileID: 1892151212200857955}
   m_Layer: 6
   m_Name: TankCombat
   m_TagString: Vehicle
@@ -29293,6 +29294,24 @@ MonoBehaviour:
   warningIcon: {fileID: 21300000, guid: 16226a473d4c20e4ab2b9a59d7d6e1cd, type: 3}
   refuelingIcon: {fileID: 21300000, guid: df18adcb4e7a18e408cf2f8b48d22c32, type: 3}
   vehicleStatusIcon: {fileID: 1977454829142698248}
+--- !u!114 &1892151212200857955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6447347669934246735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3075723504
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &6622382545202222822
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5647536224997323072}
   - component: {fileID: -872241184533086861}
   - component: {fileID: -7001656233245260738}
+  - component: {fileID: 1994267217682172209}
   m_Layer: 6
   m_Name: EnergyTower
   m_TagString: Build
@@ -169,6 +170,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &1994267217682172209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4083171081778293073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1790195307
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
+  ForceRemoteRenderTimeframe: 0
 --- !u!1001 &1993968208826293375
 PrefabInstance:
   m_ObjectHideFlags: 0

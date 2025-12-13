@@ -12,9 +12,25 @@
         </ui:VisualElement>
     </ui:VisualElement>
 
+    <!-- Oyun Başlatma Ekranı (Varsayılan olarak gizli) -->
+    <ui:VisualElement name="game-start-overlay" class="settings-overlay" style="display: none;">
+        <ui:VisualElement name="game-start-panel" class="confirmation-panel">
+
+            <ui:Label text="START GAME" name="start-header" class="start-header" />
+            
+            <ui:Label text="HOW WILL YOU JOIN THE GAME?" name="start-message" class="start-message" />
+
+            <ui:VisualElement class="footer" style="justify-content: center; border-top-color: rgba(50, 255, 50, 0.3);">
+                <ui:Button text="HOST (H)" name="host-start-button" class="action-btn confirm-btn" />
+                <ui:Button text="CLIENT (C)" name="client-start-button" class="action-btn confirm-btn" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+
     <!-- Ayarlar Ekranı (Varsayılan olarak gizli) -->
     <ui:VisualElement name="settings-overlay" class="settings-overlay" style="display: none;">
-        <ui:VisualElement name="SettingsPanel" class="settings-panel">
+        <ui:VisualElement name="settings-panel" class="settings-panel">
             <ui:Label text="OPTIONS" class="settings-header" />
             
             <ui:Label text="AUDIO LEVELS" class="section-header" />

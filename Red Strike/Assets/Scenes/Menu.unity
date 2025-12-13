@@ -358,6 +358,9 @@ MonoBehaviour:
   atmosphereMaterial: {fileID: 2100000, guid: 2408ec61631a3e24db680f86b5b150a7, type: 2}
   cloudMaterial: {fileID: 2100000, guid: 452202a9af21f504594d57e7b894652a, type: 2}
   fogMaterial: {fileID: 2100000, guid: cb5b62743c9506845aa26111364535f4, type: 2}
+  firefliesParticleSystem: {fileID: 0}
+  nightStartTime: 0.75
+  nightEndTime: 0.25
 --- !u!1 &656923633
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,37 +466,6 @@ MonoBehaviour:
     Time: 1
     Smoothing: 30
     IgnoreY: 0
---- !u!1 &893637714
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 893637715}
-  m_Layer: 0
-  m_Name: FirstScreenManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &893637715
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893637714}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.719062, y: 7.7998605, z: -15.019453}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &995665647
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,8 +768,9 @@ GameObject:
   - component: {fileID: 1693417822}
   - component: {fileID: 1693417823}
   - component: {fileID: 1693417821}
+  - component: {fileID: 1693417824}
   m_Layer: 0
-  m_Name: MainMenu
+  m_Name: GlobalManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -861,6 +834,20 @@ MonoBehaviour:
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+--- !u!114 &1693417824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693417820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6e293c1fb21b34aa9ea2b48b51a2f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _networkRunnerPrefab: {fileID: 8075009256923174716, guid: c14536eb6b929a348a4d4b4db658ed37, type: 3}
+  _gameSceneIndex: 1
 --- !u!1 &1877737717
 GameObject:
   m_ObjectHideFlags: 0
@@ -1179,7 +1166,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 995665650}
   - {fileID: 1371548476}
-  - {fileID: 893637715}
   - {fileID: 1877737720}
   - {fileID: 1920276005}
   - {fileID: 449161295}

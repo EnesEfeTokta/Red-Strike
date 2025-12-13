@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using GameSettings;
 using UnityEngine.SceneManagement;
+using NetworkingSystem;
 
 namespace UISystem.MainMenu
 {
@@ -35,6 +36,7 @@ namespace UISystem.MainMenu
 
         private UIDocument document;
         private VisualElement mainMenuContainer;
+        private VisualElement gameStartOverlay;
         private VisualElement quitOverlay;
         private VisualElement fadePanel;
         private VisualElement settingsOverlay;
@@ -42,9 +44,12 @@ namespace UISystem.MainMenu
         private Slider musicVolumeSlider;
         private Toggle fullscreenToggle;
 
+        private GameBootstrap gameBootstrap;
+
         private void Awake()
         {
             document = GetComponent<UIDocument>();
+            gameBootstrap = GetComponent<GameBootstrap>();
         }
 
         private void Start()
@@ -79,7 +84,7 @@ namespace UISystem.MainMenu
             var quitBtn = root.Q<Button>("quit-button");
 
             if (startBtn != null) startBtn.clicked += () => OnPlayButtonPressed();
-            if (settingsBtn != null) settingsBtn.clicked += () => OnOptionsButtonPressed(); 
+            if (settingsBtn != null) settingsBtn.clicked += () => OnOptionsButtonPressed();
             if (quitBtn != null) quitBtn.clicked += () => OnExitButtonPressed();
 
             quitOverlay = root.Q<VisualElement>("quit-overlay");
@@ -91,6 +96,13 @@ namespace UISystem.MainMenu
 
             fadePanel = root.Q<VisualElement>("fade-panel");
             fadePanel.style.opacity = 0f;
+
+            gameStartOverlay = root.Q<VisualElement>("game-start-overlay");
+            var hostStartBtn = root.Q<Button>("host-start-button");
+            var clientStartBtn = root.Q<Button>("client-start-button");
+
+            if (hostStartBtn != null) hostStartBtn.clicked += () => OnHostButtonPressed();
+            if (clientStartBtn != null) clientStartBtn.clicked += () => OnClientButtonPressed();
         }
 
         private void Update()
@@ -131,22 +143,40 @@ namespace UISystem.MainMenu
         {
             CameraTransition(MenuState.MainMenu);
 
+            gameStartOverlay.style.display = DisplayStyle.Flex;
+        }
+
+        private void OnHostButtonPressed()
+        {
             cinemachineCamera_A.Target.TrackingTarget = spaceShip.transform;
+            StartCoroutine(SpaceShipAnimation());
 
             fadePanel.style.display = DisplayStyle.Flex;
             fadePanel.style.opacity = 1f;
             mainMenuContainer.style.display = DisplayStyle.None;
+            gameStartOverlay.style.display = DisplayStyle.None;
 
+            gameBootstrap.StartHost();
+        }
+
+        private void OnClientButtonPressed()
+        {
+            cinemachineCamera_A.Target.TrackingTarget = spaceShip.transform;
             StartCoroutine(SpaceShipAnimation());
 
-            Invoke("GoToPlayScene", shipDuraction + 1);
+            fadePanel.style.display = DisplayStyle.Flex;
+            fadePanel.style.opacity = 1f;
+            mainMenuContainer.style.display = DisplayStyle.None;
+            gameStartOverlay.style.display = DisplayStyle.None;
+
+            gameBootstrap.StartClient();
         }
 
         private void OnOptionsButtonPressed()
         {
             // Load the options menu scene
             CameraTransition(MenuState.OptionsMenu);
-            
+
             currentMenuState = MenuState.OptionsMenu;
 
             settingsOverlay.style.display = DisplayStyle.Flex;
@@ -230,11 +260,6 @@ namespace UISystem.MainMenu
         {
             Debug.Log("Application is quitting...");
             Application.Quit();
-        }
-
-        private void GoToPlayScene()
-        {
-            SceneManager.LoadScene("BluePlanet");
         }
 
         private IEnumerator SpaceShipAnimation()

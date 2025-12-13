@@ -9858,6 +9858,7 @@ GameObject:
   - component: {fileID: -1316650565147742908}
   - component: {fileID: -7762954015810627755}
   - component: {fileID: 4705468177699833839}
+  - component: {fileID: 9104829972904319075}
   m_Layer: 6
   m_Name: Trike
   m_TagString: Vehicle
@@ -10053,6 +10054,24 @@ MonoBehaviour:
   warningIcon: {fileID: 21300000, guid: 16226a473d4c20e4ab2b9a59d7d6e1cd, type: 3}
   refuelingIcon: {fileID: 21300000, guid: df18adcb4e7a18e408cf2f8b48d22c32, type: 3}
   vehicleStatusIcon: {fileID: 3352566945537072241}
+--- !u!114 &9104829972904319075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231230407424723898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2943238947
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &2472569874757754227
 GameObject:
   m_ObjectHideFlags: 0
