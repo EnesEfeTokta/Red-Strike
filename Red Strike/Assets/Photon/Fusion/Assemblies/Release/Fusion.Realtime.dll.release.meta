@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b4627d5c4bd06554a80a172afbc50fb1
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 267958
+  packageName: Photon Fusion
+  packageVersion: 2.0.9
+  assetPath: Assets/Photon/Fusion/Assemblies/Release/Fusion.Realtime.dll.release
+  uploadId: 832254
