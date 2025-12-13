@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using Unity.AI.Navigation;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
 public class AutoRampConnector : EditorWindow
 {
     [Header("Zorunlu Alan")]
@@ -201,3 +202,4 @@ public class AutoRampConnector : EditorWindow
         if (existing != null) Undo.DestroyObjectImmediate(existing);
     }
 }
+#endif

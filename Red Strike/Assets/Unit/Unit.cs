@@ -1,7 +1,9 @@
 using UnityEngine;
+using Fusion;
 
 namespace Unit
 {
+    [RequireComponent(typeof(NetworkObject))]
     public class Unit : MonoBehaviour
     {
         [Header("Unit Info")]

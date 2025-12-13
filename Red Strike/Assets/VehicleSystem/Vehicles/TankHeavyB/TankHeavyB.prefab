@@ -34070,6 +34070,7 @@ GameObject:
   - component: {fileID: 1680988210601206269}
   - component: {fileID: -1426464836849087648}
   - component: {fileID: 7962787564772278767}
+  - component: {fileID: 6263774469800540461}
   m_Layer: 6
   m_Name: TankHeavyB
   m_TagString: Vehicle
@@ -34264,6 +34265,24 @@ MonoBehaviour:
   warningIcon: {fileID: 21300000, guid: 16226a473d4c20e4ab2b9a59d7d6e1cd, type: 3}
   refuelingIcon: {fileID: 21300000, guid: df18adcb4e7a18e408cf2f8b48d22c32, type: 3}
   vehicleStatusIcon: {fileID: 8540710005414183809}
+--- !u!114 &6263774469800540461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6764242314245405904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 106435374
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &7141264988768546558
 GameObject:
   m_ObjectHideFlags: 0
