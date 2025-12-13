@@ -16,7 +16,6 @@ public class AutoRampConnector : EditorWindow
     LayerMask groundLayer = ~0;
 
     [Header("Eğim Ayarı (Rampa Uzunluğu)")]
-    [Tooltip("1.0 = 45 derece. Değer arttıkça rampa daha uzağa gider (daha yatık olur).")]
     float slopeFactor = 1.5f;
 
     [MenuItem("Tools/Auto Ramp Connector (High-to-Low)")]
