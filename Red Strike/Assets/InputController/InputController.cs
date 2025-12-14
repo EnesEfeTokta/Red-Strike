@@ -31,6 +31,14 @@ namespace InputController
 
         public int teamId = 0;
 
+        public static InputController Instance;
+
+        private void Awake()
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(gameObject);
+        }
+
         private void Start()
         {
             mainCamera = Camera.main;
@@ -130,7 +138,7 @@ namespace InputController
                     else
                         buildingCounts[currentSelectedBuilding.buildingName] = 1;
 
-                    currentSelectedBuilding = null; 
+                    currentSelectedBuilding = null;
 
                     Debug.Log(placedObject.name + " yerleştirildi.");
                 }

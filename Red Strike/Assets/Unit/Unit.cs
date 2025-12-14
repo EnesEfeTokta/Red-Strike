@@ -4,6 +4,7 @@ using Fusion;
 namespace Unit
 {
     [RequireComponent(typeof(NetworkObject))]
+    [RequireComponent(typeof(NetworkTransform))]
     public class Unit : MonoBehaviour
     {
         [Header("Unit Info")]

@@ -34071,6 +34071,7 @@ GameObject:
   - component: {fileID: -1426464836849087648}
   - component: {fileID: 7962787564772278767}
   - component: {fileID: 6263774469800540461}
+  - component: {fileID: 7989778151804778632}
   m_Layer: 6
   m_Name: TankHeavyB
   m_TagString: Vehicle
@@ -34281,8 +34282,26 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 7989778151804778632}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &7989778151804778632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6764242314245405904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &7141264988768546558
 GameObject:
   m_ObjectHideFlags: 0
