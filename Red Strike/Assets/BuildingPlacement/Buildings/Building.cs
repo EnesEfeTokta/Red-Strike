@@ -15,18 +15,14 @@ namespace BuildingPlacement.Buildings
 
         private void Start()
         {
-            foreach (ParticleSystem effect in buildEffects)
-            {
-                var main = effect.main;
-                main.startColor = playerType == PlayerType.Red ? Color.red : Color.blue;
-            }
-
             maxHealth = buildingData.maxHealth;
             health = maxHealth;
         }
 
         public override void TakeDamage(float damage)
         {
+            if (!Object.HasStateAuthority) return;
+            
             health -= damage;
             health = Mathf.Max(0, health);
 
@@ -36,7 +32,7 @@ namespace BuildingPlacement.Buildings
             {
                 Debug.Log($"Building {BuildingName} destroyed.");
                 Instantiate(buildingData.explosionEffect, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Runner.Despawn(Object);
             }
         }
 
