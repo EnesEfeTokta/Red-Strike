@@ -277,17 +277,6 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        private void DisableMuzzleFlashLights()
-        {
-            foreach (var light in muzzleFlashLights)
-            {
-                if (light != null)
-                {
-                    light.enabled = false;
-                }
-            }
-        }
-
         protected virtual void FireShot()
         {
             // Implement firing logic in derived classes
@@ -322,7 +311,7 @@ namespace VehicleSystem.Vehicles
             {
                 Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
                 Instantiate(vehicleData.explosionEffect, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Runner.Despawn(Object);
             }
         }
     }
