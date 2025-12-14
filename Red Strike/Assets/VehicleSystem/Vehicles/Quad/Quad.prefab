@@ -24599,6 +24599,7 @@ GameObject:
   - component: {fileID: 8503807617094654840}
   - component: {fileID: 714959567893770600}
   - component: {fileID: 5605741865209945561}
+  - component: {fileID: 4578676548635405671}
   m_Layer: 6
   m_Name: Quad
   m_TagString: Vehicle
@@ -24814,8 +24815,26 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 4578676548635405671}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &4578676548635405671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855602119919018044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &2066256228391248142
 GameObject:
   m_ObjectHideFlags: 0
