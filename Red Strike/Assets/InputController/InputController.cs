@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using VehicleSystem.Vehicles;
+using VehicleSystem;
 using BuildingPlacement;
 using UISystem;
 using System.Linq;
@@ -16,6 +16,7 @@ namespace InputController
         [Header("UI & Database")]
         public UIDocument gameUIDocument;
         public BuildingsDatabase buildingsDatabase;
+        public VehiclesDatabase vehiclesDatabase;
 
         [Header("Layers & Camera")]
         public LayerMask terrainLayer;
@@ -27,12 +28,13 @@ namespace InputController
         public int teamId = 0;
 
         private Building currentSelectedBuilding;
-        private Vehicle currentSelectedVehicle;
+        private VehicleSystem.Vehicles.Vehicle currentSelectedVehicle;
         
         private VehiclesHUDController vehiclesHUDController;
         private BuildingHUDController buildingHUDController;
 
         private SelectionHighlighter vehicleHighlighter;
+
         private SelectionHighlighter targetHighlighter;
         private SelectionHighlighter tempBuildingHighlighter;
 
@@ -206,7 +208,7 @@ namespace InputController
             switch (unit.unitType)
             {
                 case Unit.UnitType.Vehicle:
-                    currentSelectedVehicle = unit.GetComponent<Vehicle>();
+                    currentSelectedVehicle = unit.GetComponent<VehicleSystem.Vehicles.Vehicle>();
                     if (currentSelectedVehicle != null)
                     {
                         vehicleHighlighter = GetHighlighter(unit.gameObject);

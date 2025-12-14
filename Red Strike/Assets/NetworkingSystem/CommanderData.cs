@@ -1,7 +1,6 @@
 using UnityEngine;
 using Fusion;
 using System.Linq;
-using InputController;
 
 namespace NetworkingSystem
 {
@@ -88,6 +87,33 @@ namespace NetworkingSystem
             else
             {
                 Debug.LogError($"Server: {buildingName} prefabı bulunamadı!");
+            }
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_SpawnVehicle(string vehicleName, Vector3 position)
+        {
+            Debug.Log($"Server: {Object.InputAuthority} oyuncusu {vehicleName} üretmek istiyor.");
+
+            if (InputController.InputController.Instance == null) return;
+
+            var database = InputController.InputController.Instance.vehiclesDatabase;
+            var vehicleData = database.vehicles.FirstOrDefault(v => v.vehicleName == vehicleName);
+
+            if (vehicleData != null && vehicleData.vehiclePrefab != null)
+            {
+                NetworkObject spawnedObj = Runner.Spawn(vehicleData.vehiclePrefab, position, Quaternion.identity, Object.InputAuthority);
+
+                var unitScript = spawnedObj.GetComponent<Unit.Unit>();
+                if (unitScript != null)
+                {
+                    unitScript.teamId = PlayerTeamID;
+                    Debug.Log($"Araç üretildi ({vehicleData.vehicleName}). Takım ID: {PlayerTeamID} atandı.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Server: {vehicleData.vehicleName} prefabı bulunamadı!");
             }
         }
     }

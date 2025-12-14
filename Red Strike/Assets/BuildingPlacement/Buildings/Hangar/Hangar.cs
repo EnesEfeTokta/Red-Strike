@@ -1,5 +1,6 @@
 using UnityEngine;
 using VehicleSystem;
+using NetworkingSystem;
 
 namespace BuildingPlacement.Buildings
 {
@@ -40,7 +41,7 @@ namespace BuildingPlacement.Buildings
             {
                 if (item.vehicleType == vehicleType)
                 {
-                    Instantiate(item.vehiclePrefab, vehicleSpawnPoint, Quaternion.identity);
+                    CommanderData.LocalCommander.RPC_SpawnVehicle(item.vehicleName, vehicleSpawnPoint);
                     InProductionUnitName = "None";
                     IsReady = true;
                     return;
