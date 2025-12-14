@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fdd334c99237f47ae7f97bed928889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
+  _teamId: 0
   playerType: 0
   unitType: 1
   buildingData: {fileID: 11400000, guid: 25b5998dd3a37a74fbed9e8adcc609ce, type: 2}
@@ -186,6 +186,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 5269824642355325504}
   - {fileID: 3522928540239067126}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &3522928540239067126
@@ -381,7 +382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6813416509558619124, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -469,6 +470,10 @@ PrefabInstance:
     - target: {fileID: 985483039366664255, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 985483039366664255, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1110556030845387871, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
       propertyPath: ShapeModule.angle

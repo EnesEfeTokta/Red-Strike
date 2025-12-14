@@ -5,33 +5,39 @@ using BuildingPlacement;
 using UISystem;
 using System.Linq;
 using UnityEngine.UIElements;
+using NetworkingSystem;
 
 namespace InputController
 {
     public class InputController : MonoBehaviour
     {
-        public UIDocument gameUIDocument;
+        public static InputController Instance;
 
+        [Header("UI & Database")]
+        public UIDocument gameUIDocument;
+        public BuildingsDatabase buildingsDatabase;
+
+        [Header("Layers & Camera")]
         public LayerMask terrainLayer;
         public LayerMask selectableLayer;
         private Camera mainCamera;
-        public BuildingsDatabase buildingsDatabase;
-        private Dictionary<string, int> buildingCounts = new Dictionary<string, int>();
+
+        [Header("Settings")]
+        public float minDistanceBetweenObjects = 5f;
+        public int teamId = 0;
+
         private Building currentSelectedBuilding;
         private Vehicle currentSelectedVehicle;
-        private List<GameObject> placedObjects = new List<GameObject>();
-        public float minDistanceBetweenObjects = 5f;
+        
         private VehiclesHUDController vehiclesHUDController;
         private BuildingHUDController buildingHUDController;
 
         private SelectionHighlighter vehicleHighlighter;
         private SelectionHighlighter targetHighlighter;
-
         private SelectionHighlighter tempBuildingHighlighter;
 
-        public int teamId = 0;
-
-        public static InputController Instance;
+        // Limitleme için sayaç (İsteğe bağlı, şimdilik basit tutuyoruz)
+        private Dictionary<string, int> buildingCounts = new Dictionary<string, int>();
 
         private void Awake()
         {
@@ -42,16 +48,23 @@ namespace InputController
         private void Start()
         {
             mainCamera = Camera.main;
-
             vehiclesHUDController = GetComponent<VehiclesHUDController>();
             buildingHUDController = GetComponent<BuildingHUDController>();
         }
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(1) && currentSelectedBuilding != null)
+            if (Input.GetMouseButtonDown(1))
             {
-                DeselectAll();
+                if (currentSelectedBuilding != null)
+                {
+                    currentSelectedBuilding = null;
+                    Debug.Log("Bina yerleştirme iptal edildi.");
+                }
+                else
+                {
+                    DeselectAll();
+                }
                 return;
             }
 
@@ -65,10 +78,7 @@ namespace InputController
 
             if (Input.GetMouseButtonDown(0))
             {
-                if (IsPointerOverUI())
-                {
-                    return;
-                }
+                if (IsPointerOverUI()) return;
 
                 if (currentSelectedBuilding != null)
                 {
@@ -79,20 +89,6 @@ namespace InputController
                     HandleObjectSelection();
                 }
             }
-        }
-
-        private bool IsPointerOverUI()
-        {
-            if (gameUIDocument == null) return false;
-
-            Vector2 panelLocalPos = RuntimePanelUtils.ScreenToPanel(gameUIDocument.rootVisualElement.panel, Input.mousePosition);
-            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(panelLocalPos);
-
-            if (pickedElement == null) return false;
-            if (pickedElement.name == "root-container") return false;
-            if (pickedElement == gameUIDocument.rootVisualElement) return false;
-
-            return true;
         }
 
         private void PlaceBuilding()
@@ -106,47 +102,49 @@ namespace InputController
 
                 if (IsPositionValid(spawnPosition))
                 {
-                    bool isThereMainBuilding = placedObjects.Any(obj => obj.GetComponent<BuildingPlacement.Buildings.MainStation>() != null);
+                    bool isThereMainBuilding = FindObjectsByType<BuildingPlacement.Buildings.MainStation>(FindObjectsSortMode.None)
+                        .Any(station => 
+                        {
+                            var unit = station.GetComponent<Unit.Unit>();
+                            return unit != null && unit.teamId == teamId; 
+                        });
+
                     if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
                     {
-                        Debug.Log("Önce bir Ana Üs yerleştirmeniz gerekiyor. Ana Üs olmadan başka binalar yerleştiremezsiniz.");
-                        currentSelectedBuilding = null;
+                        Debug.LogWarning("Önce bir Ana Üs (Main Station) yerleştirmelisiniz!");
                         return;
                     }
+
                     if (currentSelectedBuilding.buildingName == "Main Station" && isThereMainBuilding)
                     {
-                        Debug.Log("Zaten bir Ana Üs yerleştirildi.");
-                        currentSelectedBuilding = null;
+                        Debug.LogWarning("Zaten bir Ana Üs'sünüz var.");
                         return;
                     }
-                    if (buildingCounts.ContainsKey(currentSelectedBuilding.buildingName) &&
-                        buildingCounts[currentSelectedBuilding.buildingName] >= currentSelectedBuilding.maxCreatedUnits)
+
+                    if (CommanderData.LocalCommander != null)
                     {
-                        Debug.Log(currentSelectedBuilding.buildingName + " için maksimum yerleştirme limitine ulaşıldı.");
+                        CommanderData.LocalCommander.RPC_SpawnBuilding(currentSelectedBuilding.buildingName, spawnPosition);
+                        Debug.Log($"<color=green>Server'a İstek:</color> {currentSelectedBuilding.buildingName} kuruluyor...");
+                    }
+                    else
+                    {
+                        Debug.LogError("HATA: LocalCommander (Network Bağlantısı) bulunamadı!");
                         return;
                     }
-
-                    GameObject placedObject = Instantiate(currentSelectedBuilding.buildingPrefab, spawnPosition, Quaternion.identity);
-
-                    if (placedObject.GetComponent<SelectionHighlighter>() == null)
-                        placedObject.AddComponent<SelectionHighlighter>();
-
-                    placedObjects.Add(placedObject);
-
-                    if (buildingCounts.ContainsKey(currentSelectedBuilding.buildingName))
-                        buildingCounts[currentSelectedBuilding.buildingName]++;
-                    else
-                        buildingCounts[currentSelectedBuilding.buildingName] = 1;
 
                     currentSelectedBuilding = null;
-
-                    Debug.Log(placedObject.name + " yerleştirildi.");
                 }
                 else
                 {
-                    Debug.Log("Bu pozisyon başka bir objeye çok yakın!");
+                    Debug.Log("Bu alan inşaat için uygun değil (Çok yakın veya engel var).");
                 }
             }
+        }
+
+        private bool IsPositionValid(Vector3 position)
+        {
+            bool hasObstacle = Physics.CheckSphere(position, minDistanceBetweenObjects, selectableLayer);
+            return !hasObstacle;
         }
 
         public void SelectBuildingToPlace(string buildingName)
@@ -156,11 +154,11 @@ namespace InputController
             if (buildingToSelect != null)
             {
                 currentSelectedBuilding = buildingToSelect;
-                Debug.Log("Seçilen bina: " + currentSelectedBuilding.buildingName + ". Yerleştirmek için araziye tıklayın.");
+                Debug.Log($"Seçilen: {currentSelectedBuilding.buildingName}. Yere tıklayın.");
             }
             else
             {
-                Debug.LogError(buildingName + " isminde bir bina veritabanında bulunamadı!");
+                Debug.LogError($"Database Hatası: {buildingName} bulunamadı!");
             }
         }
 
@@ -178,32 +176,28 @@ namespace InputController
             var unit = hitInfo.collider.GetComponent<Unit.Unit>();
             if (unit == null)
             {
-                DeselectAll();
-                return;
+                unit = hitInfo.collider.GetComponentInParent<Unit.Unit>();
+                if(unit == null) { DeselectAll(); return; }
             }
 
             bool isFriendly = unit.teamId == teamId;
             bool isEnemy = unit.teamId != teamId;
 
-            if (isEnemy && currentSelectedVehicle == null)
-            {
-                Debug.Log("Düşman hedef seçemezsin çünkü önce bir araç seçmen lazım.");
-                return;
-            }
-
             if (isEnemy)
             {
-                Debug.Log($"Araç {currentSelectedVehicle.name} hedefe kilitlendi: {unit.name}");
+                if (currentSelectedVehicle != null)
+                {
+                    Debug.Log($"Saldırı Emri: {currentSelectedVehicle.name} -> {unit.name}");
+                    currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
 
-                currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
-
-                if (targetHighlighter != null)
-                    targetHighlighter.DisableHighlight();
-
-                targetHighlighter = GetHighlighter(unit.gameObject);
-                if (targetHighlighter != null)
-                    targetHighlighter.EnableHighlight();
-
+                    if (targetHighlighter != null) targetHighlighter.DisableHighlight();
+                    targetHighlighter = GetHighlighter(unit.gameObject);
+                    targetHighlighter?.EnableHighlight();
+                }
+                else
+                {
+                    Debug.Log("Düşmanı seçmek için önce kendi aracınızı seçin.");
+                }
                 return;
             }
 
@@ -213,20 +207,10 @@ namespace InputController
             {
                 case Unit.UnitType.Vehicle:
                     currentSelectedVehicle = unit.GetComponent<Vehicle>();
-
                     if (currentSelectedVehicle != null)
                     {
                         vehicleHighlighter = GetHighlighter(unit.gameObject);
-                        if (vehicleHighlighter != null)
-                            vehicleHighlighter.EnableHighlight();
-
-                        if (currentSelectedVehicle.targetObject != null)
-                        {
-                            targetHighlighter = GetHighlighter(currentSelectedVehicle.targetObject);
-                            if (targetHighlighter != null)
-                                targetHighlighter.EnableHighlight();
-                        }
-
+                        vehicleHighlighter?.EnableHighlight();
                         vehiclesHUDController?.ShowVehicleDetails(currentSelectedVehicle);
                     }
                     break;
@@ -234,42 +218,26 @@ namespace InputController
                 case Unit.UnitType.Building:
                     tempBuildingHighlighter = GetHighlighter(unit.gameObject);
                     tempBuildingHighlighter?.EnableHighlight();
-
+                    
                     var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
-                    if (building != null)
-                        buildingHUDController.ShowBuildingDetails(building);
-
-                    break;
-
-                default:
-                    DeselectAll();
+                    if (building != null) buildingHUDController.ShowBuildingDetails(building);
                     break;
             }
         }
 
         private void DeselectAll()
         {
-            if (vehiclesHUDController != null) vehiclesHUDController.HideVehicleDetails();
-            if (buildingHUDController != null) buildingHUDController.HideBuildingDetails();
+            vehiclesHUDController?.HideVehicleDetails();
+            buildingHUDController?.HideBuildingDetails();
 
-            if (vehicleHighlighter != null)
-            {
-                vehicleHighlighter.DisableHighlight();
-                vehicleHighlighter = null;
-            }
+            vehicleHighlighter?.DisableHighlight();
+            targetHighlighter?.DisableHighlight();
+            tempBuildingHighlighter?.DisableHighlight();
 
-            if (targetHighlighter != null)
-            {
-                targetHighlighter.DisableHighlight();
-                targetHighlighter = null;
-            }
-
-            if (tempBuildingHighlighter != null)
-            {
-                tempBuildingHighlighter.DisableHighlight();
-                tempBuildingHighlighter = null;
-            }
-
+            vehicleHighlighter = null;
+            targetHighlighter = null;
+            tempBuildingHighlighter = null;
+            
             currentSelectedVehicle = null;
             currentSelectedBuilding = null;
         }
@@ -281,15 +249,20 @@ namespace InputController
             return hl;
         }
 
-        private bool IsPositionValid(Vector3 position)
+        private bool IsPointerOverUI()
         {
-            foreach (GameObject placedObject in placedObjects)
-            {
-                if (Vector3.Distance(position, placedObject.transform.position) < minDistanceBetweenObjects)
-                {
-                    return false;
-                }
-            }
+            if (gameUIDocument == null) return false;
+            
+            if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                return true;
+
+            Vector2 panelLocalPos = RuntimePanelUtils.ScreenToPanel(gameUIDocument.rootVisualElement.panel, Input.mousePosition);
+            VisualElement pickedElement = gameUIDocument.rootVisualElement.panel.Pick(panelLocalPos);
+
+            if (pickedElement == null) return false;
+            if (pickedElement.name == "root-container") return false;
+            if (pickedElement == gameUIDocument.rootVisualElement) return false;
+
             return true;
         }
     }

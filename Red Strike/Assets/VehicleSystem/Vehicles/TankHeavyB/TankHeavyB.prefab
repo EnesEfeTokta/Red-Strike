@@ -34162,7 +34162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1537c636a236fc42af5e0eaa5de9861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
+  _teamId: 0
   playerType: 0
   unitType: 0
   vehicleData: {fileID: 11400000, guid: 2401c75b324e39040b0b2d2edbfe5039, type: 2}
@@ -34283,6 +34283,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 9160367188802437689}
   - {fileID: 7989778151804778632}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &7989778151804778632
