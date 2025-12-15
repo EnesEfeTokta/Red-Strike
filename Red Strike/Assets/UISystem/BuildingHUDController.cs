@@ -115,7 +115,7 @@ namespace UISystem
         {
             if (currentlySelectedBuilding == null) return;
 
-            sharedHealthLabel.text = $"Health: {currentlySelectedBuilding.CurrentHealth:F0}";
+            sharedHealthLabel.text = $"Health: {currentlySelectedBuilding.Health:F0}";
 
             if (currentlySelectedBuilding is MainStation ms)
             {

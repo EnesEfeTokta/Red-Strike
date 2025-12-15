@@ -1,16 +1,18 @@
-using NetworkingSystem;
+using Fusion;
 using UnityEngine;
+using UISystem;
 
 namespace GameStateSystem
 {
-    public class GameStateManager : MonoBehaviour
+    public class GameStateManager : NetworkBehaviour
     {
         public static GameStateManager Instance;
 
-        public enum GameState { MainMenu, InGame, GameOver }
-        public GameState CurrentState { get; private set; }
+        [Networked] public int WinningTeamId { get; set; } = -1;
 
-        public int PlayerTeamId = 0;
+        public int LocalPlayerTeamId = 0; 
+
+        private ChangeDetector _changes;
 
         private void Awake()
         {
@@ -18,17 +20,64 @@ namespace GameStateSystem
             else Destroy(gameObject);
         }
 
-        private void Start()
+        public override void Spawned()
         {
-            CurrentState = GameState.InGame;
+            _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
+            
+            if (Object.HasStateAuthority)
+            {
+                WinningTeamId = -1;
+            }
         }
 
-        public void GameOver()
+        public override void Render()
         {
-            Debug.Log("Oyun Bitti!");
-            CurrentState = GameState.GameOver;
-            FindAnyObjectByType<UISystem.GameStatusHUDController>().ShowGameOverPanel();
-            CommanderData.LocalCommander?.OnDisconnect();
+            foreach (var change in _changes.DetectChanges(this))
+            {
+                if (change == nameof(WinningTeamId))
+                {
+                    HandleGameOverUI();
+                }
+            }
+        }
+
+        public void ReportTeamLoss(int losingTeamId)
+        {
+            if (Object.HasStateAuthority)
+            {
+                int winnerId = (losingTeamId == 1) ? 2 : 1;
+                WinningTeamId = winnerId;
+            }
+            else
+            {
+                RPC_ReportLoss(losingTeamId);
+            }
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        private void RPC_ReportLoss(int losingTeamId)
+        {
+            int winnerId = (losingTeamId == 1) ? 2 : 1;
+            WinningTeamId = winnerId;
+        }
+
+        private void HandleGameOverUI()
+        {
+            if (WinningTeamId == -1) return;
+
+            var hud = FindAnyObjectByType<GameStatusHUDController>();
+            if (hud == null) return;
+
+            Debug.Log($"Oyun Bitti! Kazanan: {WinningTeamId}, Benim Takımım: {LocalPlayerTeamId}");
+
+            if (WinningTeamId == LocalPlayerTeamId)
+            {
+                hud.ShowVictoryPanel();
+            }
+            else
+            {
+                hud.ShowGameOverPanel();
+            }
         }
     }
 }

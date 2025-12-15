@@ -11,20 +11,7 @@ namespace Unit
         [Networked] public int teamId { get; set; }
         public UnitType unitType;
 
-        public virtual void TakeDamage(float damage)
-        {
-            if (!Object.HasStateAuthority) return;
-
-            // Implement damage logic here
-        }
-
-        protected virtual void OnDestroy()
-        {
-            if (!Object.HasStateAuthority) return;
-
-            Debug.Log($"Unit of type {unitType} from team {teamId} is being destroyed.");
-            Runner.Despawn(Object);
-        }
+        public virtual void TakeDamage(float damage) { }
     }
 
     public enum UnitType { Vehicle, Building }
