@@ -27,11 +27,7 @@ namespace GameStateSystem
         {
             Debug.Log("Oyun Bitti!");
             CurrentState = GameState.GameOver;
-            UISystem.GameOverHUDController gameOverHUDController = FindAnyObjectByType<UISystem.GameOverHUDController>();
-            if (gameOverHUDController != null)
-            {
-                gameOverHUDController.ShowGameOverPanel();
-            }
+            FindAnyObjectByType<UISystem.GameStatusHUDController>().ShowGameOverPanel();
             CommanderData.LocalCommander?.OnDisconnect();
         }
     }
