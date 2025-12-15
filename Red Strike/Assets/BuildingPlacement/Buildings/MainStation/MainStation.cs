@@ -17,15 +17,5 @@ namespace BuildingPlacement.Buildings
         {
             return (buildingData.name, health);
         }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            if (GameStateSystem.GameStateManager.Instance != null)
-            {
-                GameStateSystem.GameStateManager.Instance.GameOver();
-            }
-        }
     }
 }

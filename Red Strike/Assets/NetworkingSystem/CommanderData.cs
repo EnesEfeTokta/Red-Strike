@@ -45,7 +45,7 @@ namespace NetworkingSystem
                     if (PlayerTeamID != 0 && InputController.InputController.Instance.teamId != PlayerTeamID)
                     {
                         InputController.InputController.Instance.teamId = PlayerTeamID;
-                        GameStateSystem.GameStateManager.Instance.PlayerTeamId = PlayerTeamID;
+                        GameStateSystem.GameStateManager.Instance.LocalPlayerTeamId = PlayerTeamID;
                         Debug.Log($"<color=yellow>ZORLA EŞİTLEME:</color> InputController ve GameStateManager ID'leri {PlayerTeamID} olarak düzeltildi.");
                     }
                 }
@@ -59,7 +59,7 @@ namespace NetworkingSystem
                 if (InputController.InputController.Instance != null && PlayerTeamID != 0)
                 {
                     InputController.InputController.Instance.teamId = PlayerTeamID;
-                    GameStateSystem.GameStateManager.Instance.PlayerTeamId = PlayerTeamID;
+                    GameStateSystem.GameStateManager.Instance.LocalPlayerTeamId = PlayerTeamID;
                     Debug.Log($"<color=green>GÜNCELLEME:</color> Takım ID'si {PlayerTeamID} olarak değişti ve ayarlandı!");
                 }
             }
