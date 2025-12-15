@@ -21,8 +21,8 @@ namespace BuildingPlacement.Buildings
 
         public override void TakeDamage(float damage)
         {
-            if (!Object.HasStateAuthority) return;
-            
+            base.TakeDamage(damage);
+
             health -= damage;
             health = Mathf.Max(0, health);
 
@@ -31,8 +31,8 @@ namespace BuildingPlacement.Buildings
             if (health <= 0)
             {
                 Debug.Log($"Building {BuildingName} destroyed.");
-                Instantiate(buildingData.explosionEffect, transform.position, Quaternion.identity);
-                Runner.Despawn(Object);
+                ParticleSystem exp = Instantiate(buildingData.explosionEffect, transform.position, Quaternion.identity);
+                OnDestroy();
             }
         }
 
@@ -46,6 +46,13 @@ namespace BuildingPlacement.Buildings
                 return;
 
             Debug.Log($"Building {BuildingName} collided with unit: {collision.gameObject.name}");
+        }
+
+        [ContextMenu("Test Delete Main Station")]
+        public void TestDelete() // TEST METHOD
+        {
+            Debug.Log("Main Station Test Delete triggered.");
+            TakeDamage(health + 1); // Ensure destruction
         }
     }
 }

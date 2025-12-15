@@ -10,6 +10,8 @@ namespace UISystem
         protected VisualElement root;
         protected VisualElement buildingDynamicContentContainer;
         protected VisualElement vehicleDynamicContentContainer;
+        protected VisualElement gameOverPanel;
+        protected VisualElement fadePanel;
 
         private void Start()
         {
@@ -24,13 +26,25 @@ namespace UISystem
                 Debug.LogError("Bu objede UIDocument bileşeni bulunamadı!", this);
                 return;
             }
+
             root = uiDocument.rootVisualElement;
+
             buildingDynamicContentContainer = root.Q<VisualElement>("building-dynamic-content-container");
             vehicleDynamicContentContainer = root.Q<VisualElement>("vehicle-dynamic-content-container");
+            gameOverPanel = root.Q<VisualElement>("game-over-panel");
+            fadePanel = root.Q<VisualElement>("fade-panel");
         }
 
         protected virtual void OnDisable() { }
 
         protected virtual void Update() { }
+
+        protected virtual void StartFadeIn()
+        {
+            if (fadePanel != null)
+            {
+                fadePanel.style.display = DisplayStyle.Flex;
+            }
+        }
     }
 }

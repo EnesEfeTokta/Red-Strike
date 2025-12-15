@@ -1,76 +1,62 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:engine="UnityEngine.UIElements" editor-extension-mode="False">
-    <!-- Stil Dosyası Bağlantısı -->
+    <!-- Stil Dosyası -->
     <Style src="project://database/Assets/UI%20Toolkit/GameHUDStyles.uss?fileID=7433441132597879392&amp;guid=76481a45a761bb147acf1059658d7ddd&amp;type=3#GameHUDStyles" />
 
-    <!-- ROOT CONTAINER -->
+    <!-- ROOT -->
     <ui:VisualElement name="root-container" picking-mode="Ignore" style="width: 100%; height: 100%;">
 
         <!-- TOP BAR -->
         <ui:VisualElement name="top-bar-container" class="top-bar" picking-mode="Position" />
 
-        <!-- LEFT PANEL (Bina Seçim Menüsü) -->
+        <!-- LEFT PANEL -->
         <ui:VisualElement name="left-panel" class="side-panel" picking-mode="Position">
             <ui:Button text="Main Station" name="main-station-button" class="build-button" />
             <ui:Button text="Hangar" name="hangar-button" class="build-button" />
             <ui:Button text="Energy Tower" name="energy-tower-button" class="build-button" />
         </ui:VisualElement>
 
-        <!-- RIGHT PANEL 1: BUILDING DETAILS (Bina Bilgi Paneli) -->
-        <ui:VisualElement name="building-details-panel" class="info-panel" visible="false" picking-mode="Position">
-            
-            <!-- Ortak Başlıklar -->
+        <!-- RIGHT PANEL 1 -->
+        <ui:VisualElement name="building-details-panel" class="info-panel" style="display: none;" picking-mode="Position">
             <ui:Label text="Build Type:" name="shared-build-type-label" class="details-title" />
             <ui:Label text="Health:" name="shared-health-label" class="details-text" />
-            
-            <!-- AYIRICI ÇİZGİ (Opsiyonel) -->
             <ui:VisualElement style="height: 1px; background-color: rgb(100, 100, 100); margin-top: 5px; margin-bottom: 5px;" />
-
-            <!-- İÇERİK ALANI (Tüm bina türleri burada, kod ile açıp kapatacağız) -->
             <ui:VisualElement name="building-dynamic-content-container">
-
-                <!-- 1. MAIN STATION CONTENT -->
                 <ui:VisualElement name="main-station-content-area" style="display: none;">
                     <ui:Label text="Shield:" name="shield-label" class="details-text" />
                 </ui:VisualElement>
-
-                <!-- 2. ENERGY TOWER CONTENT -->
                 <ui:VisualElement name="energy-tower-content-area" style="display: none;">
                     <ui:Label text="Capacity:" name="capacity-label" class="details-text" />
                     <ui:Label text="Density:" name="density-label" class="details-text" />
                 </ui:VisualElement>
-
-                <!-- 3. HANGAR CONTENT -->
                 <ui:VisualElement name="hangar-content-area" style="display: none;">
                     <ui:Label text="Is Ready:" name="is-ready-label" class="details-text" />
                     <ui:Label text="In production:" name="in-production-label" class="details-text" />
-                    
                     <ui:ScrollView mode="Vertical" style="max-height: 300px;">
                         <ui:Button text="Create Infantry" name="infantry-create-button" class="action-button" />
-                        <ui:Button text="Create Trike" name="trike-create-button" class="action-button" />
-                        <ui:Button text="Create Quad" name="quad-create-button" class="action-button" />
-                        <ui:Button text="Create Tank Combat" name="tank-combat-create-button" class="action-button" />
-                        <ui:Button text="Create Tank Heavy A" name="tank-heavy-a-create-button" class="action-button" />
-                        <ui:Button text="Create Tank Heavy B" name="tank-heavy-b-create-button" class="action-button" />
-                        <ui:Button text="Create Ornithopter A" name="ornithopter-a-create-button" class="action-button" />
-                        <ui:Button text="Create Ornithopter B" name="ornithopter-b-create-button" class="action-button" />
+                        <!-- Diğer butonlar... -->
                     </ui:ScrollView>
                 </ui:VisualElement>
-
             </ui:VisualElement>
         </ui:VisualElement>
 
-
-        <!-- RIGHT PANEL 2: VEHICLE DETAILS (Araç Bilgi Paneli) -->
-        <ui:VisualElement name="vehicle-details-panel" class="info-panel" visible="false" picking-mode="Position">
+        <!-- RIGHT PANEL 2 -->
+        <ui:VisualElement name="vehicle-details-panel" class="info-panel" style="display: none;" picking-mode="Position">
             <ui:Label text="Vehicle:" name="shared-vehicle-name-label" class="details-title" />
             <ui:Label text="Health:" name="shared-vehicle-health-label" class="details-text" />
             <ui:Label text="Fuel:" name="shared-vehicle-fuel-label" class="details-text" />
             <ui:Label text="Ammunition:" name="shared-vehicle-ammo-label" class="details-text" />
             <ui:Label text="Target:" name="shared-vehicle-target-label" class="details-text" />
-
-            <!-- Araçlara özel ekstra içerik gerekirse buraya eklenebilir -->
             <ui:VisualElement name="vehicle-dynamic-content-container" class="dynamic-content" />
         </ui:VisualElement>
 
+        <!-- GAME OVER PANEL -->
+        <ui:VisualElement name="game-over-panel" class="overlay-panel" style="display: none;" picking-mode="Position">
+            <ui:Label text="Game Over" name="game-over-title" class="overlay-title" />
+            <ui:Label text="You have been defeated!" name="game-over-message" class="overlay-message" />
+            <ui:Button text="Return to Main Menu" name="return-to-menu-button" class="overlay-button" />
+        </ui:VisualElement>
+
+        <!-- FADE PANEL -->
+        <ui:VisualElement name="fade-panel" class="fade-panel" style="display: none;" />
     </ui:VisualElement>
 </ui:UXML>
