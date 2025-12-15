@@ -14,10 +14,10 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
             rb = GetComponent<Rigidbody>();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             rb.linearVelocity = transform.forward * ammunitionData.speed;
-            Destroy(gameObject, ammunitionData.lifetime);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -45,7 +45,7 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
                 Destroy(explosionEffect, 2f);
             }
 
-            Destroy(gameObject);
+            Runner.Despawn(Object);
         }
     }
 }

@@ -12,11 +12,10 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
             rb = GetComponent<Rigidbody>();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             rb.linearVelocity = transform.forward * ammunitionData.speed;
-
-            Destroy(gameObject, ammunitionData.lifetime);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -33,7 +32,7 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
 
             unit.TakeDamage(ammunitionData.damage);
 
-            Destroy(gameObject);
+            OnDestroy();
         }
     }
 }
