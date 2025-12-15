@@ -24,7 +24,7 @@ namespace BuildingPlacement.Buildings
 
             if (GameStateSystem.GameStateManager.Instance != null)
             {
-                GameStateSystem.GameStateManager.Instance.MainStationDestroyed();
+                GameStateSystem.GameStateManager.Instance.GameOver();
             }
         }
     }

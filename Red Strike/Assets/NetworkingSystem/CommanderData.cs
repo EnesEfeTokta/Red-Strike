@@ -118,5 +118,14 @@ namespace NetworkingSystem
                 Debug.LogError($"Server: {vehicleData.vehicleName} prefabı bulunamadı!");
             }
         }
+
+        public void OnDisconnect()
+        {
+            if (Runner != null && Runner.IsRunning)
+            {
+                Debug.Log($"Oyuncu oyundan çıkarılıyor. Takım ID: {PlayerTeamID}");
+                Runner.Shutdown();
+            }
+        }
     }
 }

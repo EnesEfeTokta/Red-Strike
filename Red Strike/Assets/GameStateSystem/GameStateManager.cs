@@ -1,3 +1,4 @@
+using NetworkingSystem;
 using UnityEngine;
 
 namespace GameStateSystem
@@ -22,10 +23,16 @@ namespace GameStateSystem
             CurrentState = GameState.InGame;
         }
 
-        public void MainStationDestroyed()
+        public void GameOver()
         {
-            Debug.Log("Main Station has been destroyed! Game Over.");
+            Debug.Log("Oyun Bitti!");
             CurrentState = GameState.GameOver;
+            UISystem.GameOverHUDController gameOverHUDController = FindAnyObjectByType<UISystem.GameOverHUDController>();
+            if (gameOverHUDController != null)
+            {
+                gameOverHUDController.ShowGameOverPanel();
+            }
+            CommanderData.LocalCommander?.OnDisconnect();
         }
     }
 }
