@@ -56,6 +56,13 @@
             <ui:Button text="Return to Main Menu" name="return-to-menu-button" class="overlay-button" />
         </ui:VisualElement>
 
+        <!-- VICTORY PANEL -->
+        <ui:VisualElement name="victory-panel" class="overlay-panel" style="display: none;" picking-mode="Position">
+            <ui:Label text="VICTORY!" name="victory-title" class="victory-title" />
+            <ui:Label text="Mission Accomplished, Commander." name="victory-message" class="overlay-message" />
+            <ui:Button text="Menu" name="victory-menu-button" class="victory-secondary-button" />
+        </ui:VisualElement>
+
         <!-- FADE PANEL -->
         <ui:VisualElement name="fade-panel" class="fade-panel" style="display: none;" />
     </ui:VisualElement>

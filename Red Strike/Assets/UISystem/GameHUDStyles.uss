@@ -165,3 +165,50 @@
     transition-timing-function: ease-in-out;
     display: flex;
 }
+
+/* Zafer Başlığı (Yeşil/Altın) */
+.victory-title {
+    color: rgb(255, 215, 0); /* Gold rengi */
+    font-size: 36px;
+    -unity-font-style: bold;
+    margin-bottom: 15px;
+    text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Devam Et Butonu (Yeşil) */
+.victory-button {
+    width: 140px;
+    height: 45px;
+    background-color: rgb(46, 139, 87);
+    color: white;
+    border-width: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    -unity-font-style: bold;
+    margin-right: 5px;
+}
+
+.victory-button:hover {
+    background-color: rgb(60, 179, 113);
+    scale: 1.05;
+}
+
+.victory-button:active {
+    background-color: rgb(34, 100, 60);
+}
+
+/* Menü Butonu (Daha sönük) */
+.victory-secondary-button {
+    width: 100px;
+    height: 45px;
+    background-color: rgba(100, 100, 100, 0.8);
+    color: white;
+    border-width: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.victory-secondary-button:hover {
+    background-color: rgba(120, 120, 120, 1);
+}

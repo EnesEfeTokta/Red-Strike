@@ -12,6 +12,7 @@ namespace UISystem
         protected VisualElement vehicleDynamicContentContainer;
         protected VisualElement gameOverPanel;
         protected VisualElement fadePanel;
+        protected VisualElement victoryPanel;
 
         private void Start()
         {
@@ -33,6 +34,7 @@ namespace UISystem
             vehicleDynamicContentContainer = root.Q<VisualElement>("vehicle-dynamic-content-container");
             gameOverPanel = root.Q<VisualElement>("game-over-panel");
             fadePanel = root.Q<VisualElement>("fade-panel");
+            victoryPanel = root.Q<VisualElement>("victory-panel");
         }
 
         protected virtual void OnDisable() { }
