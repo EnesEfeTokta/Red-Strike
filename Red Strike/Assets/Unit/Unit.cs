@@ -13,10 +13,19 @@ namespace Unit
 
         public virtual void TakeDamage(float damage)
         {
+            if (!Object.HasStateAuthority) return;
+
             // Implement damage logic here
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (!Object.HasStateAuthority) return;
+
+            Debug.Log($"Unit of type {unitType} from team {teamId} is being destroyed.");
+            Runner.Despawn(Object);
         }
     }
 
-    public enum PlayerType { Red, Blue }
     public enum UnitType { Vehicle, Building }
 }
