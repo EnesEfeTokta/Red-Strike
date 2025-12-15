@@ -21,11 +21,6 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             currentSpeed = speed * 0.5f;
         }
 
-        private void Start()
-        {
-            Destroy(gameObject, ammunitionData.lifetime);
-        }
-
         public override void SetRocket(Transform targetTransform)
         {
             target = targetTransform;
@@ -76,7 +71,7 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
                 Destroy(explosionEffect, 2f);
             }
 
-            Destroy(gameObject);
+            OnDestroy();
         }
     }
 }
