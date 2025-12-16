@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Linq;
+using Fusion;
 
 namespace VehicleSystem.Vehicles
 {
@@ -34,6 +35,16 @@ namespace VehicleSystem.Vehicles
                 return;
             }
 
+            if (!Object.HasStateAuthority)
+            {
+                if (targetObject != null)
+                {
+                    LookAtTarget(targetObject.transform.position);
+                }
+                UpdateSmokeEffect();
+                return;
+            }
+
             if (targetObject == null)
             {
                 if (agent.enabled && agent.isOnNavMesh && agent.hasPath)
@@ -42,6 +53,7 @@ namespace VehicleSystem.Vehicles
                     agent.ResetPath();
                 }
                 isMoving = false;
+                TargetNetworkId = default;
                 return;
             }
 
@@ -96,7 +108,7 @@ namespace VehicleSystem.Vehicles
 
                 float distToTower = Vector3.Distance(transform.position, nearestEnergyTower.transform.position);
 
-                if (distToTower <= 20.0f) 
+                if (distToTower <= 20.0f)
                 {
                     Refuel();
                 }
@@ -129,10 +141,10 @@ namespace VehicleSystem.Vehicles
             if (fuelLevel >= vehicleData.fuelCapacity || (requestedAmount > 0 && receivedAmount <= 0))
             {
                 fuelLevel = Mathf.Min(fuelLevel, vehicleData.fuelCapacity);
-                
+
                 isRefueling = false;
                 DisconnectFromTower();
-                
+
                 agent.ResetPath();
             }
 
@@ -152,7 +164,7 @@ namespace VehicleSystem.Vehicles
                 Quaternion lookRot = Quaternion.LookRotation(dirToTarget);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, vehicleData.turnSpeed * Time.deltaTime);
             }
-        } 
+        }
 
         private void HandleCombat()
         {

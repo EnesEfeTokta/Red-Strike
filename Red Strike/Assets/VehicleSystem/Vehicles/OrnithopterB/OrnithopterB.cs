@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Collections; // IEnumerator için gerekli
+using System.Collections;
 using AmmunitionSystem.Ammunitions;
+using NetworkingSystem;
 
 namespace VehicleSystem.Vehicles.OrnithopterB
 {
@@ -48,9 +49,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
         private void CreateBullet(Vector3 pos, Quaternion rot)
         {
-            GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, pos, rot);
-            var bulletScript = bullet.GetComponent<Ammunition>();
-            if (bulletScript != null) bulletScript.ownerVehicle = this;
+            CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, pos, rot, Object);
         }
 
         protected override void LaunchRocket()
@@ -93,6 +92,8 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
         private void FireSingleRocket(Transform spawnPoint)
         {
+            Debug.LogWarning("Ornithopter B: FireSingleRocket called, BUT: Not Spawning Yet");
+            /*
             if (targetObject == null) return;
 
             GameObject rocket = Instantiate(ammunition_rocket.ammunitionPrefab, spawnPoint.position, spawnPoint.rotation);
@@ -102,6 +103,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
                 script.ownerVehicle = this;
                 script.SetRocket(targetObject.transform);
             }
+            */
         }
 
         private void LookAtTarget(Transform target)

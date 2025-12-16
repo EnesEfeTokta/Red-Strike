@@ -1,4 +1,5 @@
 using UnityEngine;
+using Fusion;
 
 namespace AmmunitionSystem.Ammunitions.BasicRocket
 {
@@ -48,17 +49,24 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (Object.HasStateAuthority == false) return;
+
             if (hasExploded) return;
 
-            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject)
-                return;
+            if (collision.gameObject.TryGetComponent<NetworkObject>(out var netObj))
+            {
+                if (netObj.Id == OwnerVehicleId) return;
+            }
 
             var unit = collision.gameObject.GetComponent<Unit.Unit>();
             if (unit == null)
                 return;
 
-            if (unit.teamId == ownerVehicle.teamId)
+            if (unit.teamId == OwnerTeamId)
+            {
+                DespawnBullet();
                 return;
+            }
 
             Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
             unit.TakeDamage(ammunitionData.damage);
@@ -71,7 +79,15 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
                 Destroy(explosionEffect, 2f);
             }
 
-            OnDestroy();
+            DespawnBullet();
+        }
+
+        private void DespawnBullet()
+        {
+            if (Object != null && Object.IsValid)
+            {
+                Runner.Despawn(Object);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Fusion;
 
 namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
 {
@@ -14,25 +15,35 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
             rb = GetComponent<Rigidbody>();
         }
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
             rb.linearVelocity = transform.forward * ammunitionData.speed;
+            
+            if (Object.HasStateAuthority)
+            {
+                Invoke(nameof(DespawnBullet), ammunitionData.lifetime);
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (Object.HasStateAuthority == false) return;
+
             if (hasExploded) return;
 
-            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject)
-                return;
+            if (collision.gameObject.TryGetComponent<NetworkObject>(out var netObj))
+            {
+                if (netObj.Id == OwnerVehicleId) return;
+            }
 
             var unit = collision.gameObject.GetComponent<Unit.Unit>();
-            if (unit == null)
-                return;
+            if (unit == null) return;
 
-            if (unit.teamId == ownerVehicle.teamId)
+            if (unit.teamId == OwnerTeamId)
+            {
+                DespawnBullet();
                 return;
+            }
 
             Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
             unit.TakeDamage(ammunitionData.damage);
@@ -45,7 +56,15 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
                 Destroy(explosionEffect, 2f);
             }
 
-            Runner.Despawn(Object);
+            DespawnBullet();
+        }
+
+        private void DespawnBullet()
+        {
+            if (Object != null && Object.IsValid)
+            {
+                Runner.Despawn(Object);
+            }
         }
     }
 }

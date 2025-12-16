@@ -2,6 +2,7 @@ using UnityEngine;
 using AmmunitionSystem;
 using System.Linq;
 using BuildingPlacement.Buildings;
+using Fusion;
 
 namespace VehicleSystem.Vehicles
 {
@@ -23,6 +24,10 @@ namespace VehicleSystem.Vehicles
         [Header("Energy Warning Settings")]
         [Range(0f, 1f)]
         public float lowEnergyThreshold = 0.3f; // %30'un altında uyarı
+
+        [Networked] public NetworkId TargetNetworkId { get; set; }
+
+        private ChangeDetector _changes;
 
         protected float speed;
         protected float turnSpeed;
@@ -61,6 +66,70 @@ namespace VehicleSystem.Vehicles
             vehicleUI = GetComponent<VehicleUI>();
             Setup();
             UpdateVehicleStatusIcon();
+        }
+
+        public override void Spawned()
+        {
+            base.Spawned();
+
+            _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
+
+            UpdateTargetObject();
+        }
+
+        public override void Render()
+        {
+            foreach (var change in _changes.DetectChanges(this))
+            {
+                if (change == nameof(TargetNetworkId))
+                {
+                    UpdateTargetObject();
+                }
+            }
+        }
+
+        public virtual void SetTargetEnemy(GameObject enemy)
+        {
+            if (fuelLevel <= 0) return;
+
+            var enemyNetObj = enemy.GetComponent<NetworkObject>();
+            if (enemyNetObj == null) return;
+
+            if (Object.HasStateAuthority)
+            {
+                TargetNetworkId = enemyNetObj.Id;
+                UpdateTargetObject();
+            }
+            else if (Object.HasInputAuthority)
+            {
+                RPC_SetTarget(enemyNetObj.Id);
+            }
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_SetTarget(NetworkId enemyId)
+        {
+            TargetNetworkId = enemyId;
+            UpdateTargetObject();
+            Debug.Log($"Server: {vehicleData.vehicleName} hedefi güncellendi ID: {enemyId}");
+        }
+
+        private void UpdateTargetObject()
+        {
+            if (TargetNetworkId.IsValid)
+            {
+                var netObj = Runner.FindObject(TargetNetworkId);
+                if (netObj != null)
+                {
+                    targetObject = netObj.gameObject;
+                    isMoving = true;
+                }
+            }
+            else
+            {
+                targetObject = null;
+                isMoving = false;
+            }
         }
 
         private void Setup()
@@ -110,19 +179,11 @@ namespace VehicleSystem.Vehicles
             return (0, 0);
         }
 
-        public virtual void SetTargetEnemy(GameObject enemy)
-        {
-            if (fuelLevel <= 0) return;
-
-            targetObject = enemy;
-            isMoving = true;
-        }
-
         protected virtual void Update()
         {
             if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
             if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
-            
+
             UpdateVehicleStatusIcon();
         }
 

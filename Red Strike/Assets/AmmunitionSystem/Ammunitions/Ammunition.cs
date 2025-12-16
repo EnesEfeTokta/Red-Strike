@@ -1,7 +1,6 @@
 using UnityEngine;
 using VehicleSystem.Vehicles;
 using Fusion;
-using System.Security.Cryptography;
 
 namespace AmmunitionSystem.Ammunitions
 {
@@ -10,17 +9,11 @@ namespace AmmunitionSystem.Ammunitions
     public class Ammunition : NetworkBehaviour
     {
         public AmmunitionSystem.Ammunition ammunitionData;
-        public Vehicle ownerVehicle;
+
+        [Networked] public int OwnerTeamId { get; set; } = -1;
+        
+        [Networked] public NetworkId OwnerVehicleId { get; set; }
+
         public virtual void SetRocket(Transform targetTransform) { }
-
-        protected virtual void Start()
-        {
-            Invoke(nameof(OnDestroy), ammunitionData.lifetime);
-        }
-
-        protected virtual void OnDestroy()
-        {
-            Runner.Despawn(Object);
-        }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using NetworkingSystem;
 
 namespace VehicleSystem.Vehicles.TankHeavyA
 {
@@ -23,9 +24,7 @@ namespace VehicleSystem.Vehicles.TankHeavyA
         {
             base.FireShot();
 
-            GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint.position, barrelPoint.rotation);
-            bullet_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-
+            CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint.position, barrelPoint.rotation, Object);
             currentAmmunition_bullet--;
         }
 

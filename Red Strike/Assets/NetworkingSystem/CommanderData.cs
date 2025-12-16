@@ -68,8 +68,6 @@ namespace NetworkingSystem
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         public void RPC_SpawnBuilding(string buildingName, Vector3 position)
         {
-            Debug.Log($"Server: {Object.InputAuthority} oyuncusu {buildingName} kurmak istiyor.");
-
             if (InputController.InputController.Instance == null) return;
 
             var database = InputController.InputController.Instance.buildingsDatabase;
@@ -95,8 +93,6 @@ namespace NetworkingSystem
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         public void RPC_SpawnVehicle(string vehicleName, Vector3 position)
         {
-            Debug.Log($"Server: {Object.InputAuthority} oyuncusu {vehicleName} üretmek istiyor.");
-
             if (InputController.InputController.Instance == null) return;
 
             var database = InputController.InputController.Instance.vehiclesDatabase;
@@ -116,6 +112,37 @@ namespace NetworkingSystem
             else
             {
                 Debug.LogError($"Server: {vehicleData.vehicleName} prefabı bulunamadı!");
+            }
+        }
+
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_SpawnAmmunition(string ammunitionName, Vector3 position, Quaternion rotation, NetworkObject ownerVehicleNetObj)
+        {
+            if (Runner == null || !Runner.IsServer) return;
+
+            if (InputController.InputController.Instance == null) return;
+
+            var database = InputController.InputController.Instance.ammunitionDatabase;
+            var ammunitionData = database.ammunitions.FirstOrDefault(a => a.ammunitionName == ammunitionName);
+
+            if (ammunitionData != null && ammunitionData.ammunitionPrefab != null)
+            {
+                NetworkObject spawnedObj = Runner.Spawn(ammunitionData.ammunitionPrefab, position, rotation, Object.InputAuthority);
+                var ammunitionScript = spawnedObj.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>();
+                var vehicleScript = ownerVehicleNetObj.GetComponent<VehicleSystem.Vehicles.Vehicle>();
+
+                if (ammunitionScript != null && vehicleScript != null)
+                {
+                    ammunitionScript.OwnerTeamId = vehicleScript.teamId;
+                    ammunitionScript.OwnerVehicleId = ownerVehicleNetObj.Id;
+
+                    Debug.Log($"Mühimmat fırlatıldı: {ammunitionName}. Takım: {vehicleScript.teamId}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Server: {ammunitionName} prefabı bulunamadı!");
             }
         }
 
