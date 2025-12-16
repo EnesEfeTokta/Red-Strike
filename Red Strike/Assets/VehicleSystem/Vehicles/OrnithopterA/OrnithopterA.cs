@@ -1,5 +1,5 @@
 using UnityEngine;
-using AmmunitionSystem.Ammunitions;
+using NetworkingSystem;
 
 namespace VehicleSystem.Vehicles.OrnithopterA
 {
@@ -35,9 +35,7 @@ namespace VehicleSystem.Vehicles.OrnithopterA
             {
                 Transform barrelPoint = barrelPoints[i];
 
-                GameObject bullet = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint.position, rotation);
-                var bulletScript = bullet.GetComponent<Ammunition>();
-                if (bulletScript != null) bulletScript.ownerVehicle = this;
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint.position, rotation, Object);
             }
 
             currentAmmunition_bullet -= 2;
@@ -45,6 +43,9 @@ namespace VehicleSystem.Vehicles.OrnithopterA
 
         protected override void LaunchRocket()
         {
+
+            Debug.LogWarning("Ornithopter A: LaunchRocket called, BUT: Not Spawning Yet");
+            /*
             for (int i = 0; i < rocketLaunchPoints.Length; i++)
             {
                 Transform rocketLaunchPoint = rocketLaunchPoints[i];
@@ -55,6 +56,7 @@ namespace VehicleSystem.Vehicles.OrnithopterA
 
                 currentAmmunition_rocket--;
             }
+            */
         }
 
         private void LookAtTarget(Transform target)

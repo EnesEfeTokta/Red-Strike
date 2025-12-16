@@ -19,15 +19,6 @@ namespace BuildingPlacement.Buildings
             if (Object.HasStateAuthority)
             {
                 health = buildingData.maxHealth;
-                Invoke(nameof(Test_Damage), 5f);
-            }
-        }
-
-        private void Test_Damage()
-        {
-            if (Object.HasStateAuthority)
-            {
-                TakeDamage(health + 1);
             }
         }
 

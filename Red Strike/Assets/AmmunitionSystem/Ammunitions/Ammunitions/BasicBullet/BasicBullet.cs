@@ -1,4 +1,5 @@
 using UnityEngine;
+using Fusion;
 
 namespace AmmunitionSystem.Ammunitions.BasicBullet
 {
@@ -10,29 +11,56 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
 
-        protected override void Start()
+        public override void Spawned()
         {
-            base.Start();
             rb.linearVelocity = transform.forward * ammunitionData.speed;
+
+            if (Object.HasStateAuthority)
+            {
+                Invoke(nameof(DespawnBullet), ammunitionData.lifetime);
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (ownerVehicle != null && collision.gameObject == ownerVehicle.gameObject)
-                return;
+            if (!Object.HasStateAuthority) return;
 
-            var unit = collision.gameObject.GetComponent<Unit.Unit>();
-            if (unit == null)
-                return;
+            var hitNetObj = collision.gameObject.GetComponentInParent<NetworkObject>();
+            
+            if (hitNetObj != null)
+            {
+                if (hitNetObj.Id == OwnerVehicleId) 
+                {
+                    return; 
+                }
+            }
 
-            if (unit.teamId == ownerVehicle.teamId)
-                return;
+            var unit = collision.gameObject.GetComponentInParent<Unit.Unit>();
 
-            unit.TakeDamage(ammunitionData.damage);
+            if (unit != null)
+            {
+                if (unit.teamId == OwnerTeamId)
+                {
+                    DespawnBullet();
+                    return;
+                }
 
-            OnDestroy();
+                Debug.Log($"Hit Enemy: {unit.name} - Damage: {ammunitionData.damage}");
+                unit.TakeDamage(ammunitionData.damage);
+            }
+            
+            DespawnBullet();
+        }
+        
+        private void DespawnBullet()
+        {
+            if (Object != null && Object.IsValid)
+            {
+                Runner.Despawn(Object);
+            }
         }
     }
 }

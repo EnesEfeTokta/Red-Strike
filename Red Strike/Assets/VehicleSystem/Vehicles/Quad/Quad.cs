@@ -1,4 +1,5 @@
 using UnityEngine;
+using NetworkingSystem;
 
 namespace VehicleSystem.Vehicles.Quad
 {
@@ -24,13 +25,11 @@ namespace VehicleSystem.Vehicles.Quad
         {
             base.FireShot();
 
-            GameObject bullet_A = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_A.position, barrelPoint_A.rotation);
-            bullet_A.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-
-            GameObject bullet_B = Instantiate(ammunition_bullet.ammunitionPrefab, barrelPoint_B.position, barrelPoint_B.rotation);
-            bullet_B.GetComponent<AmmunitionSystem.Ammunitions.Ammunition>().ownerVehicle = this;
-
-            currentAmmunition_bullet -= 2;
+            for (int i = 0; i < 2; i++)
+            {
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint_A.position, barrelPoint_A.rotation, Object);
+                currentAmmunition_bullet--;
+            }
         }
 
         private void LookAtTarget(Transform target)
