@@ -43,10 +43,5 @@ namespace VehicleSystem.Vehicles.Infantry
 
             barrelTransform.localRotation = Quaternion.Slerp(barrelTransform.localRotation, newLocalRotation, Time.deltaTime * turnSpeed);
         }
-
-        public void Defend()
-        {
-            // Infantry defend logic here
-        }
     }
 }

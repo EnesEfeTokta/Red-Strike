@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.UIElements;
 using NetworkingSystem;
 using AmmunitionSystem;
+using Fusion;
 
 namespace InputController
 {
@@ -31,7 +32,7 @@ namespace InputController
 
         private Building currentSelectedBuilding;
         private VehicleSystem.Vehicles.Vehicle currentSelectedVehicle;
-        
+
         private VehiclesHUDController vehiclesHUDController;
         private BuildingHUDController buildingHUDController;
 
@@ -76,7 +77,18 @@ namespace InputController
             {
                 if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.R))
                 {
-                    tempBuildingHighlighter.transform.Rotate(0, 90, 0);
+                    // Highlight edilen objenin Building scriptini bul
+                    var building = tempBuildingHighlighter.GetComponent<BuildingPlacement.Buildings.Building>();
+
+                    // Eğer script o objede değilse parent'a bak
+                    if (building == null) building = tempBuildingHighlighter.GetComponentInParent<BuildingPlacement.Buildings.Building>();
+
+                    if (building != null)
+                    {
+                        Debug.Log("Dönme isteği gönderiliyor...");
+                        // 2. RPC'Yİ BURADAN ÇAĞIRIN
+                        building.RPC_Rotate90();
+                    }
                 }
             }
 
@@ -107,10 +119,10 @@ namespace InputController
                 if (IsPositionValid(spawnPosition))
                 {
                     bool isThereMainBuilding = FindObjectsByType<BuildingPlacement.Buildings.MainStation>(FindObjectsSortMode.None)
-                        .Any(station => 
+                        .Any(station =>
                         {
                             var unit = station.GetComponent<Unit.Unit>();
-                            return unit != null && unit.teamId == teamId; 
+                            return unit != null && unit.teamId == teamId;
                         });
 
                     if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
@@ -181,7 +193,7 @@ namespace InputController
             if (unit == null)
             {
                 unit = hitInfo.collider.GetComponentInParent<Unit.Unit>();
-                if(unit == null) { DeselectAll(); return; }
+                if (unit == null) { DeselectAll(); return; }
             }
 
             bool isFriendly = unit.teamId == teamId;
@@ -222,7 +234,7 @@ namespace InputController
                 case Unit.UnitType.Building:
                     tempBuildingHighlighter = GetHighlighter(unit.gameObject);
                     tempBuildingHighlighter?.EnableHighlight();
-                    
+
                     var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
                     if (building != null) buildingHUDController.ShowBuildingDetails(building);
                     break;
@@ -241,7 +253,7 @@ namespace InputController
             vehicleHighlighter = null;
             targetHighlighter = null;
             tempBuildingHighlighter = null;
-            
+
             currentSelectedVehicle = null;
             currentSelectedBuilding = null;
         }
@@ -256,7 +268,7 @@ namespace InputController
         private bool IsPointerOverUI()
         {
             if (gameUIDocument == null) return false;
-            
+
             if (UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 return true;
 

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vehicleName: Quad
   vehicleType: 2
-  vehiclePrefab: {fileID: 1855602119919018044, guid: 16678156d05891545a8ea7f1b6b4e7f6, type: 3}
+  vehiclePrefab: {fileID: 8322101594408336133, guid: 16678156d05891545a8ea7f1b6b4e7f6, type: 3}
   speed: 10
   coverageAreaRadius: 50
-  turnSpeed: 5
+  turnSpeed: 120
   stoppingDistance: 15
   maxHealth: 100
   fuelCapacity: 100

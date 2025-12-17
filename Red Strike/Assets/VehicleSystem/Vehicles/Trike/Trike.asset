@@ -17,7 +17,7 @@ MonoBehaviour:
   vehiclePrefab: {fileID: 7311248439144974317, guid: 37c4c0d8afa72df4998c6da17046515b, type: 3}
   speed: 20
   coverageAreaRadius: 20
-  turnSpeed: 20
+  turnSpeed: 120
   stoppingDistance: 20
   maxHealth: 100
   fuelCapacity: 100

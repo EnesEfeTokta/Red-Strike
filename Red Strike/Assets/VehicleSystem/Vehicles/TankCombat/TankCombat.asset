@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vehicleName: Tank Combat
   vehicleType: 3
-  vehiclePrefab: {fileID: 6447347669934246735, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
+  vehiclePrefab: {fileID: 3852297137727675049, guid: 9cf1c748f66b08149a5dd3ff27cb2a9b, type: 3}
   speed: 10
   coverageAreaRadius: 50
-  turnSpeed: 5
+  turnSpeed: 120
   stoppingDistance: 15
   maxHealth: 100
   fuelCapacity: 100

@@ -108,12 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _teamId: 0
-  playerType: 0
   unitType: 1
   buildingData: {fileID: 11400000, guid: 25b5998dd3a37a74fbed9e8adcc609ce, type: 2}
-  buildEffects:
-  - {fileID: 8204242674232356029}
-  - {fileID: 4710826401873965783}
   radarTransform: {fileID: 7222708778872805534}
   radarRotationSpeed: 280
   ShieldAmount: 100
@@ -389,11 +385,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
---- !u!198 &8204242674232356029 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6650199810314842004, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
-  m_PrefabInstance: {fileID: 3283425672832729897}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8292654748781837455 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6810709059391405990, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
@@ -508,11 +499,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
---- !u!198 &4710826401873965783 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1110556030845387871, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
-  m_PrefabInstance: {fileID: 5623108572202120840}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4876845440887825125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 983828037429990509, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}

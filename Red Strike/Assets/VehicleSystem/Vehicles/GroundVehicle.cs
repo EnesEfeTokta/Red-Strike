@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
-using Fusion;
 
 namespace VehicleSystem.Vehicles
 {
@@ -21,26 +19,29 @@ namespace VehicleSystem.Vehicles
             agent.speed = vehicleData.speed;
             agent.stoppingDistance = vehicleData.stoppingDistance;
             agent.angularSpeed = vehicleData.turnSpeed;
-            agent.updateRotation = false;
+            
+            agent.updateRotation = true;
+            agent.updatePosition = true;
+
+            if (!Object.HasStateAuthority)
+            {
+                agent.enabled = false;
+            }
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (fuelLevel <= 0 || isRefueling)
+            if (!Object.HasStateAuthority)
             {
-                HandleRefuelingState();
                 UpdateSmokeEffect();
                 return;
             }
 
-            if (!Object.HasStateAuthority)
+            if (fuelLevel <= 0 || isRefueling)
             {
-                if (targetObject != null)
-                {
-                    LookAtTarget(targetObject.transform.position);
-                }
+                HandleRefuelingState();
                 UpdateSmokeEffect();
                 return;
             }
@@ -56,8 +57,6 @@ namespace VehicleSystem.Vehicles
                 TargetNetworkId = default;
                 return;
             }
-
-            LookAtTarget(targetObject.transform.position);
 
             if (agent.enabled && agent.isOnNavMesh)
             {
@@ -88,7 +87,7 @@ namespace VehicleSystem.Vehicles
                 FindNearestEnergyTower();
                 if (nearestEnergyTower == null)
                 {
-                    agent.isStopped = true;
+                    if (agent.enabled) agent.isStopped = true;
                     isMoving = false;
                     return;
                 }
@@ -104,7 +103,6 @@ namespace VehicleSystem.Vehicles
                 }
 
                 isMoving = true;
-                LookAtTarget(nearestEnergyTower.transform.position);
 
                 float distToTower = Vector3.Distance(transform.position, nearestEnergyTower.transform.position);
 
@@ -120,24 +118,18 @@ namespace VehicleSystem.Vehicles
         private void Refuel()
         {
             isMoving = false;
-            agent.isStopped = true;
+            if (agent.enabled) agent.isStopped = true;
 
-            // 1. İstenen miktar
-            float requestedAmount = vehicleData.fuelCapacity * 0.2f * Time.deltaTime; // TODO: Sabit değer yerine ayarlanabilir yapılabilir, ScriptableObject'tan çekilebilir
+            float requestedAmount = vehicleData.fuelCapacity * 0.2f * Time.deltaTime;
 
-            // 2. Kuleden al
             float receivedAmount = 0f;
             if (targetTowerScript != null)
             {
                 receivedAmount = targetTowerScript.GiveEnergy(requestedAmount);
             }
 
-            // 3. Depoya ekle
             fuelLevel += receivedAmount;
 
-            // 4. Çıkış Koşulları:
-            // - Depo dolduysa (fuelLevel >= Capacity)
-            // - VEYA Kule boşaldıysa (istedik ama 0 aldık: requested > 0 && received <= 0)
             if (fuelLevel >= vehicleData.fuelCapacity || (requestedAmount > 0 && receivedAmount <= 0))
             {
                 fuelLevel = Mathf.Min(fuelLevel, vehicleData.fuelCapacity);
@@ -145,24 +137,12 @@ namespace VehicleSystem.Vehicles
                 isRefueling = false;
                 DisconnectFromTower();
 
-                agent.ResetPath();
+                if (agent.enabled) agent.ResetPath();
             }
 
             if (fuelLevel > vehicleData.fuelCapacity / 4)
             {
                 vehicleUI.ClearVehicleStatusIcon();
-            }
-        }
-
-        private void LookAtTarget(Vector3 targetPos)
-        {
-            Vector3 dirToTarget = (targetPos - transform.position).normalized;
-            dirToTarget.y = 0;
-
-            if (dirToTarget != Vector3.zero)
-            {
-                Quaternion lookRot = Quaternion.LookRotation(dirToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, vehicleData.turnSpeed * Time.deltaTime);
             }
         }
 
@@ -197,7 +177,16 @@ namespace VehicleSystem.Vehicles
         {
             if (smokeEffect == null) return;
 
-            bool actuallyMoving = agent.velocity.sqrMagnitude > 0.1f;
+            bool actuallyMoving = false;
+            
+            if (Object.HasStateAuthority && agent != null && agent.enabled)
+            {
+                actuallyMoving = agent.velocity.sqrMagnitude > 0.1f;
+            }
+            else
+            {
+                actuallyMoving = isMoving;
+            }
 
             if (actuallyMoving && !smokeEffect.isPlaying)
             {
