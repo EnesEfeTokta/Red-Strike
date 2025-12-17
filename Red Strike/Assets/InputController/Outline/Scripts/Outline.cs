@@ -411,20 +411,5 @@ namespace InputController.Outline.Scripts
             outlineFillMaterial.SetFloat("_ZTest", fillZTest);
             outlineFillMaterial.SetFloat("_OutlineWidth", currentOutlineWidth);
         }
-
-        public void On()
-        {
-            this.enabled = true;
-        }
-
-        public void Off()
-        {
-            this.enabled = false;
-        }
-
-        public bool IsOutlineEnabled()
-        {
-            return this.enabled && isInitialized;
-        }
     }
 }
