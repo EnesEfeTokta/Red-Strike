@@ -11,6 +11,15 @@ namespace Unit
         [Networked] public int teamId { get; set; }
         public UnitType unitType;
 
+        protected NetworkObject networkObject;
+        protected NetworkTransform networkTransform;
+
+        private void Awake()
+        {
+            networkObject = GetComponent<NetworkObject>();
+            networkTransform = GetComponent<NetworkTransform>();
+        }
+
         public virtual void TakeDamage(float damage) { }
     }
 

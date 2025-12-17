@@ -17,6 +17,7 @@ namespace BuildingPlacement.Buildings
         private void Start()
         {
             vehicleSpawnPoint = transform.position + transform.forward * 20f;
+            vehicleSpawnPoint.y += 2f;
         }
 
         public void CreateVehicle(VehicleTypes vehicleType)

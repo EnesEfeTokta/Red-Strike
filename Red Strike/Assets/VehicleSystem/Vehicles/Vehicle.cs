@@ -111,7 +111,6 @@ namespace VehicleSystem.Vehicles
         {
             TargetNetworkId = enemyId;
             UpdateTargetObject();
-            Debug.Log($"Server: {vehicleData.vehicleName} hedefi güncellendi ID: {enemyId}");
         }
 
         private void UpdateTargetObject()

@@ -1,7 +1,6 @@
 using UnityEngine;
 using GameStateSystem;
 using Fusion;
-using Unity.VisualScripting;
 
 namespace BuildingPlacement.Buildings
 {
@@ -47,6 +46,12 @@ namespace BuildingPlacement.Buildings
 
                 Runner.Despawn(Object);
             }
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        public void RPC_Rotate90()
+        {
+            networkTransform.Teleport(transform.position, transform.rotation * Quaternion.Euler(0, 90, 0));
         }
 
         private void OnCollisionEnter(Collision collision)
