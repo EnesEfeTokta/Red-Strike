@@ -5011,7 +5011,7 @@ Transform:
   m_GameObject: {fileID: 5858476706136754781}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5944042, y: 1.88, z: -48.763}
+  m_LocalPosition: {x: 0, y: 1.88, z: 0}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5054,7 +5054,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammunitionData: {fileID: 11400000, guid: 5ef71d70c67b5bc4d964f8e71bd005ea, type: 2}
-  ownerVehicle: {fileID: 0}
+  _OwnerTeamId: -1
+  _OwnerVehicleId:
+    Raw: 0
   explosionEffectPrefab: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
 --- !u!54 &124524468962142996
 Rigidbody:

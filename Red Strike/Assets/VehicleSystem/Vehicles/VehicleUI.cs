@@ -5,8 +5,6 @@ namespace VehicleSystem.Vehicles
 {
     public class VehicleUI : MonoBehaviour
     {
-        private Canvas vehicleCanvas;
-
         [Header("Icon Settings")]
         public Sprite warningIcon;
         public Sprite refuelingIcon;
@@ -16,11 +14,8 @@ namespace VehicleSystem.Vehicles
 
         private void Start()
         {
-            vehicleCanvas = GetComponentInChildren<Canvas>();
             vehicleStatusIcon.enabled = false;
         }
-
-        public void VisibleCanvas(bool isVisible) => vehicleCanvas.enabled = isVisible;
 
         public void SetVehicleStatusIconToWarning()
         {
