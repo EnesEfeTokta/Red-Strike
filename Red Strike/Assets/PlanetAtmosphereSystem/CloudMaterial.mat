@@ -43,7 +43,7 @@ Material:
     m_Colors:
     - _Color: {r: 0, g: 3.8274493, b: 5.992155, a: 1}
     - _GunesYonu: {r: -1, g: 0, b: 0, a: 0}
-    - _SunDirection: {r: -0.16461955, g: 0.31825417, b: 0.93360317, a: 0}
+    - _SunDirection: {r: -0.019243166, g: -0.9938409, b: 0.10913344, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8499732345945835446
