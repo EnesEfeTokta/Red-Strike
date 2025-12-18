@@ -19,3 +19,4 @@ MonoBehaviour:
   range: -1
   lifetime: 10
   ammunitionPrefab: {fileID: 595683329615967435, guid: ab318667f38c4db4ebc5472f6d16eed0, type: 3}
+  explosionEffectPrefab: {fileID: 100012, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}

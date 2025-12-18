@@ -1,4 +1,5 @@
 using UnityEngine;
+using Fusion;
 
 namespace VehicleSystem.Vehicles
 {
@@ -38,9 +39,13 @@ namespace VehicleSystem.Vehicles
         private float effectiveRocketRange;
         private float altitudeOffset;
 
+        [Networked] private Vector3 NetworkedPosition { get; set; }
+        [Networked] private Quaternion NetworkedRotation { get; set; }
+
         protected override void Start()
         {
             base.Start();
+
             loiterCenterPoint = new Vector3(transform.position.x, cruisingAltitude, transform.position.z);
             loiterTimer = Random.Range(0f, 100f);
 
@@ -51,9 +56,49 @@ namespace VehicleSystem.Vehicles
             altitudeOffset = Random.Range(-altitudeVariance, altitudeVariance);
         }
 
+        public override void FixedUpdateNetwork()
+        {
+            if (!Object.HasStateAuthority) return;
+
+            if (fuelLevel <= 0 || isRefueling)
+            {
+                if (currentState != AirState.Refueling)
+                {
+                    currentState = AirState.Refueling;
+                    currentRefuelStage = RefuelStage.Calculating;
+                }
+                HandleRefueling();
+            }
+            else
+            {
+                // Durum makinesi
+                switch (currentState)
+                {
+                    case AirState.TakingOff: HandleTakingOff(); break;
+                    case AirState.Loitering: HandleLoitering(); break;
+                    case AirState.Engaging: HandleEngaging(); break;
+                    case AirState.Attacking: HandleAttacking(); break;
+                }
+
+                isMoving = true;
+                ConsumeFuel();
+            }
+
+            // Konumu Network'e yaz
+            NetworkedPosition = transform.position;
+            NetworkedRotation = transform.rotation;
+        }
+
         protected override void Update()
         {
             base.Update();
+
+            if (!Object.HasStateAuthority)
+            {
+                transform.position = Vector3.Lerp(transform.position, NetworkedPosition, Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, NetworkedRotation, Time.deltaTime * 5f);
+                return;
+            }
 
             if (fuelLevel <= 0 || isRefueling)
             {
@@ -77,6 +122,28 @@ namespace VehicleSystem.Vehicles
 
             isMoving = true;
             ConsumeFuel();
+        }
+
+        private void MoveAndLook(Vector3 targetPosition, float turnMultiplier = 0.25f)
+        {
+            Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+            if (directionToTarget.sqrMagnitude > 0.01f)
+            {
+                float dt = Runner.DeltaTime;
+
+                transform.position += transform.forward * effectiveSpeed * dt;
+
+                Vector3 localTargetDir = transform.InverseTransformDirection(directionToTarget);
+                float targetBankAngle = -localTargetDir.x * maxBankAngle;
+                currentBankAngleZ = Mathf.Lerp(currentBankAngleZ, targetBankAngle, dt * bankSpeed);
+
+                Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
+                Vector3 euler = targetLookRotation.eulerAngles;
+                euler.z = currentBankAngleZ;
+
+                Quaternion finalRotation = Quaternion.Euler(euler);
+                transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, dt * effectiveTurnSpeed * turnMultiplier);
+            }
         }
 
         private void HandleRefueling()
@@ -304,23 +371,6 @@ namespace VehicleSystem.Vehicles
             {
                 if (fireRockets) TryFireRockets();
                 if (fireBullets) TryFireBullets();
-            }
-        }
-
-        private void MoveAndLook(Vector3 targetPosition, float turnMultiplier = 0.25f)
-        {
-            Vector3 directionToTarget = (targetPosition - transform.position).normalized;
-            if (directionToTarget.sqrMagnitude > 0.01f)
-            {
-                transform.position += transform.forward * effectiveSpeed * Time.deltaTime;
-                Vector3 localTargetDir = transform.InverseTransformDirection(directionToTarget);
-                float targetBankAngle = -localTargetDir.x * maxBankAngle;
-                currentBankAngleZ = Mathf.Lerp(currentBankAngleZ, targetBankAngle, Time.deltaTime * bankSpeed);
-                Quaternion targetLookRotation = Quaternion.LookRotation(directionToTarget);
-                Vector3 euler = targetLookRotation.eulerAngles;
-                euler.z = currentBankAngleZ;
-                Quaternion finalRotation = Quaternion.Euler(euler);
-                transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, Time.deltaTime * effectiveTurnSpeed * turnMultiplier);
             }
         }
     }

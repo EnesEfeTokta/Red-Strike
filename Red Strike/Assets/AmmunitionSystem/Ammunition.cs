@@ -12,5 +12,6 @@ namespace AmmunitionSystem
         public float range;
         public float lifetime;
         public GameObject ammunitionPrefab;
+        public GameObject explosionEffectPrefab;
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using NetworkingSystem;
+using Fusion;
 
 namespace VehicleSystem.Vehicles.OrnithopterA
 {
@@ -43,20 +44,17 @@ namespace VehicleSystem.Vehicles.OrnithopterA
 
         protected override void LaunchRocket()
         {
-
             Debug.LogWarning("Ornithopter A: LaunchRocket called, BUT: Not Spawning Yet");
-            /*
+            NetworkId targetId = default;
+            if (targetObject != null) 
+                targetId = targetObject.GetComponent<NetworkObject>().Id;
+
             for (int i = 0; i < rocketLaunchPoints.Length; i++)
             {
                 Transform rocketLaunchPoint = rocketLaunchPoints[i];
-
-                GameObject rocket = Instantiate(ammunition_rocket.ammunitionPrefab, rocketLaunchPoint.position, rocketLaunchPoint.rotation);
-                rocket.GetComponent<Ammunition>().ownerVehicle = this;
-                rocket.GetComponent<Ammunition>().SetRocket(targetObject.transform);
-
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_rocket.ammunitionName, rocketLaunchPoint.position, rocketLaunchPoint.rotation,  Object, targetId);
                 currentAmmunition_rocket--;
             }
-            */
         }
 
         private void LookAtTarget(Transform target)

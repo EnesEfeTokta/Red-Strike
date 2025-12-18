@@ -33,7 +33,13 @@
                     <ui:Label text="In production:" name="in-production-label" class="details-text" />
                     <ui:ScrollView mode="Vertical" style="max-height: 300px;">
                         <ui:Button text="Create Infantry" name="infantry-create-button" class="action-button" />
-                        <!-- Diğer butonlar... -->
+                        <ui:Button text="Create Trike" name="trike-create-button" class="action-button" />
+                        <ui:Button text="Create Quad" name="quad-create-button" class="action-button" />
+                        <ui:Button text="Create Tank Combat" name="tank-combat-create-button" class="action-button" />
+                        <ui:Button text="Create Tank Heavy A" name="tank-heavy-a-create-button" class="action-button" />
+                        <ui:Button text="Create Tank Heavy B" name="tank-heavy-b-create-button" class="action-button" />
+                        <ui:Button text="Create Ornithopter A" name="ornithopter-a-create-button" class="action-button" />
+                        <ui:Button text="Create Ornithopter B" name="ornithopter-b-create-button" class="action-button" />
                     </ui:ScrollView>
                 </ui:VisualElement>
             </ui:VisualElement>

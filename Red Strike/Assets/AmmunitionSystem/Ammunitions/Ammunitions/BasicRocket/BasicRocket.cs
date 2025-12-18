@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using NetworkingSystem;
 
 namespace AmmunitionSystem.Ammunitions.BasicRocket
 {
@@ -7,14 +8,13 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
     public class BasicRocket : Ammunition
     {
         private Rigidbody rb;
-        public GameObject explosionEffectPrefab;
-        public Transform target;
         public float speed = 20f;
         public float rotationSpeed = 5f;
         public float accelerationRate = 1.5f;
 
         private bool hasExploded = false;
         private float currentSpeed;
+        [Networked] public NetworkId TargetId { get; set; }
 
         private void Awake()
         {
@@ -22,35 +22,39 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             currentSpeed = speed * 0.5f;
         }
 
-        public override void SetRocket(Transform targetTransform)
+        public override void SetRocketTarget(NetworkId targetId)
         {
-            target = targetTransform;
+            TargetId = targetId;
         }
 
-        private void FixedUpdate()
+        public override void FixedUpdateNetwork()
         {
+            if (!Object.HasStateAuthority) return;
             if (hasExploded) return;
 
-            currentSpeed = Mathf.Lerp(currentSpeed, speed, Time.fixedDeltaTime * accelerationRate);
+            currentSpeed = Mathf.Lerp(currentSpeed, speed, Runner.DeltaTime * accelerationRate);
 
-            if (target != null)
+            if (TargetId.IsValid)
             {
-                Vector3 direction = (target.position - transform.position).normalized;
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed));
+                var targetObj = Runner.FindObject(TargetId);
 
-                rb.linearVelocity = transform.forward * currentSpeed;
+                if (targetObj != null)
+                {
+                    Vector3 direction = (targetObj.transform.position - transform.position).normalized;
+                    if (direction != Vector3.zero)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(direction);
+                        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Runner.DeltaTime * rotationSpeed));
+                    }
+                }
             }
-            else
-            {
-                rb.linearVelocity = transform.forward * currentSpeed;
-            }
+
+            rb.linearVelocity = transform.forward * currentSpeed;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (Object.HasStateAuthority == false) return;
-
+            if (!Object.HasStateAuthority) return;
             if (hasExploded) return;
 
             if (collision.gameObject.TryGetComponent<NetworkObject>(out var netObj))
@@ -72,12 +76,7 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             unit.TakeDamage(ammunitionData.damage);
 
             hasExploded = true;
-
-            if (explosionEffectPrefab != null)
-            {
-                GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-                Destroy(explosionEffect, 2f);
-            }
+            CommanderData.LocalCommander.RPC_SpawnExplosionEffect(transform.position);
 
             DespawnBullet();
         }

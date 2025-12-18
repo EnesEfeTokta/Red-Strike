@@ -117,7 +117,12 @@ namespace NetworkingSystem
 
 
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-        public void RPC_SpawnAmmunition(string ammunitionName, Vector3 position, Quaternion rotation, NetworkObject ownerVehicleNetObj)
+        public void RPC_SpawnAmmunition(
+            string ammunitionName, 
+            Vector3 position, 
+            Quaternion rotation, 
+            NetworkObject ownerVehicleNetObj, 
+            NetworkId targetId = default)
         {
             if (Runner == null || !Runner.IsServer) return;
 
@@ -137,12 +142,30 @@ namespace NetworkingSystem
                     ammunitionScript.OwnerTeamId = vehicleScript.teamId;
                     ammunitionScript.OwnerVehicleId = ownerVehicleNetObj.Id;
 
+                    if (ammunitionData.ammunitionType == AmmunitionSystem.AmmunitionType.Rocket && targetId.IsValid)
+                    {
+                        ammunitionScript.SetRocketTarget(targetId);
+                    }
+
                     Debug.Log($"Mühimmat fırlatıldı: {ammunitionName}. Takım: {vehicleScript.teamId}");
                 }
             }
-            else
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_SpawnExplosionEffect(Vector3 position)
+        {
+            if (Runner == null || !Runner.IsServer) return;
+
+            if (InputController.InputController.Instance == null) return;
+
+            var explosionEffectPrefab = InputController.InputController.Instance.ammunitionDatabase.ammunitions.
+                FirstOrDefault(e => e.ammunitionType == AmmunitionSystem.AmmunitionType.Rocket)?.explosionEffectPrefab;
+
+            if (explosionEffectPrefab != null)
             {
-                Debug.LogError($"Server: {ammunitionName} prefabı bulunamadı!");
+                Runner.Spawn(explosionEffectPrefab, position, Quaternion.identity, Object.InputAuthority);
+                Debug.Log($"Patlama efekti oluşturuldu.");
             }
         }
 

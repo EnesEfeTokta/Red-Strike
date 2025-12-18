@@ -7,7 +7,6 @@ using System.Linq;
 using UnityEngine.UIElements;
 using NetworkingSystem;
 using AmmunitionSystem;
-using Fusion;
 
 namespace InputController
 {
@@ -40,8 +39,7 @@ namespace InputController
 
         private SelectionHighlighter targetHighlighter;
         private SelectionHighlighter tempBuildingHighlighter;
-
-        // Limitleme için sayaç (İsteğe bağlı, şimdilik basit tutuyoruz)
+        
         private Dictionary<string, int> buildingCounts = new Dictionary<string, int>();
 
         private void Awake()
@@ -77,16 +75,12 @@ namespace InputController
             {
                 if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.R))
                 {
-                    // Highlight edilen objenin Building scriptini bul
                     var building = tempBuildingHighlighter.GetComponent<BuildingPlacement.Buildings.Building>();
 
-                    // Eğer script o objede değilse parent'a bak
                     if (building == null) building = tempBuildingHighlighter.GetComponentInParent<BuildingPlacement.Buildings.Building>();
 
                     if (building != null)
                     {
-                        Debug.Log("Dönme isteği gönderiliyor...");
-                        // 2. RPC'Yİ BURADAN ÇAĞIRIN
                         building.RPC_Rotate90();
                     }
                 }
@@ -264,7 +258,7 @@ namespace InputController
             if (hl == null) hl = obj.GetComponentInParent<SelectionHighlighter>();
             return hl;
         }
-
+        
         private bool IsPointerOverUI()
         {
             if (gameUIDocument == null) return false;
