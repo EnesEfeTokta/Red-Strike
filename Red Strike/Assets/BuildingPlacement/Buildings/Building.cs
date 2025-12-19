@@ -31,7 +31,7 @@ namespace BuildingPlacement.Buildings
 
             if (health <= 0)
             {
-                Debug.Log($"Building {BuildingName} destroyed.");
+                //Debug.Log($"Building {BuildingName} destroyed.");
 
                 ParticleSystem exp = Instantiate(buildingData.explosionEffect, transform.position, Quaternion.identity);
                 Destroy(exp.gameObject, exp.main.duration);
@@ -63,7 +63,7 @@ namespace BuildingPlacement.Buildings
             if (unit.teamId == teamId)
                 return;
 
-            Debug.Log($"Building {BuildingName} collided with unit: {collision.gameObject.name}");
+            //Debug.Log($"Building {BuildingName} collided with unit: {collision.gameObject.name}");
         }
     }
 }

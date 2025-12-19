@@ -27,12 +27,12 @@ namespace BuildingPlacement.Buildings
                 InProductionUnitName = vehicleType.ToString();
                 IsReady = false;
                 
-                Debug.Log($"Hangar started creating a new vehicle: {InProductionUnitName}");
+                //Debug.Log($"Hangar started creating a new vehicle: {InProductionUnitName}");
                 CreateVehicleInstance(vehicleType);
             }
             else
             {
-                Debug.LogWarning("Hangar is not ready to create a new vehicle or already in production.");
+                //Debug.LogWarning("Hangar is not ready to create a new vehicle or already in production.");
             }
         }
 

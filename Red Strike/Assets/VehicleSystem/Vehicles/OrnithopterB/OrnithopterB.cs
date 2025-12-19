@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using AmmunitionSystem.Ammunitions;
 using NetworkingSystem;
+using Fusion;
 
 namespace VehicleSystem.Vehicles.OrnithopterB
 {
@@ -35,21 +36,15 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
         protected override void FireShot()
         {
+            Vector3 direction = (targetObject.transform.position - barrelPoints[0].position).normalized;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
             for (int i = 0; i < barrelPoints.Length; i++)
             {
                 Transform barrelPoint = barrelPoints[i];
-
-                Vector3 direction = (targetObject.transform.position - barrelPoint.position).normalized;
-                Quaternion rotation = Quaternion.LookRotation(direction);
-                CreateBullet(barrelPoint.position, rotation);
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint.position, rotation, Object);
+                currentAmmunition_bullet--;
             }
-
-            currentAmmunition_bullet -= 2;
-        }
-
-        private void CreateBullet(Vector3 pos, Quaternion rot)
-        {
-            CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, pos, rot, Object);
         }
 
         protected override void LaunchRocket()
@@ -63,10 +58,14 @@ namespace VehicleSystem.Vehicles.OrnithopterB
         {
             isFiringSalvo = true;
 
+            NetworkId targetId = default;
+            if (targetObject != null)
+                targetId = targetObject.GetComponent<NetworkObject>().Id;
+
             if (currentAmmunition_rocket >= 2 && targetObject != null)
             {
-                FireSingleRocket(rocketLaunchLeftPoints[0]);
-                FireSingleRocket(rocketLaunchLeftPoints[1]);
+                FireSingleRocket(rocketLaunchLeftPoints[0], targetId);
+                FireSingleRocket(rocketLaunchLeftPoints[1], targetId);
 
                 SetRocketVisualInternal(0, false);
                 SetRocketVisualInternal(1, false);
@@ -78,8 +77,8 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 
             if (currentAmmunition_rocket >= 2 && targetObject != null)
             {
-                FireSingleRocket(rocketLaunchRightPoints[0]);
-                FireSingleRocket(rocketLaunchRightPoints[1]);
+                FireSingleRocket(rocketLaunchRightPoints[0], targetId);
+                FireSingleRocket(rocketLaunchRightPoints[1], targetId);
 
                 SetRocketVisualInternal(2, false);
                 SetRocketVisualInternal(3, false);
@@ -90,20 +89,13 @@ namespace VehicleSystem.Vehicles.OrnithopterB
             isFiringSalvo = false;
         }
 
-        private void FireSingleRocket(Transform spawnPoint)
+        private void FireSingleRocket(Transform spawnPoint, NetworkId targetId)
         {
-            Debug.LogWarning("Ornithopter B: FireSingleRocket called, BUT: Not Spawning Yet");
-            /*
+            //Debug.LogWarning("Ornithopter B: FireSingleRocket called, BUT: Not Spawning Yet");
             if (targetObject == null) return;
 
-            GameObject rocket = Instantiate(ammunition_rocket.ammunitionPrefab, spawnPoint.position, spawnPoint.rotation);
-            var script = rocket.GetComponent<Ammunition>();
-            if (script != null)
-            {
-                script.ownerVehicle = this;
-                script.SetRocket(targetObject.transform);
-            }
-            */
+            CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_rocket.ammunitionName, spawnPoint.position, spawnPoint.rotation, Object, targetId);
+            currentAmmunition_rocket--;
         }
 
         private void LookAtTarget(Transform target)
@@ -117,9 +109,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
         protected override void ReloadRocketAmmunition()
         {
             base.ReloadRocketAmmunition();
-
             RocketObjectVisibility(true);
-            Debug.Log("Ornithopter B: Rockets Reloaded");
         }
 
         private void RocketObjectVisibility(bool isVisible)

@@ -306,7 +306,7 @@ namespace VehicleSystem.Vehicles
                     LaunchRocket();
 
                     EnableMuzzleFlashEffects();
-                    Invoke("DisableMuzzleFlashLights", 0.1f);
+                    Invoke(nameof(DisableMuzzleFlashLights), 0.1f);
 
                     rocketCooldownTimer = rocketAmmunitionSettings.reloadTime;
                 }
@@ -333,6 +333,17 @@ namespace VehicleSystem.Vehicles
                 if (light != null)
                 {
                     light.enabled = true;
+                }
+            }
+        }
+
+        private void DisableMuzzleFlashLights()
+        {
+            foreach (var light in muzzleFlashLights)
+            {
+                if (light != null)
+                {
+                    light.enabled = false;
                 }
             }
         }
@@ -365,11 +376,11 @@ namespace VehicleSystem.Vehicles
             health -= damage;
             health = Mathf.Max(0, health);
 
-            Debug.Log($"Vehicle {vehicleData.vehicleName} took {damage} damage. Remaining health: {health}");
+            //Debug.Log($"Vehicle {vehicleData.vehicleName} took {damage} damage. Remaining health: {health}");
 
             if (health <= 0)
             {
-                Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
+                //Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
                 Instantiate(vehicleData.explosionEffect, transform.position, Quaternion.identity);
                 Runner.Despawn(Object);
             }

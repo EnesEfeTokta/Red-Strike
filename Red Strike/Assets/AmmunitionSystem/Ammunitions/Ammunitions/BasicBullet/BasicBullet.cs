@@ -48,7 +48,7 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
                     return;
                 }
 
-                Debug.Log($"Hit Enemy: {unit.name} - Damage: {ammunitionData.damage}");
+                //Debug.Log($"Hit Enemy: {unit.name} - Damage: {ammunitionData.damage}");
                 unit.TakeDamage(ammunitionData.damage);
             }
             
