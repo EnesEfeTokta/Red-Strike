@@ -34614,11 +34614,11 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
-  cruisingAltitude: 35
-  attackAltitude: 7
-  attackLobeRadius: 50
-  rocketRangeMultiplier: 2
-  loiterRadius: 40
+  cruisingAltitude: 85
+  attackAltitude: 15
+  attackLobeRadius: 40
+  rocketRangeMultiplier: 3
+  loiterRadius: 150
   maxBankAngle: 100
   bankSpeed: 30
   parameterVariance: 0.1

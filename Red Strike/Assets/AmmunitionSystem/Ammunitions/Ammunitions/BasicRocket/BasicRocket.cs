@@ -4,10 +4,8 @@ using NetworkingSystem;
 
 namespace AmmunitionSystem.Ammunitions.BasicRocket
 {
-    [RequireComponent(typeof(Rigidbody))]
     public class BasicRocket : Ammunition
     {
-        private Rigidbody rb;
         public float speed = 20f;
         public float rotationSpeed = 5f;
         public float accelerationRate = 1.5f;
@@ -18,7 +16,6 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
             currentSpeed = speed * 0.5f;
         }
 
@@ -33,23 +30,23 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             if (hasExploded) return;
 
             currentSpeed = Mathf.Lerp(currentSpeed, speed, Runner.DeltaTime * accelerationRate);
+            float dt = Runner.DeltaTime;
 
             if (TargetId.IsValid)
             {
                 var targetObj = Runner.FindObject(TargetId);
-
                 if (targetObj != null)
                 {
                     Vector3 direction = (targetObj.transform.position - transform.position).normalized;
                     if (direction != Vector3.zero)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(direction);
-                        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, Runner.DeltaTime * rotationSpeed));
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, dt * rotationSpeed);
                     }
                 }
             }
 
-            rb.linearVelocity = transform.forward * currentSpeed;
+            transform.position += transform.forward * currentSpeed * dt;
         }
 
         private void OnCollisionEnter(Collision collision)

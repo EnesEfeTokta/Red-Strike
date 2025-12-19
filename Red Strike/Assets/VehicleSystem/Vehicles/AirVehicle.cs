@@ -6,13 +6,13 @@ namespace VehicleSystem.Vehicles
     public class AirVehicle : Vehicle
     {
         [Header("Air Combat Settings")]
-        public float cruisingAltitude = 60f;
-        public float attackAltitude = 20f;
-        public float attackLobeRadius = 70f;
-        public float rocketRangeMultiplier = 3.0f;
-        public float loiterRadius = 40f;
-        public float maxBankAngle = 35f;
-        public float bankSpeed = 4f;
+        public float cruisingAltitude = 60f; // Standart devriye irtifası
+        public float attackAltitude = 20f; // Saldırı irtifası
+        public float attackLobeRadius = 70f; // Saldırı lobu yarıçapı.
+        public float rocketRangeMultiplier = 3.0f; // Roket menzil çarpanı
+        public float loiterRadius = 40f; // Devriye yarıçapı
+        public float maxBankAngle = 35f; // Maksimum yatış açısı
+        public float bankSpeed = 4f; // Yatış dönüş hızı
 
         private enum AirState { TakingOff, Loitering, Engaging, Attacking, Refueling }
         private AirState currentState = AirState.TakingOff;
@@ -30,8 +30,8 @@ namespace VehicleSystem.Vehicles
         private float currentBankAngleZ = 0f;
 
         [Range(0, 0.5f)]
-        public float parameterVariance = 0.1f;
-        public float altitudeVariance = 5f;
+        public float parameterVariance = 0.1f; // Parametre varyansı yüzdesi
+        public float altitudeVariance = 5f; // İrtifa varyansı
 
         private float effectiveSpeed;
         private float effectiveTurnSpeed;

@@ -4990,11 +4990,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1265705227133702640}
-  - component: {fileID: 6701203021760833704}
   - component: {fileID: -4722610440048130537}
   - component: {fileID: 124524468962142996}
   - component: {fileID: 2540110762727445661}
   - component: {fileID: 676955788316168694}
+  - component: {fileID: -4511475511243006990}
+  - component: {fileID: 3768847028228631209}
   m_Layer: 0
   m_Name: BasicTankShell
   m_TagString: Ammunition
@@ -5020,27 +5021,6 @@ Transform:
   - {fileID: 6902722021702498254}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6701203021760833704
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5858476706136754781}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.035235763, y: 0.03619562, z: 0.14891243}
-  m_Center: {x: -0.00029680878, y: -0.0013692454, z: 0.012964249}
 --- !u!114 &-4722610440048130537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5122,6 +5102,43 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!114 &-4511475511243006990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858476706136754781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Guid:
+    RawGuidValue: 19c3186beb4233a4c90ef4811e6851f6
+--- !u!136 &3768847028228631209
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858476706136754781}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.015663492
+  m_Height: 0.11026001
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.00020680018, z: -0.0011663437}
 --- !u!1001 &6359606480415133733
 PrefabInstance:
   m_ObjectHideFlags: 0
