@@ -28,8 +28,6 @@ namespace NetworkingSystem
                 SceneManager = sceneManager,
                 PlayerCount = 2,
             });
-
-            Debug.Log($"Oyun Başlatıldı. Mod: {mode}");
         }
 
         public async void StartHost()

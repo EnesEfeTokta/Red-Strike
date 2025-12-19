@@ -152,11 +152,9 @@ namespace NetworkingSystem
             }
         }
 
-        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)] 
         public void RPC_SpawnExplosionEffect(Vector3 position)
         {
-            if (Runner == null || !Runner.IsServer) return;
-
             if (InputController.InputController.Instance == null) return;
 
             var explosionEffectPrefab = InputController.InputController.Instance.ammunitionDatabase.ammunitions.
@@ -164,8 +162,9 @@ namespace NetworkingSystem
 
             if (explosionEffectPrefab != null)
             {
-                Runner.Spawn(explosionEffectPrefab, position, Quaternion.identity, Object.InputAuthority);
-                Debug.Log($"Patlama efekti oluşturuldu.");
+                GameObject effect = Instantiate(explosionEffectPrefab, position, Quaternion.identity);
+                
+                Destroy(effect, 3f); 
             }
         }
 
