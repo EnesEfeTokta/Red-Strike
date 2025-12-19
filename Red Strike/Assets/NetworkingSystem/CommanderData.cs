@@ -19,12 +19,12 @@ namespace NetworkingSystem
 
             if (Object.HasInputAuthority)
             {
-                Debug.Log($"Benim Komutan objem yüklendi! (Spawned)");
+                //Debug.Log($"Benim Komutan objem yüklendi! (Spawned)");
                 LocalCommander = this;
             }
             else
             {
-                Debug.Log($"Rakibin Komutan objesi yüklendi.");
+                //Debug.Log($"Rakibin Komutan objesi yüklendi.");
             }
         }
 
@@ -46,7 +46,7 @@ namespace NetworkingSystem
                     {
                         InputController.InputController.Instance.teamId = PlayerTeamID;
                         GameStateSystem.GameStateManager.Instance.LocalPlayerTeamId = PlayerTeamID;
-                        Debug.Log($"<color=yellow>ZORLA EŞİTLEME:</color> InputController ve GameStateManager ID'leri {PlayerTeamID} olarak düzeltildi.");
+                        //Debug.Log($"<color=yellow>ZORLA EŞİTLEME:</color> InputController ve GameStateManager ID'leri {PlayerTeamID} olarak düzeltildi.");
                     }
                 }
             }
@@ -60,7 +60,7 @@ namespace NetworkingSystem
                 {
                     InputController.InputController.Instance.teamId = PlayerTeamID;
                     GameStateSystem.GameStateManager.Instance.LocalPlayerTeamId = PlayerTeamID;
-                    Debug.Log($"<color=green>GÜNCELLEME:</color> Takım ID'si {PlayerTeamID} olarak değişti ve ayarlandı!");
+                    //Debug.Log($"<color=green>GÜNCELLEME:</color> Takım ID'si {PlayerTeamID} olarak değişti ve ayarlandı!");
                 }
             }
         }
@@ -81,12 +81,8 @@ namespace NetworkingSystem
                 if (unitScript != null)
                 {
                     unitScript.teamId = PlayerTeamID;
-                    Debug.Log($"Bina kuruldu ({buildingName}). Takım ID: {PlayerTeamID} atandı.");
+                    //Debug.Log($"Bina kuruldu ({buildingName}). Takım ID: {PlayerTeamID} atandı.");
                 }
-            }
-            else
-            {
-                Debug.LogError($"Server: {buildingName} prefabı bulunamadı!");
             }
         }
 
@@ -106,12 +102,8 @@ namespace NetworkingSystem
                 if (unitScript != null)
                 {
                     unitScript.teamId = PlayerTeamID;
-                    Debug.Log($"Araç üretildi ({vehicleData.vehicleName}). Takım ID: {PlayerTeamID} atandı.");
+                    //Debug.Log($"Araç üretildi ({vehicleData.vehicleName}). Takım ID: {PlayerTeamID} atandı.");
                 }
-            }
-            else
-            {
-                Debug.LogError($"Server: {vehicleData.vehicleName} prefabı bulunamadı!");
             }
         }
 
@@ -147,7 +139,7 @@ namespace NetworkingSystem
                         ammunitionScript.SetRocketTarget(targetId);
                     }
 
-                    Debug.Log($"Mühimmat fırlatıldı: {ammunitionName}. Takım: {vehicleScript.teamId}");
+                    //Debug.Log($"Mühimmat fırlatıldı: {ammunitionName}. Takım: {vehicleScript.teamId}");
                 }
             }
         }

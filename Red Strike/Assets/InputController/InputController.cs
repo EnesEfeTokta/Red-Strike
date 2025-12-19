@@ -62,7 +62,7 @@ namespace InputController
                 if (currentSelectedBuilding != null)
                 {
                     currentSelectedBuilding = null;
-                    Debug.Log("Bina yerleştirme iptal edildi.");
+                    //Debug.Log("Bina yerleştirme iptal edildi.");
                 }
                 else
                 {
@@ -121,24 +121,24 @@ namespace InputController
 
                     if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
                     {
-                        Debug.LogWarning("Önce bir Ana Üs (Main Station) yerleştirmelisiniz!");
+                        //Debug.LogWarning("Önce bir Ana Üs (Main Station) yerleştirmelisiniz!");
                         return;
                     }
 
                     if (currentSelectedBuilding.buildingName == "Main Station" && isThereMainBuilding)
                     {
-                        Debug.LogWarning("Zaten bir Ana Üs'sünüz var.");
+                        //Debug.LogWarning("Zaten bir Ana Üs'sünüz var.");
                         return;
                     }
 
                     if (CommanderData.LocalCommander != null)
                     {
                         CommanderData.LocalCommander.RPC_SpawnBuilding(currentSelectedBuilding.buildingName, spawnPosition);
-                        Debug.Log($"<color=green>Server'a İstek:</color> {currentSelectedBuilding.buildingName} kuruluyor...");
+                        //Debug.Log($"<color=green>Server'a İstek:</color> {currentSelectedBuilding.buildingName} kuruluyor...");
                     }
                     else
                     {
-                        Debug.LogError("HATA: LocalCommander (Network Bağlantısı) bulunamadı!");
+                        //Debug.LogError("HATA: LocalCommander (Network Bağlantısı) bulunamadı!");
                         return;
                     }
 
@@ -146,7 +146,7 @@ namespace InputController
                 }
                 else
                 {
-                    Debug.Log("Bu alan inşaat için uygun değil (Çok yakın veya engel var).");
+                   //Debug.Log("Bu alan inşaat için uygun değil (Çok yakın veya engel var).");
                 }
             }
         }
@@ -164,11 +164,11 @@ namespace InputController
             if (buildingToSelect != null)
             {
                 currentSelectedBuilding = buildingToSelect;
-                Debug.Log($"Seçilen: {currentSelectedBuilding.buildingName}. Yere tıklayın.");
+                //Debug.Log($"Seçilen: {currentSelectedBuilding.buildingName}. Yere tıklayın.");
             }
             else
             {
-                Debug.LogError($"Database Hatası: {buildingName} bulunamadı!");
+                //Debug.LogError($"Database Hatası: {buildingName} bulunamadı!");
             }
         }
 
@@ -197,7 +197,7 @@ namespace InputController
             {
                 if (currentSelectedVehicle != null)
                 {
-                    Debug.Log($"Saldırı Emri: {currentSelectedVehicle.name} -> {unit.name}");
+                    //Debug.Log($"Saldırı Emri: {currentSelectedVehicle.name} -> {unit.name}");
                     currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
 
                     if (targetHighlighter != null) targetHighlighter.DisableHighlight();
@@ -206,7 +206,7 @@ namespace InputController
                 }
                 else
                 {
-                    Debug.Log("Düşmanı seçmek için önce kendi aracınızı seçin.");
+                    //Debug.Log("Düşmanı seçmek için önce kendi aracınızı seçin.");
                 }
                 return;
             }

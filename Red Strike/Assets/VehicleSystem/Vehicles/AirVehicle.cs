@@ -71,7 +71,6 @@ namespace VehicleSystem.Vehicles
             }
             else
             {
-                // Durum makinesi
                 switch (currentState)
                 {
                     case AirState.TakingOff: HandleTakingOff(); break;
@@ -84,7 +83,6 @@ namespace VehicleSystem.Vehicles
                 ConsumeFuel();
             }
 
-            // Konumu Network'e yaz
             NetworkedPosition = transform.position;
             NetworkedRotation = transform.rotation;
         }

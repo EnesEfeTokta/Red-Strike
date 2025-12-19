@@ -45,7 +45,7 @@ namespace AmmunitionSystem.Ammunitions.Ammunitions.BasicTankShell
                 return;
             }
 
-            Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
+            //Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
             unit.TakeDamage(ammunitionData.damage);
 
             hasExploded = true;

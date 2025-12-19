@@ -69,7 +69,7 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
                 return;
             }
 
-            Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
+            //Debug.Log($"Hit unit: {collision.gameObject.name}, Damage: {ammunitionData.damage}");
             unit.TakeDamage(ammunitionData.damage);
 
             hasExploded = true;

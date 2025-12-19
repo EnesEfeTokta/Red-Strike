@@ -35,16 +35,13 @@ namespace VehicleSystem.Vehicles.OrnithopterA
             for (int i = 0; i < barrelPoints.Length; i++)
             {
                 Transform barrelPoint = barrelPoints[i];
-
                 CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint.position, rotation, Object);
+                currentAmmunition_bullet--;
             }
-
-            currentAmmunition_bullet -= 2;
         }
 
         protected override void LaunchRocket()
         {
-            Debug.LogWarning("Ornithopter A: LaunchRocket called, BUT: Not Spawning Yet");
             NetworkId targetId = default;
             if (targetObject != null) 
                 targetId = targetObject.GetComponent<NetworkObject>().Id;
@@ -69,7 +66,6 @@ namespace VehicleSystem.Vehicles.OrnithopterA
         {
             base.ReloadRocketAmmunition();
             RocketObjectVisibility(true);
-            Debug.Log("Rockets Reloaded");
         }
 
         private void RocketObjectVisibility(bool isVisible)
