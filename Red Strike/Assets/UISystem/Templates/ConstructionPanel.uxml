@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="left-panel" class="side-panel">
+        <ui:VisualElement class="panel-header-glow" />
+        <ui:Label text="CONSTRUCTION" class="panel-category-label" />
+        <ui:Button text="MAIN STATION" name="main-station-button" class="build-button" />
+        <ui:Button text="HANGAR" name="hangar-button" class="build-button" />
+        <ui:Button text="ENERGY TOWER" name="energy-tower-button" class="build-button" />
+        <ui:VisualElement class="panel-footer-line" />
+    </ui:VisualElement>
+</ui:UXML>

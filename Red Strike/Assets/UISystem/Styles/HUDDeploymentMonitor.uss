@@ -1,0 +1,99 @@
+.deployment-panel {
+    width: 900px;
+    height: 500px;
+    background-color: var(--panel-bg);
+    border-width: 1px;
+    border-color: var(--secondary-blue);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.deployment-header-container {
+    height: 30px;
+    margin-bottom: 5px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--secondary-blue);
+}
+
+.deployment-main-title {
+    color: var(--primary-cyan);
+    -unity-text-align: middle-center;
+    font-size: 18px;
+    -unity-font-style: bold;
+}
+
+.deployment-scroll-view { flex-grow: 1; }
+
+/* --- KRİTİK: Kolonları Yan Yana Diz --- */
+.deployment-columns-container {
+    display: flex;
+    flex-direction: row; /* Yan yana */
+    width: 100%;
+}
+/* Unity'nin kendi içerik konteynerine de aynısını uygula */
+.deployment-scroll-view .unity-scroll-view__content-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.deployment-column {
+    flex: 1; /* %50 Genişlik */
+    padding: 0 10px;
+}
+
+/* Dekoratif Kenarlıklar */
+.side-border-p1 { border-right-width: 1px; border-right-color: rgba(255, 255, 255, 0.1); padding-right: 20px; }
+.side-border-p2 { padding-left: 20px; }
+.deployment-separator { display: none; } /* CSS ile border yaptığımız için buna gerek kalmadı */
+
+/* Satırlar */
+.unit-monitor-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Dikeyde Tam Orta */
+    justify-content: space-between;
+    height: 32px; /* Yüksekliği artırdık */
+    margin-bottom: 4px;
+    background-color: rgba(255, 255, 255, 0.05); /* Gri Arka Plan */
+    padding-left: 10px;
+    padding-right: 5px;
+    border-radius: 3px;
+}
+.unit-monitor-label {
+    width: 140px;
+    font-size: 12px;
+    color: #DDDDDD;
+    -unity-text-align: middle-left; /* Yazıyı dikeyde ortala */
+}
+.slot-container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    /* Kutucukları satırın tam ortasına hizalar */
+    align-items: center; 
+    height: 100%;
+}
+.status-slot {
+    /* KARE YAPILDI */
+    width: 12px;
+    height: 12px;
+    
+    margin-right: 4px; /* Aralarındaki boşluk */
+    border-width: 1px;
+}
+.slot-filled { background-color: #00FF88; border-color: #00FF88; box-shadow: 0 0 5px #00FF88; }
+.slot-empty { background-color: rgba(255, 0, 0, 0.15); border-color: rgba(255, 0, 0, 0.5); }
+
+/* Başlıklar */
+.column-commander-name {
+    color: white; font-size: 15px; -unity-font-style: bold; margin-bottom: 10px;
+    -unity-text-align: middle-left; 
+    border-bottom-width: 1px; border-bottom-color: rgba(255,255,255,0.2);
+}
+.category-header {
+    background-color: rgba(0, 255, 255, 0.15);
+    color: #00FFFF; font-size: 12px; -unity-font-style: bold;
+    padding: 4px; margin-top: 15px; margin-bottom: 5px; border-left-width: 3px; border-left-color: #00FFFF;
+}

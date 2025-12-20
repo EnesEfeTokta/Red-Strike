@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="OverlayPanelsContainer" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; pointer-events: none;">
+        
+        <ui:VisualElement name="game-over-panel" class="overlay-panel" style="display: none; pointer-events: auto;">
+            <ui:Label text="MISSION FAILED" name="game-over-title" class="overlay-title" />
+            <ui:Label text="SECTOR LOST" name="game-over-message" class="overlay-message" />
+            <ui:Button text="MENU" name="return-to-menu-button" class="overlay-button" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="victory-panel" class="overlay-panel" style="display: none; pointer-events: auto;">
+            <ui:Label text="VICTORY" name="victory-title" class="victory-title" />
+            <ui:Label text="SECTOR SECURED" name="victory-message" class="overlay-message" />
+            <ui:Button text="RETURN" name="victory-menu-button" class="overlay-button" />
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
+</ui:UXML>

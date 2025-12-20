@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="InfoPanelsContainer" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0;">
+        
+        <!-- BİNA DETAYLARI -->
+        <ui:VisualElement name="building-details-panel" class="info-panel" style="display: none;">
+            <ui:Label text="STRUCTURE ANALYSIS" name="shared-build-type-label" class="details-title" />
+            <ui:VisualElement class="stat-row">
+                <ui:Label text="INTEGRITY:" class="details-text-header" />
+                <ui:Label text="100%" name="shared-health-label" class="details-text" />
+            </ui:VisualElement>
+            <ui:VisualElement style="height: 1px; background-color: rgba(255,255,255,0.2); margin: 5px 0;" />
+            <ui:VisualElement name="building-dynamic-content-container">
+                <!-- Dinamik içerikler kodla veya varsayılan gizli olarak burada -->
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ARAÇ DETAYLARI -->
+        <ui:VisualElement name="vehicle-details-panel" class="info-panel" style="display: none;">
+            <ui:Label text="UNIT IDENTIFIED" name="shared-vehicle-name-label" class="details-title" />
+            <ui:Label text="HULL INTEGRITY" class="bar-label" />
+            <ui:ProgressBar name="shared-vehicle-health-bar" value="50" class="health-bar" />
+            <ui:Label text="PLASMA FUEL" class="bar-label" />
+            <ui:ProgressBar name="shared-vehicle-fuel-bar" value="50" class="fuel-bar" />
+            <ui:Label text="AMMO:" name="shared-vehicle-ammo-label" class="details-text" />
+            <ui:Label text="TARGET:" name="shared-vehicle-target-label" class="details-text" />
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,14 @@
+.build-button, .action-button, .overlay-button {
+    background-color: rgba(0, 80, 100, 0.4);
+    color: white;
+    border-width: 1px; border-color: var(--secondary-blue);
+    height: 35px; margin-bottom: 5px; -unity-font-style: bold;
+}
+.build-button:hover { background-color: var(--primary-cyan); color: black; }
+.details-title {
+    color: var(--primary-cyan); font-size: 16px; -unity-font-style: bold;
+    border-bottom-width: 1px; border-bottom-color: rgba(0, 255, 255, 0.2); margin-bottom: 10px;
+}
+.health-bar .unity-progress-bar__progress { background-color: var(--danger-red); }
+.fuel-bar .unity-progress-bar__progress { background-color: var(--secondary-blue); }
+.unity-progress-bar__container { height: 12px; margin-bottom: 5px; }

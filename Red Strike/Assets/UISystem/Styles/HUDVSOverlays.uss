@@ -1,0 +1,66 @@
+.vs-panel {
+    /* Flexbox içinde serbest akış */
+    position: relative; 
+    
+    width: 600px; 
+    height: 100%; /* Footer yüksekliğini (80px) tam doldur */
+    
+    /* Olası hizalama hatalarını önlemek için margin auto */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    
+    background-color: rgba(0, 5, 10, 0.98);
+    border-top-width: 2px;
+    border-top-color: var(--primary-cyan);
+    
+    /* Alt kenarlığı kaldır (Ekranın bitimiyle birleşsin) */
+    border-bottom-width: 0;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    /* Sadece üst köşeleri yuvarla */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.vs-player-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+/* Ters sıralama (İsim <-> Avatar) */
+.vs-reverse {
+    flex-direction: row-reverse;
+}
+
+.vs-player-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #111;
+    border-width: 1px;
+    border-color: var(--secondary-blue);
+    margin: 0 15px;
+}
+
+.vs-player-name-label { color: #00FFFF; font-size: 16px; -unity-font-style: bold; }
+.vs-score-label { color: #FF8C00; font-size: 14px; -unity-font-style: bold; }
+.vs-vs-label { color: var(--danger-red); font-size: 30px; margin: 0 20px; -unity-font-style: bold; }
+
+/* Overlay'ler (Absolute kalmalı) */
+.overlay-panel {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center; justify-content: center;
+    z-index: 9999;
+}
+.victory-title { color: #00FF88; font-size: 50px; }
+.overlay-title { color: var(--danger-red); font-size: 50px; }
