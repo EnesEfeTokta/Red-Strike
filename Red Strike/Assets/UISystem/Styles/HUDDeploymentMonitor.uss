@@ -10,10 +10,14 @@
 }
 
 .deployment-header-container {
-    height: 30px;
-    margin-bottom: 5px;
+    height: 35px;
+    margin-bottom: 10px;
     border-bottom-width: 1px;
     border-bottom-color: var(--secondary-blue);
+    
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .deployment-main-title {
@@ -23,17 +27,46 @@
     -unity-font-style: bold;
 }
 
+/* Kırmızı ESC Butonu */
+.deployment-close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    
+    width: 40px;
+    height: 25px;
+    margin-top: auto;
+    margin-bottom: auto;
+    
+    background-color: rgba(255, 40, 40, 0.1);
+    border-width: 1px;
+    border-color: var(--danger-red);
+    color: var(--danger-red);
+    font-size: 10px;
+    -unity-font-style: bold;
+    border-radius: 3px;
+}
+
+.deployment-close-button:hover {
+    background-color: var(--danger-red);
+    color: white;
+    cursor: initial;
+}
+
+.deployment-close-button:active {
+    background-color: #990000;
+}
+
 .deployment-scroll-view { flex-grow: 1; }
 
 /* --- KRİTİK: Kolonları Yan Yana Diz --- */
 .deployment-columns-container {
-    display: flex;
     flex-direction: row; /* Yan yana */
     width: 100%;
 }
 /* Unity'nin kendi içerik konteynerine de aynısını uygula */
 .deployment-scroll-view .unity-scroll-view__content-container {
-    display: flex;
     flex-direction: row;
     width: 100%;
 }
@@ -50,7 +83,6 @@
 
 /* Satırlar */
 .unit-monitor-row {
-    display: flex;
     flex-direction: row;
     align-items: center; /* Dikeyde Tam Orta */
     justify-content: space-between;
@@ -68,7 +100,6 @@
     -unity-text-align: middle-left; /* Yazıyı dikeyde ortala */
 }
 .slot-container {
-    display: flex;
     flex-direction: row;
     flex-grow: 1;
     /* Kutucukları satırın tam ortasına hizalar */
