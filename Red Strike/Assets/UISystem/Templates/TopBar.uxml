@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="top-bar-container" class="top-bar">
+        <ui:VisualElement class="top-bar-accent-left" />
+        <ui:Label text="TACTICAL COMMAND HUB" class="top-bar-title" />
+        <ui:VisualElement class="top-bar-accent-right" />
+    </ui:VisualElement>
+</ui:UXML>

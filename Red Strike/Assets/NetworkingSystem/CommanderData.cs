@@ -107,7 +107,6 @@ namespace NetworkingSystem
             }
         }
 
-
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         public void RPC_SpawnAmmunition(
             string ammunitionName, 

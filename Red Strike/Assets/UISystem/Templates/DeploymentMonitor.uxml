@@ -1,0 +1,69 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="deployment-monitor" class="deployment-panel">
+        <ui:VisualElement class="deployment-header-container">
+            <ui:Label text="GLOBAL DEPLOYMENT MONITOR" class="deployment-main-title" />
+        </ui:VisualElement>
+
+        <ui:ScrollView mode="Vertical" class="deployment-scroll-view">
+            <ui:VisualElement class="deployment-columns-container">
+
+                <!-- === PLAYER 1 KOLONU === -->
+                <ui:VisualElement class="deployment-column side-border-p1">
+                    <ui:Label text="COMMANDER 01" class="column-commander-name" />
+
+                    <!-- BİNALAR -->
+                    <ui:Label text="STRUCTURES" class="category-header" />
+                    <!-- Main Station: 1 Yeşil -->
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Main Station" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /></ui:VisualElement></ui:VisualElement>
+                    <!-- Hangar: 3 Toplam (2 Dolu, 1 Boş) -->
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Hangar" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <!-- Energy Tower: 3 Toplam (3 Dolu) -->
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Energy Tower" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /></ui:VisualElement></ui:VisualElement>
+
+                    <!-- KARA ARAÇLARI (5 Slotlu) -->
+                    <ui:Label text="GROUND FORCES" class="category-header" />
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Infantry" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Trike" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Quad" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Tank Combat" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Tank Heavy A" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Tank Heavy B" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+
+                    <!-- HAVA ARAÇLARI (5 Slotlu) -->
+                    <ui:Label text="AIR FORCES" class="category-header" />
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Ornithopter A" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Ornithopter B" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- AYIRICI -->
+                <ui:VisualElement class="deployment-separator" style="width: 2px; background-color: rgba(255,255,255,0.1); margin: 0 5px;" />
+
+                <!-- === PLAYER 2 KOLONU === -->
+                <ui:VisualElement class="deployment-column side-border-p2">
+                    <ui:Label text="COMMANDER 02" class="column-commander-name" />
+
+                    <!-- BİNALAR -->
+                    <ui:Label text="STRUCTURES" class="category-header" />
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Main Station" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Hangar" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Energy Tower" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+
+                    <!-- KARA ARAÇLARI -->
+                    <ui:Label text="GROUND FORCES" class="category-header" />
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Infantry" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Trike" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Quad" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Tank Combat" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Tank Heavy A" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Tank Heavy B" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+
+                    <!-- HAVA ARAÇLARI -->
+                    <ui:Label text="AIR FORCES" class="category-header" />
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Ornithopter A" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                    <ui:VisualElement class="unit-monitor-row"><ui:Label text="Ornithopter B" class="unit-monitor-label" /><ui:VisualElement class="slot-container"><ui:VisualElement class="status-slot slot-filled" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /><ui:VisualElement class="status-slot slot-empty" /></ui:VisualElement></ui:VisualElement>
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>
