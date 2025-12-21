@@ -10,6 +10,7 @@ namespace VehicleSystem
         public string vehicleName;
         public VehicleTypes vehicleType;
         public GameObject vehiclePrefab;
+        public int maxCreatableCount;
 
         [Header("Vehicle Stats")]
         public float speed;

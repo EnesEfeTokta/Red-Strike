@@ -15,6 +15,7 @@ MonoBehaviour:
   vehicleName: Quad
   vehicleType: 2
   vehiclePrefab: {fileID: 8322101594408336133, guid: 16678156d05891545a8ea7f1b6b4e7f6, type: 3}
+  maxCreatableCount: 5
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 120

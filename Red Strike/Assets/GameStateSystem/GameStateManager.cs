@@ -99,16 +99,25 @@ namespace GameStateSystem
             {
                 if (unit.teamId == LocalPlayerTeamId)
                 {
+                    string unitName = "";
+                    int currentAddition = 0;
+                    int maxCapacity = 0;
+
                     if (unit is BuildingPlacement.Buildings.Building building)
                     {
-                        UpdateAdditions(building.buildingData.buildingName, 1);
-                        deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, building.buildingData.buildingName, 1, 2);
+                        unitName = building.buildingData.buildingName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] + 1 : 1;
+                        maxCapacity = building.buildingData.maxCreatableCount;
                     }
                     else if (unit is VehicleSystem.Vehicles.Vehicle vehicle)
                     {
-                        UpdateAdditions(vehicle.vehicleData.vehicleName, 1);
-                        deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, vehicle.vehicleData.vehicleName, 1, 2);
+                        unitName = vehicle.vehicleData.vehicleName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] + 1 : 1;
+                        maxCapacity = vehicle.vehicleData.maxCreatableCount;
                     }
+
+                    UpdateAdditions(unitName, currentAddition);
+                    deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, unitName, additions[unitName], maxCapacity);
                 }
             }
         }

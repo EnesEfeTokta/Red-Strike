@@ -15,6 +15,7 @@ MonoBehaviour:
   vehicleName: Tank Heavy B
   vehicleType: 5
   vehiclePrefab: {fileID: 3969752469904077645, guid: 74287606229d56b4b89524f3b409529e, type: 3}
+  maxCreatableCount: 3
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 120

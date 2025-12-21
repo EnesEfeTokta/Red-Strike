@@ -15,6 +15,7 @@ MonoBehaviour:
   vehicleName: Infantry
   vehicleType: 0
   vehiclePrefab: {fileID: 6427180487138741020, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
+  maxCreatableCount: 10
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 120
