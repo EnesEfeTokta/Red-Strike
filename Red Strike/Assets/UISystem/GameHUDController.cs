@@ -35,6 +35,7 @@ namespace UISystem
             fadePanel = root.Q<VisualElement>("fade-panel");
             victoryPanel = root.Q<VisualElement>("victory-panel");
             deploymentMonitorPanel = root.Q<VisualElement>("deployment-panel");
+            deploymentMonitorPanel.style.display = DisplayStyle.None;
         }
 
         protected virtual void OnDisable() { }

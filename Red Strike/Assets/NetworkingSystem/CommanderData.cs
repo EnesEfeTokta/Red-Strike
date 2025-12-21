@@ -81,6 +81,7 @@ namespace NetworkingSystem
                 if (unitScript != null)
                 {
                     unitScript.teamId = PlayerTeamID;
+                    GameStateSystem.GameStateManager.Instance.ReportUnitConstructed(unitScript);
                     //Debug.Log($"Bina kuruldu ({buildingName}). Takım ID: {PlayerTeamID} atandı.");
                 }
             }
@@ -102,6 +103,7 @@ namespace NetworkingSystem
                 if (unitScript != null)
                 {
                     unitScript.teamId = PlayerTeamID;
+                    GameStateSystem.GameStateManager.Instance.ReportUnitConstructed(unitScript);
                     //Debug.Log($"Araç üretildi ({vehicleData.vehicleName}). Takım ID: {PlayerTeamID} atandı.");
                 }
             }

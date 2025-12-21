@@ -5,8 +5,8 @@ namespace UISystem
 {
     public class DeploymentMonitorHUDController : GameHUDController
     {
-        public const int Player1 = 1;
-        public const int Player2 = 2;
+        public int Player1 = 1;
+        public int Player2 = 2;
 
         protected override void OnEnable()
         {
@@ -16,6 +16,21 @@ namespace UISystem
 
             var closeButton = root.Q<Button>("deployment-close-button");
             if (closeButton != null) closeButton.clicked += () => { ChangeDeploymentMonitorVisible(); };
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (root == null) return;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                ChangeDeploymentMonitorVisible();
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ChangeDeploymentMonitorVisible();
+            }
         }
 
         public void UpdatePlayerName(int playerId, string playerName)
@@ -34,9 +49,10 @@ namespace UISystem
         public void UpdateUnitSlots(int playerId, string unitId, int currentCount, int maxCapacity)
         {
             if (root == null) return;
+            string formattedUnitId = unitId.Trim().ToLower().Replace(" ", "-");
 
             string prefix = (playerId == Player1) ? "p1" : "p2";
-            string containerName = $"{prefix}-{unitId}-slots";
+            string containerName = $"{prefix}-{formattedUnitId}-slots";
 
             VisualElement container = root.Q<VisualElement>(containerName);
 
