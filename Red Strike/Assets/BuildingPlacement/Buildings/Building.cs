@@ -44,6 +44,7 @@ namespace BuildingPlacement.Buildings
                     }
                 }
 
+                GameStateManager.Instance.ReportUnitDestroyed(this);
                 Runner.Despawn(Object);
             }
         }

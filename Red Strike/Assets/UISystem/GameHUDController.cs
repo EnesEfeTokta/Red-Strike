@@ -6,27 +6,26 @@ namespace UISystem
     public class GameHUDController : MonoBehaviour
     {
         protected InputController.InputController inputController;
+
         protected UIDocument uiDocument;
         protected VisualElement root;
+
         protected VisualElement buildingDynamicContentContainer;
         protected VisualElement vehicleDynamicContentContainer;
         protected VisualElement gameOverPanel;
         protected VisualElement fadePanel;
         protected VisualElement victoryPanel;
+        protected VisualElement deploymentMonitorPanel;
 
-        private void Start()
+        protected void Awake()
         {
             inputController = GetComponent<InputController.InputController>();
+            uiDocument = GetComponent<UIDocument>();
         }
 
         protected virtual void OnEnable() 
         {
-            uiDocument = GetComponent<UIDocument>();
-            if (uiDocument == null)
-            {
-                Debug.LogError("Bu objede UIDocument bileşeni bulunamadı!", this);
-                return;
-            }
+            if (uiDocument == null) return;
 
             root = uiDocument.rootVisualElement;
 
@@ -35,6 +34,8 @@ namespace UISystem
             gameOverPanel = root.Q<VisualElement>("game-over-panel");
             fadePanel = root.Q<VisualElement>("fade-panel");
             victoryPanel = root.Q<VisualElement>("victory-panel");
+            deploymentMonitorPanel = root.Q<VisualElement>("deployment-panel");
+            deploymentMonitorPanel.style.display = DisplayStyle.None;
         }
 
         protected virtual void OnDisable() { }

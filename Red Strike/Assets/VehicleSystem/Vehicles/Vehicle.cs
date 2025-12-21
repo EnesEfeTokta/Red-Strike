@@ -3,6 +3,7 @@ using AmmunitionSystem;
 using System.Linq;
 using BuildingPlacement.Buildings;
 using Fusion;
+using GameStateSystem;
 
 namespace VehicleSystem.Vehicles
 {
@@ -381,6 +382,7 @@ namespace VehicleSystem.Vehicles
             if (health <= 0)
             {
                 //Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
+                GameStateManager.Instance.ReportUnitDestroyed(this);
                 Instantiate(vehicleData.explosionEffect, transform.position, Quaternion.identity);
                 Runner.Despawn(Object);
             }

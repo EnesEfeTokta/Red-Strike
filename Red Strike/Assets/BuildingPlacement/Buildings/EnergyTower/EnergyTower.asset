@@ -16,5 +16,5 @@ MonoBehaviour:
   buildingPrefab: {fileID: 4083171081778293073, guid: 85da885807e881b4a911c69742b4cab6, type: 3}
   maxHealth: 150
   buildTime: 3.51
-  maxCreatedUnits: 3
+  maxCreatableCount: 3
   explosionEffect: {fileID: 19800002, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}

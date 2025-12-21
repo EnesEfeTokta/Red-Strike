@@ -1,6 +1,7 @@
 using Fusion;
 using UnityEngine;
 using UISystem;
+using System.Collections.Generic;
 
 namespace GameStateSystem
 {
@@ -10,9 +11,16 @@ namespace GameStateSystem
 
         [Networked] public int WinningTeamId { get; set; } = -1;
 
-        public int LocalPlayerTeamId = 0; 
+        public int LocalPlayerTeamId = 0;
 
         private ChangeDetector _changes;
+
+
+        [Header("Additional")]
+        public Dictionary<string, int> additions = new Dictionary<string, int>();
+        public int totalScore = 0;
+
+        private DeploymentMonitorHUDController deploymentMonitorHUDController;
 
         private void Awake()
         {
@@ -20,10 +28,15 @@ namespace GameStateSystem
             else Destroy(gameObject);
         }
 
+        private void Start()
+        {
+            deploymentMonitorHUDController = GetComponent<DeploymentMonitorHUDController>();
+        }
+
         public override void Spawned()
         {
             _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
-            
+
             if (Object.HasStateAuthority)
             {
                 WinningTeamId = -1;
@@ -68,7 +81,7 @@ namespace GameStateSystem
             var hud = FindAnyObjectByType<GameStatusHUDController>();
             if (hud == null) return;
 
-            Debug.Log($"Oyun Bitti! Kazanan: {WinningTeamId}, Benim Takımım: {LocalPlayerTeamId}");
+            //Debug.Log($"Oyun Bitti! Kazanan: {WinningTeamId}, Benim Takımım: {LocalPlayerTeamId}");
 
             if (WinningTeamId == LocalPlayerTeamId)
             {
@@ -77,6 +90,78 @@ namespace GameStateSystem
             else
             {
                 hud.ShowGameOverPanel();
+            }
+        }
+
+        public void ReportUnitConstructed(Unit.Unit unit)
+        {
+            if (deploymentMonitorHUDController != null)
+            {
+                if (unit.teamId == LocalPlayerTeamId)
+                {
+                    string unitName = "";
+                    int currentAddition = 0;
+                    int maxCapacity = 0;
+
+                    if (unit is BuildingPlacement.Buildings.Building building)
+                    {
+                        unitName = building.buildingData.buildingName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] + 1 : 1;
+                        maxCapacity = building.buildingData.maxCreatableCount;
+                    }
+                    else if (unit is VehicleSystem.Vehicles.Vehicle vehicle)
+                    {
+                        unitName = vehicle.vehicleData.vehicleName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] + 1 : 1;
+                        maxCapacity = vehicle.vehicleData.maxCreatableCount;
+                    }
+
+                    UpdateAdditions(unitName, currentAddition);
+                    deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, unitName, additions[unitName], maxCapacity);
+                }
+            }
+        }
+
+        public void ReportUnitDestroyed(Unit.Unit unit)
+        {
+            if (deploymentMonitorHUDController != null)
+            {
+                if (unit.teamId == LocalPlayerTeamId)
+                {
+                    string unitName = "";
+                    int currentAddition = 0;
+                    int maxCapacity = 0;
+
+                    if (unit is BuildingPlacement.Buildings.Building building)
+                    {
+                        unitName = building.buildingData.buildingName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] - 1 : 0;
+                        if (currentAddition < 0) currentAddition = 0;
+                        maxCapacity = building.buildingData.maxCreatableCount;
+                    }
+                    else if (unit is VehicleSystem.Vehicles.Vehicle vehicle)
+                    {
+                        unitName = vehicle.vehicleData.vehicleName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] - 1 : 0;
+                        if (currentAddition < 0) currentAddition = 0;
+                        maxCapacity = vehicle.vehicleData.maxCreatableCount;
+                    }
+
+                    UpdateAdditions(unitName, currentAddition);
+                    deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, unitName, additions[unitName], maxCapacity);
+                }
+            }
+        }
+
+        private void UpdateAdditions(string key, int value)
+        {
+            if (additions.ContainsKey(key))
+            {
+                additions[key] = value;
+            }
+            else
+            {
+                additions.Add(key, value);
             }
         }
     }

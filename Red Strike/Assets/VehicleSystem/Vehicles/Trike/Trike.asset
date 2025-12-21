@@ -15,6 +15,7 @@ MonoBehaviour:
   vehicleName: Trike
   vehicleType: 1
   vehiclePrefab: {fileID: 7311248439144974317, guid: 37c4c0d8afa72df4998c6da17046515b, type: 3}
+  maxCreatableCount: 5
   speed: 20
   coverageAreaRadius: 20
   turnSpeed: 120

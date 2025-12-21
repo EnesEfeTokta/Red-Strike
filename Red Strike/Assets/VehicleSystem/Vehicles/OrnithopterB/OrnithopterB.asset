@@ -15,6 +15,7 @@ MonoBehaviour:
   vehicleName: Ornithopter B
   vehicleType: 7
   vehiclePrefab: {fileID: 2571774317061937991, guid: cf72a38b114e423489886ad4e9090c4e, type: 3}
+  maxCreatableCount: 2
   speed: 50
   coverageAreaRadius: 50
   turnSpeed: 5

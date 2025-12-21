@@ -10,7 +10,7 @@ namespace BuildingPlacement
         public GameObject buildingPrefab;
         public int maxHealth;
         public float buildTime;
-        public int maxCreatedUnits;
+        public int maxCreatableCount;
 
         [Header("Effects")]
         public ParticleSystem explosionEffect;
