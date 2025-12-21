@@ -382,7 +382,7 @@ namespace VehicleSystem.Vehicles
             if (health <= 0)
             {
                 //Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
-                //GameStateManager.Instance.ReportVehicleDestroyed(this);
+                GameStateManager.Instance.ReportUnitDestroyed(this);
                 Instantiate(vehicleData.explosionEffect, transform.position, Quaternion.identity);
                 Runner.Despawn(Object);
             }

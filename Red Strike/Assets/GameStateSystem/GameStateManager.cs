@@ -122,6 +122,37 @@ namespace GameStateSystem
             }
         }
 
+        public void ReportUnitDestroyed(Unit.Unit unit)
+        {
+            if (deploymentMonitorHUDController != null)
+            {
+                if (unit.teamId == LocalPlayerTeamId)
+                {
+                    string unitName = "";
+                    int currentAddition = 0;
+                    int maxCapacity = 0;
+
+                    if (unit is BuildingPlacement.Buildings.Building building)
+                    {
+                        unitName = building.buildingData.buildingName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] - 1 : 0;
+                        if (currentAddition < 0) currentAddition = 0;
+                        maxCapacity = building.buildingData.maxCreatableCount;
+                    }
+                    else if (unit is VehicleSystem.Vehicles.Vehicle vehicle)
+                    {
+                        unitName = vehicle.vehicleData.vehicleName;
+                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] - 1 : 0;
+                        if (currentAddition < 0) currentAddition = 0;
+                        maxCapacity = vehicle.vehicleData.maxCreatableCount;
+                    }
+
+                    UpdateAdditions(unitName, currentAddition);
+                    deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, unitName, additions[unitName], maxCapacity);
+                }
+            }
+        }
+
         private void UpdateAdditions(string key, int value)
         {
             if (additions.ContainsKey(key))
