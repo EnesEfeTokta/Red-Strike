@@ -1,7 +1,8 @@
 using Fusion;
 using UnityEngine;
 using UISystem;
-using System.Collections.Generic;
+using BuildingPlacement.Buildings;
+using VehicleSystem.Vehicles;
 
 namespace GameStateSystem
 {
@@ -10,16 +11,12 @@ namespace GameStateSystem
         public static GameStateManager Instance;
 
         [Networked] public int WinningTeamId { get; set; } = -1;
-
         public int LocalPlayerTeamId = 0;
 
+        [Networked, Capacity(32)] 
+        private NetworkDictionary<NetworkString<_32>, int> UnitCounts { get; }
+
         private ChangeDetector _changes;
-
-
-        [Header("Additional")]
-        public Dictionary<string, int> additions = new Dictionary<string, int>();
-        public int totalScore = 0;
-
         private DeploymentMonitorHUDController deploymentMonitorHUDController;
 
         private void Awake()
@@ -40,7 +37,10 @@ namespace GameStateSystem
             if (Object.HasStateAuthority)
             {
                 WinningTeamId = -1;
+                UnitCounts.Clear();
             }
+            
+            UpdateAllUI();
         }
 
         public override void Render()
@@ -50,6 +50,11 @@ namespace GameStateSystem
                 if (change == nameof(WinningTeamId))
                 {
                     HandleGameOverUI();
+                }
+                
+                if (change == nameof(UnitCounts))
+                {
+                    UpdateAllUI();
                 }
             }
         }
@@ -77,92 +82,100 @@ namespace GameStateSystem
         private void HandleGameOverUI()
         {
             if (WinningTeamId == -1) return;
-
             var hud = FindAnyObjectByType<GameStatusHUDController>();
             if (hud == null) return;
 
-            //Debug.Log($"Oyun Bitti! Kazanan: {WinningTeamId}, Benim Takımım: {LocalPlayerTeamId}");
-
-            if (WinningTeamId == LocalPlayerTeamId)
-            {
-                hud.ShowVictoryPanel();
-            }
-            else
-            {
-                hud.ShowGameOverPanel();
-            }
+            if (WinningTeamId == LocalPlayerTeamId) hud.ShowVictoryPanel();
+            else hud.ShowGameOverPanel();
         }
 
         public void ReportUnitConstructed(Unit.Unit unit)
         {
-            if (deploymentMonitorHUDController != null)
+            if (Object.HasStateAuthority)
             {
-                if (unit.teamId == LocalPlayerTeamId)
-                {
-                    string unitName = "";
-                    int currentAddition = 0;
-                    int maxCapacity = 0;
-
-                    if (unit is BuildingPlacement.Buildings.Building building)
-                    {
-                        unitName = building.buildingData.buildingName;
-                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] + 1 : 1;
-                        maxCapacity = building.buildingData.maxCreatableCount;
-                    }
-                    else if (unit is VehicleSystem.Vehicles.Vehicle vehicle)
-                    {
-                        unitName = vehicle.vehicleData.vehicleName;
-                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] + 1 : 1;
-                        maxCapacity = vehicle.vehicleData.maxCreatableCount;
-                    }
-
-                    UpdateAdditions(unitName, currentAddition);
-                    deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, unitName, additions[unitName], maxCapacity);
-                }
+                ModifyUnitCount(unit, 1);
+            }
+            else
+            {
+                int maxCap = (unit is Building) ? ((Building)unit).buildingData.maxCreatableCount : (unit is Vehicle) ? ((Vehicle)unit).vehicleData.maxCreatableCount : 0;
+                RPC_ModifyUnitCount(unit.teamId, GetUnitName(unit), maxCap, 1);
             }
         }
 
         public void ReportUnitDestroyed(Unit.Unit unit)
         {
-            if (deploymentMonitorHUDController != null)
+            if (Object.HasStateAuthority)
             {
-                if (unit.teamId == LocalPlayerTeamId)
+                ModifyUnitCount(unit, -1);
+            }
+            else
+            {
+                RPC_ModifyUnitCount(unit.teamId, GetUnitName(unit), GetMaxCapacity(unit), -1);
+            }
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        private void RPC_ModifyUnitCount(int teamId, string unitName, int maxCapacity, int changeAmount)
+        {
+            string key = $"{teamId}_{unitName}";
+            
+            int current = 0;
+            if (UnitCounts.ContainsKey(key))
+            {
+                current = UnitCounts[key];
+            }
+
+            int newValue = Mathf.Clamp(current + changeAmount, 0, maxCapacity);
+            UnitCounts.Set(key, newValue);
+        }
+
+        private void ModifyUnitCount(Unit.Unit unit, int amount)
+        {
+            string unitName = GetUnitName(unit);
+            string key = $"{unit.teamId}_{unitName}";
+
+            int current = 0;
+            if (UnitCounts.ContainsKey(key))
+            {
+                current = UnitCounts[key];
+            }
+
+            int newValue = Mathf.Clamp(current + amount, 0, GetMaxCapacity(unit));
+            UnitCounts.Set(key, newValue);
+        }
+
+        private void UpdateAllUI()
+        {
+            if (deploymentMonitorHUDController == null) return;
+
+            foreach (var kvp in UnitCounts)
+            {
+                string[] parts = kvp.Key.ToString().Split('_');
+                if (parts.Length < 2) continue;
+
+                if (int.TryParse(parts[0], out int teamId))
                 {
-                    string unitName = "";
-                    int currentAddition = 0;
-                    int maxCapacity = 0;
+                    string unitName = parts[1];
+                    int count = kvp.Value;
+                    int maxCap = 10; // Maksimum kapasiteyi bilmediğimiz için 10 olarak başlatıyoruz
 
-                    if (unit is BuildingPlacement.Buildings.Building building)
-                    {
-                        unitName = building.buildingData.buildingName;
-                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] - 1 : 0;
-                        if (currentAddition < 0) currentAddition = 0;
-                        maxCapacity = building.buildingData.maxCreatableCount;
-                    }
-                    else if (unit is VehicleSystem.Vehicles.Vehicle vehicle)
-                    {
-                        unitName = vehicle.vehicleData.vehicleName;
-                        currentAddition = additions.ContainsKey(unitName) ? additions[unitName] - 1 : 0;
-                        if (currentAddition < 0) currentAddition = 0;
-                        maxCapacity = vehicle.vehicleData.maxCreatableCount;
-                    }
-
-                    UpdateAdditions(unitName, currentAddition);
-                    deploymentMonitorHUDController.UpdateUnitSlots(LocalPlayerTeamId, unitName, additions[unitName], maxCapacity);
+                    deploymentMonitorHUDController.UpdateUnitSlots(teamId, unitName, count, maxCap);
                 }
             }
         }
 
-        private void UpdateAdditions(string key, int value)
+        private string GetUnitName(Unit.Unit unit)
         {
-            if (additions.ContainsKey(key))
-            {
-                additions[key] = value;
-            }
-            else
-            {
-                additions.Add(key, value);
-            }
+            if (unit is Building b) return b.buildingData.buildingName;
+            if (unit is Vehicle v) return v.vehicleData.vehicleName;
+            return "Unknown";
+        }
+
+        private int GetMaxCapacity(Unit.Unit unit)
+        {
+            if (unit is Building b) return b.buildingData.maxCreatableCount;
+            if (unit is Vehicle v) return v.vehicleData.maxCreatableCount;
+            return 0;
         }
     }
 }
