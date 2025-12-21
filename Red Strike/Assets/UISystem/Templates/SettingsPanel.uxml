@@ -1,0 +1,61 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="settings-overlay" class="overlay-container" style="display: none;">
+        
+        <ui:VisualElement class="settings-box">
+            
+            <!-- HEADER & TABS -->
+            <ui:VisualElement class="settings-header-area">
+                <ui:Label text="SETTINGS" style="font-size: 24px; color: cyan;" />
+                
+                <ui:VisualElement class="tabs-container">
+                    <ui:Button text="GAMEPLAY" name="tab-game" class="tab-button tab-active" />
+                    <ui:Button text="USER PROFILE" name="tab-user" class="tab-button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- CONTENT AREA -->
+            <ui:VisualElement class="settings-content-area">
+                
+                <!-- TAB 1: OYUN AYARLARI -->
+                <ui:VisualElement name="content-gameplay" style="display: flex;">
+                    <ui:Label text="AUDIO &amp; VIDEO" style="color: #888; margin-bottom: 20px;" />
+                    
+                    <ui:VisualElement class="row">
+                        <ui:Label text="MASTER VOLUME" class="setting-label" />
+                        <ui:Slider name="slider-master-volume" high-value="1" low-value="0" value="0.75" style="width: 300px;" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement class="row">
+                        <ui:Label text="MUSIC VOLUME" class="setting-label" />
+                        <ui:Slider name="slider-music-volume" high-value="1" low-value="0" value="0.60" style="width: 300px;" />
+                    </ui:VisualElement>
+                    
+                    <ui:VisualElement class="row">
+                        <ui:Label text="FULLSCREEN" class="setting-label" />
+                        <ui:Toggle name="toggle-fullscreen" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- TAB 2: -->
+                <ui:VisualElement name="content-user" style="display: none;">
+                    <ui:Label text="ACCOUNT SETTINGS" style="color: #888; margin-bottom: 20px;" />
+                    
+                    <ui:VisualElement class="row">
+                        <ui:Label text="USERNAME" class="setting-label" />
+                        <ui:TextField name="input-username" value="" class="sci-fi-input" />
+                    </ui:VisualElement>
+                    
+                    <ui:Button name="btn-update-username" text="UPDATE PROFILE" class="action-btn" style="width: 200px; margin-top: 20px;" />
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+
+            <!-- FOOTER -->
+            <ui:VisualElement class="settings-footer-area">
+                <ui:Button text="CLOSE" name="btn-close-settings" class="action-btn" />
+                <ui:Button text="APPLY" name="btn-apply-settings" class="action-btn" style="background-color: rgba(0, 150, 0, 0.5);" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

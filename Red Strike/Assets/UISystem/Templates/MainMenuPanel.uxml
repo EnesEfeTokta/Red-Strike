@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="main-menu-container" class="main-menu-container">
+        <!-- Oyun Başlığı -->
+        <ui:Label text="RED&#10;STRIKE" class="game-title" />
+        
+        <!-- Butonlar -->
+        <ui:Button text="PLAY GAME" name="btn-play" class="menu-btn" />
+        <ui:Button text="OPTIONS" name="btn-options" class="menu-btn" />
+        <ui:Button text="QUIT GAME" name="btn-quit" class="menu-btn quit-btn-style" />
+    </ui:VisualElement>
+</ui:UXML>

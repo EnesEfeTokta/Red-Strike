@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    
+    <!-- Şablonlar -->
+    <ui:Template name="SettingsPanel" src="project://database/Assets/UISystem/Templates/SettingsPanel.uxml?fileID=9197481963319205126&amp;guid=498b16871bd0ae54f99bb05e7329dcf4&amp;type=3#SettingsPanel" />
+    <ui:Template name="QuitPanel" src="project://database/Assets/UISystem/Templates/QuitPanel.uxml?fileID=9197481963319205126&amp;guid=c965db790b208cb4faa9d9e10ae7e17e&amp;type=3#QuitPanel" />
+    <ui:Template name="LoginPanel" src="project://database/Assets/UISystem/Templates/LoginPanel.uxml?fileID=9197481963319205126&amp;guid=3accac9c9c0337c43b4aeb44524e26e4&amp;type=3#LoginPanel" />
+    <ui:Template name="MainMenuPanel" src="project://database/Assets/UISystem/Templates/MainMenuPanel.uxml?fileID=9197481963319205126&amp;guid=7a96574fc6a1c0f448c26d700941ca61&amp;type=3#MainMenuPanel" />
+    
+    <!-- Stiller -->
+    <Style src="project://database/Assets/UISystem/Styles/MenuLayouts.uss?fileID=7433441132597879392&amp;guid=467bd4fc0805a3f438932160507e2ad9&amp;type=3#MenuLayouts" />
+    <Style src="project://database/Assets/UISystem/Styles/MenuVariables.uss?fileID=7433441132597879392&amp;guid=e655f4a22e4bfd54da734bb49cf4f9a5&amp;type=3#MenuVariables" />
+    <Style src="project://database/Assets/UISystem/Styles/MenuComponents.uss?fileID=7433441132597879392&amp;guid=c2e712d9114bdd0458404875a1b668d3&amp;type=3#MenuComponents" />
+    
+    <ui:VisualElement name="root-menu" class="root-menu" picking-mode="Ignore">
+        
+        <!-- 1. ANA MENÜ (Sağ Alt) -->
+        <ui:Instance template="MainMenuPanel" name="MainMenuInstance" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0;" />
+
+        <!-- 2. AYARLAR (Overlay) -->
+        <ui:Instance template="SettingsPanel" name="SettingsInstance" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0;" />
+
+        <!-- 3. ÇIKIŞ ONAYI (Overlay) -->
+        <ui:Instance template="QuitPanel" name="QuitInstance" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0;" />
+
+        <!-- Fade Panel -->
+        <ui:VisualElement name="fade-panel" style="position: absolute; width: 100%; height: 100%; background-color: black; display: none;" />
+
+    </ui:VisualElement>
+</ui:UXML>

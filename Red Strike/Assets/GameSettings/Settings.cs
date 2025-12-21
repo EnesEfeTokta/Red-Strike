@@ -6,8 +6,8 @@ namespace GameSettings
     public class Settings : ScriptableObject
     {
         [Header("Audio Settings")]
-        public float masterVolume = 1.0f;
-        public float musicVolume = 0.8f;
+        [Range(0f, 1f)] public float masterVolume = 1.0f;
+        [Range(0f, 1f)] public float musicVolume = 0.8f;
 
         [Header("Graphics Settings")]
         public bool isFullscreen = true;

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:VisualElement name="vs-panel" class="vs-panel">
         

@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 312053530}
   - component: {fileID: 312053529}
   m_Layer: 0
-  m_Name: CinemachineCamera_C
+  m_Name: CinemachineCamera_Credits
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 656923634}
   - component: {fileID: 656923636}
   m_Layer: 0
-  m_Name: CinemachineCamera_A
+  m_Name: CinemachineCamera_Main
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -721,6 +721,8 @@ GameObject:
   - component: {fileID: 1693417821}
   - component: {fileID: 1693417824}
   - component: {fileID: 1693417825}
+  - component: {fileID: 1693417826}
+  - component: {fileID: 1693417827}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -744,11 +746,11 @@ MonoBehaviour:
   rotationSpeed: 50
   planetTransform: {fileID: 548609336}
   planetRotationSpeed: 5
-  cinemachineCamera_A: {fileID: 656923634}
-  cinemachineCamera_B: {fileID: 2037435840}
-  cinemachineCamera_C: {fileID: 312053529}
+  cinemachineCamera_Main: {fileID: 656923634}
+  cinemachineCamera_Options: {fileID: 2037435840}
+  cinemachineCamera_Credits: {fileID: 312053529}
   spaceShip: {fileID: 2738940240077496202}
-  shipDuraction: 8
+  shipDuration: 5
   shipStartPosition: {x: 2.24, y: -0.6, z: -19}
   targetPosition: {x: 2.24, y: -0.6, z: -9.72}
   settings: {fileID: 11400000, guid: e041f970da61a87429a66823e0614072, type: 2}
@@ -817,6 +819,31 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 10fc4df2da32a41aaa32d77bc913491c, type: 2}
+--- !u!114 &1693417826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693417820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070f9b94623cc914aa10c7ad1890f720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentUser: {fileID: 11400000, guid: 2b46c82990ed440479c1d114012f1ce9, type: 2}
+--- !u!114 &1693417827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693417820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5683203e1a8eca74da158ac5b1208cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1877737717
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,7 +1013,7 @@ GameObject:
   - component: {fileID: 2037435841}
   - component: {fileID: 2037435840}
   m_Layer: 0
-  m_Name: CinemachineCamera_B
+  m_Name: CinemachineCamera_Options
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

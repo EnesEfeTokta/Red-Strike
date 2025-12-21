@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <!-- Style silindi, class eklendi -->
     <ui:VisualElement name="InfoPanelsContainer" class="panels-container" picking-mode="Ignore">
