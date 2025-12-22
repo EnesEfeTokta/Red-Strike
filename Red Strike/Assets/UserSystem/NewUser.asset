@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a239fa25edb29264caefa31c21e79db7, type: 3}
-  m_Name: Settings
+  m_Script: {fileID: 11500000, guid: 60754cae4fa681c42acf9d4b4b12dc33, type: 3}
+  m_Name: NewUser
   m_EditorClassIdentifier: 
-  masterVolume: 0.865
-  musicVolume: 0.8
-  isFullscreen: 1
+  userName: Enes

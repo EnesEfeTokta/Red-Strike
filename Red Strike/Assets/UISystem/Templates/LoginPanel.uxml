@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UISystem/Styles/MenuVariables.uss?fileID=7433441132597879392&amp;guid=e655f4a22e4bfd54da734bb49cf4f9a5&amp;type=3#MenuVariables" />
+    <Style src="project://database/Assets/UISystem/Styles/MenuLayouts.uss?fileID=7433441132597879392&amp;guid=467bd4fc0805a3f438932160507e2ad9&amp;type=3#MenuLayouts" />
+    <ui:VisualElement name="login-overlay" class="login-overlay" style="display: flex;">
+        <ui:VisualElement name="login-panel" class="login-panel">
+            <ui:Label text="LOGIN" class="login-header" />
+            <ui:Label text="ENTER YOUR USERNAME" class="login-message" />
+            <ui:TextField name="username-field" class="username-field" />
+            <ui:Button text="SUBMIT" name="submit-login-button" class="action-btn submit-btn" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

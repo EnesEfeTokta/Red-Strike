@@ -1,0 +1,23 @@
+:root {
+    --primary-cyan: #00FFFF;
+    --secondary-blue: #0096FF;
+    --danger-red: #FF2828;
+    --panel-bg: rgba(10, 20, 30, 0.95);
+    --overlay-bg: rgba(0, 0, 0, 0.8);
+}
+
+/* Tüm yazılar varsayılan beyaz */
+Label {
+    color: white;
+    -unity-font-style: bold;
+}
+
+.root-menu {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0; top: 0;
+    
+    /* DÜZELTME: Siyah rengi kaldırdık, şeffaf yaptık */
+    background-color: rgba(0, 0, 0, 0); 
+}

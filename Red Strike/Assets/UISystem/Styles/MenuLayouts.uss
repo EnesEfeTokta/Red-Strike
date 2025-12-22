@@ -1,0 +1,94 @@
+/* --- ANA MENÜ KONTEYNERİ (SAĞ ALT) --- */
+.main-menu-container {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 400px;
+    
+    /* İçerik hizalaması */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* İçeriği aşağı it */
+    
+    background-color: rgba(0, 0, 0, 0.8);
+    border-left-width: 4px;
+    border-left-color: var(--primary-cyan);
+    padding: 30px;
+    
+    /* Dekoratif Köşeler */
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
+    /* Gölge */
+    box-shadow: -5px 5px 10px rgba(0,0,0,0.5);
+}
+
+.game-title {
+    font-size: 60px;
+    color: var(--primary-cyan);
+    text-align: right;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 0px rgba(0, 255, 255, 0.3);
+    letter-spacing: 5px;
+    white-space: normal; 
+}
+
+/* --- ORTALANMIŞ PANELLER (Settings, Quit) --- */
+.overlay-container {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: var(--overlay-bg);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+/* --- AYARLAR PANELİ YAPISI --- */
+.settings-box {
+    width: 800px;
+    height: 600px;
+    background-color: var(--panel-bg);
+    border-width: 2px;
+    border-color: var(--primary-cyan);
+    border-top-width: 6px; /* Üst kısım daha kalın */
+    padding: 0; /* İçeriği biz yöneteceğiz */
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-header-area {
+    height: 60px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    flex-direction: row;
+    align-items: center;
+    padding-left: 20px;
+    background-color: rgba(0, 255, 255, 0.05);
+}
+
+.settings-content-area {
+    flex-grow: 1;
+    padding: 30px;
+}
+
+.settings-footer-area {
+    height: 60px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.1);
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+}
+
+/* --- ÇIKIŞ PANELİ YAPISI --- */
+.quit-box {
+    width: 500px;
+    padding: 30px;
+    background-color: rgba(40, 10, 10, 0.95);
+    border-width: 2px;
+    border-color: var(--danger-red);
+    align-items: center;
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+}

@@ -1,0 +1,106 @@
+/* --- MENÜ BUTONLARI --- */
+.menu-btn {
+    height: 60px;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-width: 1px;
+    border-color: rgba(0, 255, 255, 0.3);
+    color: #DDD;
+    font-size: 24px;
+    border-radius: 4px;
+    transition-duration: 0.1s;
+}
+
+.menu-btn:hover {
+    background-color: var(--primary-cyan);
+    color: black;
+    scale: 1.02;
+}
+
+.quit-btn-style:hover {
+    background-color: var(--danger-red);
+    border-color: var(--danger-red);
+    color: white;
+}
+
+/* --- TAB SİSTEMİ (SEKMELER) --- */
+.tabs-container {
+    flex-direction: row;
+    height: 100%;
+    margin-left: 50px;
+}
+
+.tab-button {
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: rgba(0,0,0,0); /* Şeffaf */
+    border-width: 0;
+    color: #888;
+    font-size: 16px;
+    -unity-text-align: middle-center;
+    border-bottom-width: 3px;
+    border-bottom-color: rgba(0,0,0,0);
+    margin: 0;
+}
+
+.tab-button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Seçili Tab Stili */
+.tab-active {
+    color: var(--primary-cyan);
+    border-bottom-color: var(--primary-cyan);
+    background-color: rgba(0, 255, 255, 0.1);
+}
+
+/* --- İÇERİK ELEMANLARI --- */
+.row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.setting-label { 
+    font-size: 18px; 
+    color: #EEE; 
+}
+
+.action-btn {
+    width: 120px; 
+    height: 40px;
+    margin-left: 10px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    border-width: 1px;
+    color: white;
+}
+
+.action-btn:hover { 
+    background-color: var(--secondary-blue); 
+}
+
+.destructive-btn:hover { 
+    background-color: var(--danger-red); 
+}
+
+/* --- INPUTS --- */
+.sci-fi-input {
+    width: 300px;
+    background-color: rgba(0,0,0,0.5);
+    border-color: var(--secondary-blue);
+    color: white;
+}
+
+/* Unity'nin kendi input alt elemanlarını düzeltmek için */
+.sci-fi-input > .unity-base-text-field__input {
+    background-color: transparent;
+    color: white;
+    border-width: 0;
+}

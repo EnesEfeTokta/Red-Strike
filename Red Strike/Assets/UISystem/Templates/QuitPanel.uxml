@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="quit-overlay" class="overlay-container" style="display: none;">
+        <ui:VisualElement class="quit-box">
+            <ui:Label text="SYSTEM WARNING" style="font-size: 32px; color: #FF2828; margin-bottom: 20px;" />
+            <ui:Label text="ARE YOU SURE YOU WANT TO QUIT?" style="font-size: 18px; margin-bottom: 30px;" />
+            
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:Button text="CANCEL" name="btn-cancel-quit" class="action-btn" />
+                <ui:Button text="YES, QUIT" name="btn-confirm-quit" class="action-btn destructive-btn" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
