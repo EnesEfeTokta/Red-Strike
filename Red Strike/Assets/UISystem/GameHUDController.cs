@@ -16,6 +16,7 @@ namespace UISystem
         protected VisualElement fadePanel;
         protected VisualElement victoryPanel;
         protected VisualElement deploymentMonitorPanel;
+        protected VisualElement vsPanel;
 
         protected void Awake()
         {
@@ -26,7 +27,6 @@ namespace UISystem
         protected virtual void OnEnable() 
         {
             if (uiDocument == null) return;
-
             root = uiDocument.rootVisualElement;
 
             buildingDynamicContentContainer = root.Q<VisualElement>("building-dynamic-content-container");
@@ -34,6 +34,7 @@ namespace UISystem
             gameOverPanel = root.Q<VisualElement>("game-over-panel");
             fadePanel = root.Q<VisualElement>("fade-panel");
             victoryPanel = root.Q<VisualElement>("victory-panel");
+            vsPanel = root.Q<VisualElement>("vs-panel");
             deploymentMonitorPanel = root.Q<VisualElement>("deployment-panel");
             deploymentMonitorPanel.style.display = DisplayStyle.None;
         }

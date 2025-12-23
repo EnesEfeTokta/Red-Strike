@@ -14,7 +14,7 @@ namespace UISystem
 
             if (root == null) return;
 
-            var closeButton = root.Q<Button>("deployment-close-button");
+            var closeButton = deploymentMonitorPanel.Q<Button>("deployment-close-button");
             if (closeButton != null) closeButton.clicked += () => { ChangeDeploymentMonitorVisible(); };
         }
 
@@ -38,7 +38,7 @@ namespace UISystem
             if (root == null) return;
 
             string labelName = (playerId == Player1) ? "p1-player-name-label" : "p2-player-name-label";
-            Label nameLabel = root.Q<Label>(labelName);
+            Label nameLabel = deploymentMonitorPanel.Q<Label>(labelName);
 
             if (nameLabel != null)
             {
@@ -54,7 +54,7 @@ namespace UISystem
             string prefix = (playerId == Player1) ? "p1" : "p2";
             string containerName = $"{prefix}-{formattedUnitId}-slots";
 
-            VisualElement container = root.Q<VisualElement>(containerName);
+            VisualElement container = deploymentMonitorPanel.Q<VisualElement>(containerName);
 
             if (container == null) return;
 
