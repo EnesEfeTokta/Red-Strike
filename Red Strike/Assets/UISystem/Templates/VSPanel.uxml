@@ -6,8 +6,8 @@
         <ui:VisualElement class="vs-player-container vs-left-align">
             <ui:Image name="player-1-avatar" class="vs-player-avatar" />
             <ui:VisualElement class="vs-player-info">
-                <ui:Label text="COMMANDER 1" name="player-1-name-label" class="vs-player-name-label" />
-                <ui:Label text="SCORE: 0" name="player-1-score-label" class="vs-score-label" />
+                <ui:Label text="COMMANDER 1" name="p1-player-name-label" class="vs-player-name-label" />
+                <ui:Label text="SCORE: 0" name="p1-score-label" class="vs-score-label" />
             </ui:VisualElement>
         </ui:VisualElement>
 
@@ -19,8 +19,8 @@
         <!-- PLAYER 2 (SAĞ): İsim Sonra Avatar -->
         <ui:VisualElement class="vs-player-container vs-right-align">
             <ui:VisualElement class="vs-player-info">
-                <ui:Label text="COMMANDER 2" name="player-2-name-label" class="vs-player-name-label" />
-                <ui:Label text="SCORE: 0" name="player-2-score-label" class="vs-score-label" />
+                <ui:Label text="COMMANDER 2" name="p2-player-name-label" class="vs-player-name-label" />
+                <ui:Label text="SCORE: 0" name="p2-score-label" class="vs-score-label" />
             </ui:VisualElement>
             <ui:Image name="player-2-avatar" class="vs-player-avatar" />
         </ui:VisualElement>

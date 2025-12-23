@@ -57,12 +57,18 @@ namespace NetworkingSystem
         {
             if (string.IsNullOrEmpty(SyncedName.ToString())) return;
 
-            var hud = FindFirstObjectByType<DeploymentMonitorHUDController>();
-            if (hud != null)
+            var dphud = FindFirstObjectByType<DeploymentMonitorHUDController>();
+            if (dphud != null)
             {
-                int playerIndex = (Object.InputAuthority.PlayerId == 1) ? 1 : 2;
+                int id = (Object.InputAuthority.PlayerId == 1) ? 1 : 2;
+                dphud.UpdatePlayerName(id, SyncedName.ToString());
+            }
 
-                hud.UpdatePlayerName(playerIndex, SyncedName.ToString());
+            var vsHud = FindFirstObjectByType<VSPanelHUDController>();
+            if (vsHud != null)
+            {
+                int id = (Object.InputAuthority.PlayerId == 1) ? 1 : 2;
+                vsHud.UpdatePlayerName(id, SyncedName.ToString());
             }
         }
     }
