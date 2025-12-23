@@ -1,4 +1,5 @@
 using UnityEngine;
+using NetworkingSystem;
 
 namespace UserSystem
 {
@@ -8,26 +9,32 @@ namespace UserSystem
 
         public void LogIn(string userName)
         {
-            if (currentUser != null)
-            {
-                currentUser.userName = userName;
-            }
+            if (currentUser == null) currentUser = new User();
+            currentUser.userName = userName;
         }
 
         public void LogOut()
         {
-            if (currentUser != null)
-            {
-                currentUser.userName = string.Empty;
-            }
+            if (currentUser != null) currentUser.userName = string.Empty;
         }
 
-        public void UpdateProfile(string newUserName)
+        public void UpdateUserName(string newUserName)
+        {
+            if (currentUser != null) currentUser.userName = newUserName;
+        }
+
+        public string GetUserName()
         {
             if (currentUser != null)
             {
-                currentUser.userName = newUserName;
+                return currentUser.userName;
             }
+            return string.Empty;
+        }
+
+        public bool IsLoggedIn()
+        {
+            return currentUser != null && !string.IsNullOrEmpty(currentUser.userName);
         }
     }
 }

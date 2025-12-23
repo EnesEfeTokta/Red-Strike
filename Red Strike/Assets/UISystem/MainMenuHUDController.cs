@@ -1,160 +1,307 @@
+using System.Collections;
 using MainMenuSystem;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UserSystem;
+using NetworkingSystem;
+using Fusion;
 
 namespace UISystem
 {
     public class MainMenuHUDController : MonoBehaviour
     {
         private UIDocument uiDocument;
+        private MainMenu mainMenu;
+        private UserManager userManager;
 
+        // UI Root
         private VisualElement root;
 
+        // Overlayler
+        private VisualElement mainMenuOverlay;
         private VisualElement settingsOverlay;
         private VisualElement quitOverlay;
+        private VisualElement loginOverlay;
+        private VisualElement lobbyOverlay;
 
+        // İçerikler
         private VisualElement contentGameplay;
         private VisualElement contentUser;
 
-        private Button btnTabGame;
-        private Button btnTabUser;
+        // Inputs
+        private TextField inputUserNameLogin;
+        private TextField inputUserName;
+        private TextField inputSessionName;
+        private Label lobbyStatusLabel;
 
-        private MainMenu mainMenu;
+        // Buton Referansları
+        private Button btnPlay, btnOptions, btnQuit;
+        private Button btnCloseSettings, btnApplySettings, btnUpdateUsername;
+        private Button btnCloseLobby, btnStartHost, btnStartClient;
+        private Button btnTabGame, btnTabUser;
+        private Button btnConfirmQuit, btnCancelQuit;
+        private Button btnLogin;
 
-        private void Start()
+        private void Awake()
         {
+            if (!uiDocument) uiDocument = GetComponent<UIDocument>();
             mainMenu = GetComponent<MainMenu>();
+            userManager = GetComponent<UserManager>();
         }
 
         private void OnEnable()
         {
-            uiDocument = GetComponent<UIDocument>();
-
             if (uiDocument == null) return;
-
             root = uiDocument.rootVisualElement;
 
+            BindUIElements();
+
+            RegisterEvents();
+        }
+
+        private void OnDisable()
+        {
+            UnregisterEvents();
+        }
+
+        private IEnumerator Start()
+        {
+            yield return null;
+
+            HidePanel(settingsOverlay);
+            HidePanel(quitOverlay);
+            HidePanel(lobbyOverlay);
+
+            if (userManager != null)
+            {
+                if (!userManager.IsLoggedIn())
+                {
+                    ShowPanel(loginOverlay);
+                    HidePanel(mainMenuOverlay);
+                    mainMenu?.SwitchToCamera(MainMenu.CameraState.Login);
+                }
+                else
+                {
+                    HidePanel(loginOverlay);
+                    ShowPanel(mainMenuOverlay);
+
+                    if (inputUserName != null)
+                        inputUserName.value = userManager.currentUser.userName;
+
+                    mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
+                }
+            }
+
+            SwitchSettingsTab(true);
+        }
+
+        #region UI BINDING AND EVENTS
+
+        private void BindUIElements()
+        {
+            // Paneller
+            mainMenuOverlay = root.Q<VisualElement>("main-menu-container");
             settingsOverlay = root.Q<VisualElement>("settings-overlay");
             quitOverlay = root.Q<VisualElement>("quit-overlay");
-
-            if (settingsOverlay != null) settingsOverlay.style.display = DisplayStyle.None;
-            if (quitOverlay != null) quitOverlay.style.display = DisplayStyle.None;
+            loginOverlay = root.Q<VisualElement>("login-overlay");
+            lobbyOverlay = root.Q<VisualElement>("lobby-overlay");
 
             contentGameplay = root.Q<VisualElement>("content-gameplay");
             contentUser = root.Q<VisualElement>("content-user");
 
-            var btnPlay = root.Q<Button>("btn-play");
-            var btnOptions = root.Q<Button>("btn-options");
-            var btnQuit = root.Q<Button>("btn-quit");
+            // Inputlar
+            inputUserNameLogin = root.Q<TextField>("input-username-login");
+            inputUserName = root.Q<TextField>("input-username");
+            inputSessionName = root.Q<TextField>("input-session-name");
+            lobbyStatusLabel = root.Q<Label>("lobby-status-label");
 
-            if (btnPlay != null) btnPlay.clicked += StartGame;
-            if (btnOptions != null) btnOptions.clicked += OpenSettings;
-            if (btnQuit != null) btnQuit.clicked += OpenQuitPanel;
+            // Butonlar
+            btnPlay = root.Q<Button>("btn-play");
+            btnOptions = root.Q<Button>("btn-options");
+            btnQuit = root.Q<Button>("btn-quit");
 
-            var btnCloseSettings = root.Q<Button>("btn-close-settings");
-            var btnApplySettings = root.Q<Button>("btn-apply-settings");
+            btnCloseSettings = root.Q<Button>("btn-close-settings");
+            btnApplySettings = root.Q<Button>("btn-apply-settings");
+            btnUpdateUsername = root.Q<Button>("btn-update-username");
 
-            if (btnCloseSettings != null) btnCloseSettings.clicked += CloseSettings;
-            if (btnApplySettings != null) btnApplySettings.clicked += ApplySettings;
+            btnCloseLobby = root.Q<Button>("btn-close-lobby");
+            btnStartHost = root.Q<Button>("btn-start-host");
+            btnStartClient = root.Q<Button>("btn-start-client");
 
             btnTabGame = root.Q<Button>("tab-game");
             btnTabUser = root.Q<Button>("tab-user");
 
+            btnConfirmQuit = root.Q<Button>("btn-confirm-quit");
+            btnCancelQuit = root.Q<Button>("btn-cancel-quit");
+
+            btnLogin = root.Q<Button>("btn-login");
+        }
+
+        private void RegisterEvents()
+        {
+            if (btnPlay != null) btnPlay.clicked += OpenLobby;
+            if (btnOptions != null) btnOptions.clicked += OpenSettings;
+            if (btnQuit != null) btnQuit.clicked += OpenQuitPanel;
+
+            if (btnCloseSettings != null) btnCloseSettings.clicked += CloseSettings;
+            if (btnApplySettings != null) btnApplySettings.clicked += ApplySettings;
+            if (btnUpdateUsername != null) btnUpdateUsername.clicked += OnUpdateUserNameClicked;
+
+            if (btnCloseLobby != null) btnCloseLobby.clicked += CloseLobby;
+            if (btnStartHost != null) btnStartHost.clicked += OnStartHostClicked;
+            if (btnStartClient != null) btnStartClient.clicked += OnStartClientClicked;
+
             if (btnTabGame != null) btnTabGame.clicked += () => SwitchSettingsTab(true);
             if (btnTabUser != null) btnTabUser.clicked += () => SwitchSettingsTab(false);
-
-            var btnConfirmQuit = root.Q<Button>("btn-confirm-quit");
-            var btnCancelQuit = root.Q<Button>("btn-cancel-quit");
 
             if (btnCancelQuit != null) btnCancelQuit.clicked += CloseQuitPanel;
             if (btnConfirmQuit != null) btnConfirmQuit.clicked += QuitGame;
 
-            var btnUpdateUserName = root.Q<Button>("btn-update-username");
-            if (btnUpdateUserName != null) btnUpdateUserName.clicked += () => 
-                GetComponent<UserManager>().UpdateProfile(root.Q<TextField>("input-username")?.value ?? "Commander");
-
-            var inputUserName = root.Q<TextField>("input-username");
-            if (inputUserName != null) inputUserName.value = GetComponent<UserManager>().currentUser.userName;
-
-            var toggleFullscreen = root.Q<Toggle>("toggle-fullscreen");
-            if (toggleFullscreen != null) toggleFullscreen.value = Screen.fullScreen;
-            
-            var sliderMasterVolume = root.Q<Slider>("slider-master-volume");
-            if (sliderMasterVolume != null) sliderMasterVolume.value = mainMenu.settings.masterVolume * 100f;
-            var sliderMusicVolume = root.Q<Slider>("slider-music-volume");
-            if (sliderMusicVolume != null) sliderMusicVolume.value = mainMenu.settings.musicVolume * 100f;
-            var isFullscreen = root.Q<Toggle>("toggle-fullscreen");
-            if (isFullscreen != null) isFullscreen.value = mainMenu.settings.isFullscreen;
-            
-            SwitchSettingsTab(true);
+            if (btnLogin != null) btnLogin.clicked += OnLoginClicked;
         }
 
-        private void StartGame()
+        private void UnregisterEvents()
         {
-            Debug.Log("OYUN BAŞLATILIYOR...");
-            // SceneManager.LoadScene("GameScene");
+            if (btnPlay != null) btnPlay.clicked -= OpenLobby;
+            if (btnOptions != null) btnOptions.clicked -= OpenSettings;
+            if (btnQuit != null) btnQuit.clicked -= OpenQuitPanel;
+
+            if (btnCloseSettings != null) btnCloseSettings.clicked -= CloseSettings;
+            if (btnApplySettings != null) btnApplySettings.clicked -= ApplySettings;
+            if (btnUpdateUsername != null) btnUpdateUsername.clicked -= OnUpdateUserNameClicked;
+
+            if (btnCloseLobby != null) btnCloseLobby.clicked -= CloseLobby;
+            if (btnStartHost != null) btnStartHost.clicked -= OnStartHostClicked;
+            if (btnStartClient != null) btnStartClient.clicked -= OnStartClientClicked;
+
+            if (btnCancelQuit != null) btnCancelQuit.clicked -= CloseQuitPanel;
+            if (btnConfirmQuit != null) btnConfirmQuit.clicked -= QuitGame;
+
+            if (btnLogin != null) btnLogin.clicked -= OnLoginClicked;
         }
 
-        private void QuitGame()
-        {
-            Debug.Log("OYUNDAN ÇIKILIYOR...");
-            Application.Quit();
+        #endregion
 
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        #region HELPER METHODS
+
+        private void ShowPanel(VisualElement panel)
+        {
+            if (panel != null)
+                panel.style.display = DisplayStyle.Flex;
+        }
+
+        private void HidePanel(VisualElement panel)
+        {
+            if (panel != null)
+                panel.style.display = DisplayStyle.None;
+        }
+
+        #endregion
+
+        #region LOGIC METHODS
+
+        private void OnLoginClicked()
+        {
+            string newName = inputUserNameLogin?.value;
+            if (string.IsNullOrEmpty(newName)) return;
+
+            userManager?.LogIn(newName);
+
+            HidePanel(loginOverlay);
+            ShowPanel(mainMenuOverlay);
+            mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
+
+            if (inputUserName != null) inputUserName.value = newName;
+        }
+
+        private void OnUpdateUserNameClicked()
+        {
+            string newName = inputUserName?.value;
+            if (!string.IsNullOrEmpty(newName)) userManager?.UpdateUserName(newName);
+        }
+
+        private void OpenLobby()
+        {
+            ShowPanel(lobbyOverlay);
+            SetLobbyStatus("READY", Color.green);
+        }
+
+        private void CloseLobby()
+        {
+            HidePanel(lobbyOverlay);
         }
 
         private void OpenSettings()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Options);
-            if (settingsOverlay != null) settingsOverlay.style.display = DisplayStyle.Flex;
+            ShowPanel(settingsOverlay);
         }
-
         private void CloseSettings()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
-            if (settingsOverlay != null) settingsOverlay.style.display = DisplayStyle.None;
-        }
-
-        private void ApplySettings()
-        {
-            MainMenu mainMenu = GetComponent<MainMenu>();
-            if (mainMenu != null)
-            {
-                float masterVol = root.Q<Slider>("slider-master-volume")?.value ?? 100f;
-                float musicVol = root.Q<Slider>("slider-music-volume")?.value ?? 100f;
-
-                mainMenu.ApplyAudioSettings(masterVol, musicVol);
-                
-                bool isFullscreen = root.Q<Toggle>("toggle-fullscreen")?.value ?? true;
-                mainMenu.ApplyVideoSettings(isFullscreen);
-            }
+            HidePanel(settingsOverlay);
         }
 
         private void OpenQuitPanel()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Credits);
-            if (quitOverlay != null) quitOverlay.style.display = DisplayStyle.Flex;
+            ShowPanel(quitOverlay);
         }
-
         private void CloseQuitPanel()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
-            if (quitOverlay != null) quitOverlay.style.display = DisplayStyle.None;
+            HidePanel(quitOverlay);
         }
 
-        private void SwitchSettingsTab(bool showGameplay)
+        private void ApplySettings()
         {
-            if (contentGameplay != null)
-                contentGameplay.style.display = showGameplay ? DisplayStyle.Flex : DisplayStyle.None;
+            if (mainMenu == null) return;
+            float master = root.Q<Slider>("slider-master-volume")?.value ?? 100;
+            float music = root.Q<Slider>("slider-music-volume")?.value ?? 100;
+            bool full = root.Q<Toggle>("toggle-fullscreen")?.value ?? true;
 
-            if (contentUser != null)
-                contentUser.style.display = showGameplay ? DisplayStyle.None : DisplayStyle.Flex;
+            mainMenu.ApplyAudioSettings(master, music);
+            mainMenu.ApplyVideoSettings(full);
+        }
 
+        private void OnStartHostClicked()
+        {
+            string session = inputSessionName?.value;
+            if (string.IsNullOrEmpty(session))
+            {
+                SetLobbyStatus("INVALID SESSION ID", Color.red); return;
+            }
+            SetLobbyStatus("INITIALIZING HOST...", Color.yellow);
+            GameBootstrap.Instance?.StartGame(GameMode.Host, session);
+        }
 
-            if (showGameplay)
+        private void OnStartClientClicked()
+        {
+            string session = inputSessionName?.value;
+            if (string.IsNullOrEmpty(session))
+            {
+                SetLobbyStatus("INVALID SESSION ID", Color.red);
+                return;
+            }
+            SetLobbyStatus("SEARCHING UPLINK...", Color.yellow);
+            GameBootstrap.Instance?.StartGame(GameMode.Client, session);
+        }
+
+        private void SetLobbyStatus(string msg, Color color)
+        {
+            if (lobbyStatusLabel != null)
+            {
+                lobbyStatusLabel.text = msg;
+                lobbyStatusLabel.style.color = color;
+            }
+        }
+
+        private void SwitchSettingsTab(bool showGame)
+        {
+            if (contentGameplay != null) contentGameplay.style.display = showGame ? DisplayStyle.Flex : DisplayStyle.None;
+            if (contentUser != null) contentUser.style.display = showGame ? DisplayStyle.None : DisplayStyle.Flex;
+
+            if (showGame)
             {
                 btnTabGame?.AddToClassList("tab-active");
                 btnTabUser?.RemoveFromClassList("tab-active");
@@ -165,5 +312,15 @@ namespace UISystem
                 btnTabUser?.AddToClassList("tab-active");
             }
         }
+
+        private void QuitGame()
+        {
+            Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        }
+
+        #endregion
     }
 }
