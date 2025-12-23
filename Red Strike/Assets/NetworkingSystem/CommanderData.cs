@@ -111,10 +111,10 @@ namespace NetworkingSystem
 
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         public void RPC_SpawnAmmunition(
-            string ammunitionName, 
-            Vector3 position, 
-            Quaternion rotation, 
-            NetworkObject ownerVehicleNetObj, 
+            string ammunitionName,
+            Vector3 position,
+            Quaternion rotation,
+            NetworkObject ownerVehicleNetObj,
             NetworkId targetId = default)
         {
             if (Runner == null || !Runner.IsServer) return;
@@ -145,7 +145,7 @@ namespace NetworkingSystem
             }
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All)] 
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         public void RPC_SpawnExplosionEffect(Vector3 position)
         {
             if (InputController.InputController.Instance == null) return;
@@ -156,8 +156,8 @@ namespace NetworkingSystem
             if (explosionEffectPrefab != null)
             {
                 GameObject effect = Instantiate(explosionEffectPrefab, position, Quaternion.identity);
-                
-                Destroy(effect, 3f); 
+
+                Destroy(effect, 3f);
             }
         }
 

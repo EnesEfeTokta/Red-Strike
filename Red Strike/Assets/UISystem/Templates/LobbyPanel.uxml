@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="lobby-overlay" class="overlay-container" style="display: none;">
+        <ui:VisualElement class="settings-box" style="height: 450px;">
+            
+            <!-- HEADER -->
+            <ui:VisualElement class="settings-header-area">
+                <ui:Label text="NETWORK UPLINK" style="font-size: 24px; color: cyan;" />
+            </ui:VisualElement>
+
+            <!-- İÇERİK -->
+            <ui:VisualElement class="settings-content-area" style="justify-content: center;">
+                
+                <ui:Label text="ESTABLISH CONNECTION" style="color: #888; margin-bottom: 20px; -unity-text-align: middle-center;" />
+                
+                <!-- Session Name Input -->
+                <ui:VisualElement class="row">
+                    <ui:Label text="SESSION ID" class="setting-label" />
+                    <ui:TextField name="input-session-name" value="Sector-01" class="sci-fi-input" />
+                </ui:VisualElement>
+
+                <!-- Durum Bilgisi (Bağlanıyor vs.) -->
+                <ui:Label name="lobby-status-label" text="READY TO CONNECT" style="color: #00FF00; font-size: 12px; margin-top: 10px; -unity-text-align: middle-center;" />
+
+            </ui:VisualElement>
+
+            <!-- FOOTER (Butonlar) -->
+            <ui:VisualElement class="settings-footer-area" style="justify-content: space-between;">
+                <!-- Geri Butonu -->
+                <ui:Button text="ABORT" name="btn-close-lobby" class="action-btn" style="background-color: rgba(150, 0, 0, 0.5); border-color: #FF2828;" />
+                
+                <ui:VisualElement style="flex-direction: row;">
+                    <!-- Host Butonu -->
+                    <ui:Button text="HOST UPLINK" name="btn-start-host" class="action-btn" style="width: 140px; background-color: rgba(0, 150, 150, 0.5); border-color: cyan;" />
+                    
+                    <!-- Join Butonu -->
+                    <ui:Button text="JOIN UPLINK" name="btn-start-client" class="action-btn" style="width: 140px; background-color: rgba(0, 150, 0, 0.5); border-color: lime;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

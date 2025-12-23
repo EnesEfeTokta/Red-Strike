@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using GameSettings;
 using NetworkingSystem;
+using UserSystem;
 
 namespace MainMenuSystem
 {
@@ -16,6 +17,7 @@ namespace MainMenuSystem
         public float planetRotationSpeed = 30f;
 
         [Header("Cinemachine Cameras")]
+        public CinemachineCamera cinemachineCamera_Login;
         public CinemachineCamera cinemachineCamera_Main;
         public CinemachineCamera cinemachineCamera_Options;
         public CinemachineCamera cinemachineCamera_Credits;
@@ -28,12 +30,6 @@ namespace MainMenuSystem
 
         [Header("System References")]
         public Settings settings;
-        private GameBootstrap gameBootstrap;
-
-        private void Awake()
-        {
-            gameBootstrap = GetComponent<GameBootstrap>();
-        }
 
         private void Start()
         {
@@ -42,7 +38,7 @@ namespace MainMenuSystem
                 spaceShip.transform.position = shipStartPosition;
             }
 
-            SwitchToCamera(CameraState.Main);
+            if (GameBootstrap.Instance != null) GameBootstrap.Instance.LocalPlayerName = GetComponent<UserManager>()?.GetUserName();
         }
 
         private void Update()
@@ -58,16 +54,20 @@ namespace MainMenuSystem
             }
         }
 
-        public enum CameraState { Main, Options, Credits }
+        public enum CameraState { Login, Main, Options, Credits }
 
         public void SwitchToCamera(CameraState state)
         {
+            cinemachineCamera_Login.Priority = 0;
             cinemachineCamera_Main.Priority = 0;
             cinemachineCamera_Options.Priority = 0;
             cinemachineCamera_Credits.Priority = 0;
 
             switch (state)
             {
+                case CameraState.Login:
+                    cinemachineCamera_Login.Priority = 10;
+                    break;
                 case CameraState.Main:
                     cinemachineCamera_Main.Priority = 10;
                     break;
@@ -78,16 +78,6 @@ namespace MainMenuSystem
                     cinemachineCamera_Credits.Priority = 10;
                     break;
             }
-        }
-
-        public void StartGameAsHost()
-        {
-            StartCoroutine(LaunchSequence(() => gameBootstrap.StartHost()));
-        }
-
-        public void StartGameAsClient()
-        {
-            StartCoroutine(LaunchSequence(() => gameBootstrap.StartClient()));
         }
 
         private IEnumerator LaunchSequence(System.Action onComplete)

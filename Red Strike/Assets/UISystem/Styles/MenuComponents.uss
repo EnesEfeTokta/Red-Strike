@@ -104,3 +104,110 @@
     color: white;
     border-width: 0;
 }
+
+/* --- LOGIN EKRANI (TAM EKRAN OVERLAY) --- */
+.login-overlay {
+    position: absolute;
+    left: 0; 
+    top: 0; 
+    right: 0; 
+    bottom: 0;
+    
+    /* Arkadaki menüyü hafif karartıp odağı buraya çekiyoruz */
+    background-color: rgba(0, 0, 0, 0.85);
+    
+    /* Paneli tam ortaya hizala */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    z-index: 5000; /* En üstte durması için */
+}
+
+/* --- LOGIN KUTUSU --- */
+.login-panel {
+    width: 450px;
+    padding: 40px;
+    
+    /* Temaya uygun koyu lacivert arka plan */
+    background-color: var(--panel-bg);
+    
+    /* Neon Çerçeve */
+    border-width: 2px;
+    border-color: var(--primary-cyan);
+    border-radius: 10px;
+    
+    /* Hafif Parlama Efekti */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+    
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- BAŞLIKLAR --- */
+.login-header {
+    font-size: 36px;
+    color: var(--primary-cyan);
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.login-message {
+    font-size: 14px;
+    color: #AAAAAA;
+    margin-bottom: 25px;
+    -unity-text-align: middle-center;
+}
+
+/* --- KULLANICI ADI GİRİŞ ALANI --- */
+.username-field {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+/* Unity'nin varsayılan beyaz input alanını temaya uyduruyoruz */
+.username-field > .unity-base-text-field__input {
+    background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam siyah */
+    border-width: 1px;
+    border-color: var(--secondary-blue);
+    border-radius: 5px;
+    color: white;
+    -unity-text-align: middle-center;
+    padding: 10px;
+}
+
+/* Input alanına tıklandığında (Focus) */
+.username-field > .unity-base-text-field__input:focus {
+    border-color: var(--primary-cyan);
+    background-color: rgba(0, 255, 255, 0.05);
+}
+
+/* --- SUBMIT BUTONU --- */
+.submit-btn {
+    width: 100%; /* Panelin genişliğini doldur */
+    height: 50px;
+    font-size: 20px;
+    margin-left: 0; /* Action-btn'den gelen margin'i sıfırla */
+    
+    /* Onaylama olduğu için Yeşil tonları */
+    background-color: rgba(0, 180, 0, 0.6);
+    border-color: #00FF00;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.submit-btn:hover {
+    background-color: rgba(0, 220, 0, 0.8);
+    scale: 1.02;
+    color: black;
+}
+
+.submit-btn:active {
+    background-color: rgba(0, 150, 0, 1);
+    scale: 0.98;
+}

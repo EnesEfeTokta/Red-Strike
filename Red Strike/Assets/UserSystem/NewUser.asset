@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60754cae4fa681c42acf9d4b4b12dc33, type: 3}
   m_Name: NewUser
   m_EditorClassIdentifier: 
-  userName: Enes
+  userName: 
