@@ -7,7 +7,7 @@ namespace NetworkingSystem
     public class SessionPlayerData : NetworkBehaviour
     {
         [Networked] public NetworkString<_32> SyncedName { get; set; }
-        
+
         private ChangeDetector _changes;
 
         public override void Spawned()
@@ -16,13 +16,20 @@ namespace NetworkingSystem
 
             if (Object.HasInputAuthority)
             {
+                string myName = "Unknown";
+
                 if (GameBootstrap.Instance != null)
                 {
-                    SyncedName = GameBootstrap.Instance.LocalPlayerName;
+                    myName = GameBootstrap.Instance.LocalPlayerName;
+                }
+
+                if (Runner.IsServer)
+                {
+                    SyncedName = myName;
                 }
                 else
                 {
-                    SyncedName = $"Commander {Object.InputAuthority.PlayerId}";
+                    RPC_SetPlayerName(myName);
                 }
             }
 
@@ -40,13 +47,21 @@ namespace NetworkingSystem
             }
         }
 
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_SetPlayerName(string name)
+        {
+            SyncedName = name;
+        }
+
         private void UpdateHUD()
         {
+            if (string.IsNullOrEmpty(SyncedName.ToString())) return;
+
             var hud = FindFirstObjectByType<DeploymentMonitorHUDController>();
-            
             if (hud != null)
             {
-                int playerIndex = (Object.InputAuthority.PlayerId == 1) ?  1 : 2;
+                int playerIndex = (Object.InputAuthority.PlayerId == 1) ? 1 : 2;
+
                 hud.UpdatePlayerName(playerIndex, SyncedName.ToString());
             }
         }

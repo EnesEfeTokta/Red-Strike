@@ -278,12 +278,11 @@ namespace UISystem
         private void OnStartClientClicked()
         {
             string session = inputSessionName?.value;
-            if (string.IsNullOrEmpty(session))
+            if (!string.IsNullOrEmpty(session))
             {
-                SetLobbyStatus("INVALID SESSION ID", Color.red);
-                return;
+                SetLobbyStatus("SEARCHING UPLINK...", Color.yellow);
             }
-            SetLobbyStatus("SEARCHING UPLINK...", Color.yellow);
+            GameBootstrap.Instance.LocalPlayerName = userManager?.currentUser.userName ?? "Unknown";
             GameBootstrap.Instance?.StartGame(GameMode.Client, session);
         }
 
