@@ -6,5 +6,9 @@ namespace UserSystem
     public class User : ScriptableObject
     {
         public string userName;
+
+        public Sprite avatar;
+
+        public Sprite[] availableAvatars;
     }
 }

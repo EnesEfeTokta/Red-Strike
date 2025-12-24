@@ -13,3 +13,11 @@ MonoBehaviour:
   m_Name: NewUser
   m_EditorClassIdentifier: 
   userName: 
+  avatar: {fileID: 21300000, guid: 73e270bd5e9ec144b9df9de461cf64d1, type: 3}
+  availableAvatars:
+  - {fileID: 21300000, guid: 73e270bd5e9ec144b9df9de461cf64d1, type: 3}
+  - {fileID: 21300000, guid: e6a21b748c57454419bf004afcb898ac, type: 3}
+  - {fileID: 21300000, guid: dac288769be8e864692dd76df538961d, type: 3}
+  - {fileID: 21300000, guid: 82188e0f9a40a454a8148f8d3e456543, type: 3}
+  - {fileID: 21300000, guid: 7ff30fb2021be974b8c52a67a6f9b490, type: 3}
+  - {fileID: 21300000, guid: d1cb07494fef2454db2f503939f84dfe, type: 3}

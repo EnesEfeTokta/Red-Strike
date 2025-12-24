@@ -38,20 +38,32 @@ namespace MainMenuSystem
                 spaceShip.transform.position = shipStartPosition;
             }
 
-            if (GameBootstrap.Instance != null) GameBootstrap.Instance.LocalPlayerName = GetComponent<UserManager>()?.GetUserName();
+            var userManager = GetComponent<UserManager>();
+
+            if (userManager != null && userManager.currentUser != null && GameBootstrap.Instance != null)
+            {
+                GameBootstrap.Instance.LocalPlayerName = userManager.currentUser.userName ?? "Unknown";
+
+                int index = 0;
+                if (userManager.currentUser.availableAvatars != null && userManager.currentUser.avatar != null)
+                {
+                    index = System.Array.IndexOf(userManager.currentUser.availableAvatars, userManager.currentUser.avatar);
+                    if (index == -1) index = 0;
+                }
+
+                GameBootstrap.Instance.LocalAvatarIndex = index;
+            }
+
+            SwitchToCamera(CameraState.Login);
         }
 
         private void Update()
         {
             if (sunTransform != null)
-            {
                 sunTransform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-            }
 
             if (planetTransform != null)
-            {
                 planetTransform.Rotate(Vector3.up, planetRotationSpeed * Time.deltaTime);
-            }
         }
 
         public enum CameraState { Login, Main, Options, Credits }
@@ -111,7 +123,7 @@ namespace MainMenuSystem
         public void ApplyAudioSettings(float masterVol, float musicVol)
         {
             AudioListener.volume = masterVol / 100f;
-            
+
             if (settings != null)
             {
                 settings.masterVolume = masterVol;
@@ -122,7 +134,7 @@ namespace MainMenuSystem
         public void ApplyVideoSettings(bool isFullscreen)
         {
             Screen.fullScreen = isFullscreen;
-            
+
             if (settings != null)
             {
                 settings.isFullscreen = isFullscreen;

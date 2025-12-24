@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.UIElements;
 using NetworkingSystem;
 using AmmunitionSystem;
+using UserSystem;
 
 namespace InputController
 {
@@ -19,6 +20,7 @@ namespace InputController
         public BuildingsDatabase buildingsDatabase;
         public VehiclesDatabase vehiclesDatabase;
         public AmmunitionDatabase ammunitionDatabase;
+        public User userData;
 
         [Header("Layers & Camera")]
         public LayerMask terrainLayer;
