@@ -3,6 +3,7 @@ using Fusion;
 using Fusion.Sockets;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace NetworkingSystem
 {
@@ -20,6 +21,8 @@ namespace NetworkingSystem
 
         private NetworkRunner _runner;
 
+        public Func<Task> OnGameStarting;
+
         private void Awake()
         {
             if (Instance == null)
@@ -33,7 +36,27 @@ namespace NetworkingSystem
             }
         }
 
-        public async void StartGame(GameMode mode, string sessionName)
+        public async void StartHost(string sessionName)
+        {
+            await StartSequenceAndGame(GameMode.Host, sessionName);
+        }
+
+        public async void StartClient(string sessionName)
+        {
+            await StartSequenceAndGame(GameMode.Client, sessionName);
+        }
+
+        private async Task StartSequenceAndGame(GameMode mode, string sessionName)
+        {
+            if (OnGameStarting != null)
+            {
+                await OnGameStarting.Invoke();
+            }
+
+            await StartGame(mode, sessionName);
+        }
+
+        private async Task StartGame(GameMode mode, string sessionName)
         {
             if (_runner != null) Destroy(_runner.gameObject);
 
@@ -57,10 +80,7 @@ namespace NetworkingSystem
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
-            if (runner.IsServer)
-            {
-                runner.Spawn(playerDataPrefab, Vector3.zero, Quaternion.identity, player);
-            }
+            if (runner.IsServer) runner.Spawn(playerDataPrefab, Vector3.zero, Quaternion.identity, player);
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }

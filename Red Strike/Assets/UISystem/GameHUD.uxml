@@ -48,7 +48,7 @@
         </ui:VisualElement>
 
         <!-- 4. TAM EKRAN KAPLAMALAR (Grid dışı, en üstte) -->
-        <ui:Instance template="OverlayPanels" name="OverlayInstance" />
+        <ui:Instance template="OverlayPanels" name="OverlayInstance" picking-mode="Ignore" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" />
         <ui:VisualElement name="fade-panel" class="fade-panel" style="display: none;" />
 
     </ui:VisualElement>

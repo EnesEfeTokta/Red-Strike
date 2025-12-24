@@ -15,8 +15,7 @@ Label {
 .root-interface {
     width: 100%;
     height: 100%;
-    /* Ekranı Dikey (Yukarıdan Aşağı) diziyoruz */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Üstü tepeye, altı dibe it */
+    justify-content: space-between;
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
-    <ui:VisualElement name="deployment-panel" class="deployment-panel" style="display: flex;">
+    <ui:VisualElement name="deployment-panel" class="deployment-panel" style="display: none;">
         <ui:VisualElement class="deployment-header-container">
             <ui:Label text="GLOBAL DEPLOYMENT MONITOR" class="deployment-main-title" />
             <ui:Button text="ESC" name="deployment-close-button" class="deployment-close-button" />
