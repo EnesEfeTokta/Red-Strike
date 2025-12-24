@@ -28,11 +28,12 @@ namespace UISystem
         private VisualElement contentGameplay;
         private VisualElement contentUser;
 
-        // Inputs
+        // Elementler
         private TextField inputUserNameLogin;
         private TextField inputUserName;
         private TextField inputSessionName;
         private Label lobbyStatusLabel;
+        private Image avatarImage;
 
         // Buton Referansları
         private Button btnPlay, btnOptions, btnQuit;
@@ -41,6 +42,7 @@ namespace UISystem
         private Button btnTabGame, btnTabUser;
         private Button btnConfirmQuit, btnCancelQuit;
         private Button btnLogin;
+        private Button btnAvatarNext, btnAvatarPrev;
 
         private void Awake()
         {
@@ -57,6 +59,8 @@ namespace UISystem
             BindUIElements();
 
             RegisterEvents();
+
+            SetDefaultValues();
         }
 
         private void OnDisable()
@@ -86,7 +90,7 @@ namespace UISystem
                     ShowPanel(mainMenuOverlay);
 
                     if (inputUserName != null)
-                        inputUserName.value = userManager.currentUser.userName;
+                        inputUserName.value = userManager.currentUser.userName ?? "";
 
                     mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
                 }
@@ -109,11 +113,12 @@ namespace UISystem
             contentGameplay = root.Q<VisualElement>("content-gameplay");
             contentUser = root.Q<VisualElement>("content-user");
 
-            // Inputlar
+            // Elementler
             inputUserNameLogin = root.Q<TextField>("input-username-login");
             inputUserName = root.Q<TextField>("input-username");
             inputSessionName = root.Q<TextField>("input-session-name");
             lobbyStatusLabel = root.Q<Label>("lobby-status-label");
+            avatarImage = root.Q<Image>("current-avatar-image");
 
             // Butonlar
             btnPlay = root.Q<Button>("btn-play");
@@ -135,6 +140,9 @@ namespace UISystem
             btnCancelQuit = root.Q<Button>("btn-cancel-quit");
 
             btnLogin = root.Q<Button>("btn-login");
+
+            btnAvatarNext = root.Q<Button>("btn-avatar-next");
+            btnAvatarPrev = root.Q<Button>("btn-avatar-prev");
         }
 
         private void RegisterEvents()
@@ -158,6 +166,9 @@ namespace UISystem
             if (btnConfirmQuit != null) btnConfirmQuit.clicked += QuitGame;
 
             if (btnLogin != null) btnLogin.clicked += OnLoginClicked;
+
+            if (btnAvatarNext != null) btnAvatarNext.clicked += OnAvatarNext;
+            if (btnAvatarPrev != null) btnAvatarPrev.clicked += OnAvatarPrev;
         }
 
         private void UnregisterEvents()
@@ -178,6 +189,15 @@ namespace UISystem
             if (btnConfirmQuit != null) btnConfirmQuit.clicked -= QuitGame;
 
             if (btnLogin != null) btnLogin.clicked -= OnLoginClicked;
+
+            if (btnAvatarNext != null) btnAvatarNext.clicked -= OnAvatarNext;
+            if (btnAvatarPrev != null) btnAvatarPrev.clicked -= OnAvatarPrev;
+        }
+
+        private void SetDefaultValues()
+        {
+            if (userManager == null || userManager.currentUser == null || avatarImage == null) return;
+            avatarImage.sprite = userManager.currentUser.avatar;
         }
 
         #endregion
@@ -195,6 +215,9 @@ namespace UISystem
             if (panel != null)
                 panel.style.display = DisplayStyle.None;
         }
+
+        private void OnAvatarNext() => OnAvatarChanged(AvatarChangeDirection.Next);
+        private void OnAvatarPrev() => OnAvatarChanged(AvatarChangeDirection.Previous);
 
         #endregion
 
@@ -310,6 +333,25 @@ namespace UISystem
                 btnTabGame?.RemoveFromClassList("tab-active");
                 btnTabUser?.AddToClassList("tab-active");
             }
+        }
+
+        public enum AvatarChangeDirection { Previous, Next }
+        private void OnAvatarChanged(AvatarChangeDirection direction)
+        {
+            if (userManager == null || userManager.currentUser == null || avatarImage == null) return;
+
+            int currentIndex = System.Array.IndexOf(userManager.currentUser.availableAvatars, userManager.currentUser.avatar);
+            if (currentIndex < 0) currentIndex = 0;
+
+            int newIndex = currentIndex;
+            if (direction == AvatarChangeDirection.Next)
+                newIndex = (currentIndex + 1) % userManager.currentUser.availableAvatars.Length;
+            else
+                newIndex = (currentIndex - 1 + userManager.currentUser.availableAvatars.Length) % userManager.currentUser.availableAvatars.Length;
+
+            userManager.UpdateAvatar(newIndex);
+            avatarImage.sprite = userManager.currentUser.avatar;
+            avatarImage.MarkDirtyRepaint();
         }
 
         private void QuitGame()

@@ -44,6 +44,17 @@
                         <ui:Label text="USERNAME" class="setting-label" />
                         <ui:TextField name="input-username" value="" class="sci-fi-input" />
                     </ui:VisualElement>
+
+                    <ui:VisualElement class="row">
+                        <ui:Label text="AVATAR" class="setting-label" />
+                        <ui:VisualElement class="avatar-selector" style="flex-direction: row; align-items: center;">
+                            <ui:Button name="btn-avatar-prev" class="arrow-btn" text="◀" style="font-size: 24px; width: 40px; height: 40px;" />
+                            <ui:VisualElement name="current-avatar-container" style="margin-left: 10px; margin-right: 10px;">
+                                <ui:Image name="current-avatar-image" style="width: 64px; height: 64px; border-width: 2px; border-color: cyan;" />
+                            </ui:VisualElement>
+                            <ui:Button name="btn-avatar-next" class="arrow-btn" text="▶" style="font-size: 24px; width: 40px; height: 40px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                     
                     <ui:Button name="btn-update-username" text="UPDATE PROFILE" class="action-btn" style="width: 200px; margin-top: 20px;" />
                 </ui:VisualElement>

@@ -11,6 +11,7 @@ namespace NetworkingSystem
         public static GameBootstrap Instance;
 
         public string LocalPlayerName { get; set; } = "Unknown";
+        public int LocalAvatarIndex { get; set; } = 0;
 
         [Header("Ayarlar")]
         public NetworkRunner networkRunnerPrefab;

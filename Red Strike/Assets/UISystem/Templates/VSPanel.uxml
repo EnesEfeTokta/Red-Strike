@@ -4,7 +4,7 @@
         
         <!-- PLAYER 1 (SOL): Avatar Sonra İsim -->
         <ui:VisualElement class="vs-player-container vs-left-align">
-            <ui:Image name="player-1-avatar" class="vs-player-avatar" />
+            <ui:Image name="p1-avatar-image" class="vs-player-avatar" />
             <ui:VisualElement class="vs-player-info">
                 <ui:Label text="COMMANDER 1" name="p1-player-name-label" class="vs-player-name-label" />
                 <ui:Label text="SCORE: 0" name="p1-score-label" class="vs-score-label" />
@@ -22,7 +22,7 @@
                 <ui:Label text="COMMANDER 2" name="p2-player-name-label" class="vs-player-name-label" />
                 <ui:Label text="SCORE: 0" name="p2-score-label" class="vs-score-label" />
             </ui:VisualElement>
-            <ui:Image name="player-2-avatar" class="vs-player-avatar" />
+            <ui:Image name="p2-avatar-image" class="vs-player-avatar" />
         </ui:VisualElement>
 
     </ui:VisualElement>

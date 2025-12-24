@@ -11,6 +11,7 @@ namespace UserSystem
         {
             if (currentUser == null) currentUser = new User();
             currentUser.userName = userName;
+            if (GameBootstrap.Instance != null) GameBootstrap.Instance.LocalPlayerName = userName;
         }
 
         public void LogOut()
@@ -21,15 +22,13 @@ namespace UserSystem
         public void UpdateUserName(string newUserName)
         {
             if (currentUser != null) currentUser.userName = newUserName;
+            if (GameBootstrap.Instance != null) GameBootstrap.Instance.LocalPlayerName = newUserName;
         }
 
-        public string GetUserName()
+        public void UpdateAvatar(int newAvatarIndex)
         {
-            if (currentUser != null)
-            {
-                return currentUser.userName;
-            }
-            return string.Empty;
+            if (currentUser != null) currentUser.avatar = currentUser.availableAvatars[newAvatarIndex];
+            if (GameBootstrap.Instance != null) GameBootstrap.Instance.LocalAvatarIndex = newAvatarIndex;
         }
 
         public bool IsLoggedIn()
