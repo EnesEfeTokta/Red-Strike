@@ -23,6 +23,7 @@ namespace UISystem
         private VisualElement quitOverlay;
         private VisualElement loginOverlay;
         private VisualElement lobbyOverlay;
+        private VisualElement fadePanel;
 
         // İçerikler
         private VisualElement contentGameplay;
@@ -109,6 +110,7 @@ namespace UISystem
             quitOverlay = root.Q<VisualElement>("quit-overlay");
             loginOverlay = root.Q<VisualElement>("login-overlay");
             lobbyOverlay = root.Q<VisualElement>("lobby-overlay");
+            fadePanel = root.Q<VisualElement>("fade-panel");
 
             contentGameplay = root.Q<VisualElement>("content-gameplay");
             contentUser = root.Q<VisualElement>("content-user");
@@ -246,6 +248,7 @@ namespace UISystem
         private void OpenLobby()
         {
             ShowPanel(lobbyOverlay);
+            HidePanel(mainMenuOverlay);
             SetLobbyStatus("READY", Color.green);
         }
 
@@ -259,6 +262,7 @@ namespace UISystem
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Options);
             ShowPanel(settingsOverlay);
         }
+
         private void CloseSettings()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
@@ -270,6 +274,7 @@ namespace UISystem
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Credits);
             ShowPanel(quitOverlay);
         }
+
         private void CloseQuitPanel()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
@@ -295,7 +300,7 @@ namespace UISystem
                 SetLobbyStatus("INVALID SESSION ID", Color.red); return;
             }
             SetLobbyStatus("INITIALIZING HOST...", Color.yellow);
-            GameBootstrap.Instance?.StartGame(GameMode.Host, session);
+            StartCoroutine(StartGameSequence(GameMode.Host, session));
         }
 
         private void OnStartClientClicked()
@@ -305,8 +310,59 @@ namespace UISystem
             {
                 SetLobbyStatus("SEARCHING UPLINK...", Color.yellow);
             }
-            GameBootstrap.Instance.LocalPlayerName = userManager?.currentUser.userName ?? "Unknown";
-            GameBootstrap.Instance?.StartGame(GameMode.Client, session);
+            SetLobbyStatus("PREPARING FOR UPLINK...", Color.yellow);
+            StartCoroutine(StartGameSequence(GameMode.Client, session));
+        }
+
+        private IEnumerator StartGameSequence(GameMode mode, string sessionName)
+        {
+            if (GameBootstrap.Instance != null && userManager != null)
+            {
+                GameBootstrap.Instance.LocalPlayerName = userManager.currentUser.userName;
+            }
+
+            yield return new WaitForSeconds(1f);
+            HidePanel(lobbyOverlay);
+            HidePanel(mainMenuOverlay);
+
+            if (mainMenu != null)
+            {
+                mainMenu.StartCoroutine(mainMenu.LaunchSequence());
+            }
+
+            float waitTime = (mainMenu != null) ? mainMenu.shipDuration : 5f;
+
+            if (fadePanel != null)
+            {
+                fadePanel.style.opacity = 0;
+                fadePanel.style.display = DisplayStyle.Flex;
+
+                yield return null;
+
+                fadePanel.style.opacity = 1;
+            }
+
+            float timer = 0;
+            while (timer < waitTime)
+            {
+                timer += Time.deltaTime;
+
+                if (fadePanel != null && timer > waitTime - 1f)
+                {
+                    fadePanel.style.opacity = (timer - (waitTime - 1f));
+                }
+
+                yield return null;
+            }
+
+            if (mode == GameMode.Host)
+            {
+                GameBootstrap.Instance?.StartHost(sessionName);
+            }
+            else
+            {
+                GameBootstrap.Instance?.StartClient(sessionName);
+            }
         }
 
         private void SetLobbyStatus(string msg, Color color)

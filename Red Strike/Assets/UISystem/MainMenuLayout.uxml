@@ -22,7 +22,7 @@
         
         <ui:Instance template="LobbyPanel" name="LobbyInstance" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0;" />
         
-        <ui:VisualElement name="fade-panel" style="position: absolute; width: 100%; height: 100%; background-color: black; display: none;" />
+        <ui:VisualElement name="fade-panel" class="fade-panel" style="display: none;" />
     
     </ui:VisualElement>
 

@@ -6,7 +6,6 @@
     --overlay-bg: rgba(0, 0, 0, 0.8);
 }
 
-/* Tüm yazılar varsayılan beyaz */
 Label {
     color: white;
     -unity-font-style: bold;
@@ -17,7 +16,5 @@ Label {
     height: 100%;
     position: absolute;
     left: 0; top: 0;
-    
-    /* DÜZELTME: Siyah rengi kaldırdık, şeffaf yaptık */
     background-color: rgba(0, 0, 0, 0); 
 }

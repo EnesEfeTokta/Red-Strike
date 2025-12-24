@@ -4,22 +4,16 @@
     bottom: 50px;
     right: 50px;
     width: 400px;
-    
-    /* İçerik hizalaması */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* İçeriği aşağı it */
+    justify-content: flex-end;
     
     background-color: rgba(0, 0, 0, 0.8);
     border-left-width: 4px;
     border-left-color: var(--primary-cyan);
     padding: 30px;
-    
-    /* Dekoratif Köşeler */
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
-    
-    /* Gölge */
     box-shadow: -5px 5px 10px rgba(0,0,0,0.5);
 }
 
@@ -50,8 +44,8 @@
     background-color: var(--panel-bg);
     border-width: 2px;
     border-color: var(--primary-cyan);
-    border-top-width: 6px; /* Üst kısım daha kalın */
-    padding: 0; /* İçeriği biz yöneteceğiz */
+    border-top-width: 6px;
+    padding: 0;
     display: flex;
     flex-direction: column;
 }

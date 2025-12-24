@@ -22,17 +22,24 @@ namespace MainMenuSystem
         public CinemachineCamera cinemachineCamera_Options;
         public CinemachineCamera cinemachineCamera_Credits;
 
+        private CinemachineBasicMultiChannelPerlin cameraNoise_Main;
+
         [Header("Spaceship Animation")]
         public GameObject spaceShip;
         public float shipDuration = 5f;
+        public float shipMaxShake = 3f;
         public Vector3 shipStartPosition;
         public Vector3 targetPosition;
+        public AnimationCurve shipCurve; 
+        private bool isShaking = false;
+        private float shakeElapsed = 0f;
 
         [Header("System References")]
         public Settings settings;
 
         private void Start()
         {
+            cameraNoise_Main = cinemachineCamera_Main.GetComponent<CinemachineBasicMultiChannelPerlin>();
             if (spaceShip != null)
             {
                 spaceShip.transform.position = shipStartPosition;
@@ -64,10 +71,28 @@ namespace MainMenuSystem
 
             if (planetTransform != null)
                 planetTransform.Rotate(Vector3.up, planetRotationSpeed * Time.deltaTime);
+
+            if (isShaking)
+            {
+                shakeElapsed += Time.deltaTime;
+                float shakeAmount = shipMaxShake * (1f - (shakeElapsed / shipDuration));
+                if (cameraNoise_Main != null)
+                {
+                    cameraNoise_Main.AmplitudeGain = shakeAmount;
+                }
+
+                if (shakeElapsed >= shipDuration)
+                {
+                    isShaking = false;
+                    if (cameraNoise_Main != null)
+                    {
+                        cameraNoise_Main.AmplitudeGain = 0f;
+                    }
+                }
+            }
         }
 
         public enum CameraState { Login, Main, Options, Credits }
-
         public void SwitchToCamera(CameraState state)
         {
             cinemachineCamera_Login.Priority = 0;
@@ -92,21 +117,23 @@ namespace MainMenuSystem
             }
         }
 
-        private IEnumerator LaunchSequence(System.Action onComplete)
+        public IEnumerator LaunchSequence()
         {
+            isShaking = true;
+            shakeElapsed = 0f;
+            
             if (cinemachineCamera_Main != null && spaceShip != null)
             {
                 cinemachineCamera_Main.Target.TrackingTarget = spaceShip.transform;
             }
 
-            Vector3 initialPosition = spaceShip.transform.position;
             float elapsed = 0f;
 
             while (elapsed < shipDuration)
             {
                 if (spaceShip != null)
                 {
-                    spaceShip.transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsed / shipDuration);
+                    spaceShip.transform.position = Vector3.Lerp(shipStartPosition, targetPosition, elapsed / shipDuration);
                 }
                 elapsed += Time.deltaTime;
                 yield return null;
@@ -116,8 +143,6 @@ namespace MainMenuSystem
             {
                 spaceShip.transform.position = targetPosition;
             }
-
-            onComplete?.Invoke();
         }
 
         public void ApplyAudioSettings(float masterVol, float musicVol)
