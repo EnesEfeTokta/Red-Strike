@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5563fb5ddfb69e74dae79f11c9881e0c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202468
+  packageName: Tanknarok Multiplayer - Photon Fusion
+  packageVersion: 2.0.5
+  assetPath: Assets/Materials/FX/Particles/100 Circle/mpfxa_CircleGlowSmallHard_112.mat
+  uploadId: 739895

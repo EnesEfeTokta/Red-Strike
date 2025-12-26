@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d36808ce00d962e4eac790740c79ac87
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202468
+  packageName: Tanknarok Multiplayer - Photon Fusion
+  packageVersion: 2.0.5
+  assetPath: Assets/Materials/FX/Particles/200 Flash/mpfxa_FlashSmudge2s_221.mat
+  uploadId: 739895

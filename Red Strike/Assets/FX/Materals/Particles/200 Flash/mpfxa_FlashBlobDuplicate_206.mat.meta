@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8d9fb5a01e0b99f4e9266623d3c9a76d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202468
+  packageName: Tanknarok Multiplayer - Photon Fusion
+  packageVersion: 2.0.5
+  assetPath: Assets/Materials/FX/Particles/200 Flash/mpfxa_FlashBlobDuplicate_206.mat
+  uploadId: 739895

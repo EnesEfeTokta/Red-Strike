@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 189e48031821bab46988de0fa79609a2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202468
+  packageName: Tanknarok Multiplayer - Photon Fusion
+  packageVersion: 2.0.5
+  assetPath: Assets/Materials/FX/Particles/400 Mesh/mpfxsurf_Mesh.mat
+  uploadId: 739895
