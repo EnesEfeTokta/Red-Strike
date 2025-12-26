@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 279d24dfcfb9c554bad88ca6754807b5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202468
+  packageName: Tanknarok Multiplayer - Photon Fusion
+  packageVersion: 2.0.5
+  assetPath: Assets/Materials/FX/Particles/300 Other/mpfxa_Lightning3_312.mat
+  uploadId: 739895

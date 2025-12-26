@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8fbd0cccb5835e345879b631d1ea9a64
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202468
+  packageName: Tanknarok Multiplayer - Photon Fusion
+  packageVersion: 2.0.5
+  assetPath: Assets/Materials/FX/Particles/100 Circle/mpfxf_CircleFilledE1.5_152.mat
+  uploadId: 739895
