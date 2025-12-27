@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 2074529663016842200}
   - component: {fileID: 5624650881708601507}
   - component: {fileID: 1041543833642334784}
+  - component: {fileID: 4038751041789679682}
   m_Layer: 6
   m_Name: Hangar
   m_TagString: Build
@@ -200,9 +201,6 @@ MonoBehaviour:
   _teamId: 0
   unitType: 1
   buildingData: {fileID: 11400000, guid: a20ea262914989645a27af443d4c8b0b, type: 2}
-  buildEffects:
-  - {fileID: 1855726554393846403}
-  - {fileID: 4273443631821389091}
   IsReady: 1
   InProductionUnitName: None
   vehiclesDatabase: {fileID: 11400000, guid: 5d4883896aa0b5146966a880184eb941, type: 2}
@@ -225,8 +223,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10.000004, y: 10.84212, z: 15.000002}
-  m_Center: {x: 0, y: 5.421059, z: 0}
+  m_Size: {x: 10.000004, y: 7.5381875, z: 13.736082}
+  m_Center: {x: 0, y: 3.7690928, z: -0.0332613}
 --- !u!114 &4972683189584550802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +293,28 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 0
+--- !u!95 &4038751041789679682
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2490931318532185407}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 28647242110531d49ad06f820fb75b04, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4485302380233545425
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,11 +680,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
---- !u!198 &1855726554393846403 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1110556030845387871, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
-  m_PrefabInstance: {fileID: 1633014097376356060}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1949746138177811121 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 983828037429990509, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
@@ -1064,10 +1079,5 @@ PrefabInstance:
 --- !u!4 &4143431397127679249 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6810709059391405990, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
-  m_PrefabInstance: {fileID: 7423079153323332279}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &4273443631821389091 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6650199810314842004, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
   m_PrefabInstance: {fileID: 7423079153323332279}
   m_PrefabAsset: {fileID: 0}
