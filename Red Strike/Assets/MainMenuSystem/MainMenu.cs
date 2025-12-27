@@ -27,15 +27,18 @@ namespace MainMenuSystem
         [Header("Spaceship Animation")]
         public GameObject spaceShip;
         public float shipDuration = 5f;
-        public float shipMaxShake = 3f;
         public Vector3 shipStartPosition;
         public Vector3 targetPosition;
-        public AnimationCurve shipCurve; 
-        private bool isShaking = false;
-        private float shakeElapsed = 0f;
 
         [Header("System References")]
         public Settings settings;
+
+        [Header("Audio Settings")]
+        public AudioSource soundEffectSource;
+        public AudioSource musicSource;
+        public AudioClip buttonClickSound1;
+        public AudioClip buttonClickSound2;
+        public AudioClip launchSound;
 
         private void Start()
         {
@@ -71,25 +74,6 @@ namespace MainMenuSystem
 
             if (planetTransform != null)
                 planetTransform.Rotate(Vector3.up, planetRotationSpeed * Time.deltaTime);
-
-            if (isShaking)
-            {
-                shakeElapsed += Time.deltaTime;
-                float shakeAmount = shipMaxShake * (1f - (shakeElapsed / shipDuration));
-                if (cameraNoise_Main != null)
-                {
-                    cameraNoise_Main.AmplitudeGain = shakeAmount;
-                }
-
-                if (shakeElapsed >= shipDuration)
-                {
-                    isShaking = false;
-                    if (cameraNoise_Main != null)
-                    {
-                        cameraNoise_Main.AmplitudeGain = 0f;
-                    }
-                }
-            }
         }
 
         public enum CameraState { Login, Main, Options, Credits }
@@ -119,8 +103,7 @@ namespace MainMenuSystem
 
         public IEnumerator LaunchSequence()
         {
-            isShaking = true;
-            shakeElapsed = 0f;
+            PlaySoundOneShot(launchSound);
             
             if (cinemachineCamera_Main != null && spaceShip != null)
             {
@@ -163,6 +146,31 @@ namespace MainMenuSystem
             if (settings != null)
             {
                 settings.isFullscreen = isFullscreen;
+            }
+        }
+
+        public enum AudioClipType { ButtonClick1, ButtonClick2, Launch }
+        public void PlaySound(AudioClipType clipType)
+        {
+            switch (clipType)
+            {
+                case AudioClipType.ButtonClick1:
+                    PlaySoundOneShot(buttonClickSound1);
+                    break;
+                case AudioClipType.ButtonClick2:
+                    PlaySoundOneShot(buttonClickSound2);
+                    break;
+                case AudioClipType.Launch:
+                    PlaySoundOneShot(launchSound);
+                    break;
+            }
+        }
+
+        private void PlaySoundOneShot(AudioClip clip)
+        {
+            if (soundEffectSource != null)
+            {
+                soundEffectSource.PlayOneShot(clip);
             }
         }
     }

@@ -14,8 +14,14 @@ namespace BuildingPlacement.Buildings
 
         public VehiclesDatabase vehiclesDatabase;
 
+        private AudioSource audioSource;
+        public AudioClip vehicleCreateSound;
+        public AudioClip errorSound;
+
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
+
             vehicleSpawnPoint = transform.position + transform.forward * 20f;
             vehicleSpawnPoint.y += 2f;
         }
@@ -28,11 +34,13 @@ namespace BuildingPlacement.Buildings
                 IsReady = false;
                 
                 //Debug.Log($"Hangar started creating a new vehicle: {InProductionUnitName}");
+                audioSource.PlayOneShot(vehicleCreateSound);
                 CreateVehicleInstance(vehicleType);
             }
             else
             {
                 //Debug.LogWarning("Hangar is not ready to create a new vehicle or already in production.");
+                audioSource.PlayOneShot(errorSound);
             }
         }
 
@@ -50,9 +58,6 @@ namespace BuildingPlacement.Buildings
             }
         }
 
-        public bool CanCreateVehicle()
-        {
-            return IsReady && InProductionUnitName == "None";
-        }
+        public bool CanCreateVehicle() => IsReady && InProductionUnitName == "None";
     }
 }

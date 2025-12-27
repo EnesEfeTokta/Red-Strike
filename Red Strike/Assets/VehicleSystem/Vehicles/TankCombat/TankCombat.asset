@@ -24,6 +24,9 @@ MonoBehaviour:
   fuelCapacity: 100
   fuelConsumptionRate: 0.9
   explosionEffect: {fileID: 19800002, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}
+  engineSound: {fileID: 8300000, guid: 1a9227f4b0059084ebfab2f7f0119f9b, type: 3}
+  bulletFireSound: {fileID: 8300000, guid: 14866e6df058b894085e07d269b0a39f, type: 3}
+  rocketFireSound: {fileID: 0}
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0

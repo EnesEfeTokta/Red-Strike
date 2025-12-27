@@ -62,9 +62,19 @@ namespace VehicleSystem.Vehicles
 
         protected VehicleUI vehicleUI;
 
+        protected AudioClip engineSound;
+        protected AudioClip bulletFireSound;
+        protected AudioClip rocketFireSound;
+        protected AudioSource soundEffectSource;
+        protected AudioSource engineSource;
+
         protected virtual void Start()
         {
             vehicleUI = GetComponent<VehicleUI>();
+            soundEffectSource = GetComponent<AudioSource>();
+            engineSource = transform.Find("EngineSound").GetComponent<AudioSource>();
+            engineSource.clip = vehicleData.engineSound;
+            engineSource.Play();
             Setup();
             UpdateVehicleStatusIcon();
         }
@@ -143,6 +153,9 @@ namespace VehicleSystem.Vehicles
             fuelLevel = maxFuel;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
 
+            bulletFireSound = vehicleData.bulletFireSound;
+            rocketFireSound = vehicleData.rocketFireSound;
+
             if (vehicleData.ammunitionSettings != null)
             {
                 foreach (var ammoSetting in vehicleData.ammunitionSettings)
@@ -183,6 +196,15 @@ namespace VehicleSystem.Vehicles
         {
             if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
             if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
+
+            if (isMoving)
+            {
+                engineSource.volume = 0.2f;
+            }
+            else
+            {
+                engineSource.volume = 0.08f;
+            }
 
             UpdateVehicleStatusIcon();
         }
@@ -351,12 +373,12 @@ namespace VehicleSystem.Vehicles
 
         protected virtual void FireShot()
         {
-            // Implement firing logic in derived classes
+            soundEffectSource.PlayOneShot(bulletFireSound);
         }
 
         protected virtual void LaunchRocket()
         {
-            // Implement missile launching logic in derived classes
+            soundEffectSource.PlayOneShot(rocketFireSound);
         }
 
         protected virtual void ReloadAmmunition()

@@ -31,6 +31,12 @@ namespace InputController
         public float minDistanceBetweenObjects = 5f;
         public int teamId = 0;
 
+        [Header("Audio")]
+        public AudioClip selectionSound;
+        public AudioClip placementSound;
+        public AudioClip errorSound;
+        private AudioSource audioSource;
+
         private Building currentSelectedBuilding;
         private VehicleSystem.Vehicles.Vehicle currentSelectedVehicle;
 
@@ -55,6 +61,8 @@ namespace InputController
             mainCamera = Camera.main;
             vehiclesHUDController = GetComponent<VehiclesHUDController>();
             buildingHUDController = GetComponent<BuildingHUDController>();
+
+            audioSource = GetComponentInChildren<AudioSource>();
         }
 
         private void Update()
@@ -124,12 +132,14 @@ namespace InputController
                     if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
                     {
                         //Debug.LogWarning("Önce bir Ana Üs (Main Station) yerleştirmelisiniz!");
+                        audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
                         return;
                     }
 
                     if (currentSelectedBuilding.buildingName == "Main Station" && isThereMainBuilding)
                     {
                         //Debug.LogWarning("Zaten bir Ana Üs'sünüz var.");
+                        audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
                         return;
                     }
 
@@ -137,10 +147,10 @@ namespace InputController
                     {
                         CommanderData.LocalCommander.RPC_SpawnBuilding(currentSelectedBuilding.buildingName, spawnPosition);
                         //Debug.Log($"<color=green>Server'a İstek:</color> {currentSelectedBuilding.buildingName} kuruluyor...");
+                        audioSource.PlayOneShot(placementSound);
                     }
                     else
                     {
-                        //Debug.LogError("HATA: LocalCommander (Network Bağlantısı) bulunamadı!");
                         return;
                     }
 
@@ -149,6 +159,7 @@ namespace InputController
                 else
                 {
                    //Debug.Log("Bu alan inşaat için uygun değil (Çok yakın veya engel var).");
+                    audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
                 }
             }
         }
@@ -166,10 +177,12 @@ namespace InputController
             if (buildingToSelect != null)
             {
                 currentSelectedBuilding = buildingToSelect;
+                audioSource.PlayOneShot(selectionSound);
                 //Debug.Log($"Seçilen: {currentSelectedBuilding.buildingName}. Yere tıklayın.");
             }
             else
             {
+                audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
                 //Debug.LogError($"Database Hatası: {buildingName} bulunamadı!");
             }
         }
@@ -201,6 +214,7 @@ namespace InputController
                 {
                     //Debug.Log($"Saldırı Emri: {currentSelectedVehicle.name} -> {unit.name}");
                     currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
+                    audioSource.PlayOneShot(selectionSound);
 
                     if (targetHighlighter != null) targetHighlighter.DisableHighlight();
                     targetHighlighter = GetHighlighter(unit.gameObject);
@@ -208,6 +222,7 @@ namespace InputController
                 }
                 else
                 {
+                    audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
                     //Debug.Log("Düşmanı seçmek için önce kendi aracınızı seçin.");
                 }
                 return;
@@ -224,6 +239,7 @@ namespace InputController
                         vehicleHighlighter = GetHighlighter(unit.gameObject);
                         vehicleHighlighter?.EnableHighlight();
                         vehiclesHUDController?.ShowVehicleDetails(currentSelectedVehicle);
+                        audioSource.PlayOneShot(selectionSound);
                     }
                     break;
 
@@ -233,6 +249,7 @@ namespace InputController
 
                     var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
                     if (building != null) buildingHUDController.ShowBuildingDetails(building);
+                    audioSource.PlayOneShot(selectionSound);
                     break;
             }
         }

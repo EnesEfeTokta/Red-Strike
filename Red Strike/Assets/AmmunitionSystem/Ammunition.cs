@@ -5,6 +5,7 @@ namespace AmmunitionSystem
     [CreateAssetMenu(fileName = "New Ammunition", menuName = "Ammunition System/Ammunition")]
     public class Ammunition : ScriptableObject
     {
+        [Header("Ammunition Properties")]
         public AmmunitionType ammunitionType;
         public string ammunitionName;
         public float damage;
