@@ -210,12 +210,16 @@ namespace UISystem
         {
             if (panel != null)
                 panel.style.display = DisplayStyle.Flex;
+            
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick1);
         }
 
         private void HidePanel(VisualElement panel)
         {
             if (panel != null)
                 panel.style.display = DisplayStyle.None;
+
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick2);
         }
 
         private void OnAvatarNext() => OnAvatarChanged(AvatarChangeDirection.Next);
@@ -255,34 +259,40 @@ namespace UISystem
         private void CloseLobby()
         {
             HidePanel(lobbyOverlay);
+            ShowPanel(mainMenuOverlay);
         }
 
         private void OpenSettings()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Options);
             ShowPanel(settingsOverlay);
+            HidePanel(mainMenuOverlay);
         }
 
         private void CloseSettings()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
             HidePanel(settingsOverlay);
+            ShowPanel(mainMenuOverlay);
         }
 
         private void OpenQuitPanel()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Credits);
             ShowPanel(quitOverlay);
+            HidePanel(mainMenuOverlay);
         }
 
         private void CloseQuitPanel()
         {
             mainMenu?.SwitchToCamera(MainMenu.CameraState.Main);
             HidePanel(quitOverlay);
+            ShowPanel(mainMenuOverlay);
         }
 
         private void ApplySettings()
         {
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick1);
             if (mainMenu == null) return;
             float master = root.Q<Slider>("slider-master-volume")?.value ?? 100;
             float music = root.Q<Slider>("slider-music-volume")?.value ?? 100;
@@ -294,6 +304,7 @@ namespace UISystem
 
         private void OnStartHostClicked()
         {
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick1);
             string session = inputSessionName?.value;
             if (string.IsNullOrEmpty(session))
             {
@@ -305,6 +316,7 @@ namespace UISystem
 
         private void OnStartClientClicked()
         {
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick1);
             string session = inputSessionName?.value;
             if (!string.IsNullOrEmpty(session))
             {
@@ -376,6 +388,7 @@ namespace UISystem
 
         private void SwitchSettingsTab(bool showGame)
         {
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick1);
             if (contentGameplay != null) contentGameplay.style.display = showGame ? DisplayStyle.Flex : DisplayStyle.None;
             if (contentUser != null) contentUser.style.display = showGame ? DisplayStyle.None : DisplayStyle.Flex;
 
@@ -394,6 +407,8 @@ namespace UISystem
         public enum AvatarChangeDirection { Previous, Next }
         private void OnAvatarChanged(AvatarChangeDirection direction)
         {
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick2);
+
             if (userManager == null || userManager.currentUser == null || avatarImage == null) return;
 
             int currentIndex = System.Array.IndexOf(userManager.currentUser.availableAvatars, userManager.currentUser.avatar);

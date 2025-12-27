@@ -108,12 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _teamId: 0
-  playerType: 0
   unitType: 1
   buildingData: {fileID: 11400000, guid: 99f7c912324c6684c915f1110a575fbf, type: 2}
-  buildEffects:
-  - {fileID: 2273246402830813632}
-  - {fileID: 9072490561556554335}
   maxCapacity: 500
   currentCapacity: 0
   maxDensity: 3
@@ -170,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionColor: {r: 0, g: 0, b: 0, a: 0}
+  selectionColor: {r: 0, g: 0.681592, b: 1, a: 1}
 --- !u!114 &1994267217682172209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,11 +384,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6810709059391405990, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
   m_PrefabInstance: {fileID: 4883715028005807700}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &2273246402830813632 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6650199810314842004, guid: 3b7f2c753d435d647a80f1f047a113e3, type: 3}
-  m_PrefabInstance: {fileID: 4883715028005807700}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8254687773716162048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -498,11 +489,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
---- !u!198 &9072490561556554335 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1110556030845387871, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}
-  m_PrefabInstance: {fileID: 8254687773716162048}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9163075543812878957 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 983828037429990509, guid: f91edac4d13fc4343ba96bb6a843ad05, type: 3}

@@ -14,5 +14,6 @@ namespace BuildingPlacement
 
         [Header("Effects")]
         public ParticleSystem explosionEffect;
+
     }
 }

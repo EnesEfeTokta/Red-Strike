@@ -375,7 +375,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2dffec4f3461ebc459c85d5bad76a105, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -609,9 +609,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 1
-  FrequencyGain: 1
-  m_NoiseOffsets: {x: 421.75458, y: -900.8506, z: 117.34094}
+  AmplitudeGain: 0.3
+  FrequencyGain: 5
+  m_NoiseOffsets: {x: -162.07275, y: -628.34595, z: -998.84204}
 --- !u!1 &995665647
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,43 +946,14 @@ MonoBehaviour:
   cinemachineCamera_Credits: {fileID: 312053529}
   spaceShip: {fileID: 2738940240077496202}
   shipDuration: 5
-  shipMaxShake: 3
   shipStartPosition: {x: 2.24, y: -0.6, z: -19}
   targetPosition: {x: 2.24, y: -0.6, z: -9.72}
-  shipCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.50163484
-      value: 0.39272237
-      inSlope: 0.025015866
-      outSlope: 0.025015866
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35976583
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0041504
-      value: 0.0000076293945
-      inSlope: -1.6002946
-      outSlope: -1.6002946
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.124341875
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   settings: {fileID: 11400000, guid: e041f970da61a87429a66823e0614072, type: 2}
+  soundEffectSource: {fileID: 1931566807}
+  musicSource: {fileID: 508145520}
+  buttonClickSound1: {fileID: 8300000, guid: b2cadd64a93e1824d8466d1ab3d94cdd, type: 3}
+  buttonClickSound2: {fileID: 8300000, guid: 8657e659bba3c0643b4b04198e73b7d0, type: 3}
+  launchSound: {fileID: 8300000, guid: 8640d3b502c487843afb8ed20b979020, type: 3}
 --- !u!4 &1693417822
 Transform:
   m_ObjectHideFlags: 0
@@ -1264,7 +1235,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
