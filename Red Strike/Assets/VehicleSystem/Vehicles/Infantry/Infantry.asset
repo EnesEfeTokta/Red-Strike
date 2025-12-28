@@ -16,19 +16,21 @@ MonoBehaviour:
   vehicleType: 0
   vehiclePrefab: {fileID: 6427180487138741020, guid: 652e336fe8416d44694bb7c08b2b9f16, type: 3}
   maxCreatableCount: 10
-  speed: 10
+  speed: 45
   coverageAreaRadius: 50
-  turnSpeed: 120
+  turnSpeed: 360
   stoppingDistance: 30
-  maxHealth: 100
-  fuelCapacity: 100
-  fuelConsumptionRate: 0.8
+  maxHealth: 60
+  fuelCapacity: 200
+  fuelConsumptionRate: 0.5
   explosionEffect: {fileID: 198016111470434822, guid: 351b5b76ddf0a404d9550315f99917aa, type: 3}
   engineSound: {fileID: 8300000, guid: 562985ad4f17daf459be53f57ff683ed, type: 3}
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 30
-    reloadTime: 0.1
+    fireRate: 0.2
+    reloadTime: 1.5
+    damage: 10
     ammunition: {fileID: 11400000, guid: 22882af161684a743a3776628e0fe427, type: 2}
     sound: {fileID: 8300000, guid: d5b5e2c15b44f454697bfc7c719bc907, type: 3}

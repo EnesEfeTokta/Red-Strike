@@ -114,6 +114,7 @@ namespace NetworkingSystem
             string ammunitionName,
             Vector3 position,
             Quaternion rotation,
+            float damage,
             NetworkObject ownerVehicleNetObj,
             NetworkId targetId = default)
         {
@@ -134,6 +135,8 @@ namespace NetworkingSystem
                 {
                     ammunitionScript.OwnerTeamId = vehicleScript.teamId;
                     ammunitionScript.OwnerVehicleId = ownerVehicleNetObj.Id;
+
+                    ammunitionScript.damage = damage;
 
                     if (ammunitionData.ammunitionType == AmmunitionSystem.AmmunitionType.Rocket && targetId.IsValid)
                     {

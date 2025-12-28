@@ -24,7 +24,13 @@ namespace VehicleSystem.Vehicles.TankCombat
         {
             base.FireShot();
 
-            CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint.position, barrelPoint.rotation, Object);
+            CommanderData.LocalCommander.RPC_SpawnAmmunition(
+                ammunition_bullet.ammunitionName, 
+                barrelPoint.position, 
+                barrelPoint.rotation, 
+                vehicleData.ammunitionSettings[0].damage, 
+                Object
+            );
             currentAmmunition_bullet--;
         }
 

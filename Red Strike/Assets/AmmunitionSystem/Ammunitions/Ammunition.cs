@@ -12,6 +12,8 @@ namespace AmmunitionSystem.Ammunitions
         [Networked] public int OwnerTeamId { get; set; } = -1;
         [Networked] public NetworkId OwnerVehicleId { get; set; }
 
+        public float damage;
+
         public virtual void SetRocketTarget(NetworkId targetId) { }
     }
 }

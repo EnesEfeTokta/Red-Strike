@@ -31,6 +31,7 @@ namespace VehicleSystem.Vehicles.Quad
                     ammunition_bullet.ammunitionName, 
                     barrelPoint_A.position, 
                     barrelPoint_A.rotation, 
+                    vehicleData.ammunitionSettings[0].damage,
                     Object
                 );
                 currentAmmunition_bullet--;
@@ -42,6 +43,7 @@ namespace VehicleSystem.Vehicles.Quad
                     ammunition_bullet.ammunitionName, 
                     barrelPoint_B.position, 
                     barrelPoint_B.rotation, 
+                    vehicleData.ammunitionSettings[0].damage,
                     Object
                 );
                 currentAmmunition_bullet--;

@@ -181,9 +181,14 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        public (string, float, int, int, float) GetVehicleStatus()
+        public (string, float, int, int, float, int, int) GetVehicleStatus()
         {
-            return (vehicleData.vehicleName, fuelLevel, currentAmmunition_bullet, bulletAmmunitionSettings.maxAmmunition, health);
+            return (
+                vehicleData.vehicleName,
+                fuelLevel, currentAmmunition_bullet,
+                bulletAmmunitionSettings.maxAmmunition,
+                health, reloadCounter_bullet, reloadCounter_rocket
+                );
         }
 
         public (int currentRockets, int maxRockets) GetRocketStatus()
@@ -300,12 +305,12 @@ namespace VehicleSystem.Vehicles
                     EnableMuzzleFlashEffects();
                     Invoke("DisableMuzzleFlashLights", 0.1f);
 
-                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime;
+                    bulletCooldownTimer = bulletAmmunitionSettings.fireRate;
                 }
                 else
                 {
-                    ReloadAmmunition();
-                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime * 2;
+                    Invoke(nameof(ReloadAmmunition), bulletAmmunitionSettings.reloadTime);
+                    bulletCooldownTimer = bulletAmmunitionSettings.fireRate * 2;
                 }
             }
         }
@@ -323,12 +328,12 @@ namespace VehicleSystem.Vehicles
                     EnableMuzzleFlashEffects();
                     Invoke(nameof(DisableMuzzleFlashLights), 0.1f);
 
-                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime;
+                    rocketCooldownTimer = rocketAmmunitionSettings.fireRate;
                 }
                 else
                 {
-                    ReloadRocketAmmunition();
-                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime * 2;
+                    Invoke(nameof(ReloadRocketAmmunition), rocketAmmunitionSettings.reloadTime);
+                    rocketCooldownTimer = rocketAmmunitionSettings.fireRate * 2;
                 }
             }
         }
@@ -375,6 +380,7 @@ namespace VehicleSystem.Vehicles
 
         protected virtual void ReloadAmmunition()
         {
+            reloadCounter_bullet++;
             currentAmmunition_bullet = bulletAmmunitionSettings.maxAmmunition;
         }
 
@@ -382,6 +388,7 @@ namespace VehicleSystem.Vehicles
         {
             if (rocketAmmunitionSettings != null)
             {
+                reloadCounter_rocket++;
                 currentAmmunition_rocket = rocketAmmunitionSettings.maxAmmunition;
             }
         }

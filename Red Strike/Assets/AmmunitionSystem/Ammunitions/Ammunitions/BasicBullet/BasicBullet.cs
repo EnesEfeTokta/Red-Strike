@@ -50,7 +50,7 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
                 }
 
                 //Debug.Log($"Hit Enemy: {unit.name} - Damage: {ammunitionData.damage}");
-                unit.TakeDamage(ammunitionData.damage);
+                unit.TakeDamage(damage);
             }
             
             DespawnBullet();

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Main Station
   buildingPrefab: {fileID: 5568703836926053903, guid: ae512f537d66646498dea44801d4456b, type: 3}
-  maxHealth: 500
-  buildTime: 3.51
+  maxHealth: 3500
+  buildTime: 0
   maxCreatableCount: 1
   heightOffset: 7
   explosionEffect: {fileID: 198583976904112864, guid: 2056c3afdbd65d24f9d649085aed0898, type: 3}

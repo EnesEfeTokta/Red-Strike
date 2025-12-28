@@ -60,6 +60,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
                     ammunition_bullet.ammunitionName, 
                     point.position, 
                     rotation, 
+                    vehicleData.ammunitionSettings[0].damage,
                     Object
                 );
 
@@ -111,6 +112,7 @@ namespace VehicleSystem.Vehicles.OrnithopterB
                 ammunition_rocket.ammunitionName, 
                 spawnPoint.position, 
                 spawnPoint.rotation, 
+                vehicleData.ammunitionSettings[1].damage,
                 Object, 
                 targetId
             );

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Energy Tower
   buildingPrefab: {fileID: 1944538178676760682, guid: 85da885807e881b4a911c69742b4cab6, type: 3}
-  maxHealth: 150
-  buildTime: 3.51
-  maxCreatableCount: 3
+  maxHealth: 600
+  buildTime: 4
+  maxCreatableCount: 5
   heightOffset: 5
   explosionEffect: {fileID: 198583976904112864, guid: 9bbfeaaa738e709448c6278c993f9fb8, type: 3}

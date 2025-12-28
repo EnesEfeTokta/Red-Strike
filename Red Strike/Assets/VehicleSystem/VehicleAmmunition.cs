@@ -9,7 +9,9 @@ namespace VehicleSystem
         public bool isEnabled;
         public AmmunitionType ammunitionType;
         public int maxAmmunition;
-        public float reloadTime;
+        [Range(0f, 5f)] public float fireRate;
+        [Range(0f, 10f)] public float reloadTime;
+        public float damage;
         public Ammunition ammunition;
         public AudioClip sound;
     }

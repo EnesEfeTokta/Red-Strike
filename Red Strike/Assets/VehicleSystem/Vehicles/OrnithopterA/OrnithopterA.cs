@@ -62,6 +62,7 @@ namespace VehicleSystem.Vehicles.OrnithopterA
                     ammunition_bullet.ammunitionName, 
                     spawnPoint.position, 
                     fireRot, 
+                    vehicleData.ammunitionSettings[0].damage,
                     Object
                 );
 
@@ -82,7 +83,8 @@ namespace VehicleSystem.Vehicles.OrnithopterA
             CommanderData.LocalCommander.RPC_SpawnAmmunition(
                 ammunition_rocket.ammunitionName, 
                 currentPoint.position, 
-                currentPoint.rotation, 
+                currentPoint.rotation,
+                vehicleData.ammunitionSettings[1].damage, 
                 Object, 
                 targetId
             );
