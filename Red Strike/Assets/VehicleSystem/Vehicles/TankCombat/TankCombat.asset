@@ -19,17 +19,16 @@ MonoBehaviour:
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 120
-  stoppingDistance: 15
+  stoppingDistance: 40
   maxHealth: 100
   fuelCapacity: 100
   fuelConsumptionRate: 0.9
-  explosionEffect: {fileID: 19800002, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}
+  explosionEffect: {fileID: 198016111470434822, guid: 351b5b76ddf0a404d9550315f99917aa, type: 3}
   engineSound: {fileID: 8300000, guid: 1a9227f4b0059084ebfab2f7f0119f9b, type: 3}
-  bulletFireSound: {fileID: 8300000, guid: 14866e6df058b894085e07d269b0a39f, type: 3}
-  rocketFireSound: {fileID: 0}
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 20
     reloadTime: 1
     ammunition: {fileID: 11400000, guid: 5ef71d70c67b5bc4d964f8e71bd005ea, type: 2}
+    sound: {fileID: 8300000, guid: 14866e6df058b894085e07d269b0a39f, type: 3}

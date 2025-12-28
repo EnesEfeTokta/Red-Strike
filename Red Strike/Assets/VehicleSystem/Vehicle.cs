@@ -24,8 +24,6 @@ namespace VehicleSystem
         [Header("Effects")]
         public ParticleSystem explosionEffect;
         public AudioClip engineSound;
-        public AudioClip bulletFireSound;
-        public AudioClip rocketFireSound;
 
         [Header("Ammunition Settings")]
         public List<VehicleAmmunition> ammunitionSettings = new List<VehicleAmmunition>();

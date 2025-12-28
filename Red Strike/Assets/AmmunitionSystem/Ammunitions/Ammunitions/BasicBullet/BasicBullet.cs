@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using NetworkingSystem;
 
 namespace AmmunitionSystem.Ammunitions.BasicBullet
 {
@@ -7,7 +8,7 @@ namespace AmmunitionSystem.Ammunitions.BasicBullet
     public class BasicBullet : Ammunition
     {
         private Rigidbody rb;
-
+    
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();

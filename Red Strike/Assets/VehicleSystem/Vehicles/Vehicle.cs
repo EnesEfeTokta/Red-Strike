@@ -66,15 +66,16 @@ namespace VehicleSystem.Vehicles
         protected AudioClip bulletFireSound;
         protected AudioClip rocketFireSound;
         protected AudioSource soundEffectSource;
-        protected AudioSource engineSource;
+        public AudioSource engineSource;
 
         protected virtual void Start()
         {
             vehicleUI = GetComponent<VehicleUI>();
             soundEffectSource = GetComponent<AudioSource>();
-            engineSource = transform.Find("EngineSound").GetComponent<AudioSource>();
+
             engineSource.clip = vehicleData.engineSound;
             engineSource.Play();
+
             Setup();
             UpdateVehicleStatusIcon();
         }
@@ -153,8 +154,8 @@ namespace VehicleSystem.Vehicles
             fuelLevel = maxFuel;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
 
-            bulletFireSound = vehicleData.bulletFireSound;
-            rocketFireSound = vehicleData.rocketFireSound;
+            bulletFireSound = vehicleData.ammunitionSettings?.Where(ammo => ammo.ammunitionType == AmmunitionType.Bullet).FirstOrDefault()?.sound;
+            rocketFireSound = vehicleData.ammunitionSettings?.Where(ammo => ammo.ammunitionType == AmmunitionType.Rocket).FirstOrDefault()?.sound;
 
             if (vehicleData.ammunitionSettings != null)
             {
@@ -196,15 +197,6 @@ namespace VehicleSystem.Vehicles
         {
             if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
             if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
-
-            if (isMoving)
-            {
-                engineSource.volume = 0.2f;
-            }
-            else
-            {
-                engineSource.volume = 0.08f;
-            }
 
             UpdateVehicleStatusIcon();
         }
@@ -285,11 +277,11 @@ namespace VehicleSystem.Vehicles
         {
             if (smokeEffect == null) return;
 
-            if (isMoving && !smokeEffect.isPlaying)
+            if (isMoving)
             {
                 smokeEffect.Play();
             }
-            else if (!isMoving && smokeEffect.isPlaying)
+            else if (!isMoving)
             {
                 smokeEffect.Stop();
             }

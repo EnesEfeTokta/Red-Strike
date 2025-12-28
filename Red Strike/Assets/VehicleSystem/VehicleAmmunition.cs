@@ -1,4 +1,5 @@
 using AmmunitionSystem;
+using UnityEngine;
 
 namespace VehicleSystem
 {
@@ -10,5 +11,6 @@ namespace VehicleSystem
         public int maxAmmunition;
         public float reloadTime;
         public Ammunition ammunition;
+        public AudioClip sound;
     }
 }

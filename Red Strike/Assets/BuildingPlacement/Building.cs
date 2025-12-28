@@ -11,6 +11,7 @@ namespace BuildingPlacement
         public int maxHealth;
         public float buildTime;
         public int maxCreatableCount;
+        public float heightOffset;
 
         [Header("Effects")]
         public ParticleSystem explosionEffect;
