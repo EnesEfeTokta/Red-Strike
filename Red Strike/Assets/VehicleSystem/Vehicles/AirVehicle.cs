@@ -110,7 +110,6 @@ namespace VehicleSystem.Vehicles
             bool isEngineIdle = (CurrentState == VehicleState.Refueling && CurrentRefuelPhase == RefuelPhase.Landed);
             engineSource.volume = Mathf.Lerp(engineSource.volume, isEngineIdle ? 0.05f : 0.4f, Time.deltaTime * 2f);
             if (!isEngineIdle) UpdateSmokeEffect();
-            else if (smokeEffect != null && smokeEffect.isPlaying) smokeEffect.Stop();
         }
 
         #region Flight Physics

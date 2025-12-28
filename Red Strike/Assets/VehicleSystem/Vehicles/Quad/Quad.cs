@@ -25,9 +25,25 @@ namespace VehicleSystem.Vehicles.Quad
         {
             base.FireShot();
 
-            for (int i = 0; i < 2; i++)
+            if (currentAmmunition_bullet > 0)
             {
-                CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint_A.position, barrelPoint_A.rotation, Object);
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(
+                    ammunition_bullet.ammunitionName, 
+                    barrelPoint_A.position, 
+                    barrelPoint_A.rotation, 
+                    Object
+                );
+                currentAmmunition_bullet--;
+            }
+
+            if (currentAmmunition_bullet > 0)
+            {
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(
+                    ammunition_bullet.ammunitionName, 
+                    barrelPoint_B.position, 
+                    barrelPoint_B.rotation, 
+                    Object
+                );
                 currentAmmunition_bullet--;
             }
         }

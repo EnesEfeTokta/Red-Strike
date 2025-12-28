@@ -336,7 +336,6 @@ GameObject:
   - component: {fileID: 8536678118681021737}
   - component: {fileID: 5437171139404782462}
   - component: {fileID: 6178172298134301110}
-  - component: {fileID: 806002772428103989}
   m_Layer: 6
   m_Name: TankHeavyB
   m_TagString: Vehicle
@@ -466,6 +465,7 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  engineSource: {fileID: 595451111231717810}
   rocketAttackRange: 40
   barrelTransform_A: {fileID: 347541596011738074}
   barrelTransform_B: {fileID: 5414429360887206671}
@@ -613,20 +613,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &806002772428103989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3969752469904077645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 74287606229d56b4b89524f3b409529e
 --- !u!1 &4467546149094972049
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,7 +640,7 @@ Transform:
   m_GameObject: {fileID: 4467546149094972049}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.64, z: -3.21}
+  m_LocalPosition: {x: 0, y: 0.64, z: -3.15}
   m_LocalScale: {x: 0.61, y: 0.61, z: 0.61}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -733,7 +719,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -1141,7 +1127,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -1201,7 +1187,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 5
     angle: 80
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1209,7 +1195,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 4.8928556, y: 0.63453376, z: 0.4965664}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

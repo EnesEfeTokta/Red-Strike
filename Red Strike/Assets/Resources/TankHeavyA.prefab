@@ -730,7 +730,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -790,7 +790,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 5
     angle: 80
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -798,7 +798,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 4.118143, y: 0.3212554, z: 0.46421483}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5276,7 +5276,6 @@ GameObject:
   - component: {fileID: 4120790762119794849}
   - component: {fileID: 5259369918086251800}
   - component: {fileID: 179886763539137785}
-  - component: {fileID: 6900714206993980562}
   m_Layer: 6
   m_Name: TankHeavyA
   m_TagString: Vehicle
@@ -5406,6 +5405,7 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  engineSource: {fileID: 8344803449278041535}
   rocketAttackRange: 40
   barrelTransform_A: {fileID: 1752087964912577984}
   barrelTransform_B: {fileID: 4654406787218614704}
@@ -5553,20 +5553,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6900714206993980562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630292313461707713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 5da929ed199dc6c43aa09de6252e7e4a
 --- !u!1 &8929462604206116009
 GameObject:
   m_ObjectHideFlags: 0

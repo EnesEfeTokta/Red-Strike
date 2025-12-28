@@ -66,15 +66,16 @@ namespace VehicleSystem.Vehicles
         protected AudioClip bulletFireSound;
         protected AudioClip rocketFireSound;
         protected AudioSource soundEffectSource;
-        protected AudioSource engineSource;
+        public AudioSource engineSource;
 
         protected virtual void Start()
         {
             vehicleUI = GetComponent<VehicleUI>();
             soundEffectSource = GetComponent<AudioSource>();
-            engineSource = transform.Find("EngineSound").GetComponent<AudioSource>();
+
             engineSource.clip = vehicleData.engineSound;
             engineSource.Play();
+
             Setup();
             UpdateVehicleStatusIcon();
         }
@@ -276,11 +277,11 @@ namespace VehicleSystem.Vehicles
         {
             if (smokeEffect == null) return;
 
-            if (isMoving && !smokeEffect.isPlaying)
+            if (isMoving)
             {
                 smokeEffect.Play();
             }
-            else if (!isMoving && smokeEffect.isPlaying)
+            else if (!isMoving)
             {
                 smokeEffect.Stop();
             }

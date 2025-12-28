@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181784992992385105}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.028761715, z: -0.2925844}
+  m_LocalRotation: {x: 0, y: 0.96737844, z: 0.25333586, w: 0}
+  m_LocalPosition: {x: 0, y: 0.028761715, z: -0.36}
   m_LocalScale: {x: 0.21, y: 0.21, z: 0.21}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4188492545242418893}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -29.35, y: 180, z: 0}
 --- !u!198 &3722269451271966252
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -50,7 +50,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -151,7 +151,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
+      scalar: 2.6595936
       minScalar: 0.5
       maxCurve:
         serializedVersion: 2
@@ -514,7 +514,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -574,15 +574,15 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
-    angle: 80
+    type: 4
+    angle: 18.200802
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 2, y: 2, z: 2}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -661,7 +661,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.2702675
       mode: 0
       spread: 0
       speed:
@@ -5344,7 +5344,6 @@ GameObject:
   - component: {fileID: 103176863944114013}
   - component: {fileID: 6855712048071949838}
   - component: {fileID: 5216839334908128156}
-  - component: {fileID: 1500879878118647511}
   m_Layer: 6
   m_Name: Infantry
   m_TagString: Vehicle
@@ -5474,6 +5473,7 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  engineSource: {fileID: 6058987034765308819}
   rocketAttackRange: 40
   barrelTransform: {fileID: 7180396823952371039}
   barrelPoint: {fileID: 2198254532300062799}
@@ -5629,20 +5629,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1500879878118647511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6427180487138741020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1541381998, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Guid:
-    RawGuidValue: 652e336fe8416d44694bb7c08b2b9f16
 --- !u!1 &7218765401593244663
 GameObject:
   m_ObjectHideFlags: 0

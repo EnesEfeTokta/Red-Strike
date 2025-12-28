@@ -697,7 +697,7 @@ Transform:
   m_GameObject: {fileID: 3352369310860351961}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.02, y: 0.476, z: -1.589}
+  m_LocalPosition: {x: 0.02, y: 0.291, z: -1.463}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -720,7 +720,7 @@ ParticleSystem:
   emitterVelocityMode: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -776,7 +776,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -1184,7 +1184,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -1244,7 +1244,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 5
     angle: 80
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1252,7 +1252,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 4.8928556, y: 0.63453376, z: 0.4965664}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5485,9 +5485,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3587531493689541757}
   - {fileID: 61649904649100955}
   - {fileID: 1501485118943205461}
-  - {fileID: 3587531493689541757}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7765285417744778635
@@ -5609,6 +5609,7 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  engineSource: {fileID: 7716342696854761872}
   rocketAttackRange: 40
   barrelTransform: {fileID: 8947661893380276193}
   barrelPoint: {fileID: 8179627918528569255}

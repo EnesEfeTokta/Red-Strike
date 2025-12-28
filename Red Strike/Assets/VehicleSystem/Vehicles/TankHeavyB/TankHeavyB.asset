@@ -19,7 +19,7 @@ MonoBehaviour:
   speed: 10
   coverageAreaRadius: 50
   turnSpeed: 120
-  stoppingDistance: 15
+  stoppingDistance: 40
   maxHealth: 100
   fuelCapacity: 100
   fuelConsumptionRate: 0.7

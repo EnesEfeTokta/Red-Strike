@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 742968664913757601}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.276, y: 0, z: 1.354}
+  m_LocalPosition: {x: 0.276, y: 0, z: 1.393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -660,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 5551089916946976049}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.42, z: -2.08}
+  m_LocalPosition: {x: 0, y: 0.276, z: -1.729}
   m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 0.29999998}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -739,7 +739,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -1147,7 +1147,7 @@ ParticleSystem:
         m_RotationOrder: 0
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -1207,7 +1207,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 5
     angle: 80
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1215,7 +1215,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 7.9590006, y: 0.421013, z: 0.4674276}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5273,7 +5273,7 @@ Transform:
   m_GameObject: {fileID: 7843823668469004097}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.28, y: 0, z: 1.354}
+  m_LocalPosition: {x: -0.28, y: 0, z: 1.393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5430,6 +5430,7 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  engineSource: {fileID: 7040296906606052471}
   rocketAttackRange: 40
   barrelTransform_A: {fileID: 8465707678759031442}
   barrelTransform_B: {fileID: 3805398616013317555}
@@ -6012,7 +6013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4086548664182434, guid: 207ad90c504351d4695a73afe936ec2b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.556
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4086548664182434, guid: 207ad90c504351d4695a73afe936ec2b, type: 3}
       propertyPath: m_LocalPosition.y
