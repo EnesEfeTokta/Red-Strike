@@ -39,6 +39,8 @@ namespace VehicleSystem.Vehicles
                 return;
             }
 
+            engineSource.volume = Mathf.Lerp(engineSource.volume, isMoving ? 0.3f : 0.05f, Time.deltaTime * 2f);
+
             if (fuelLevel <= 0 || isRefueling)
             {
                 HandleRefuelingState();

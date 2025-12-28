@@ -145,6 +145,7 @@ namespace InputController
 
                     if (CommanderData.LocalCommander != null)
                     {
+                        spawnPosition = spawnPosition + new Vector3(0, currentSelectedBuilding.heightOffset, 0);
                         CommanderData.LocalCommander.RPC_SpawnBuilding(currentSelectedBuilding.buildingName, spawnPosition);
                         //Debug.Log($"<color=green>Server'a İstek:</color> {currentSelectedBuilding.buildingName} kuruluyor...");
                         audioSource.PlayOneShot(placementSound);

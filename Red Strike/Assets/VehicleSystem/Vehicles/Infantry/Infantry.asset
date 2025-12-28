@@ -23,13 +23,12 @@ MonoBehaviour:
   maxHealth: 100
   fuelCapacity: 100
   fuelConsumptionRate: 0.8
-  explosionEffect: {fileID: 19800002, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}
+  explosionEffect: {fileID: 198016111470434822, guid: 351b5b76ddf0a404d9550315f99917aa, type: 3}
   engineSound: {fileID: 8300000, guid: 562985ad4f17daf459be53f57ff683ed, type: 3}
-  bulletFireSound: {fileID: 8300000, guid: d5b5e2c15b44f454697bfc7c719bc907, type: 3}
-  rocketFireSound: {fileID: 0}
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 30
     reloadTime: 0.1
     ammunition: {fileID: 11400000, guid: 22882af161684a743a3776628e0fe427, type: 2}
+    sound: {fileID: 8300000, guid: d5b5e2c15b44f454697bfc7c719bc907, type: 3}

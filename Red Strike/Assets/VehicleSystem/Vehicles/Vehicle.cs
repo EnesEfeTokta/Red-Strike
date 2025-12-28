@@ -153,8 +153,8 @@ namespace VehicleSystem.Vehicles
             fuelLevel = maxFuel;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
 
-            bulletFireSound = vehicleData.bulletFireSound;
-            rocketFireSound = vehicleData.rocketFireSound;
+            bulletFireSound = vehicleData.ammunitionSettings?.Where(ammo => ammo.ammunitionType == AmmunitionType.Bullet).FirstOrDefault()?.sound;
+            rocketFireSound = vehicleData.ammunitionSettings?.Where(ammo => ammo.ammunitionType == AmmunitionType.Rocket).FirstOrDefault()?.sound;
 
             if (vehicleData.ammunitionSettings != null)
             {
@@ -196,15 +196,6 @@ namespace VehicleSystem.Vehicles
         {
             if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
             if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
-
-            if (isMoving)
-            {
-                engineSource.volume = 0.2f;
-            }
-            else
-            {
-                engineSource.volume = 0.08f;
-            }
 
             UpdateVehicleStatusIcon();
         }

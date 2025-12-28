@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using AmmunitionSystem.Ammunitions;
 using NetworkingSystem;
 using Fusion;
 
@@ -8,18 +7,16 @@ namespace VehicleSystem.Vehicles.OrnithopterB
 {
     public class OrnithopterB : AirVehicle
     {
-        [Header("Ornithopter B Settings")]
-        [Header("Bullet Settings")]
-        public Transform[] barrelPoints;
+        [Header("Ornithopter B Weaponry")]
         public Transform barrelTransform;
+        public Transform[] barrelPoints;
 
-        [Header("Rocket Settings")]
-        [Tooltip("Sıralama: 0=SolA, 1=SolB, 2=SağA, 3=SağB")]
+        [Header("Salvo Missile Settings")]
+        [Tooltip("Görsel Roket Objeleri Sırası: 0=Sol, 1=Sol, 2=Sağ, 3=Sağ")]
         public GameObject[] rocketObjects;
 
         [Header("Launch Points")]
         public Transform[] rocketLaunchLeftPoints;
-        [Space]
         public Transform[] rocketLaunchRightPoints;
 
         private bool isFiringSalvo = false;
@@ -28,28 +25,51 @@ namespace VehicleSystem.Vehicles.OrnithopterB
         {
             base.Update();
 
-            if (targetObject != null)
+            if (targetObject != null && CurrentState == VehicleState.Combat && CurrentCombatPhase == CombatPhase.Diving)
             {
                 LookAtTarget(targetObject.transform);
+            }
+            else
+            {
+                if (barrelTransform != null)
+                {
+                    barrelTransform.localRotation = Quaternion.Slerp(
+                        barrelTransform.localRotation, 
+                        Quaternion.identity, 
+                        Time.deltaTime * 3f
+                    );
+                }
             }
         }
 
         protected override void FireShot()
         {
-            Vector3 direction = (targetObject.transform.position - barrelPoints[0].position).normalized;
-            Quaternion rotation = Quaternion.LookRotation(direction);
+            if (currentAmmunition_bullet <= 0) return;
 
-            for (int i = 0; i < barrelPoints.Length; i++)
+            foreach (var point in barrelPoints)
             {
-                Transform barrelPoint = barrelPoints[i];
-                CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_bullet.ammunitionName, barrelPoint.position, rotation, Object);
+                if (currentAmmunition_bullet <= 0) break;
+
+                Vector3 targetDir = transform.forward;
+                if (targetObject != null)
+                    targetDir = (targetObject.transform.position - point.position).normalized;
+
+                Quaternion rotation = Quaternion.LookRotation(targetDir);
+
+                CommanderData.LocalCommander.RPC_SpawnAmmunition(
+                    ammunition_bullet.ammunitionName, 
+                    point.position, 
+                    rotation, 
+                    Object
+                );
+
                 currentAmmunition_bullet--;
             }
         }
 
         protected override void LaunchRocket()
         {
-            if (isFiringSalvo || ammunition_rocket == null) return;
+            if (isFiringSalvo || currentAmmunition_rocket < 2) return;
 
             StartCoroutine(FireRocketSalvoRoutine());
         }
@@ -62,44 +82,47 @@ namespace VehicleSystem.Vehicles.OrnithopterB
             if (targetObject != null)
                 targetId = targetObject.GetComponent<NetworkObject>().Id;
 
-            if (currentAmmunition_rocket >= 2 && targetObject != null)
+            if (currentAmmunition_rocket >= 2)
             {
-                FireSingleRocket(rocketLaunchLeftPoints[0], targetId);
-                FireSingleRocket(rocketLaunchLeftPoints[1], targetId);
-
-                SetRocketVisualInternal(0, false);
-                SetRocketVisualInternal(1, false);
-
-                currentAmmunition_rocket -= 2;
+                FireSingleRocket(rocketLaunchLeftPoints[0], 0, targetId);
+                if(rocketLaunchLeftPoints.Length > 1) 
+                    FireSingleRocket(rocketLaunchLeftPoints[1], 1, targetId);
             }
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.8f); 
 
-            if (currentAmmunition_rocket >= 2 && targetObject != null)
+            if (currentAmmunition_rocket >= 2)
             {
-                FireSingleRocket(rocketLaunchRightPoints[0], targetId);
-                FireSingleRocket(rocketLaunchRightPoints[1], targetId);
+                if (targetObject != null) targetId = targetObject.GetComponent<NetworkObject>().Id;
 
-                SetRocketVisualInternal(2, false);
-                SetRocketVisualInternal(3, false);
-
-                currentAmmunition_rocket -= 2;
+                FireSingleRocket(rocketLaunchRightPoints[0], 2, targetId);
+                if(rocketLaunchRightPoints.Length > 1)
+                    FireSingleRocket(rocketLaunchRightPoints[1], 3, targetId);
             }
 
             isFiringSalvo = false;
         }
 
-        private void FireSingleRocket(Transform spawnPoint, NetworkId targetId)
+        private void FireSingleRocket(Transform spawnPoint, int visualIndex, NetworkId targetId)
         {
-            //Debug.LogWarning("Ornithopter B: FireSingleRocket called, BUT: Not Spawning Yet");
-            if (targetObject == null) return;
+            if (currentAmmunition_rocket <= 0) return;
 
-            CommanderData.LocalCommander.RPC_SpawnAmmunition(ammunition_rocket.ammunitionName, spawnPoint.position, spawnPoint.rotation, Object, targetId);
+            CommanderData.LocalCommander.RPC_SpawnAmmunition(
+                ammunition_rocket.ammunitionName, 
+                spawnPoint.position, 
+                spawnPoint.rotation, 
+                Object, 
+                targetId
+            );
+
+            SetRocketVisualInternal(visualIndex, false);
+
             currentAmmunition_rocket--;
         }
 
         private void LookAtTarget(Transform target)
         {
+            if (barrelTransform == null) return;
             Vector3 directionToTarget = target.position - barrelTransform.position;
             Vector3 localDirection = transform.InverseTransformDirection(directionToTarget);
             Quaternion targetLocalRotation = Quaternion.LookRotation(localDirection);
