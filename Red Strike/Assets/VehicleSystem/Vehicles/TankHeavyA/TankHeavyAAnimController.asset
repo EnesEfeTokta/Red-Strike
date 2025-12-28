@@ -15,20 +15,22 @@ MonoBehaviour:
   vehicleName: Tank Heavy A
   vehicleType: 4
   vehiclePrefab: {fileID: 8630292313461707713, guid: 5da929ed199dc6c43aa09de6252e7e4a, type: 3}
-  maxCreatableCount: 2
-  speed: 10
+  maxCreatableCount: 1
+  speed: 14
   coverageAreaRadius: 50
-  turnSpeed: 120
+  turnSpeed: 20
   stoppingDistance: 40
-  maxHealth: 100
-  fuelCapacity: 100
-  fuelConsumptionRate: 0.7
+  maxHealth: 1200
+  fuelCapacity: 600
+  fuelConsumptionRate: 0.1
   explosionEffect: {fileID: 198016111470434822, guid: 351b5b76ddf0a404d9550315f99917aa, type: 3}
   engineSound: {fileID: 8300000, guid: 1a9227f4b0059084ebfab2f7f0119f9b, type: 3}
   ammunitionSettings:
   - isEnabled: 1
     ammunitionType: 0
     maxAmmunition: 10
+    fireRate: 5
     reloadTime: 10
+    damage: 450
     ammunition: {fileID: 11400000, guid: 5ef71d70c67b5bc4d964f8e71bd005ea, type: 2}
     sound: {fileID: 8300000, guid: 14866e6df058b894085e07d269b0a39f, type: 3}

@@ -26,6 +26,7 @@ namespace VehicleSystem.Vehicles.Infantry
                 ammunition_bullet.ammunitionName,
                 barrelPoint.position,
                 barrelPoint.rotation,
+                vehicleData.ammunitionSettings[0].damage,
                 Object);
 
             currentAmmunition_bullet--;

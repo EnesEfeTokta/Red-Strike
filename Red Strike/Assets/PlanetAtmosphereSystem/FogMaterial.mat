@@ -54,6 +54,6 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _SunDirection: {r: 0.117058024, g: -0.7386313, b: -0.6638685, a: 0}
+    - _SunDirection: {r: 0.100319535, g: -0.8162374, b: -0.56893986, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
