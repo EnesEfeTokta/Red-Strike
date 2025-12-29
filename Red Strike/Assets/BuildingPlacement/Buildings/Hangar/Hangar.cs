@@ -21,7 +21,7 @@ namespace BuildingPlacement.Buildings
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            vehicleSpawnPoint = transform.position + transform.forward * 20f;
+            vehicleSpawnPoint = transform.position + transform.forward * 5f;
             vehicleSpawnPoint.y += 2f;
         }
 
@@ -53,6 +53,7 @@ namespace BuildingPlacement.Buildings
                 InProductionUnitName = vehicleType.ToString();
                 IsReady = false;
                 audioSource.PlayOneShot(vehicleCreateSound);
+                animator.SetTrigger("isProducing");
                 CreateVehicleInstance(vehicleType);
             }
             else

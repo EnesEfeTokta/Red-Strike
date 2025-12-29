@@ -90,9 +90,14 @@ MonoBehaviour:
   _teamId: 0
   unitType: 1
   buildingData: {fileID: 11400000, guid: 99f7c912324c6684c915f1110a575fbf, type: 2}
-  maxCapacity: 500
-  currentCapacity: 0
-  maxDensity: 3
+  _health: 0
+  maxHealth: 0
+  buildingName: 
+  animator: {fileID: 568944907002728124}
+  maxFuelCapacity: 500
+  currentFuelCapacity: 0
+  maxDensityCapacity: 3
+  currentDensity: 3
   rechargeRate: 10
   isActive: 1
 --- !u!114 &7065488202933544916
@@ -4773,6 +4778,7 @@ GameObject:
   - component: {fileID: 3553582975423387027}
   - component: {fileID: 3213248830561087509}
   - component: {fileID: 5118355424018258012}
+  - component: {fileID: 568944907002728124}
   m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
@@ -4851,6 +4857,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &568944907002728124
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197042301854955192}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4af4e659026fe894f9121d7f73d3d4cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4669770213191156624
 GameObject:
   m_ObjectHideFlags: 0
