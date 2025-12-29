@@ -7,9 +7,10 @@ namespace BuildingPlacement.Buildings
     public class EnergyTower : Building
     {
         [Header("Energy Tower Settings")]
-        public float maxCapacity = 500f;
-        public float currentCapacity = 0f;
-        public int maxDensity = 3;
+        public float maxFuelCapacity = 500f;
+        public float currentFuelCapacity = 0f;
+        public int maxDensityCapacity = 3;
+        public int currentDensity = 3;
         public float rechargeRate = 10f;
         public bool isActive = true;
 
@@ -17,31 +18,31 @@ namespace BuildingPlacement.Buildings
 
         private void Start()
         {
-            currentCapacity = maxCapacity;
+            currentFuelCapacity = maxFuelCapacity;
         }
 
         private void Update()
         {
             if (!isActive) return;
 
-            if (currentCapacity < maxCapacity)
+            if (currentFuelCapacity < maxFuelCapacity)
             {
-                currentCapacity += rechargeRate * Time.deltaTime;
-                if (currentCapacity > maxCapacity) currentCapacity = maxCapacity;
+                currentFuelCapacity += rechargeRate * Time.deltaTime;
+                if (currentFuelCapacity > maxFuelCapacity) currentFuelCapacity = maxFuelCapacity;
             }
         }
 
         public bool IsAvailable()
         {
-            return connectedVehicles.Count < maxDensity && isActive && currentCapacity > 5f;
+            return connectedVehicles.Count < maxDensityCapacity && isActive && currentFuelCapacity > 5f;
         }
 
         public float GiveEnergy(float requestedAmount)
         {
-            if (!isActive || currentCapacity <= 0) return 0f;
+            if (!isActive || currentFuelCapacity <= 0) return 0f;
 
-            float amountToGive = Mathf.Min(requestedAmount, currentCapacity);
-            currentCapacity -= amountToGive;
+            float amountToGive = Mathf.Min(requestedAmount, currentFuelCapacity);
+            currentFuelCapacity -= amountToGive;
 
             return amountToGive;
         }
@@ -53,7 +54,7 @@ namespace BuildingPlacement.Buildings
                 return true; 
             }
 
-            if (connectedVehicles.Count < maxDensity)
+            if (connectedVehicles.Count < maxDensityCapacity)
             {
                 connectedVehicles.Add(vehicle);
                 return true;
@@ -70,9 +71,11 @@ namespace BuildingPlacement.Buildings
             }
         }
 
-        public (float current, float max, int count, int limit) GetStatus()
+        public (float currentFuelCapacity, float maxFuelCapacity,
+                int connectedVehicles, int maxDensityCapacity
+                ) GetStatus()
         {
-            return (currentCapacity, maxCapacity, connectedVehicles.Count, maxDensity);
+            return (currentFuelCapacity, maxFuelCapacity, connectedVehicles.Count, maxDensityCapacity);
         }
     }
 }
