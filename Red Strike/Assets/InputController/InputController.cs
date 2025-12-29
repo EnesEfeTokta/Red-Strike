@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using VehicleSystem;
 using BuildingPlacement;
@@ -8,6 +7,7 @@ using UnityEngine.UIElements;
 using NetworkingSystem;
 using AmmunitionSystem;
 using UserSystem;
+using GameStateSystem;
 
 namespace InputController
 {
@@ -47,8 +47,6 @@ namespace InputController
 
         private SelectionHighlighter targetHighlighter;
         private SelectionHighlighter tempBuildingHighlighter;
-        
-        private Dictionary<string, int> buildingCounts = new Dictionary<string, int>();
 
         private void Awake()
         {
@@ -120,48 +118,57 @@ namespace InputController
             {
                 Vector3 spawnPosition = hitInfo.point;
 
-                if (IsPositionValid(spawnPosition))
+                if (!IsPositionValid(spawnPosition))
                 {
-                    bool isThereMainBuilding = FindObjectsByType<BuildingPlacement.Buildings.MainStation>(FindObjectsSortMode.None)
-                        .Any(station =>
-                        {
-                            var unit = station.GetComponent<Unit.Unit>();
-                            return unit != null && unit.teamId == teamId;
-                        });
-
-                    if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
-                    {
-                        //Debug.LogWarning("Önce bir Ana Üs (Main Station) yerleştirmelisiniz!");
-                        audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
-                        return;
-                    }
-
-                    if (currentSelectedBuilding.buildingName == "Main Station" && isThereMainBuilding)
-                    {
-                        //Debug.LogWarning("Zaten bir Ana Üs'sünüz var.");
-                        audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
-                        return;
-                    }
-
-                    if (CommanderData.LocalCommander != null)
-                    {
-                        spawnPosition = spawnPosition + new Vector3(0, currentSelectedBuilding.heightOffset, 0);
-                        CommanderData.LocalCommander.RPC_SpawnBuilding(currentSelectedBuilding.buildingName, spawnPosition);
-                        //Debug.Log($"<color=green>Server'a İstek:</color> {currentSelectedBuilding.buildingName} kuruluyor...");
-                        audioSource.PlayOneShot(placementSound);
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    currentSelectedBuilding = null;
+                    //Debug.LogWarning("Bu konumda başka bir nesne var. Lütfen başka bir yere yerleştirin.");
+                    audioSource.PlayOneShot(errorSound);
+                    return;
                 }
-                else
+
+                bool isThereMainBuilding = FindObjectsByType<BuildingPlacement.Buildings.MainStation>(FindObjectsSortMode.None)
+                    .Any(station =>
+                    {
+                        var unit = station.GetComponent<Unit.Unit>();
+                        return unit != null && unit.teamId == teamId;
+                    });
+
+                if (currentSelectedBuilding.buildingName != "Main Station" && !isThereMainBuilding)
                 {
-                   //Debug.Log("Bu alan inşaat için uygun değil (Çok yakın veya engel var).");
-                    audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
+                    //Debug.LogWarning("Önce bir Ana Üs (Main Station) yerleştirmelisiniz!");
+                    audioSource.PlayOneShot(errorSound);
+                    return;
                 }
+
+                if (currentSelectedBuilding.buildingName == "Main Station" && isThereMainBuilding)
+                {
+                    //Debug.LogWarning("Zaten bir Ana Üs'sünüz var.");
+                    audioSource.PlayOneShot(errorSound);
+                    return;
+                }
+
+                if (CommanderData.LocalCommander != null)
+                {
+                    bool isLimitReached = GameStateManager.Instance.HasReachedLimit(
+                        teamId,
+                        currentSelectedBuilding.buildingName,
+                        currentSelectedBuilding.maxCreatableCount
+                    );
+
+                    if (isLimitReached)
+                    {
+                        //Debug.LogWarning("Bu bina türünden maksimum sayıya ulaştınız.");
+                        audioSource.PlayOneShot(errorSound);
+                        return;
+                    }
+
+                    spawnPosition = spawnPosition + new Vector3(0, currentSelectedBuilding.heightOffset, 0);
+                    CommanderData.LocalCommander.RPC_SpawnBuilding(currentSelectedBuilding.buildingName, spawnPosition);
+
+                    audioSource.PlayOneShot(placementSound);
+                }
+                else return;
+
+                currentSelectedBuilding = null;
             }
         }
 
@@ -223,8 +230,8 @@ namespace InputController
                 }
                 else
                 {
-                    audioSource.PlayOneShot(errorSound); // TODO: Burası bildirimler ile değiştirilebilir.
                     //Debug.Log("Düşmanı seçmek için önce kendi aracınızı seçin.");
+                    audioSource.PlayOneShot(errorSound);
                 }
                 return;
             }
@@ -249,8 +256,11 @@ namespace InputController
                     tempBuildingHighlighter?.EnableHighlight();
 
                     var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
-                    if (building != null) buildingHUDController.ShowBuildingDetails(building);
-                    audioSource.PlayOneShot(selectionSound);
+                    if (building != null)
+                    {
+                        buildingHUDController.ShowBuildingDetails(building);
+                        audioSource.PlayOneShot(selectionSound);
+                    }
                     break;
             }
         }
@@ -278,7 +288,7 @@ namespace InputController
             if (hl == null) hl = obj.GetComponentInParent<SelectionHighlighter>();
             return hl;
         }
-        
+
         private bool IsPointerOverUI()
         {
             if (gameUIDocument == null) return false;

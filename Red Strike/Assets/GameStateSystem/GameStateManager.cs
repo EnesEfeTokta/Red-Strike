@@ -3,6 +3,7 @@ using UnityEngine;
 using UISystem;
 using BuildingPlacement.Buildings;
 using VehicleSystem.Vehicles;
+using System.Collections.Generic;
 
 namespace GameStateSystem
 {
@@ -13,7 +14,7 @@ namespace GameStateSystem
         [Networked] public int WinningTeamId { get; set; } = -1;
         public int LocalPlayerTeamId = 0;
 
-        [Networked, Capacity(32)] 
+        [Networked, Capacity(32)]
         private NetworkDictionary<NetworkString<_32>, int> UnitCounts { get; }
 
         private ChangeDetector _changes;
@@ -39,7 +40,7 @@ namespace GameStateSystem
                 WinningTeamId = -1;
                 UnitCounts.Clear();
             }
-            
+
             UpdateAllUI();
         }
 
@@ -47,24 +48,29 @@ namespace GameStateSystem
         {
             foreach (var change in _changes.DetectChanges(this))
             {
-                if (change == nameof(WinningTeamId))
-                {
-                    HandleGameOverUI();
-                }
-                
-                if (change == nameof(UnitCounts))
-                {
-                    UpdateAllUI();
-                }
+                if (change == nameof(WinningTeamId)) HandleGameOverUI();
+                if (change == nameof(UnitCounts)) UpdateAllUI();
             }
+        }
+
+        public bool HasReachedLimit(int teamId, string unitName, int maxCapacity)
+        {
+            string key = $"{teamId}_{unitName}";
+            int currentCount = UnitCounts.ContainsKey(key) ? UnitCounts[key] : 0;
+            return currentCount >= maxCapacity;
+        }
+
+        public int GetCurrentUnitCount(int teamId, string unitName)
+        {
+            string key = $"{teamId}_{unitName}";
+            return UnitCounts.ContainsKey(key) ? UnitCounts[key] : 0;
         }
 
         public void ReportTeamLoss(int losingTeamId)
         {
             if (Object.HasStateAuthority)
             {
-                int winnerId = (losingTeamId == 1) ? 2 : 1;
-                WinningTeamId = winnerId;
+                WinningTeamId = (losingTeamId == 1) ? 2 : 1;
             }
             else
             {
@@ -75,8 +81,7 @@ namespace GameStateSystem
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
         private void RPC_ReportLoss(int losingTeamId)
         {
-            int winnerId = (losingTeamId == 1) ? 2 : 1;
-            WinningTeamId = winnerId;
+            WinningTeamId = (losingTeamId == 1) ? 2 : 1;
         }
 
         private void HandleGameOverUI()
@@ -97,7 +102,7 @@ namespace GameStateSystem
             }
             else
             {
-                int maxCap = (unit is Building) ? ((Building)unit).buildingData.maxCreatableCount : (unit is Vehicle) ? ((Vehicle)unit).vehicleData.maxCreatableCount : 0;
+                int maxCap = GetMaxCapacity(unit);
                 RPC_ModifyUnitCount(unit.teamId, GetUnitName(unit), maxCap, 1);
             }
         }
@@ -118,14 +123,9 @@ namespace GameStateSystem
         private void RPC_ModifyUnitCount(int teamId, string unitName, int maxCapacity, int changeAmount)
         {
             string key = $"{teamId}_{unitName}";
+            int current = UnitCounts.ContainsKey(key) ? UnitCounts[key] : 0;
             
-            int current = 0;
-            if (UnitCounts.ContainsKey(key))
-            {
-                current = UnitCounts[key];
-            }
-
-            int newValue = Mathf.Clamp(current + changeAmount, 0, maxCapacity);
+            int newValue = Mathf.Max(0, current + changeAmount);
             UnitCounts.Set(key, newValue);
         }
 
@@ -133,14 +133,9 @@ namespace GameStateSystem
         {
             string unitName = GetUnitName(unit);
             string key = $"{unit.teamId}_{unitName}";
-
-            int current = 0;
-            if (UnitCounts.ContainsKey(key))
-            {
-                current = UnitCounts[key];
-            }
-
-            int newValue = Mathf.Clamp(current + amount, 0, GetMaxCapacity(unit));
+            int current = UnitCounts.ContainsKey(key) ? UnitCounts[key] : 0;
+            
+            int newValue = Mathf.Max(0, current + amount);
             UnitCounts.Set(key, newValue);
         }
 
@@ -154,13 +149,7 @@ namespace GameStateSystem
                 if (parts.Length < 2) continue;
 
                 if (int.TryParse(parts[0], out int teamId))
-                {
-                    string unitName = parts[1];
-                    int count = kvp.Value;
-                    int maxCap = 10; // Maksimum kapasiteyi bilmediğimiz için 10 olarak başlatıyoruz
-
-                    deploymentMonitorHUDController.UpdateUnitSlots(teamId, unitName, count, maxCap);
-                }
+                    deploymentMonitorHUDController.UpdateUnitSlots(teamId, parts[1], kvp.Value, 10); // 10 sayısı örnek max kapasite olarak kullanıldı.
             }
         }
 

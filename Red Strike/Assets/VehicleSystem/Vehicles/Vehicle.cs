@@ -4,6 +4,7 @@ using System.Linq;
 using BuildingPlacement.Buildings;
 using Fusion;
 using GameStateSystem;
+using NetworkingSystem;
 
 namespace VehicleSystem.Vehicles
 {
@@ -24,9 +25,24 @@ namespace VehicleSystem.Vehicles
 
         [Header("Energy Warning Settings")]
         [Range(0f, 1f)]
-        public float lowEnergyThreshold = 0.3f; // %30'un altında uyarı
+        public float lowEnergyThreshold = 0.3f;
 
         [Networked] public NetworkId TargetNetworkId { get; set; }
+
+        // [Networked] ekledik ki UI ve Logic her yerde aynı olsun
+        [Networked] protected int currentAmmunition_bullet { get; set; }
+        [Networked] protected int currentAmmunition_rocket { get; set; }
+
+        // Bu değişkenler yerel kalabilir
+        protected float bulletCooldownTimer = 0f;
+        protected float rocketCooldownTimer = 0f;
+        protected int reloadCounter_bullet = 0;
+        protected int reloadCounter_rocket = 0;
+
+        protected Ammunition ammunition_bullet;
+        protected VehicleAmmunition bulletAmmunitionSettings;
+        protected Ammunition ammunition_rocket;
+        protected VehicleAmmunition rocketAmmunitionSettings;
 
         private ChangeDetector _changes;
 
@@ -39,27 +55,10 @@ namespace VehicleSystem.Vehicles
         protected float maxHealth;
         protected float stoppingDistance;
 
-        // Bullet ammunition
-        protected int currentAmmunition_bullet = 30;
-        protected int reloadCounter_bullet = 0;
-        protected Ammunition ammunition_bullet;
-        protected VehicleAmmunition bulletAmmunitionSettings;
-        protected float bulletCooldownTimer = 0f;
-
-        // Rocket ammunition
-        protected int currentAmmunition_rocket = 10;
-        protected int reloadCounter_rocket = 0;
-        protected Ammunition ammunition_rocket;
-        protected VehicleAmmunition rocketAmmunitionSettings;
-        protected float rocketCooldownTimer = 0f;
-
         protected bool isMoving = false;
-
         protected GameObject nearestEnergyTower;
         protected bool isRefueling = false;
-
         protected EnergyTower targetTowerScript;
-
         protected VehicleUI vehicleUI;
 
         protected AudioClip engineSound;
@@ -75,18 +74,16 @@ namespace VehicleSystem.Vehicles
 
             engineSource.clip = vehicleData.engineSound;
             engineSource.Play();
-
-            Setup();
-            UpdateVehicleStatusIcon();
         }
 
         public override void Spawned()
         {
             base.Spawned();
-
             _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
 
+            Setup();
             UpdateTargetObject();
+            UpdateVehicleStatusIcon();
         }
 
         public override void Render()
@@ -98,6 +95,9 @@ namespace VehicleSystem.Vehicles
                     UpdateTargetObject();
                 }
             }
+
+            if (bulletCooldownTimer > 0) bulletCooldownTimer -= Time.deltaTime;
+            if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
         }
 
         public virtual void SetTargetEnemy(GameObject enemy)
@@ -181,21 +181,36 @@ namespace VehicleSystem.Vehicles
             }
         }
 
-        public (string, float, int, int, float, int, int) GetVehicleStatus()
+        public (string vehicleName,
+                float currentHealth, float maxHealth,
+                float currentFuel, float maxFuel,
+                int bulletCurrent, int bulletMax, int bulletReloadCount,
+                int rocketCurrent, int rocketMax, int rocketReloadCount
+                ) GetVehicleStatus()
         {
             return (
-                vehicleData.vehicleName,
-                fuelLevel, currentAmmunition_bullet,
-                bulletAmmunitionSettings.maxAmmunition,
-                health, reloadCounter_bullet, reloadCounter_rocket
+                vehicleData.vehicleName, // vehicle name
+
+                health, maxHealth, // health current and max
+
+                fuelLevel, maxFuel, // fuel current and max
+
+                currentAmmunition_bullet, // bullet current and max
+                bulletAmmunitionSettings != null ? bulletAmmunitionSettings.maxAmmunition : 0,
+                reloadCounter_bullet,
+
+                currentAmmunition_rocket, // rocket current and max
+                rocketAmmunitionSettings != null ? rocketAmmunitionSettings.maxAmmunition : 0,
+                reloadCounter_rocket
                 );
         }
 
-        public (int currentRockets, int maxRockets) GetRocketStatus()
+        public override void FixedUpdateNetwork()
         {
-            if (rocketAmmunitionSettings != null)
-                return (currentAmmunition_rocket, rocketAmmunitionSettings.maxAmmunition);
-            return (0, 0);
+            if (bulletCooldownTimer > 0) bulletCooldownTimer -= Runner.DeltaTime;
+            if (rocketCooldownTimer > 0) rocketCooldownTimer -= Runner.DeltaTime;
+
+            UpdateVehicleStatusIcon();
         }
 
         protected virtual void Update()
@@ -294,6 +309,7 @@ namespace VehicleSystem.Vehicles
 
         public virtual void TryFireBullets()
         {
+            if (!Object.HasStateAuthority) return;
             if (bulletAmmunitionSettings == null || !bulletAmmunitionSettings.isEnabled) return;
 
             if (bulletCooldownTimer <= 0)
@@ -301,22 +317,21 @@ namespace VehicleSystem.Vehicles
                 if (currentAmmunition_bullet > 0)
                 {
                     FireShot();
-
-                    EnableMuzzleFlashEffects();
-                    Invoke("DisableMuzzleFlashLights", 0.1f);
+                    RPC_PlayMuzzleEffects();
 
                     bulletCooldownTimer = bulletAmmunitionSettings.fireRate;
                 }
                 else
                 {
-                    Invoke(nameof(ReloadAmmunition), bulletAmmunitionSettings.reloadTime);
-                    bulletCooldownTimer = bulletAmmunitionSettings.fireRate * 2;
+                    bulletCooldownTimer = bulletAmmunitionSettings.reloadTime;
+                    ReloadAmmunition();
                 }
             }
         }
 
         public virtual void TryFireRockets()
         {
+            if (!Object.HasStateAuthority) return;
             if (rocketAmmunitionSettings == null || !rocketAmmunitionSettings.isEnabled) return;
 
             if (rocketCooldownTimer <= 0)
@@ -324,37 +339,23 @@ namespace VehicleSystem.Vehicles
                 if (currentAmmunition_rocket > 0)
                 {
                     LaunchRocket();
-
-                    EnableMuzzleFlashEffects();
-                    Invoke(nameof(DisableMuzzleFlashLights), 0.1f);
-
+                    RPC_PlayMuzzleEffects();
                     rocketCooldownTimer = rocketAmmunitionSettings.fireRate;
                 }
                 else
                 {
-                    Invoke(nameof(ReloadRocketAmmunition), rocketAmmunitionSettings.reloadTime);
-                    rocketCooldownTimer = rocketAmmunitionSettings.fireRate * 2;
+                    rocketCooldownTimer = rocketAmmunitionSettings.reloadTime;
+                    ReloadRocketAmmunition();
                 }
             }
         }
 
-        private void EnableMuzzleFlashEffects()
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        protected void RPC_PlayMuzzleEffects()
         {
-            foreach (var effect in muzzleFlashEffects)
-            {
-                if (effect != null)
-                {
-                    effect.Play();
-                }
-            }
-
-            foreach (var light in muzzleFlashLights)
-            {
-                if (light != null)
-                {
-                    light.enabled = true;
-                }
-            }
+            foreach (var effect in muzzleFlashEffects) if (effect != null) effect.Play();
+            foreach (var light in muzzleFlashLights) if (light != null) light.enabled = true;
+            Invoke(nameof(DisableMuzzleFlashLights), 0.1f);
         }
 
         private void DisableMuzzleFlashLights()
@@ -395,16 +396,17 @@ namespace VehicleSystem.Vehicles
 
         public override void TakeDamage(float damage)
         {
+            if (!Object.HasStateAuthority) return;
+
             health -= damage;
             health = Mathf.Max(0, health);
 
-            //Debug.Log($"Vehicle {vehicleData.vehicleName} took {damage} damage. Remaining health: {health}");
-
             if (health <= 0)
             {
-                //Debug.Log($"Vehicle {vehicleData.vehicleName} destroyed.");
                 GameStateManager.Instance.ReportUnitDestroyed(this);
-                Instantiate(vehicleData.explosionEffect, transform.position, Quaternion.identity);
+                if (vehicleData.explosionEffect != null)
+                    CommanderData.LocalCommander.RPC_SpawnExplosionEffect(transform.position);
+
                 Runner.Despawn(Object);
             }
         }

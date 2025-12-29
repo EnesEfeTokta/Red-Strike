@@ -9,10 +9,10 @@ namespace UISystem
         private VisualElement detailsPanel;
         
         private Label vehicleNameLabel;
-        private Label fuelLabel;
+        private ProgressBar fuelProgressBar;
         private Label ammoLabel;
         private Label targetLabel;
-        private Label healthLabel;
+        private ProgressBar healthProgressBar;
 
         private Vehicle currentlySelectedVehicle;
 
@@ -29,10 +29,10 @@ namespace UISystem
             }
 
             vehicleNameLabel = detailsPanel.Q<Label>("shared-vehicle-name-label");
-            fuelLabel = detailsPanel.Q<Label>("shared-vehicle-fuel-label");
+            fuelProgressBar = detailsPanel.Q<ProgressBar>("shared-vehicle-fuel-bar");
             ammoLabel = detailsPanel.Q<Label>("shared-vehicle-ammo-label");
             targetLabel = detailsPanel.Q<Label>("shared-vehicle-target-label");
-            healthLabel = detailsPanel.Q<Label>("shared-vehicle-health-label");
+            healthProgressBar = detailsPanel.Q<ProgressBar>("shared-vehicle-health-bar");
 
             HideVehicleDetails();
         }
@@ -53,17 +53,25 @@ namespace UISystem
 
             var status = currentlySelectedVehicle.GetVehicleStatus();
             
-            string vehicleName = status.Item1;
-            string fuel = status.Item2.ToString("F1");
-            string ammo = $"{status.Item3} / {status.Item4}";
+            string vehicleName = status.vehicleName;
+            float currentHealth = status.currentHealth;
+            float maxHealth = status.maxHealth;
+            float currentFuel = status.currentFuel;
+            float maxFuelValue = status.maxFuel;
+            int bulletCurrent = status.bulletCurrent;
+            int bulletMax = status.bulletMax;
+            int bulletReloadCount = status.bulletReloadCount;
+            int rocketCurrent = status.rocketCurrent;
+            int rocketMax = status.rocketMax;
+            int rocketReloadCount = status.rocketReloadCount;
+
             string targetName = currentlySelectedVehicle.targetObject != null ? currentlySelectedVehicle.targetObject.name : "None";
-            string health = status.Item5.ToString("F0");
 
             if(vehicleNameLabel != null) vehicleNameLabel.text = vehicleName;
-            if(fuelLabel != null) fuelLabel.text = $"Fuel: {fuel}";
-            if(ammoLabel != null) ammoLabel.text = $"Ammo: {ammo}";
+            if(healthProgressBar != null) { healthProgressBar.highValue = maxHealth; healthProgressBar.value = currentHealth; }
+            if(fuelProgressBar != null) { fuelProgressBar.highValue = maxFuelValue; fuelProgressBar.value = currentFuel; }
+            if(ammoLabel != null) ammoLabel.text = $"Bullets: {bulletCurrent}/{bulletMax} | Rockets: {rocketCurrent}/{rocketMax}";
             if(targetLabel != null) targetLabel.text = $"Target: {targetName}";
-            if(healthLabel != null) healthLabel.text = $"Health: {health}";
         }
 
         public void HideVehicleDetails()

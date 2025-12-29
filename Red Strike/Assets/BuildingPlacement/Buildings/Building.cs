@@ -8,19 +8,20 @@ namespace BuildingPlacement.Buildings
     {
         public BuildingPlacement.Building buildingData;
 
-        [Networked] protected float health { get; set; }
-        public float Health { get { return health; } }
-
-        public string BuildingName => buildingData != null ? buildingData.name : gameObject.name;
+        [Networked] public float health { get; set; }
+        public float maxHealth;
+        public string buildingName;
 
         public override void Spawned()
         {
             if (Object.HasStateAuthority)
             {
                 health = buildingData.maxHealth;
+                maxHealth = buildingData.maxHealth;
+                buildingName = buildingData.buildingName;
             }
         }
-
+    
         public override void TakeDamage(float damage)
         {
             if (!Object.HasStateAuthority) return;

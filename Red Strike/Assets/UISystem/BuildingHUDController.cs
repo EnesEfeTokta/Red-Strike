@@ -1,16 +1,17 @@
 using UnityEngine.UIElements;
 using BuildingPlacement.Buildings;
 using VehicleSystem;
+using UnityEngine;
 
 namespace UISystem
 {
     public class BuildingHUDController : GameHUDController
     {
         private VisualElement buildingDetailsPanel;
-        
-        private Label sharedBuildTypeLabel;
-        private Label sharedHealthLabel;
-        
+
+        private Label buildTypeLabel;
+        private ProgressBar healthProgressBar;
+
         private VisualElement mainStationContent;
         private VisualElement hangarContent;
         private VisualElement energyTowerContent;
@@ -18,8 +19,8 @@ namespace UISystem
         private Label msShieldLabel;
         private Label hIsReadyLabel;
         private Label hProductionLabel;
-        private Label etCapacityLabel;
-        private Label etDensityLabel; 
+        private ProgressBar fuelCapacityProgressBar;
+        private Label etDensityLabel;
 
         protected Building currentlySelectedBuilding;
 
@@ -28,8 +29,8 @@ namespace UISystem
             base.OnEnable();
 
             buildingDetailsPanel = root.Q<VisualElement>("building-details-panel");
-            sharedBuildTypeLabel = root.Q<Label>("shared-build-type-label");
-            sharedHealthLabel = root.Q<Label>("shared-health-label");
+            buildTypeLabel = root.Q<Label>("shared-build-type-label");
+            healthProgressBar = root.Q<ProgressBar>("shared-build-health-bar");
 
             mainStationContent = root.Q<VisualElement>("main-station-content-area");
             hangarContent = root.Q<VisualElement>("hangar-content-area");
@@ -40,7 +41,7 @@ namespace UISystem
 
             if (energyTowerContent != null)
             {
-                etCapacityLabel = energyTowerContent.Q<Label>("capacity-label");
+                fuelCapacityProgressBar = energyTowerContent.Q<ProgressBar>("energy-tower-fuel-bar");
                 etDensityLabel = energyTowerContent.Q<Label>("density-label");
             }
 
@@ -48,7 +49,7 @@ namespace UISystem
             {
                 hIsReadyLabel = hangarContent.Q<Label>("is-ready-label");
                 hProductionLabel = hangarContent.Q<Label>("in-production-label");
-                
+
                 BindHangarButtons();
             }
 
@@ -56,9 +57,9 @@ namespace UISystem
             var hangarBtn = root.Q<Button>("hangar-button");
             var energyTowerBtn = root.Q<Button>("energy-tower-button");
 
-            if(mainStationBtn != null) mainStationBtn.clicked += () => OnBuildingCategoryClicked("Main Station");
-            if(hangarBtn != null) hangarBtn.clicked += () => OnBuildingCategoryClicked("Hangar");
-            if(energyTowerBtn != null) energyTowerBtn.clicked += () => OnBuildingCategoryClicked("Energy Tower");
+            if (mainStationBtn != null) mainStationBtn.clicked += () => OnBuildingCategoryClicked("Main Station");
+            if (hangarBtn != null) hangarBtn.clicked += () => OnBuildingCategoryClicked("Hangar");
+            if (energyTowerBtn != null) energyTowerBtn.clicked += () => OnBuildingCategoryClicked("Energy Tower");
 
             HideBuildingDetails();
         }
@@ -77,21 +78,21 @@ namespace UISystem
             if (building == null) return;
 
             currentlySelectedBuilding = building;
-            sharedBuildTypeLabel.text = building.BuildingName;
+            buildTypeLabel.text = building.buildingName;
 
             HideAllContents();
 
             if (building is MainStation)
             {
-                if(mainStationContent != null) mainStationContent.style.display = DisplayStyle.Flex;
+                if (mainStationContent != null) mainStationContent.style.display = DisplayStyle.Flex;
             }
             else if (building is Hangar)
             {
-                if(hangarContent != null) hangarContent.style.display = DisplayStyle.Flex;
+                if (hangarContent != null) hangarContent.style.display = DisplayStyle.Flex;
             }
             else if (building is EnergyTower)
             {
-                if(energyTowerContent != null) energyTowerContent.style.display = DisplayStyle.Flex;
+                if (energyTowerContent != null) energyTowerContent.style.display = DisplayStyle.Flex;
             }
 
             buildingDetailsPanel.style.display = DisplayStyle.Flex;
@@ -100,7 +101,7 @@ namespace UISystem
         public void HideBuildingDetails()
         {
             currentlySelectedBuilding = null;
-            if(buildingDetailsPanel != null)
+            if (buildingDetailsPanel != null)
                 buildingDetailsPanel.style.display = DisplayStyle.None;
         }
 
@@ -115,7 +116,14 @@ namespace UISystem
         {
             if (currentlySelectedBuilding == null) return;
 
-            sharedHealthLabel.text = $"Health: {currentlySelectedBuilding.Health:F0}";
+            float currentHealth = currentlySelectedBuilding.health;
+            float maxHealth = currentlySelectedBuilding.maxHealth;
+
+            if (healthProgressBar != null)
+            {
+                healthProgressBar.highValue = maxHealth;
+                healthProgressBar.value = currentHealth;
+            }
 
             if (currentlySelectedBuilding is MainStation ms)
             {
@@ -124,12 +132,20 @@ namespace UISystem
             else if (currentlySelectedBuilding is Hangar hg)
             {
                 if (hIsReadyLabel != null) hIsReadyLabel.text = $"Is Ready: {hg.IsReady}";
-                if (hProductionLabel != null) hProductionLabel.text = $"Prod: {hg.InProductionUnitName}"; 
+                if (hProductionLabel != null) hProductionLabel.text = $"Prod: {hg.InProductionUnitName}";
             }
             else if (currentlySelectedBuilding is EnergyTower et)
             {
-                if (etCapacityLabel != null) etCapacityLabel.text = $"Capacity: {et.GetStatus().current:F0} / {et.GetStatus().max:F0}";
-                if (etDensityLabel != null) etDensityLabel.text = $"Density: {et.GetStatus().count:F0} / {et.GetStatus().limit:F0}";
+                var status = et.GetStatus();
+
+                if (fuelCapacityProgressBar != null)
+                {
+                    fuelCapacityProgressBar.highValue = status.maxFuelCapacity;
+                    fuelCapacityProgressBar.value = status.currentFuelCapacity;
+                }
+
+                if (etDensityLabel != null)
+                    etDensityLabel.text = $"Density: {status.connectedVehicles:F0} / {status.maxDensityCapacity:F0}";
             }
         }
 
@@ -142,7 +158,7 @@ namespace UISystem
                 Button btn = hangarContent.Q<Button>(btnName);
                 if (btn != null)
                 {
-                    btn.clicked += () => 
+                    btn.clicked += () =>
                     {
                         if (currentlySelectedBuilding is Hangar currentHangar)
                         {

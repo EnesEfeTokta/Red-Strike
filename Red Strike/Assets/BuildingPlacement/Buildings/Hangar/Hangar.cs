@@ -1,17 +1,17 @@
 using UnityEngine;
 using VehicleSystem;
 using NetworkingSystem;
+using GameStateSystem;
+using System.Linq;
 
 namespace BuildingPlacement.Buildings
 {
     public class Hangar : Building
     {
-        // TEST
         public bool IsReady = true;
         public string InProductionUnitName = "None";
 
         private Vector3 vehicleSpawnPoint;
-
         public VehiclesDatabase vehiclesDatabase;
 
         private AudioSource audioSource;
@@ -21,25 +21,42 @@ namespace BuildingPlacement.Buildings
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
-
             vehicleSpawnPoint = transform.position + transform.forward * 20f;
             vehicleSpawnPoint.y += 2f;
         }
 
         public void CreateVehicle(VehicleTypes vehicleType)
         {
+            var targetVehicleData = vehiclesDatabase.vehicles.FirstOrDefault(v => v.vehicleType == vehicleType);
+
+            if (targetVehicleData == null) 
+            {
+                //Debug.LogError("Araç database'de bulunamadı!");
+                return;
+            }
+
+            bool limitReached = GameStateManager.Instance.HasReachedLimit(
+                teamId,
+                targetVehicleData.vehicleName, 
+                targetVehicleData.maxCreatableCount
+            );
+
+            if (limitReached)
+            {
+                //Debug.LogWarning("Araç limitine ulaşıldı!");
+                audioSource.PlayOneShot(errorSound);
+                return;
+            }
+
             if (CanCreateVehicle())
             {
                 InProductionUnitName = vehicleType.ToString();
                 IsReady = false;
-                
-                //Debug.Log($"Hangar started creating a new vehicle: {InProductionUnitName}");
                 audioSource.PlayOneShot(vehicleCreateSound);
                 CreateVehicleInstance(vehicleType);
             }
             else
             {
-                //Debug.LogWarning("Hangar is not ready to create a new vehicle or already in production.");
                 audioSource.PlayOneShot(errorSound);
             }
         }
@@ -51,8 +68,10 @@ namespace BuildingPlacement.Buildings
                 if (item.vehicleType == vehicleType)
                 {
                     CommanderData.LocalCommander.RPC_SpawnVehicle(item.vehicleName, vehicleSpawnPoint);
+                    
                     InProductionUnitName = "None";
                     IsReady = true;
+
                     return;
                 }
             }
