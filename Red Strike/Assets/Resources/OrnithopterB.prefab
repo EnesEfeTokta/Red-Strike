@@ -973,6 +973,7 @@ MonoBehaviour:
   _TargetNetworkId:
     Raw: 0
   engineSource: {fileID: 184298030015153318}
+  animator: {fileID: 5673592153760877326}
   patrolAltitude: 90
   patrolRadius: 250
   approachDistance: 80

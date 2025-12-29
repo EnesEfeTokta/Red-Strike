@@ -11,6 +11,7 @@ namespace BuildingPlacement.Buildings
         [Networked] public float health { get; set; }
         public float maxHealth;
         public string buildingName;
+        public Animator animator;
 
         public override void Spawned()
         {

@@ -67,6 +67,8 @@ namespace VehicleSystem.Vehicles
         protected AudioSource soundEffectSource;
         public AudioSource engineSource;
 
+        public Animator animator;
+
         protected virtual void Start()
         {
             vehicleUI = GetComponent<VehicleUI>();
@@ -372,11 +374,13 @@ namespace VehicleSystem.Vehicles
         protected virtual void FireShot()
         {
             soundEffectSource.PlayOneShot(bulletFireSound);
+            animator.SetTrigger("isBulletTypeAttacking");
         }
 
         protected virtual void LaunchRocket()
         {
             soundEffectSource.PlayOneShot(rocketFireSound);
+            animator.SetTrigger("isRocketTypeAttacking");
         }
 
         protected virtual void ReloadAmmunition()

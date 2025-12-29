@@ -13,6 +13,10 @@ namespace VehicleSystem.Vehicles
         public float rocketAttackRange = 40f;
         private float bulletAttackBuffer = 5.0f; 
 
+        private bool isExitingHangar = true; 
+        private float lifeTime = 0f;
+        private Vector3 startPosition;
+
         protected override void Start()
         {
             base.Start();
@@ -31,11 +35,46 @@ namespace VehicleSystem.Vehicles
             }
         }
 
+        public override void Spawned()
+        {
+            base.Spawned();
+
+            if (Object.HasStateAuthority)
+            {
+                isExitingHangar = true;
+                lifeTime = 0f;
+                startPosition = transform.position;
+            }
+        }
+
         public override void FixedUpdateNetwork()
         {
             base.FixedUpdateNetwork();
 
             if (!Object.HasStateAuthority) return;
+
+            if (isExitingHangar)
+            {
+                lifeTime += Runner.DeltaTime;
+
+                if (lifeTime < 2.5f)
+                {
+                    if(agent.enabled) agent.isStopped = true;
+                    return; 
+                }
+
+                transform.position += transform.forward * vehicleData.speed * Runner.DeltaTime;
+                
+                if(agent.enabled) agent.nextPosition = transform.position;
+
+                if (Vector3.Distance(startPosition, transform.position) >= 25.0f)
+                {
+                    isExitingHangar = false;
+                    if(agent.enabled) agent.isStopped = true;
+                }
+
+                return;
+            }
 
             if (fuelLevel <= 0 || isRefueling)
             {
@@ -70,7 +109,6 @@ namespace VehicleSystem.Vehicles
                 {
                     agent.isStopped = true;
                     isMoving = false;
-                    
                     RotateTowardsTarget();
                 }
             }
@@ -81,26 +119,17 @@ namespace VehicleSystem.Vehicles
         protected override void Update()
         {
             base.Update();
-            
-            if (!Object.HasStateAuthority)
-            {
-                UpdateSmokeEffect();
-                return;
-            }
-
-            bool actuallyMoving = agent != null && agent.enabled && agent.velocity.sqrMagnitude > 0.1f;
+            if (!Object.HasStateAuthority) { UpdateSmokeEffect(); return; }
+            bool actuallyMoving = (isExitingHangar && lifeTime > 1.0f) || (agent != null && agent.enabled && agent.velocity.sqrMagnitude > 0.1f);
             engineSource.volume = Mathf.Lerp(engineSource.volume, actuallyMoving ? 0.3f : 0.05f, Time.deltaTime * 2f);
-            
             UpdateSmokeEffect();
         }
 
         private void RotateTowardsTarget()
         {
             if (targetObject == null) return;
-
             Vector3 direction = (targetObject.transform.position - transform.position).normalized;
             direction.y = 0;
-
             if (direction != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(direction);
@@ -111,31 +140,19 @@ namespace VehicleSystem.Vehicles
         private void HandleRefuelingState()
         {
             isRefueling = true;
-
             if (nearestEnergyTower == null)
             {
                 FindNearestEnergyTower();
-                if (nearestEnergyTower == null)
-                {
-                    if (agent.enabled) agent.isStopped = true;
-                    isMoving = false;
-                    return;
-                }
+                if (nearestEnergyTower == null) { if (agent.enabled) agent.isStopped = true; isMoving = false; return; }
             }
-
             if (agent.enabled && agent.isOnNavMesh)
             {
                 agent.isStopped = false;
                 agent.SetDestination(nearestEnergyTower.transform.position);
                 isMoving = true;
-
-                float distToTower = Vector3.Distance(transform.position, nearestEnergyTower.transform.position);
-                
-                if (distToTower <= 15.0f)
+                if (Vector3.Distance(transform.position, nearestEnergyTower.transform.position) <= 15.0f)
                 {
-                    agent.isStopped = true;
-                    isMoving = false;
-                    Refuel();
+                    agent.isStopped = true; isMoving = false; Refuel();
                 }
             }
             vehicleUI.SetVehicleStatusIconToRefueling();
@@ -145,48 +162,28 @@ namespace VehicleSystem.Vehicles
         {
             float requestedAmount = vehicleData.fuelCapacity * 0.2f * Runner.DeltaTime;
             float receivedAmount = 0f;
-            
-            if (targetTowerScript != null)
-                receivedAmount = targetTowerScript.GiveEnergy(requestedAmount);
-
+            if (targetTowerScript != null) receivedAmount = targetTowerScript.GiveEnergy(requestedAmount);
             fuelLevel += receivedAmount;
-
             if (fuelLevel >= vehicleData.fuelCapacity || (requestedAmount > 0 && receivedAmount <= 0))
             {
                 fuelLevel = Mathf.Min(fuelLevel, vehicleData.fuelCapacity);
-                isRefueling = false;
-                DisconnectFromTower();
-                if (agent.enabled) agent.ResetPath();
+                isRefueling = false; DisconnectFromTower(); if (agent.enabled) agent.ResetPath();
             }
-
-            if (fuelLevel > vehicleData.fuelCapacity / 4)
-                vehicleUI.ClearVehicleStatusIcon();
+            if (fuelLevel > vehicleData.fuelCapacity / 4) vehicleUI.ClearVehicleStatusIcon();
         }
 
         private void HandleCombat()
         {
             if (targetObject == null) return;
-
             float distanceToTarget = Vector3.Distance(transform.position, targetObject.transform.position);
             Vector3 dirToTarget = (targetObject.transform.position - transform.position).normalized;
-            
             float angle = Vector3.Angle(transform.forward, dirToTarget);
             if (angle < 30f)
             {
-                if (distanceToTarget <= rocketAttackRange)
-                {
-                    TryFireRockets();
-                }
-
-                if (distanceToTarget <= agent.stoppingDistance + bulletAttackBuffer)
-                {
-                    TryFireBullets();
-                }
+                if (distanceToTarget <= rocketAttackRange) TryFireRockets();
+                if (distanceToTarget <= agent.stoppingDistance + bulletAttackBuffer) TryFireBullets();
             }
-            else
-            {
-                if(!isMoving) RotateTowardsTarget();
-            }
+            else { if (!isMoving) RotateTowardsTarget(); }
         }
     }
 }

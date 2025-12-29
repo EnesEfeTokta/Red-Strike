@@ -5610,6 +5610,7 @@ MonoBehaviour:
   _TargetNetworkId:
     Raw: 0
   engineSource: {fileID: 7716342696854761872}
+  animator: {fileID: 574273482213751387}
   rocketAttackRange: 40
   barrelTransform: {fileID: 8947661893380276193}
   barrelPoint: {fileID: 8179627918528569255}

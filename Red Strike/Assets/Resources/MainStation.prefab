@@ -4626,6 +4626,7 @@ GameObject:
   - component: {fileID: 168527352956021670}
   - component: {fileID: 5111941726698016489}
   - component: {fileID: 4278919396582827540}
+  - component: {fileID: 1169724503675004919}
   m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
@@ -4704,6 +4705,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &1169724503675004919
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3665772592824949750}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 33b89e733450c564da9fb50d6977841e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5568703836926053903
 GameObject:
   m_ObjectHideFlags: 0
@@ -4795,6 +4818,10 @@ MonoBehaviour:
   _teamId: 0
   unitType: 1
   buildingData: {fileID: 11400000, guid: 25b5998dd3a37a74fbed9e8adcc609ce, type: 2}
+  _health: 0
+  maxHealth: 0
+  buildingName: 
+  animator: {fileID: 1169724503675004919}
   radarTransform: {fileID: 7105843836173317267}
   radarRotationSpeed: 280
   ShieldAmount: 100
