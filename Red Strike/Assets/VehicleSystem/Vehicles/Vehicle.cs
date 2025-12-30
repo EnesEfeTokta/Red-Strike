@@ -29,11 +29,9 @@ namespace VehicleSystem.Vehicles
 
         [Networked] public NetworkId TargetNetworkId { get; set; }
 
-        // [Networked] ekledik ki UI ve Logic her yerde aynı olsun
         [Networked] protected int currentAmmunition_bullet { get; set; }
         [Networked] protected int currentAmmunition_rocket { get; set; }
 
-        // Bu değişkenler yerel kalabilir
         protected float bulletCooldownTimer = 0f;
         protected float rocketCooldownTimer = 0f;
         protected int reloadCounter_bullet = 0;

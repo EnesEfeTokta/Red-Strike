@@ -226,7 +226,7 @@ namespace InputController
 
                     if (targetHighlighter != null) targetHighlighter.DisableHighlight();
                     targetHighlighter = GetHighlighter(unit.gameObject);
-                    targetHighlighter?.EnableHighlight();
+                    targetHighlighter?.EnableHighlight(teamId, unit.teamId);
                 }
                 else
                 {
@@ -245,7 +245,7 @@ namespace InputController
                     if (currentSelectedVehicle != null)
                     {
                         vehicleHighlighter = GetHighlighter(unit.gameObject);
-                        vehicleHighlighter?.EnableHighlight();
+                        vehicleHighlighter?.EnableHighlight(teamId, unit.teamId);
                         vehiclesHUDController?.ShowVehicleDetails(currentSelectedVehicle);
                         audioSource.PlayOneShot(selectionSound);
                     }
@@ -253,7 +253,7 @@ namespace InputController
 
                 case Unit.UnitType.Building:
                     tempBuildingHighlighter = GetHighlighter(unit.gameObject);
-                    tempBuildingHighlighter?.EnableHighlight();
+                    tempBuildingHighlighter?.EnableHighlight(teamId, unit.teamId);
 
                     var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
                     if (building != null)
