@@ -144,6 +144,7 @@ namespace VehicleSystem.Vehicles
             if (Object.HasStateAuthority)
             {
                 IsMovingToPosition = false;
+
                 TargetNetworkId = enemyNetObj.Id;
                 UpdateTargetObject();
             }
@@ -176,6 +177,42 @@ namespace VehicleSystem.Vehicles
             {
                 targetObject = null;
                 isMoving = false;
+            }
+        }
+
+        public void ClearCommands()
+        {
+            if (Object.HasStateAuthority)
+            {
+                TargetNetworkId = default;
+                targetObject = null;
+                IsMovingToPosition = false;
+                isMoving = false;
+
+                if (GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                {
+                    GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+                    GetComponent<UnityEngine.AI.NavMeshAgent>().ResetPath();
+                }
+            }
+            else if (Object.HasInputAuthority)
+            {
+                RPC_ClearCommands();
+            }
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_ClearCommands()
+        {
+            TargetNetworkId = default;
+            targetObject = null;
+            IsMovingToPosition = false;
+            isMoving = false;
+
+            if (GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+            {
+                GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+                GetComponent<UnityEngine.AI.NavMeshAgent>().ResetPath();
             }
         }
 
