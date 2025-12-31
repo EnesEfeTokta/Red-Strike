@@ -4,6 +4,9 @@
     --danger-red: #FF2828;
     --panel-bg: rgba(5, 10, 15, 0.95);
     --glass-bg: rgba(0, 0, 0, 0.5);
+    --notif-info: #00FFFF;
+    --notif-warning: #FFCC00;
+    --notif-error: #FF3333;
 }
 
 Label {

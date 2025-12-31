@@ -16,7 +16,6 @@ namespace BuildingPlacement.Buildings
 
         private AudioSource audioSource;
         public AudioClip vehicleCreateSound;
-        public AudioClip errorSound;
 
         private void Start()
         {
@@ -44,7 +43,11 @@ namespace BuildingPlacement.Buildings
             if (limitReached)
             {
                 //Debug.LogWarning("Araç limitine ulaşıldı!");
-                audioSource.PlayOneShot(errorSound);
+                NotificationSystem.NotificationSystem.Show(
+                    "Vehicle Creation Error",
+                    "You have reached the limit for creating " + targetVehicleData.vehicleName + ".",
+                    NotificationSystem.NotificationType.Error
+                );
                 return;
             }
 
@@ -58,7 +61,11 @@ namespace BuildingPlacement.Buildings
             }
             else
             {
-                audioSource.PlayOneShot(errorSound);
+                NotificationSystem.NotificationSystem.Show(
+                    "Vehicle Creation Error",
+                    "Hangar is not ready to create a new vehicle.",
+                    NotificationSystem.NotificationType.Warning
+                );
             }
         }
 

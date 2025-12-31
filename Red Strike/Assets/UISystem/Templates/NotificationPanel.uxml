@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="notification-list" class="notification-list-container">
+        
+        <!-- ÖRNEK 1: BİLGİ (INFO) -->
+        <ui:VisualElement class="notification-item type-info">
+            <ui:VisualElement class="notif-glow-bar" />
+            <ui:VisualElement class="notif-content">
+                <ui:Label text="SYSTEM INFO" class="notif-title" />
+                <ui:Label text="Construction complete: Solar Panel." class="notif-message" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ÖRNEK 2: UYARI (WARNING) -->
+        <ui:VisualElement class="notification-item type-warning">
+            <ui:VisualElement class="notif-glow-bar" />
+            <ui:VisualElement class="notif-content">
+                <ui:Label text="LOW RESOURCES" class="notif-title" />
+                <ui:Label text="Not enough energy for shield activation." class="notif-message" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ÖRNEK 3: HATA (ERROR) -->
+        <ui:VisualElement class="notification-item type-error">
+            <ui:VisualElement class="notif-glow-bar" />
+            <ui:VisualElement class="notif-content">
+                <ui:Label text="CRITICAL FAILURE" class="notif-title" />
+                <ui:Label text="Main base under attack! Hull integrity critical." class="notif-message" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
