@@ -179,74 +179,77 @@ namespace InputController
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
 
-            if (!Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, selectableLayer))
             {
-                DeselectAll();
-                return;
-            }
+                var unit = hitInfo.collider.GetComponent<Unit.Unit>();
+                if (unit == null) unit = hitInfo.collider.GetComponentInParent<Unit.Unit>();
 
-            var unit = hitInfo.collider.GetComponent<Unit.Unit>();
-            if (unit == null)
-            {
-                unit = hitInfo.collider.GetComponentInParent<Unit.Unit>();
-                if (unit == null) { DeselectAll(); return; }
-            }
-
-            bool isFriendly = unit.teamId == teamId;
-            bool isEnemy = unit.teamId != teamId;
-
-            if (isEnemy)
-            {
-                if (currentSelectedVehicle != null)
+                if (unit != null)
                 {
-                    currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
-                    audioSource.PlayOneShot(selectionSound);
+                    bool isFriendly = unit.teamId == teamId;
+                    bool isEnemy = unit.teamId != teamId;
 
-                    if (targetHighlighter != null) targetHighlighter.DisableHighlight();
-                    targetHighlighter = GetHighlighter(unit.gameObject);
-                    targetHighlighter?.EnableHighlight(teamId, unit.teamId);
+                    if (isEnemy)
+                    {
+                        if (currentSelectedVehicle != null)
+                        {
+                            currentSelectedVehicle.SetTargetEnemy(unit.gameObject);
+                            audioSource.PlayOneShot(selectionSound);
+
+                            if (targetHighlighter != null) targetHighlighter.DisableHighlight();
+                            targetHighlighter = GetHighlighter(unit.gameObject);
+                            targetHighlighter?.EnableHighlight(teamId, unit.teamId);
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(errorSound); // "Önce bir araç seçmelisin"
+                        }
+                        return;
+                    }
+
+                    DeselectAll();
+
+                    switch (unit.unitType)
+                    {
+                        case Unit.UnitType.Vehicle:
+                            currentSelectedVehicle = unit.GetComponent<VehicleSystem.Vehicles.Vehicle>();
+                            if (currentSelectedVehicle != null)
+                            {
+                                vehicleHighlighter = GetHighlighter(unit.gameObject);
+                                vehicleHighlighter?.EnableHighlight(teamId, unit.teamId);
+                                vehiclesHUDController?.ShowVehicleDetails(currentSelectedVehicle);
+                                audioSource.PlayOneShot(selectionSound);
+                                currentSelectedVehicle.animator?.SetBool("isSelected", true);
+                            }
+                            break;
+
+                        case Unit.UnitType.Building:
+                            var building = unit.GetComponent<BuildingPlacement.Buildings.Building>();
+                            currentSelectedActiveBuilding = building;
+
+                            if (currentSelectedActiveBuilding != null)
+                            {
+                                tempBuildingHighlighter = GetHighlighter(unit.gameObject);
+                                tempBuildingHighlighter?.EnableHighlight(teamId, unit.teamId);
+                                buildingHUDController.ShowBuildingDetails(currentSelectedActiveBuilding);
+                                audioSource.PlayOneShot(selectionSound);
+                                currentSelectedActiveBuilding.animator?.SetBool("isSelected", true);
+                            }
+                            break;
+                    }
+                    return;
                 }
-                else
+            }
+            if (currentSelectedVehicle != null)
+            {
+                if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, terrainLayer))
                 {
-                    audioSource.PlayOneShot(errorSound); // "Önce bir arac seçmelisin"
+                    currentSelectedVehicle.SetMovePosition(hitInfo.point);
+                    return;
                 }
-                return;
             }
 
             DeselectAll();
-
-            switch (unit.unitType)
-            {
-                case Unit.UnitType.Vehicle:
-                    currentSelectedVehicle = unit.GetComponent<VehicleSystem.Vehicles.Vehicle>();
-                    if (currentSelectedVehicle != null)
-                    {
-                        vehicleHighlighter = GetHighlighter(unit.gameObject);
-                        vehicleHighlighter?.EnableHighlight(teamId, unit.teamId);
-                        vehiclesHUDController?.ShowVehicleDetails(currentSelectedVehicle);
-                        audioSource.PlayOneShot(selectionSound);
-
-                        if (currentSelectedVehicle.animator != null)
-                            currentSelectedVehicle.animator.SetBool("isSelected", true);
-                    }
-                    break;
-
-                case Unit.UnitType.Building:
-                    currentSelectedActiveBuilding = unit.GetComponent<BuildingPlacement.Buildings.Building>();
-
-                    if (currentSelectedActiveBuilding != null)
-                    {
-                        tempBuildingHighlighter = GetHighlighter(unit.gameObject);
-                        tempBuildingHighlighter?.EnableHighlight(teamId, unit.teamId);
-
-                        buildingHUDController.ShowBuildingDetails(currentSelectedActiveBuilding);
-                        audioSource.PlayOneShot(selectionSound);
-
-                        if (currentSelectedActiveBuilding.animator != null)
-                            currentSelectedActiveBuilding.animator.SetBool("isSelected", true);
-                    }
-                    break;
-            }
         }
 
         private void DeselectAll()
@@ -259,14 +262,10 @@ namespace InputController
             tempBuildingHighlighter?.DisableHighlight();
 
             if (currentSelectedVehicle != null && currentSelectedVehicle.animator != null)
-            {
                 currentSelectedVehicle.animator.SetBool("isSelected", false);
-            }
 
             if (currentSelectedActiveBuilding != null && currentSelectedActiveBuilding.animator != null)
-            {
                 currentSelectedActiveBuilding.animator.SetBool("isSelected", false);
-            }
 
             vehicleHighlighter = null;
             targetHighlighter = null;

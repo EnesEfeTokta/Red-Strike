@@ -5531,6 +5531,8 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  _TargetMovePosition: {x: 0, y: 0, z: 0}
+  _IsMovingToPosition: 0
   engineSource: {fileID: 969618931534252326}
   animator: {fileID: 8554211667685517834}
   patrolAltitude: 90
@@ -5586,7 +5588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionColor: {r: 0, g: 0.30980393, b: 1, a: 1}
 --- !u!114 &2614393013602586341
 MonoBehaviour:
   m_ObjectHideFlags: 0

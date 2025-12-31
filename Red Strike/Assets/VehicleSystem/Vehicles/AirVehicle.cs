@@ -37,21 +37,30 @@ namespace VehicleSystem.Vehicles
         [Networked] private Vector3 NetworkedPosition { get; set; }
         [Networked] private Quaternion NetworkedRotation { get; set; }
 
-        private float _idleTimer;
-        private float _combatOrbitTimer;
-        private Vector3 _patrolCenter;
-        private bool _hasFiredRocketInPass;
-        private Vector3 _landingStartPoint;
-        private Vector3 _landingEndPoint;
+        private float idleTimer;
+        private float combatOrbitTimer;
+        private Vector3 patrolCenter;
+        private bool hasFiredRocketInPass;
+        private Vector3 landingStartPoint;
+        private Vector3 landingEndPoint;
+
+        private Vector3 takeoffTargetPosition;
+        private float idleDirectionMultiplier = 1f;
+        private float patrolAngleOffset = 360f;
 
         public override void Spawned()
         {
             base.Spawned();
             if (Object.HasStateAuthority)
             {
-                _patrolCenter = transform.position;
-                CurrentState = VehicleState.Refueling;
-                CurrentRefuelPhase = RefuelPhase.Takeoff;
+                patrolCenter = transform.position;
+                CurrentState = VehicleState.Spawning;
+
+                Vector3 targetSpot = transform.position + (transform.forward * 150f);
+                targetSpot.y = patrolAltitude;
+                takeoffTargetPosition = targetSpot;
+
+                RandomizePatrolPattern();
             }
         }
 
@@ -59,10 +68,43 @@ namespace VehicleSystem.Vehicles
         {
             if (!Object.HasStateAuthority) return;
 
+            if (IsMovingToPosition)
+            {
+                if (CurrentState == VehicleState.Spawning) { HandleSpawningLogic(); return; }
+
+                Vector3 destPos = new Vector3(TargetMovePosition.x, patrolAltitude, TargetMovePosition.z);
+                FlyTowards(destPos, 1.0f);
+                ConsumeFuel();
+
+                float dist = Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
+                                              new Vector3(destPos.x, 0, destPos.z));
+
+                if (dist < 20f)
+                {
+                    patrolCenter = destPos;
+                    CurrentState = VehicleState.Idle;
+                    IsMovingToPosition = false;
+
+                    RandomizePatrolPattern();
+                    idleTimer = 0f;
+                }
+
+                if (fuelLevel <= 0) { IsMovingToPosition = false; StartRefuelingProcess(); }
+
+                NetworkedPosition = transform.position;
+                NetworkedRotation = transform.rotation;
+                return;
+            }
+
             if (fuelLevel <= 0 || isRefueling)
             {
                 if (CurrentState != VehicleState.Refueling) StartRefuelingProcess();
                 HandleRunwayRefueling();
+            }
+            else if (CurrentState == VehicleState.Spawning)
+            {
+                HandleSpawningLogic();
+                ConsumeFuel();
             }
             else if (targetObject != null)
             {
@@ -70,7 +112,7 @@ namespace VehicleSystem.Vehicles
                 {
                     CurrentState = VehicleState.Combat;
                     CurrentCombatPhase = CombatPhase.Orbiting;
-                    _combatOrbitTimer = 0f;
+                    combatOrbitTimer = 0f;
                 }
                 HandleCombatLogic();
                 ConsumeFuel();
@@ -80,7 +122,7 @@ namespace VehicleSystem.Vehicles
                 if (CurrentState != VehicleState.Idle)
                 {
                     CurrentState = VehicleState.Idle;
-                    _patrolCenter = new Vector3(transform.position.x, 0, transform.position.z);
+                    patrolCenter = new Vector3(transform.position.x, patrolAltitude, transform.position.z);
                 }
                 HandleIdleLogic();
                 ConsumeFuel();
@@ -88,6 +130,38 @@ namespace VehicleSystem.Vehicles
 
             NetworkedPosition = transform.position;
             NetworkedRotation = transform.rotation;
+        }
+
+        private void RandomizePatrolPattern()
+        {
+            idleDirectionMultiplier = (Random.value > 0.5f) ? 1f : -1f;
+            patrolAngleOffset = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+        }
+
+        private void HandleIdleLogic()
+        {
+            idleTimer += Runner.DeltaTime * 0.4f * idleDirectionMultiplier;
+
+            float scale = patrolRadius;
+            float t = idleTimer;
+
+            float sinT = Mathf.Sin(t);
+            float cosT = Mathf.Cos(t);
+            float denom = 1 + (sinT * sinT);
+
+            float xLocal = (scale * cosT) / denom;
+            float zLocal = (scale * sinT * cosT) / denom;
+
+            float cosA = Mathf.Cos(patrolAngleOffset);
+            float sinA = Mathf.Sin(patrolAngleOffset);
+
+            float xRotated = xLocal * cosA - zLocal * sinA;
+            float zRotated = xLocal * sinA + zLocal * cosA;
+
+            Vector3 targetPoint = patrolCenter + new Vector3(xRotated, 0, zRotated);
+            targetPoint.y = patrolAltitude;
+
+            FlyTowards(targetPoint, 0.7f, true);
         }
 
         public override void Render()
@@ -136,6 +210,22 @@ namespace VehicleSystem.Vehicles
             Quaternion bankRotation = Quaternion.AngleAxis(targetBank, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetLook * bankRotation, Runner.DeltaTime * turnSpeedSmooth);
         }
+
+        private void HandleSpawningLogic()
+        {
+            FlyTowards(takeoffTargetPosition, 1.0f, true, 0f);
+
+            float heightDiff = Mathf.Abs(transform.position.y - patrolAltitude);
+            float distToTarget = Vector3.Distance(transform.position, takeoffTargetPosition);
+
+            if (heightDiff < 5f || distToTarget < 20f)
+            {
+                CurrentState = VehicleState.Idle;
+                patrolCenter = transform.position + (transform.forward * 30f);
+                patrolCenter.y = patrolAltitude;
+                RandomizePatrolPattern();
+            }
+        }
         #endregion
 
         #region Combat Logic (Orbit & 45 Degree Dive)
@@ -151,7 +241,7 @@ namespace VehicleSystem.Vehicles
             switch (CurrentCombatPhase)
             {
                 case CombatPhase.Orbiting:
-                    _combatOrbitTimer += Runner.DeltaTime;
+                    combatOrbitTimer += Runner.DeltaTime;
 
                     Vector3 dirToTarget = (targetPos - myPos).normalized;
                     Vector3 tangent = Vector3.Cross(dirToTarget, Vector3.up);
@@ -164,13 +254,13 @@ namespace VehicleSystem.Vehicles
                     bool atAltitude = myPos.y >= attackAltitude - 5f;
                     bool inPosition = Mathf.Abs(distToTargetH - orbitRadius) < 20f;
 
-                    if (_combatOrbitTimer > orbitDuration && atAltitude && inPosition)
+                    if (combatOrbitTimer > orbitDuration && atAltitude && inPosition)
                     {
                         float angle = Vector3.Angle(transform.forward, targetPos - myPos);
                         if (angle < 90f)
                         {
                             CurrentCombatPhase = CombatPhase.Diving;
-                            _hasFiredRocketInPass = false;
+                            hasFiredRocketInPass = false;
                         }
                     }
                     break;
@@ -183,10 +273,10 @@ namespace VehicleSystem.Vehicles
                     {
                         TryFireBullets();
 
-                        if (!_hasFiredRocketInPass && distToTargetTotal < orbitRadius * 1.2f && Random.value < rocketChance)
+                        if (!hasFiredRocketInPass && distToTargetTotal < orbitRadius * 1.2f && Random.value < rocketChance)
                         {
                             TryFireRockets();
-                            _hasFiredRocketInPass = true;
+                            hasFiredRocketInPass = true;
                         }
                     }
 
@@ -205,7 +295,7 @@ namespace VehicleSystem.Vehicles
                     if (myPos.y > attackAltitude * 0.6f)
                     {
                         CurrentCombatPhase = CombatPhase.Orbiting;
-                        _combatOrbitTimer = 0f;
+                        combatOrbitTimer = 0f;
                     }
                     break;
             }
@@ -227,9 +317,9 @@ namespace VehicleSystem.Vehicles
             Vector3 towerPos = nearestEnergyTower.transform.position;
             Vector3 dirFromTowerToMe = (transform.position - towerPos).normalized;
             dirFromTowerToMe.y = 0;
-            _landingEndPoint = towerPos;
-            _landingStartPoint = towerPos + (dirFromTowerToMe * approachDistance);
-            _landingStartPoint.y = towerPos.y + approachAltitude;
+            landingEndPoint = towerPos;
+            landingStartPoint = towerPos + (dirFromTowerToMe * approachDistance);
+            landingStartPoint.y = towerPos.y + approachAltitude;
         }
 
         private void HandleRunwayRefueling()
@@ -240,14 +330,14 @@ namespace VehicleSystem.Vehicles
             switch (CurrentRefuelPhase)
             {
                 case RefuelPhase.Approach:
-                    FlyTowards(_landingStartPoint, 1.0f);
-                    if (Vector3.Distance(transform.position, _landingStartPoint) < 15f)
+                    FlyTowards(landingStartPoint, 1.0f);
+                    if (Vector3.Distance(transform.position, landingStartPoint) < 15f)
                         CurrentRefuelPhase = RefuelPhase.FinalApproach;
                     break;
 
                 case RefuelPhase.FinalApproach:
                     float glideSpeedRatio = landingSpeed / speed;
-                    Vector3 glideTarget = _landingEndPoint + Vector3.up * 2f;
+                    Vector3 glideTarget = landingEndPoint + Vector3.up * 2f;
                     FlyTowards(glideTarget, glideSpeedRatio, true);
                     if (Vector3.Distance(transform.position, glideTarget) < 4f)
                         CurrentRefuelPhase = RefuelPhase.Landed;
@@ -274,22 +364,11 @@ namespace VehicleSystem.Vehicles
                     if (transform.position.y >= patrolAltitude)
                     {
                         CurrentState = VehicleState.Idle;
-                        _patrolCenter = transform.position;
+                        patrolCenter = transform.position;
                     }
                     else FlyTowards(takeoffPoint, 1.0f, true);
                     break;
             }
-        }
-
-        private void HandleIdleLogic()
-        {
-            _idleTimer += Runner.DeltaTime * 0.4f;
-            float scale = patrolRadius;
-            float sinT = Mathf.Sin(_idleTimer);
-            float cosT = Mathf.Cos(_idleTimer);
-            float denom = 1 + (sinT * sinT);
-            Vector3 targetPoint = _patrolCenter + new Vector3((scale * cosT) / denom, patrolAltitude, (scale * sinT * cosT) / denom);
-            FlyTowards(targetPoint, 0.7f, true);
         }
         #endregion
     }

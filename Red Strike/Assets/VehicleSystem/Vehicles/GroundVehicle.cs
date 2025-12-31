@@ -11,9 +11,9 @@ namespace VehicleSystem.Vehicles
 
         [Header("Ground Combat Settings")]
         public float rocketAttackRange = 40f;
-        private float bulletAttackBuffer = 5.0f; 
+        private float bulletAttackBuffer = 5.0f;
 
-        private bool isExitingHangar = true; 
+        private bool isExitingHangar = true;
         private float lifeTime = 0f;
         private Vector3 startPosition;
 
@@ -25,8 +25,8 @@ namespace VehicleSystem.Vehicles
             agent.speed = vehicleData.speed;
             agent.stoppingDistance = vehicleData.stoppingDistance;
             agent.angularSpeed = vehicleData.turnSpeed;
-            
-            agent.updateRotation = true; 
+
+            agent.updateRotation = true;
             agent.updatePosition = true;
 
             if (!Object.HasStateAuthority)
@@ -59,18 +59,18 @@ namespace VehicleSystem.Vehicles
 
                 if (lifeTime < 2.5f)
                 {
-                    if(agent.enabled) agent.isStopped = true;
-                    return; 
+                    if (agent.enabled) agent.isStopped = true;
+                    return;
                 }
 
                 transform.position += transform.forward * vehicleData.speed * Runner.DeltaTime;
-                
-                if(agent.enabled) agent.nextPosition = transform.position;
+
+                if (agent.enabled) agent.nextPosition = transform.position;
 
                 if (Vector3.Distance(startPosition, transform.position) >= 25.0f)
                 {
                     isExitingHangar = false;
-                    if(agent.enabled) agent.isStopped = true;
+                    if (agent.enabled) agent.isStopped = true;
                 }
 
                 return;
@@ -82,35 +82,24 @@ namespace VehicleSystem.Vehicles
                 return;
             }
 
-            if (targetObject == null)
+            if (IsMovingToPosition)
             {
-                if (agent.enabled && agent.isOnNavMesh && agent.hasPath)
-                {
-                    agent.isStopped = true;
-                    agent.ResetPath();
-                }
-                isMoving = false;
-                TargetNetworkId = default;
-                return;
-            }
-
-            if (agent.enabled && agent.isOnNavMesh)
-            {
-                float dist = Vector3.Distance(transform.position, targetObject.transform.position);
-                agent.SetDestination(targetObject.transform.position);
-
-                if (dist > agent.stoppingDistance)
+                if (agent.enabled && agent.isOnNavMesh)
                 {
                     agent.isStopped = false;
+                    agent.SetDestination(TargetMovePosition);
                     isMoving = true;
                     ConsumeFuel();
+
+                    if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                    {
+                        agent.isStopped = true;
+                        isMoving = false;
+                        IsMovingToPosition = false;
+                        agent.ResetPath();
+                    }
                 }
-                else
-                {
-                    agent.isStopped = true;
-                    isMoving = false;
-                    RotateTowardsTarget();
-                }
+                return;
             }
 
             HandleCombat();
