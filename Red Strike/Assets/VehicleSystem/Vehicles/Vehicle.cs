@@ -29,6 +29,9 @@ namespace VehicleSystem.Vehicles
 
         [Networked] public NetworkId TargetNetworkId { get; set; }
 
+        [Networked] public Vector3 TargetMovePosition { get; set; }
+        [Networked] public bool IsMovingToPosition { get; set; }
+
         [Networked] protected int currentAmmunition_bullet { get; set; }
         [Networked] protected int currentAmmunition_rocket { get; set; }
 
@@ -100,6 +103,37 @@ namespace VehicleSystem.Vehicles
             if (rocketCooldownTimer > 0) rocketCooldownTimer -= Time.deltaTime;
         }
 
+        public void SetMovePosition(Vector3 position)
+        {
+            if (fuelLevel <= 0) return;
+
+            if (Object.HasStateAuthority)
+            {
+                // Düşman hedefini iptal et
+                TargetNetworkId = default;
+                targetObject = null;
+
+                // Pozisyon hedefini ayarla
+                IsMovingToPosition = true;
+                TargetMovePosition = position;
+                isMoving = true;
+            }
+            else if (Object.HasInputAuthority)
+            {
+                RPC_SetMovePosition(position);
+            }
+        }
+
+        [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+        public void RPC_SetMovePosition(Vector3 position)
+        {
+            TargetNetworkId = default;
+            targetObject = null;
+            IsMovingToPosition = true;
+            TargetMovePosition = position;
+            isMoving = true;
+        }
+
         public virtual void SetTargetEnemy(GameObject enemy)
         {
             if (fuelLevel <= 0) return;
@@ -109,6 +143,7 @@ namespace VehicleSystem.Vehicles
 
             if (Object.HasStateAuthority)
             {
+                IsMovingToPosition = false;
                 TargetNetworkId = enemyNetObj.Id;
                 UpdateTargetObject();
             }
@@ -121,6 +156,7 @@ namespace VehicleSystem.Vehicles
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
         public void RPC_SetTarget(NetworkId enemyId)
         {
+            IsMovingToPosition = false;
             TargetNetworkId = enemyId;
             UpdateTargetObject();
         }
