@@ -34,7 +34,6 @@ namespace InputController
         [Header("Audio")]
         public AudioClip selectionSound;
         public AudioClip placementSound;
-        public AudioClip errorSound;
         private AudioSource audioSource;
 
         private BuildingPlacement.Buildings.Building currentSelectedActiveBuilding;
@@ -104,7 +103,11 @@ namespace InputController
 
                 if (!IsPositionValid(spawnPosition))
                 {
-                    audioSource.PlayOneShot(errorSound);
+                    NotificationSystem.NotificationSystem.Show(
+                        "Building Placement Error",
+                        "Cannot place building here due to nearby obstacles.",
+                        NotificationSystem.NotificationType.Error
+                    );
                     return;
                 }
 
@@ -117,13 +120,21 @@ namespace InputController
 
                 if (buildingDataToPlace.buildingName != "Main Station" && !isThereMainBuilding)
                 {
-                    audioSource.PlayOneShot(errorSound); // "Önce Main Station kurmalısın"
+                    NotificationSystem.NotificationSystem.Show(
+                        "Building Placement Error",
+                        "You must place a Main Station before placing other buildings.",
+                        NotificationSystem.NotificationType.Error
+                    );
                     return;
                 }
 
                 if (buildingDataToPlace.buildingName == "Main Station" && isThereMainBuilding)
                 {
-                    audioSource.PlayOneShot(errorSound); // "Zaten Main Station var"
+                    NotificationSystem.NotificationSystem.Show(
+                        "Building Placement Error",
+                        "A Main Station already exists for your team.",
+                        NotificationSystem.NotificationType.Error
+                    );
                     return;
                 }
 
@@ -137,7 +148,11 @@ namespace InputController
 
                     if (isLimitReached)
                     {
-                        audioSource.PlayOneShot(errorSound); // "Bu bina için limit doldu"
+                        NotificationSystem.NotificationSystem.Show(
+                            "Building Placement Error",
+                            "You have reached the limit for placing " + buildingDataToPlace.buildingName + ".",
+                            NotificationSystem.NotificationType.Error
+                        );
                         return;
                     }
 
@@ -170,7 +185,11 @@ namespace InputController
             }
             else
             {
-                audioSource.PlayOneShot(errorSound);
+                NotificationSystem.NotificationSystem.Show(
+                    "Building Selection Error",
+                    "Building data not found for: " + buildingName,
+                    NotificationSystem.NotificationType.Error
+                );
             }
         }
 
@@ -202,7 +221,11 @@ namespace InputController
                         }
                         else
                         {
-                            audioSource.PlayOneShot(errorSound); // "Önce bir araç seçmelisin"
+                            NotificationSystem.NotificationSystem.Show(
+                                "Selection Error",
+                                "Select a vehicle first to set an enemy target.",
+                                NotificationSystem.NotificationType.Warning
+                            );
                         }
                         return;
                     }

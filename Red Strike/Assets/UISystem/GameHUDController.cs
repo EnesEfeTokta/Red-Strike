@@ -17,6 +17,7 @@ namespace UISystem
         protected VisualElement victoryPanel;
         protected VisualElement deploymentMonitorPanel;
         protected VisualElement vsPanel;
+        protected VisualElement notificationContainer;
 
         protected void Awake()
         {
@@ -35,6 +36,8 @@ namespace UISystem
             fadePanel = root.Q<VisualElement>("fade-panel");
             victoryPanel = root.Q<VisualElement>("victory-panel");
             vsPanel = root.Q<VisualElement>("vs-panel");
+            notificationContainer = root.Q<VisualElement>("notification-list");
+            if (notificationContainer != null) notificationContainer.Clear();
             deploymentMonitorPanel = root.Q<VisualElement>("deployment-panel");
             deploymentMonitorPanel.style.display = DisplayStyle.None;
         }
