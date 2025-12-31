@@ -76,6 +76,15 @@ namespace UISystem
             if (fuelProgressBar != null) { fuelProgressBar.highValue = maxFuelValue; fuelProgressBar.value = currentFuel; }
             if (ammoLabel != null) ammoLabel.text = $"Bullets: {bulletCurrent}/{bulletMax} | Rockets: {rocketCurrent}/{rocketMax}";
             if (targetLabel != null) targetLabel.text = $"Target: {targetName}";
+
+            if (currentlySelectedVehicle.targetObject != null)
+            {
+                if (clearTargetButton != null) clearTargetButton.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                if (clearTargetButton != null) clearTargetButton.style.display = DisplayStyle.None;
+            }
         }
 
         private void OnClearTargetClicked()
