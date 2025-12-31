@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using Fusion;
 
 namespace VehicleSystem.Vehicles
 {
@@ -72,7 +71,6 @@ namespace VehicleSystem.Vehicles
                     isExitingHangar = false;
                     if (agent.enabled) agent.isStopped = true;
                 }
-
                 return;
             }
 
@@ -89,12 +87,14 @@ namespace VehicleSystem.Vehicles
                     agent.isStopped = false;
                     agent.SetDestination(TargetMovePosition);
                     isMoving = true;
+                    smokeEffect.Play();
                     ConsumeFuel();
 
                     if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                     {
                         agent.isStopped = true;
                         isMoving = false;
+                        smokeEffect.Stop();
                         IsMovingToPosition = false;
                         agent.ResetPath();
                     }
@@ -102,7 +102,40 @@ namespace VehicleSystem.Vehicles
                 return;
             }
 
-            HandleCombat();
+            if (targetObject != null)
+            {
+                if (agent.enabled && agent.isOnNavMesh)
+                {
+                    float dist = Vector3.Distance(transform.position, targetObject.transform.position);
+                    agent.SetDestination(targetObject.transform.position);
+
+                    if (dist > agent.stoppingDistance)
+                    {
+                        agent.isStopped = false;
+                        isMoving = true;
+                        smokeEffect.Play();
+                        ConsumeFuel();
+                    }
+                    else
+                    {
+                        agent.isStopped = true;
+                        isMoving = false;
+                        smokeEffect.Stop();
+                        RotateTowardsTarget();
+                    }
+                }
+                
+                HandleCombat();
+            }
+            else
+            {
+                if (agent.enabled && agent.isOnNavMesh && agent.hasPath)
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                }
+                isMoving = false;
+            }
         }
 
         protected override void Update()
@@ -125,7 +158,7 @@ namespace VehicleSystem.Vehicles
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Runner.DeltaTime * vehicleData.turnSpeed * 0.1f);
             }
         }
-
+        
         private void HandleRefuelingState()
         {
             isRefueling = true;
@@ -146,7 +179,6 @@ namespace VehicleSystem.Vehicles
             }
             vehicleUI.SetVehicleStatusIconToRefueling();
         }
-
         private void Refuel()
         {
             float requestedAmount = vehicleData.fuelCapacity * 0.2f * Runner.DeltaTime;
@@ -160,7 +192,6 @@ namespace VehicleSystem.Vehicles
             }
             if (fuelLevel > vehicleData.fuelCapacity / 4) vehicleUI.ClearVehicleStatusIcon();
         }
-
         private void HandleCombat()
         {
             if (targetObject == null) return;

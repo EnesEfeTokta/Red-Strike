@@ -12,3 +12,39 @@
 .health-bar .unity-progress-bar__progress { background-color: var(--danger-red); }
 .fuel-bar .unity-progress-bar__progress { background-color: var(--secondary-blue); }
 .unity-progress-bar__container { height: 12px; margin-bottom: 5px; }
+
+.target-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+#btn-clear-target {
+    background-color: #c62828;
+    color: #ffffff;
+    font-size: 11px;
+    -unity-font-style: bold;
+    border-width: 1px;
+    border-color: #ff5252;
+    border-radius: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+    transition-duration: 0.2s;
+}
+
+#btn-clear-target:hover {
+    background-color: #e53935;
+    scale: 1.05;
+    cursor: link;
+}
+
+#btn-clear-target:active {
+    background-color: #b71c1c;
+    border-color: #8c0000;
+    scale: 0.95;
+}
