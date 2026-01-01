@@ -972,6 +972,8 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  _TargetMovePosition: {x: 0, y: 0, z: 0}
+  _IsMovingToPosition: 0
   engineSource: {fileID: 184298030015153318}
   animator: {fileID: 5673592153760877326}
   patrolAltitude: 90
@@ -983,7 +985,7 @@ MonoBehaviour:
   orbitRadius: 70
   orbitDuration: 3
   pullUpAltitude: 30
-  firingAngle: 25
+  firingAngle: 70
   rocketChance: 0.5
   bankAngle: 50
   turnSpeedSmooth: 2
@@ -1032,7 +1034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionColor: {r: 0, g: 0.30980393, b: 1, a: 1}
 --- !u!114 &2311631271336836146
 MonoBehaviour:
   m_ObjectHideFlags: 0

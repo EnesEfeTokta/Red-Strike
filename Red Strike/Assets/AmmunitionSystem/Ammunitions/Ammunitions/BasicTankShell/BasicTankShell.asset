@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammunitionType: 0
   ammunitionName: Tank Shell
-  damage: 50
-  speed: 50
+  speed: 60
+  rotationSpeed: 0
   range: -1
   lifetime: 3
   ammunitionPrefab: {fileID: 5858476706136754781, guid: 19c3186beb4233a4c90ef4811e6851f6, type: 3}

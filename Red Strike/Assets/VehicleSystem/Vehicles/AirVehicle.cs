@@ -74,7 +74,8 @@ namespace VehicleSystem.Vehicles
 
                 Vector3 destPos = new Vector3(TargetMovePosition.x, patrolAltitude, TargetMovePosition.z);
                 FlyTowards(destPos, 1.0f);
-                ConsumeFuel();
+                
+                ConsumeFuel(FuelConsumption.Low);
 
                 float dist = Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
                                               new Vector3(destPos.x, 0, destPos.z));
@@ -104,7 +105,7 @@ namespace VehicleSystem.Vehicles
             else if (CurrentState == VehicleState.Spawning)
             {
                 HandleSpawningLogic();
-                ConsumeFuel();
+                ConsumeFuel(FuelConsumption.Medium);
             }
             else if (targetObject != null)
             {
@@ -115,7 +116,8 @@ namespace VehicleSystem.Vehicles
                     combatOrbitTimer = 0f;
                 }
                 HandleCombatLogic();
-                ConsumeFuel();
+                
+                ConsumeFuel(FuelConsumption.Medium);
             }
             else
             {
@@ -125,8 +127,9 @@ namespace VehicleSystem.Vehicles
                     patrolCenter = new Vector3(transform.position.x, patrolAltitude, transform.position.z);
                 }
                 HandleIdleLogic();
-                ConsumeFuel();
             }
+
+            ConsumeFuel(FuelConsumption.Low);
 
             NetworkedPosition = transform.position;
             NetworkedRotation = transform.rotation;

@@ -88,7 +88,8 @@ namespace VehicleSystem.Vehicles
                     agent.SetDestination(TargetMovePosition);
                     isMoving = true;
                     smokeEffect.Play();
-                    ConsumeFuel();
+                    
+                    ConsumeFuel(FuelConsumption.Low);
 
                     if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                     {
@@ -114,7 +115,8 @@ namespace VehicleSystem.Vehicles
                         agent.isStopped = false;
                         isMoving = true;
                         smokeEffect.Play();
-                        ConsumeFuel();
+                        
+                        ConsumeFuel(FuelConsumption.Medium);
                     }
                     else
                     {

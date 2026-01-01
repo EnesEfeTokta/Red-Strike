@@ -22,7 +22,7 @@ MonoBehaviour:
   stoppingDistance: 40
   maxHealth: 1200
   fuelCapacity: 600
-  fuelConsumptionRate: 0.1
+  fuelConsumptionRate: 0.2
   explosionEffect: {fileID: 198016111470434822, guid: 351b5b76ddf0a404d9550315f99917aa, type: 3}
   engineSound: {fileID: 8300000, guid: 1a9227f4b0059084ebfab2f7f0119f9b, type: 3}
   ammunitionSettings:

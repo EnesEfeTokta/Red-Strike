@@ -48,3 +48,96 @@
     border-color: #8c0000;
     scale: 0.95;
 }
+
+.ammo-container {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ammo-slot {
+    flex: 1; 
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.4);
+    
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 12px;
+    
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    
+    border-left-width: 4px; 
+}
+
+.bullet-type {
+    border-left-color: #FFD700;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 215, 0, 0.2);
+}
+
+.rocket-type {
+    border-left-color: #FF4444;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 68, 68, 0.2);
+}
+
+.ammo-type-label {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.ammo-count {
+    font-size: 18px;
+    color: white;
+    -unity-font-style: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.ammo-reload {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 8px;
+    color: #888;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+.target-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 20, 30, 0.5);
+    padding: 5px 8px;
+    border-radius: 4px;
+    border-left-width: 2px;
+    border-left-color: var(--secondary-blue);
+}
+
+.target-text {
+    flex-grow: 1;
+    font-size: 11px;
+    color: #00FF88;
+    -unity-text-align: middle-left;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.small-btn {
+    width: 60px;
+    height: 22px;
+    font-size: 9px;
+    margin: 0;
+    background-color: rgba(200, 50, 50, 0.2);
+    border-color: #FF5555;
+    border-radius: 2px;
+}
+.small-btn:hover {
+    background-color: #FF5555;
+    color: black;
+}
