@@ -5335,7 +5335,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2.44
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 70
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -5430,6 +5430,9 @@ MonoBehaviour:
   lowEnergyThreshold: 0.3
   _TargetNetworkId:
     Raw: 0
+  _TargetMovePosition: {x: 0, y: 0, z: 0}
+  _IsMovingToPosition: 0
+  _fuelLevel: 0
   engineSource: {fileID: 7040296906606052471}
   animator: {fileID: 1362993600178568906}
   rocketAttackRange: 40
@@ -5482,7 +5485,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionColor: {r: 0, g: 0.30699968, b: 1, a: 1}
 --- !u!82 &6342048877260788982
 AudioSource:
   m_ObjectHideFlags: 0
