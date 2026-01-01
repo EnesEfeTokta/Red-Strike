@@ -6,18 +6,11 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
 {
     public class BasicRocket : Ammunition
     {
-        public float speed = 20f;
-        public float rotationSpeed = 5f;
         public float accelerationRate = 1.5f;
 
         private bool hasExploded = false;
         private float currentSpeed;
         [Networked] public NetworkId TargetId { get; set; }
-
-        private void Awake()
-        {
-            currentSpeed = speed * 0.5f;
-        }
 
         public override void SetRocketTarget(NetworkId targetId)
         {
@@ -29,7 +22,7 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
             if (!Object.HasStateAuthority) return;
             if (hasExploded) return;
 
-            currentSpeed = Mathf.Lerp(currentSpeed, speed, Runner.DeltaTime * accelerationRate);
+            currentSpeed = Mathf.Lerp(currentSpeed, ammunitionData.speed, Runner.DeltaTime * accelerationRate);
             float dt = Runner.DeltaTime;
 
             if (TargetId.IsValid)
@@ -41,7 +34,7 @@ namespace AmmunitionSystem.Ammunitions.BasicRocket
                     if (direction != Vector3.zero)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(direction);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, dt * rotationSpeed);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, dt * ammunitionData.rotationSpeed);
                     }
                 }
             }

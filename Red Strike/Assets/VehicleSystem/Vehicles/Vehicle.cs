@@ -49,7 +49,7 @@ namespace VehicleSystem.Vehicles
 
         protected float speed;
         protected float turnSpeed;
-        protected float fuelLevel;
+        [Networked] public float fuelLevel { get; set; }
         protected float maxFuel;
         protected float fuelConsumptionRate;
         protected float health;
@@ -223,9 +223,13 @@ namespace VehicleSystem.Vehicles
             stoppingDistance = vehicleData.stoppingDistance;
             maxHealth = vehicleData.maxHealth;
             health = maxHealth;
-            maxFuel = vehicleData.fuelCapacity;
-            fuelLevel = maxFuel;
             fuelConsumptionRate = vehicleData.fuelConsumptionRate;
+            maxFuel = vehicleData.fuelCapacity;
+
+            if (Object.HasStateAuthority)
+            {
+                fuelLevel = maxFuel;
+            }
 
             bulletFireSound = vehicleData.ammunitionSettings?.Where(ammo => ammo.ammunitionType == AmmunitionType.Bullet).FirstOrDefault()?.sound;
             rocketFireSound = vehicleData.ammunitionSettings?.Where(ammo => ammo.ammunitionType == AmmunitionType.Rocket).FirstOrDefault()?.sound;
@@ -278,6 +282,12 @@ namespace VehicleSystem.Vehicles
                 );
         }
 
+        public virtual float GetTargetDistance()
+        {
+            if (targetObject == null) return -1f;
+            return Vector3.Distance(transform.position, targetObject.transform.position);
+        }
+
         public override void FixedUpdateNetwork()
         {
             if (bulletCooldownTimer > 0) bulletCooldownTimer -= Runner.DeltaTime;
@@ -294,12 +304,22 @@ namespace VehicleSystem.Vehicles
             UpdateVehicleStatusIcon();
         }
 
-        protected virtual void ConsumeFuel()
+        public enum FuelConsumption { Low, Medium, High }
+        protected virtual void ConsumeFuel(FuelConsumption consumptionRateLevel = FuelConsumption.Medium)
         {
+            if (!Object.HasStateAuthority) return;
+
             if (isMoving && fuelLevel > 0)
             {
-                fuelLevel -= fuelConsumptionRate * Time.deltaTime;
-                fuelLevel = Mathf.Max(0, fuelLevel);
+                switch (consumptionRateLevel)
+                {
+                    case FuelConsumption.Low: fuelLevel -= (fuelConsumptionRate * 0.5f) * Runner.DeltaTime; break;
+                    case FuelConsumption.Medium: fuelLevel -= fuelConsumptionRate * Runner.DeltaTime; break;
+                    case FuelConsumption.High: fuelLevel -= (fuelConsumptionRate * 1.5f) * Runner.DeltaTime; break;
+                    default: fuelLevel -= fuelConsumptionRate * Runner.DeltaTime; break;
+                }
+
+                if (fuelLevel < 0) fuelLevel = 0;
             }
         }
 

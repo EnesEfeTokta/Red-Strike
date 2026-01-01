@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammunitionType: 2
   ammunitionName: Basic Rocket
-  damage: 90
-  speed: 40
+  speed: 65
+  rotationSpeed: 45
   range: -1
   lifetime: 10
   ammunitionPrefab: {fileID: 595683329615967435, guid: ab318667f38c4db4ebc5472f6d16eed0, type: 3}

@@ -9,6 +9,7 @@ namespace AmmunitionSystem
         public AmmunitionType ammunitionType;
         public string ammunitionName;
         public float speed;
+        public float rotationSpeed;
         public float range;
         public float lifetime;
         public GameObject ammunitionPrefab;

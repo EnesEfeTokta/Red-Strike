@@ -10,7 +10,10 @@ namespace UISystem
 
         private Label vehicleNameLabel;
         private ProgressBar fuelProgressBar;
-        private Label ammoLabel;
+        private Label bulletCountLabel;
+        private Label bulletReloadLabel;
+        private Label rocketCountLabel;
+        private Label rocketReloadLabel;
         private Label targetLabel;
         private ProgressBar healthProgressBar;
         private Button clearTargetButton;
@@ -31,7 +34,10 @@ namespace UISystem
 
             vehicleNameLabel = detailsPanel.Q<Label>("shared-vehicle-name-label");
             fuelProgressBar = detailsPanel.Q<ProgressBar>("shared-vehicle-fuel-bar");
-            ammoLabel = detailsPanel.Q<Label>("shared-vehicle-ammo-label");
+            bulletCountLabel = detailsPanel.Q<Label>("bullet-count-label");
+            bulletReloadLabel = detailsPanel.Q<Label>("bullet-reload-label");
+            rocketCountLabel = detailsPanel.Q<Label>("rocket-count-label");
+            rocketReloadLabel = detailsPanel.Q<Label>("rocket-reload-label");
             targetLabel = detailsPanel.Q<Label>("shared-vehicle-target-label");
             healthProgressBar = detailsPanel.Q<ProgressBar>("shared-vehicle-health-bar");
             clearTargetButton = detailsPanel.Q<Button>("btn-clear-target");
@@ -74,8 +80,11 @@ namespace UISystem
             if (vehicleNameLabel != null) vehicleNameLabel.text = vehicleName;
             if (healthProgressBar != null) { healthProgressBar.highValue = maxHealth; healthProgressBar.value = currentHealth; }
             if (fuelProgressBar != null) { fuelProgressBar.highValue = maxFuelValue; fuelProgressBar.value = currentFuel; }
-            if (ammoLabel != null) ammoLabel.text = $"Bullets: {bulletCurrent}/{bulletMax} | Rockets: {rocketCurrent}/{rocketMax}";
-            if (targetLabel != null) targetLabel.text = $"Target: {targetName}";
+            if (bulletCountLabel != null) bulletCountLabel.text = $"{bulletCurrent} / {bulletMax}";
+            if (bulletReloadLabel != null) bulletReloadLabel.text = $"RELOADS: {bulletReloadCount}";
+            if (rocketCountLabel != null) rocketCountLabel.text = $"{rocketCurrent} / {rocketMax}";
+            if (rocketReloadLabel != null) rocketReloadLabel.text = $"RELOADS: {rocketReloadCount}";
+            if (targetLabel != null) targetLabel.text = $"{targetName} and its distance: {currentlySelectedVehicle.GetTargetDistance():0.0}m";
 
             if (currentlySelectedVehicle.targetObject != null)
             {

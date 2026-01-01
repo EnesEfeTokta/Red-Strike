@@ -5544,7 +5544,7 @@ MonoBehaviour:
   orbitRadius: 70
   orbitDuration: 3
   pullUpAltitude: 30
-  firingAngle: 25
+  firingAngle: 70
   rocketChance: 0.5
   bankAngle: 50
   turnSpeedSmooth: 2

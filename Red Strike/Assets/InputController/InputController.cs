@@ -8,6 +8,7 @@ using NetworkingSystem;
 using AmmunitionSystem;
 using UserSystem;
 using GameStateSystem;
+using ExitGames.Client.Photon.StructWrapping;
 
 namespace InputController
 {
