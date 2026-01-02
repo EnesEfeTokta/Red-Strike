@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UserSystem
@@ -10,5 +11,20 @@ namespace UserSystem
         public Sprite avatar;
 
         public Sprite[] availableAvatars;
+
+        public List<FactionSelection> factionSelections;
+    }
+    [System.Serializable]
+    public class FactionSelection
+    {
+        public string factionName;
+        public string factionDescription;
+        public Color factionColor;
+        public Sprite factionLogo;
+
+        public (string factionName, string factionDescription, Color factionColor, Sprite factionLogo) GetFactionInfo()
+        {
+            return (factionName, factionDescription, factionColor, factionLogo);
+        }
     }
 }
