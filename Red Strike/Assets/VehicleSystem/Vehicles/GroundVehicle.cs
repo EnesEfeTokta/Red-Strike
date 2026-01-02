@@ -8,6 +8,7 @@ namespace VehicleSystem.Vehicles
     public class GroundVehicle : Vehicle
     {
         private NavMeshAgent agent;
+        private NavMeshPath tempPath;
 
         [Header("Ground Combat Settings")]
         public float rocketAttackRange = 40f;
@@ -20,6 +21,8 @@ namespace VehicleSystem.Vehicles
         protected override void Start()
         {
             base.Start();
+
+            tempPath = new NavMeshPath();
 
             agent = GetComponent<NavMeshAgent>();
             agent.speed = vehicleData.speed;
@@ -57,25 +60,57 @@ namespace VehicleSystem.Vehicles
         {
             if (pathVisualizer == null) return;
 
-            if (fuelLevel <= 0 || isRefueling)
+            bool isMyTeam = false;
+            if (InputController.InputController.Instance != null)
             {
-                pathVisualizer.ShowNavMeshPath(PathVisualizer.PathColor.Yellow);
-                return;
+                isMyTeam = (InputController.InputController.Instance.teamId == this.teamId);
             }
 
-            if (targetObject != null)
+            if (!isMyTeam)
             {
-                pathVisualizer.ShowNavMeshPath(PathVisualizer.PathColor.Red);
+                pathVisualizer.HidePath();
                 return;
             }
 
             if (IsMovingToPosition)
             {
-                pathVisualizer.ShowNavMeshPath(PathVisualizer.PathColor.Green);
+                DrawPathForClient(TargetMovePosition, PathVisualizer.PathColor.Green);
+                return;
+            }
+
+            if (targetObject != null)
+            {
+                DrawPathForClient(targetObject.transform.position, PathVisualizer.PathColor.Red);
+                return;
+            }
+
+            if (fuelLevel <= 0 || isRefueling)
+            {
+                if (nearestEnergyTower != null)
+                    DrawPathForClient(nearestEnergyTower.transform.position, PathVisualizer.PathColor.Yellow);
                 return;
             }
 
             pathVisualizer.HidePath();
+        }
+
+        private void DrawPathForClient(Vector3 targetPos, PathVisualizer.PathColor color)
+        {
+            if (Object.HasStateAuthority && agent != null && agent.enabled && agent.hasPath)
+            {
+                pathVisualizer.ShowNavMeshPath(color);
+            }
+            else
+            {
+                if (NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, tempPath))
+                {
+                    pathVisualizer.ShowPoints(tempPath.corners, color);
+                }
+                else
+                {
+                    pathVisualizer.ShowDirectLine(transform.position, targetPos, color);
+                }
+            }
         }
 
         public override void FixedUpdateNetwork()

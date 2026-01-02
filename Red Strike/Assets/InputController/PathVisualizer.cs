@@ -47,6 +47,17 @@ namespace InputController
             }
         }
 
+        public void ShowPoints(Vector3[] points, PathColor color)
+        {
+            if (points == null || points.Length < 2)
+            {
+                HidePath();
+                return;
+            }
+
+            DrawLineInternal(points, color);
+        }
+
         public void ShowNavMeshPath(PathColor color)
         {
             if (agent == null || !agent.hasPath)
