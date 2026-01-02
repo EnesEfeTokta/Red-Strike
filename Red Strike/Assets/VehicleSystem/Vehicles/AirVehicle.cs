@@ -87,6 +87,18 @@ namespace VehicleSystem.Vehicles
         {
             if (pathVisualizer == null) return;
 
+            bool isMyTeam = false;
+            if (InputController.InputController.Instance != null)
+            {
+                isMyTeam = (InputController.InputController.Instance.teamId == this.teamId);
+            }
+
+            if (!isMyTeam)
+            {
+                pathVisualizer.HidePath();
+                return;
+            }
+
             if (fuelLevel <= 0 || isRefueling)
             {
                 if (nearestEnergyTower != null)

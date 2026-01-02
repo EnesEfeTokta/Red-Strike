@@ -28,11 +28,7 @@ namespace BuildingPlacement.Buildings
         {
             var targetVehicleData = vehiclesDatabase.vehicles.FirstOrDefault(v => v.vehicleType == vehicleType);
 
-            if (targetVehicleData == null) 
-            {
-                //Debug.LogError("Araç database'de bulunamadı!");
-                return;
-            }
+            if (targetVehicleData == null) return;
 
             bool limitReached = GameStateManager.Instance.HasReachedLimit(
                 teamId,
@@ -42,7 +38,6 @@ namespace BuildingPlacement.Buildings
 
             if (limitReached)
             {
-                //Debug.LogWarning("Araç limitine ulaşıldı!");
                 NotificationSystem.NotificationSystem.Show(
                     "Vehicle Creation Error",
                     "You have reached the limit for creating " + targetVehicleData.vehicleName + ".",

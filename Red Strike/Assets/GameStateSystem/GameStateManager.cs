@@ -14,7 +14,7 @@ namespace GameStateSystem
         [Networked] public int WinningTeamId { get; set; } = -1;
         public int LocalPlayerTeamId = 0;
 
-        [Networked, Capacity(32)]
+        [Networked, Capacity(128)]
         private NetworkDictionary<NetworkString<_32>, int> UnitCounts { get; }
 
         private ChangeDetector _changes;
