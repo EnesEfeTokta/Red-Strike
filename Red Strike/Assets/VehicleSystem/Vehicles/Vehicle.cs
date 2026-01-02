@@ -5,6 +5,7 @@ using BuildingPlacement.Buildings;
 using Fusion;
 using GameStateSystem;
 using NetworkingSystem;
+using InputController;
 
 namespace VehicleSystem.Vehicles
 {
@@ -68,12 +69,15 @@ namespace VehicleSystem.Vehicles
         protected AudioSource soundEffectSource;
         public AudioSource engineSource;
 
+        protected PathVisualizer pathVisualizer;
+
         public Animator animator;
 
         protected virtual void Start()
         {
             vehicleUI = GetComponent<VehicleUI>();
             soundEffectSource = GetComponent<AudioSource>();
+            pathVisualizer = GetComponent<PathVisualizer>();
 
             engineSource.clip = vehicleData.engineSound;
             engineSource.Play();
