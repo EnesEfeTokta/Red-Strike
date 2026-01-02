@@ -47,7 +47,7 @@ Material:
     - _GunesYonu: {r: -0.91, g: 0.4, b: 3.24, a: 0}
     - _RenkUzak: {r: 0, g: 0.10166844, b: 2.152374, a: 1}
     - _RenkYakin: {r: 0, g: 5.670685, b: 8, a: 1}
-    - _SunDirection: {r: 0.030348197, g: 0.9846097, b: -0.17211302, a: 0}
+    - _SunDirection: {r: -0.16355523, g: -0.0064900084, b: 0.98651296, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1522106816477559216

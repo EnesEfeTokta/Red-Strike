@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
-    <ui:VisualElement name="settings-overlay" class="overlay-container" style="display: flex;">
+    <ui:VisualElement name="settings-overlay" class="overlay-container" style="display: none;">
         
         <ui:VisualElement class="settings-box">
             
@@ -15,8 +15,8 @@
             <!-- CONTENT AREA -->
             <ui:VisualElement class="settings-content-area">
                 
-                <!-- TAB 1: GAMEPLAY (Dokunulmadı) -->
-                <ui:VisualElement name="content-gameplay" style="display: none;">
+                <!-- TAB 1: GAMEPLAY -->
+                <ui:VisualElement name="content-gameplay" style="display: flex;">
                     <ui:Label text="AUDIO &amp; VIDEO" style="color: #888; margin-bottom: 20px;" />
                     <ui:VisualElement class="row">
                         <ui:Label text="MASTER VOLUME" class="setting-label" />
@@ -32,8 +32,8 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <!-- TAB 2: USER PROFILE (DÜZELTİLDİ) -->
-                <ui:VisualElement name="content-user" style="display: flex;">
+                <!-- TAB 2: USER PROFILE -->
+                <ui:VisualElement name="content-user" style="display: none;">
                     <ui:Label text="ACCOUNT SETTINGS" style="color: #888; margin-bottom: 20px;" />
                     
                     <!-- Satır 1: Username -->
@@ -46,37 +46,25 @@
                     <ui:VisualElement class="row">
                         <ui:Label text="AVATAR" class="setting-label" />
                         <ui:VisualElement class="avatar-selector" style="flex-direction: row; align-items: center;">
-                            <ui:Button name="btn-avatar-prev" class="arrow-btn" text="&lt;" style="font-size: 24px; width: 40px; height: 40px;" />
+                            <ui:Button name="btn-avatar-prev" class="arrow-btn" text="◀" style="font-size: 24px; width: 40px; height: 40px;" />
                             <ui:VisualElement name="current-avatar-container" style="margin-left: 10px; margin-right: 10px; flex-direction: column; align-items: center;">
                                 <ui:Image name="current-avatar-image" style="width: 64px; height: 64px; border-width: 2px; border-color: cyan;" />
                             </ui:VisualElement>
-                            <ui:Button name="btn-avatar-next" class="arrow-btn" text="&gt;" style="font-size: 24px; width: 40px; height: 40px;" />
+                            <ui:Button name="btn-avatar-next" class="arrow-btn" text="▶" style="font-size: 24px; width: 40px; height: 40px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
 
-                    <!-- Satır 3: FACTION SELECTOR (YENİ VE DÜZGÜN YAPI) -->
-                    <!-- Artık .row yerine .faction-row kullanıyoruz -->
+                    <!-- Satır 3: Faction Selector -->
                     <ui:VisualElement class="faction-row">
-                        
-                        <!-- Sol Taraf: Etiket -->
                         <ui:Label text="SELECT FACTION" class="setting-label" style="width: 150px; white-space: normal;" />
-
-                        <!-- Sağ Taraf: Seçim Mekanizması -->
                         <ui:VisualElement class="faction-selector-container">
-                            
-                            <!-- Sol Büyük Ok -->
-                            <ui:Button name="btn-faction-prev" text="&lt;" class="faction-nav-btn" />
-
-                            <!-- Orta Kart -->
+                            <ui:Button name="btn-faction-prev" text="◀" class="faction-nav-btn" />
                             <ui:VisualElement name="current-faction-container" class="faction-card">
                                 <ui:Image name="faction-icon" class="faction-card-icon" />
                                 <ui:Label name="faction-name-label" text="THE IRON LEGION" class="faction-card-title" />
                                 <ui:Label name="faction-desc-label" text="Heavy armor and defensive tactics dominate the battlefield." class="faction-card-desc" />
                             </ui:VisualElement>
-
-                            <!-- Sağ Büyük Ok -->
-                            <ui:Button name="btn-faction-next" text="&gt;" class="faction-nav-btn" />
-                            
+                            <ui:Button name="btn-faction-next" text="▶" class="faction-nav-btn" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     

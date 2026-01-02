@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60754cae4fa681c42acf9d4b4b12dc33, type: 3}
   m_Name: NewUser
   m_EditorClassIdentifier: 
-  userName: 
+  userName: Enes
   avatar: {fileID: 21300000, guid: 73e270bd5e9ec144b9df9de461cf64d1, type: 3}
+  selectedFaction:
+    factionName: Solguard
+    factionDescription: An ancient protective force that harnesses the reliable energy
+      of the sun and possesses high defensive capabilities and gleaming technological
+      armor.
+    factionColor: {r: 0, g: 0.4833331, b: 1, a: 1}
+    factionLogo: {fileID: 21300000, guid: 233fab3238158094aa4c1b00aa26bbf2, type: 3}
   availableAvatars:
   - {fileID: 21300000, guid: 73e270bd5e9ec144b9df9de461cf64d1, type: 3}
   - {fileID: 21300000, guid: e6a21b748c57454419bf004afcb898ac, type: 3}
@@ -21,3 +28,26 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 82188e0f9a40a454a8148f8d3e456543, type: 3}
   - {fileID: 21300000, guid: 7ff30fb2021be974b8c52a67a6f9b490, type: 3}
   - {fileID: 21300000, guid: d1cb07494fef2454db2f503939f84dfe, type: 3}
+  factionSelections:
+  - factionName: Solguard
+    factionDescription: An ancient protective force that harnesses the reliable energy
+      of the sun and possesses high defensive capabilities and gleaming technological
+      armor.
+    factionColor: {r: 0, g: 0.47942042, b: 1, a: 1}
+    factionLogo: {fileID: 21300000, guid: 233fab3238158094aa4c1b00aa26bbf2, type: 3}
+  - factionName: Silasys
+    factionDescription: A mechanical legion, entirely controlled by data and artificial
+      intelligence, that moves silently and dismantles enemy systems from within.
+    factionColor: {r: 0.1780101, g: 1, b: 0, a: 1}
+    factionLogo: {fileID: 21300000, guid: 88dc039b0d797454390f98e14399f109, type: 3}
+  - factionName: Floria
+    factionDescription: A self-replicating army, specializing in forested areas,
+      that combines nature's biological adaptive power with futuristic weaponry.
+    factionColor: {r: 0.59720945, g: 0, b: 1, a: 1}
+    factionLogo: {fileID: 21300000, guid: 1f1a15957f4f03f4ea020868bb1dc445, type: 3}
+  - factionName: Pyroclast
+    factionDescription: An aggressive unit with unstoppable assault power, harnessing
+      volcanic heat and destructive firepower, turning everything in its path to
+      ash.
+    factionColor: {r: 0.59720945, g: 0, b: 1, a: 1}
+    factionLogo: {fileID: 21300000, guid: 16ee1c90f0afef9478621d6b192da740, type: 3}

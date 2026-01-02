@@ -7,18 +7,18 @@ namespace UserSystem
     public class User : ScriptableObject
     {
         public string userName;
-
         public Sprite avatar;
+        public FactionSelection selectedFaction;
 
         public Sprite[] availableAvatars;
-
         public List<FactionSelection> factionSelections;
     }
+
     [System.Serializable]
     public class FactionSelection
     {
         public string factionName;
-        public string factionDescription;
+        [TextArea(3, 10)] public string factionDescription;
         public Color factionColor;
         public Sprite factionLogo;
 
