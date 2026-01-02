@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using InputController;
 
 namespace VehicleSystem.Vehicles
 {
@@ -46,6 +47,37 @@ namespace VehicleSystem.Vehicles
             }
         }
 
+        public override void Render()
+        {
+            base.Render();
+            UpdatePathVisuals();
+        }
+
+        private void UpdatePathVisuals()
+        {
+            if (pathVisualizer == null) return;
+
+            if (fuelLevel <= 0 || isRefueling)
+            {
+                pathVisualizer.ShowNavMeshPath(PathVisualizer.PathColor.Yellow);
+                return;
+            }
+
+            if (targetObject != null)
+            {
+                pathVisualizer.ShowNavMeshPath(PathVisualizer.PathColor.Red);
+                return;
+            }
+
+            if (IsMovingToPosition)
+            {
+                pathVisualizer.ShowNavMeshPath(PathVisualizer.PathColor.Green);
+                return;
+            }
+
+            pathVisualizer.HidePath();
+        }
+
         public override void FixedUpdateNetwork()
         {
             base.FixedUpdateNetwork();
@@ -88,7 +120,7 @@ namespace VehicleSystem.Vehicles
                     agent.SetDestination(TargetMovePosition);
                     isMoving = true;
                     smokeEffect.Play();
-                    
+
                     ConsumeFuel(FuelConsumption.Low);
 
                     if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -98,9 +130,15 @@ namespace VehicleSystem.Vehicles
                         smokeEffect.Stop();
                         IsMovingToPosition = false;
                         agent.ResetPath();
+
+                        if (pathVisualizer != null) pathVisualizer.HidePath();
                     }
                 }
                 return;
+            }
+            else
+            {
+                if (pathVisualizer != null) pathVisualizer.HidePath();
             }
 
             if (targetObject != null)
@@ -115,7 +153,7 @@ namespace VehicleSystem.Vehicles
                         agent.isStopped = false;
                         isMoving = true;
                         smokeEffect.Play();
-                        
+
                         ConsumeFuel(FuelConsumption.Medium);
                     }
                     else
@@ -126,7 +164,7 @@ namespace VehicleSystem.Vehicles
                         RotateTowardsTarget();
                     }
                 }
-                
+
                 HandleCombat();
             }
             else
@@ -160,7 +198,7 @@ namespace VehicleSystem.Vehicles
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Runner.DeltaTime * vehicleData.turnSpeed * 0.1f);
             }
         }
-        
+
         private void HandleRefuelingState()
         {
             isRefueling = true;
@@ -181,6 +219,7 @@ namespace VehicleSystem.Vehicles
             }
             vehicleUI.SetVehicleStatusIconToRefueling();
         }
+
         private void Refuel()
         {
             float requestedAmount = vehicleData.fuelCapacity * 0.2f * Runner.DeltaTime;
@@ -194,6 +233,7 @@ namespace VehicleSystem.Vehicles
             }
             if (fuelLevel > vehicleData.fuelCapacity / 4) vehicleUI.ClearVehicleStatusIcon();
         }
+
         private void HandleCombat()
         {
             if (targetObject == null) return;

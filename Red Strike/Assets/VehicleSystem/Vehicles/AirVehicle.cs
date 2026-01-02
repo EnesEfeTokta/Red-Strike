@@ -1,5 +1,6 @@
 using UnityEngine;
 using Fusion;
+using InputController;
 
 namespace VehicleSystem.Vehicles
 {
@@ -64,6 +65,74 @@ namespace VehicleSystem.Vehicles
             }
         }
 
+        public override void Render()
+        {
+            if (!Object.HasStateAuthority)
+            {
+                float lerpSpeed = Time.deltaTime * 10f;
+                transform.position = Vector3.Lerp(transform.position, NetworkedPosition, lerpSpeed);
+                transform.rotation = Quaternion.Slerp(transform.rotation, NetworkedRotation, lerpSpeed);
+
+                UpdateEffectsAndSound();
+            }
+            else
+            {
+                UpdateEffectsAndSound();
+            }
+
+            UpdatePathVisuals();
+        }
+
+        private void UpdatePathVisuals()
+        {
+            if (pathVisualizer == null) return;
+
+            if (fuelLevel <= 0 || isRefueling)
+            {
+                if (nearestEnergyTower != null)
+                {
+                    pathVisualizer.ShowDirectLine(
+                        transform.position,
+                        new Vector3(nearestEnergyTower.transform.position.x, transform.position.y, nearestEnergyTower.transform.position.z),
+                        PathVisualizer.PathColor.Yellow
+                    );
+                }
+                else
+                {
+                    pathVisualizer.ShowDirectLine(
+                        transform.position,
+                        landingStartPoint,
+                        PathVisualizer.PathColor.Yellow
+                    );
+                }
+                return;
+            }
+
+            if (targetObject != null)
+            {
+                pathVisualizer.ShowDirectLine(
+                    transform.position,
+                    targetObject.transform.position,
+                    PathVisualizer.PathColor.Red
+                );
+                return;
+            }
+
+            if (IsMovingToPosition)
+            {
+                Vector3 destPos = new Vector3(TargetMovePosition.x, patrolAltitude, TargetMovePosition.z);
+
+                pathVisualizer.ShowDirectLine(
+                    transform.position,
+                    destPos,
+                    PathVisualizer.PathColor.Green
+                );
+                return;
+            }
+
+            pathVisualizer.HidePath();
+        }
+
         public override void FixedUpdateNetwork()
         {
             if (!Object.HasStateAuthority) return;
@@ -74,7 +143,7 @@ namespace VehicleSystem.Vehicles
 
                 Vector3 destPos = new Vector3(TargetMovePosition.x, patrolAltitude, TargetMovePosition.z);
                 FlyTowards(destPos, 1.0f);
-                
+
                 ConsumeFuel(FuelConsumption.Low);
 
                 float dist = Vector3.Distance(new Vector3(transform.position.x, 0, transform.position.z),
@@ -116,7 +185,7 @@ namespace VehicleSystem.Vehicles
                     combatOrbitTimer = 0f;
                 }
                 HandleCombatLogic();
-                
+
                 ConsumeFuel(FuelConsumption.Medium);
             }
             else
@@ -165,21 +234,6 @@ namespace VehicleSystem.Vehicles
             targetPoint.y = patrolAltitude;
 
             FlyTowards(targetPoint, 0.7f, true);
-        }
-
-        public override void Render()
-        {
-            if (!Object.HasStateAuthority)
-            {
-                float lerpSpeed = Time.deltaTime * 10f;
-                transform.position = Vector3.Lerp(transform.position, NetworkedPosition, lerpSpeed);
-                transform.rotation = Quaternion.Slerp(transform.rotation, NetworkedRotation, lerpSpeed);
-                UpdateEffectsAndSound();
-            }
-            else
-            {
-                UpdateEffectsAndSound();
-            }
         }
 
         private void UpdateEffectsAndSound()
