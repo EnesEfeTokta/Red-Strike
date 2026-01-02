@@ -35,6 +35,9 @@ namespace UISystem
         private TextField inputSessionName;
         private Label lobbyStatusLabel;
         private Image avatarImage;
+        private Image factionIcon;
+        private Label factionNameLabel;
+        private Label factionDescLabel;
 
         // Buton Referansları
         private Button btnPlay, btnOptions, btnQuit;
@@ -44,6 +47,7 @@ namespace UISystem
         private Button btnConfirmQuit, btnCancelQuit;
         private Button btnLogin;
         private Button btnAvatarNext, btnAvatarPrev;
+        private Button btnFactionNext, btnFactionPrev;
 
         private void Awake()
         {
@@ -121,6 +125,9 @@ namespace UISystem
             inputSessionName = root.Q<TextField>("input-session-name");
             lobbyStatusLabel = root.Q<Label>("lobby-status-label");
             avatarImage = root.Q<Image>("current-avatar-image");
+            factionIcon = root.Q<Image>("faction-icon");
+            factionNameLabel = root.Q<Label>("faction-name-label");
+            factionDescLabel = root.Q<Label>("faction-desc-label");
 
             // Butonlar
             btnPlay = root.Q<Button>("btn-play");
@@ -145,6 +152,9 @@ namespace UISystem
 
             btnAvatarNext = root.Q<Button>("btn-avatar-next");
             btnAvatarPrev = root.Q<Button>("btn-avatar-prev");
+
+            btnFactionNext = root.Q<Button>("btn-faction-next");
+            btnFactionPrev = root.Q<Button>("btn-faction-prev");
         }
 
         private void RegisterEvents()
@@ -171,6 +181,9 @@ namespace UISystem
 
             if (btnAvatarNext != null) btnAvatarNext.clicked += OnAvatarNext;
             if (btnAvatarPrev != null) btnAvatarPrev.clicked += OnAvatarPrev;
+
+            if (btnFactionNext != null) btnFactionNext.clicked += OnFactionNext;
+            if (btnFactionPrev != null) btnFactionPrev.clicked += OnFactionPrev;
         }
 
         private void UnregisterEvents()
@@ -194,12 +207,21 @@ namespace UISystem
 
             if (btnAvatarNext != null) btnAvatarNext.clicked -= OnAvatarNext;
             if (btnAvatarPrev != null) btnAvatarPrev.clicked -= OnAvatarPrev;
+
+            if (btnFactionNext != null) btnFactionNext.clicked -= OnFactionNext;
+            if (btnFactionPrev != null) btnFactionPrev.clicked -= OnFactionPrev;
         }
 
         private void SetDefaultValues()
         {
-            if (userManager == null || userManager.currentUser == null || avatarImage == null) return;
-            avatarImage.sprite = userManager.currentUser.avatar;
+            if (userManager == null || userManager.currentUser == null) return;
+
+            if (avatarImage != null && userManager.currentUser.avatar != null)
+            {
+                avatarImage.sprite = userManager.currentUser.avatar;
+            }
+
+            UpdateFactionUI();
         }
 
         #endregion
@@ -210,7 +232,7 @@ namespace UISystem
         {
             if (panel != null)
                 panel.style.display = DisplayStyle.Flex;
-            
+
             mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick1);
         }
 
@@ -224,6 +246,9 @@ namespace UISystem
 
         private void OnAvatarNext() => OnAvatarChanged(AvatarChangeDirection.Next);
         private void OnAvatarPrev() => OnAvatarChanged(AvatarChangeDirection.Previous);
+
+        private void OnFactionNext() => OnFactionChanged(FactionSelectionDirection.Next);
+        private void OnFactionPrev() => OnFactionChanged(FactionSelectionDirection.Previous);
 
         #endregion
 
@@ -423,6 +448,47 @@ namespace UISystem
             userManager.UpdateAvatar(newIndex);
             avatarImage.sprite = userManager.currentUser.avatar;
             avatarImage.MarkDirtyRepaint();
+        }
+
+        public enum FactionSelectionDirection { Previous, Next }
+
+        private void OnFactionChanged(FactionSelectionDirection direction)
+        {
+            mainMenu?.PlaySound(MainMenu.AudioClipType.ButtonClick2);
+
+            if (userManager == null || userManager.currentUser == null) return;
+            if (userManager.currentUser.factionSelections == null || userManager.currentUser.factionSelections.Count == 0) return;
+
+            int currentIndex = userManager.GetCurrentFactionIndex();
+            int count = userManager.currentUser.factionSelections.Count;
+
+            int newIndex = currentIndex;
+            if (direction == FactionSelectionDirection.Next)
+                newIndex = (currentIndex + 1) % count;
+            else
+                newIndex = (currentIndex - 1 + count) % count;
+
+            userManager.UpdateFactionSelection(newIndex);
+            UpdateFactionUI();
+        }
+
+        private void UpdateFactionUI()
+        {
+            if (userManager == null || userManager.currentUser == null) return;
+            if (userManager.currentUser.selectedFaction == null)
+            {
+                if (userManager.currentUser.factionSelections != null && userManager.currentUser.factionSelections.Count > 0)
+                {
+                    userManager.UpdateFactionSelection(0);
+                }
+                else return;
+            }
+
+            var info = userManager.currentUser.selectedFaction.GetFactionInfo();
+
+            if (factionIcon != null) factionIcon.sprite = info.factionLogo;
+            if (factionNameLabel != null) factionNameLabel.text = info.factionName;
+            if (factionDescLabel != null) factionDescLabel.text = info.factionDescription;
         }
 
         private void QuitGame()

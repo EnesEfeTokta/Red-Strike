@@ -6,7 +6,6 @@
             <!-- HEADER & TABS -->
             <ui:VisualElement class="settings-header-area">
                 <ui:Label text="SETTINGS" style="font-size: 24px; color: cyan;" />
-                
                 <ui:VisualElement class="tabs-container">
                     <ui:Button text="GAMEPLAY" name="tab-game" class="tab-button tab-active" />
                     <ui:Button text="USER PROFILE" name="tab-user" class="tab-button" />
@@ -16,47 +15,60 @@
             <!-- CONTENT AREA -->
             <ui:VisualElement class="settings-content-area">
                 
-                <!-- TAB 1: OYUN AYARLARI -->
+                <!-- TAB 1: GAMEPLAY -->
                 <ui:VisualElement name="content-gameplay" style="display: flex;">
                     <ui:Label text="AUDIO &amp; VIDEO" style="color: #888; margin-bottom: 20px;" />
-                    
                     <ui:VisualElement class="row">
                         <ui:Label text="MASTER VOLUME" class="setting-label" />
                         <ui:Slider name="slider-master-volume" high-value="1" low-value="0" value="0.75" style="width: 300px;" />
                     </ui:VisualElement>
-
                     <ui:VisualElement class="row">
                         <ui:Label text="MUSIC VOLUME" class="setting-label" />
                         <ui:Slider name="slider-music-volume" high-value="1" low-value="0" value="0.60" style="width: 300px;" />
                     </ui:VisualElement>
-                    
                     <ui:VisualElement class="row">
                         <ui:Label text="FULLSCREEN" class="setting-label" />
                         <ui:Toggle name="toggle-fullscreen" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <!-- TAB 2: -->
+                <!-- TAB 2: USER PROFILE -->
                 <ui:VisualElement name="content-user" style="display: none;">
                     <ui:Label text="ACCOUNT SETTINGS" style="color: #888; margin-bottom: 20px;" />
                     
+                    <!-- Satır 1: Username -->
                     <ui:VisualElement class="row">
                         <ui:Label text="USERNAME" class="setting-label" />
                         <ui:TextField name="input-username" value="" class="sci-fi-input" />
                     </ui:VisualElement>
 
+                    <!-- Satır 2: Avatar -->
                     <ui:VisualElement class="row">
                         <ui:Label text="AVATAR" class="setting-label" />
                         <ui:VisualElement class="avatar-selector" style="flex-direction: row; align-items: center;">
                             <ui:Button name="btn-avatar-prev" class="arrow-btn" text="◀" style="font-size: 24px; width: 40px; height: 40px;" />
-                            <ui:VisualElement name="current-avatar-container" style="margin-left: 10px; margin-right: 10px;">
+                            <ui:VisualElement name="current-avatar-container" style="margin-left: 10px; margin-right: 10px; flex-direction: column; align-items: center;">
                                 <ui:Image name="current-avatar-image" style="width: 64px; height: 64px; border-width: 2px; border-color: cyan;" />
                             </ui:VisualElement>
                             <ui:Button name="btn-avatar-next" class="arrow-btn" text="▶" style="font-size: 24px; width: 40px; height: 40px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
+
+                    <!-- Satır 3: Faction Selector -->
+                    <ui:VisualElement class="faction-row">
+                        <ui:Label text="SELECT FACTION" class="setting-label" style="width: 150px; white-space: normal;" />
+                        <ui:VisualElement class="faction-selector-container">
+                            <ui:Button name="btn-faction-prev" text="◀" class="faction-nav-btn" />
+                            <ui:VisualElement name="current-faction-container" class="faction-card">
+                                <ui:Image name="faction-icon" class="faction-card-icon" />
+                                <ui:Label name="faction-name-label" text="THE IRON LEGION" class="faction-card-title" />
+                                <ui:Label name="faction-desc-label" text="Heavy armor and defensive tactics dominate the battlefield." class="faction-card-desc" />
+                            </ui:VisualElement>
+                            <ui:Button name="btn-faction-next" text="▶" class="faction-nav-btn" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                     
-                    <ui:Button name="btn-update-username" text="UPDATE PROFILE" class="action-btn" style="width: 200px; margin-top: 20px;" />
+                    <ui:Button name="btn-update-username" text="UPDATE PROFILE" class="action-btn" style="width: 200px; margin-top: 10px;" />
                 </ui:VisualElement>
 
             </ui:VisualElement>
