@@ -21,6 +21,7 @@ MonoBehaviour:
       armor.
     factionColor: {r: 0, g: 0.4833331, b: 1, a: 1}
     factionLogo: {fileID: 21300000, guid: 233fab3238158094aa4c1b00aa26bbf2, type: 3}
+    unitMaterial: {fileID: 2100000, guid: d7f0c86ff6be81e4d8e82f13e6fa7691, type: 2}
   availableAvatars:
   - {fileID: 21300000, guid: 73e270bd5e9ec144b9df9de461cf64d1, type: 3}
   - {fileID: 21300000, guid: e6a21b748c57454419bf004afcb898ac, type: 3}
@@ -35,19 +36,23 @@ MonoBehaviour:
       armor.
     factionColor: {r: 0, g: 0.47942042, b: 1, a: 1}
     factionLogo: {fileID: 21300000, guid: 233fab3238158094aa4c1b00aa26bbf2, type: 3}
+    unitMaterial: {fileID: 2100000, guid: d7f0c86ff6be81e4d8e82f13e6fa7691, type: 2}
   - factionName: Silasys
     factionDescription: A mechanical legion, entirely controlled by data and artificial
       intelligence, that moves silently and dismantles enemy systems from within.
     factionColor: {r: 0.1780101, g: 1, b: 0, a: 1}
     factionLogo: {fileID: 21300000, guid: 88dc039b0d797454390f98e14399f109, type: 3}
+    unitMaterial: {fileID: 2100000, guid: 8d99f6689328c0c479f78811db5e37ec, type: 2}
   - factionName: Floria
     factionDescription: A self-replicating army, specializing in forested areas,
       that combines nature's biological adaptive power with futuristic weaponry.
     factionColor: {r: 0.59720945, g: 0, b: 1, a: 1}
     factionLogo: {fileID: 21300000, guid: 1f1a15957f4f03f4ea020868bb1dc445, type: 3}
+    unitMaterial: {fileID: 2100000, guid: 2afc15fc4c7832b4a85086fe996d2d70, type: 2}
   - factionName: Pyroclast
     factionDescription: An aggressive unit with unstoppable assault power, harnessing
       volcanic heat and destructive firepower, turning everything in its path to
       ash.
-    factionColor: {r: 0.59720945, g: 0, b: 1, a: 1}
+    factionColor: {r: 1, g: 0, b: 0, a: 1}
     factionLogo: {fileID: 21300000, guid: 16ee1c90f0afef9478621d6b192da740, type: 3}
+    unitMaterial: {fileID: 2100000, guid: 03993c9801677ca4b9741101b3033488, type: 2}

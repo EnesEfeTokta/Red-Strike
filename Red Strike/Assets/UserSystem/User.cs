@@ -21,10 +21,11 @@ namespace UserSystem
         [TextArea(3, 10)] public string factionDescription;
         public Color factionColor;
         public Sprite factionLogo;
+        public Material unitMaterial;
 
-        public (string factionName, string factionDescription, Color factionColor, Sprite factionLogo) GetFactionInfo()
+        public (string factionName, string factionDescription, Color factionColor, Sprite factionLogo, Material unitMaterial) GetFactionInfo()
         {
-            return (factionName, factionDescription, factionColor, factionLogo);
+            return (factionName, factionDescription, factionColor, factionLogo, unitMaterial);
         }
     }
 }

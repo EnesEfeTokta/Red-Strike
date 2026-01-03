@@ -14,6 +14,8 @@ namespace Unit
         protected NetworkObject networkObject;
         protected NetworkTransform networkTransform;
 
+        public MeshRenderer objectRenderer;
+
         private void Awake()
         {
             networkObject = GetComponent<NetworkObject>();
@@ -21,6 +23,14 @@ namespace Unit
         }
 
         public virtual void TakeDamage(float damage) { }
+
+        public virtual void ChangeMaterial(Material newMaterial)
+        {
+            if (objectRenderer != null && newMaterial != null)
+            {
+                objectRenderer.material = newMaterial;
+            }
+        }
     }
 
     public enum UnitType { Vehicle, Building }
