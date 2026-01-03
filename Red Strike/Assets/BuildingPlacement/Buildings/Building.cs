@@ -15,6 +15,7 @@ namespace BuildingPlacement.Buildings
 
         public override void Spawned()
         {
+            base.Spawned();
             health = buildingData.maxHealth;
             maxHealth = buildingData.maxHealth;
             buildingName = buildingData.buildingName;

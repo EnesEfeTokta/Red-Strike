@@ -89,6 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 1
+  objectRenderer: {fileID: 5118355424018258012}
   buildingData: {fileID: 11400000, guid: 99f7c912324c6684c915f1110a575fbf, type: 2}
   _health: 0
   maxHealth: 0
@@ -130,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionColor: {r: 0, g: 0.681592, b: 1, a: 1}
 --- !u!65 &8544821528908757865
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -157,7 +157,8 @@ namespace InputController
                     }
 
                     spawnPosition = spawnPosition + new Vector3(0, buildingDataToPlace.heightOffset, 0);
-                    CommanderData.LocalCommander.RPC_SpawnBuilding(buildingDataToPlace.buildingName, spawnPosition);
+                    Debug.Log($"Komutana bina yerleştir komutu gönderiliyor: {buildingDataToPlace.buildingName} pozisyonda {spawnPosition}, fraksiyon indeksi {userData.GetFactionIndex()}");
+                    CommanderData.LocalCommander.RPC_SpawnBuilding(buildingDataToPlace.buildingName, spawnPosition, userData.GetFactionIndex());
 
                     audioSource.PlayOneShot(placementSound);
                 }

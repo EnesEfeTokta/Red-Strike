@@ -14022,6 +14022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 1
+  objectRenderer: {fileID: 6208390505865256630}
   buildingData: {fileID: 11400000, guid: a20ea262914989645a27af443d4c8b0b, type: 2}
   _health: 0
   maxHealth: 0
@@ -14031,7 +14032,6 @@ MonoBehaviour:
   InProductionUnitName: None
   vehiclesDatabase: {fileID: 11400000, guid: 5d4883896aa0b5146966a880184eb941, type: 2}
   vehicleCreateSound: {fileID: 8300000, guid: 52fbf9347a99a2243a5b116c28536eb4, type: 3}
-  errorSound: {fileID: 8300000, guid: 6cb24f1824054be44b8cf32f428c339a, type: 3}
 --- !u!114 &5858552087576672710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14062,7 +14062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e01160669f82e499d3f5c9fdb4eebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionColor: {r: 0, g: 0.681592, b: 1, a: 1}
 --- !u!82 &4654804428361377398
 AudioSource:
   m_ObjectHideFlags: 0

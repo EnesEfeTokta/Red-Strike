@@ -5521,6 +5521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  objectRenderer: {fileID: 4961118802901759701}
   vehicleData: {fileID: 11400000, guid: 5d7c72c6670df4e408f287de587d7085, type: 2}
   targetObject: {fileID: 0}
   smokeEffect: {fileID: 6421614853822303987}

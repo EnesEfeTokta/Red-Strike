@@ -69,8 +69,9 @@ namespace BuildingPlacement.Buildings
             foreach (Vehicle item in vehiclesDatabase.vehicles)
             {
                 if (item.vehicleType == vehicleType)
-                {
-                    CommanderData.LocalCommander.RPC_SpawnVehicle(item.vehicleName, vehicleSpawnPoint);
+                {;
+                    int factionIndex = InputController.InputController.Instance.userData.GetFactionIndex();
+                    CommanderData.LocalCommander.RPC_SpawnVehicle(item.vehicleName, vehicleSpawnPoint, factionIndex);
                     
                     InProductionUnitName = "None";
                     IsReady = true;

@@ -66,7 +66,7 @@ namespace NetworkingSystem
         }
 
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-        public void RPC_SpawnBuilding(string buildingName, Vector3 position)
+        public void RPC_SpawnBuilding(string buildingName, Vector3 position, int factionIndex)
         {
             if (InputController.InputController.Instance == null) return;
 
@@ -81,14 +81,14 @@ namespace NetworkingSystem
                 if (unitScript != null)
                 {
                     unitScript.teamId = PlayerTeamID;
+                    unitScript.FactionIndex = factionIndex; 
                     GameStateSystem.GameStateManager.Instance.ReportUnitConstructed(unitScript);
-                    //Debug.Log($"Bina kuruldu ({buildingName}). Takım ID: {PlayerTeamID} atandı.");
                 }
             }
         }
 
         [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-        public void RPC_SpawnVehicle(string vehicleName, Vector3 position)
+        public void RPC_SpawnVehicle(string vehicleName, Vector3 position, int factionIndex)
         {
             if (InputController.InputController.Instance == null) return;
 
@@ -103,8 +103,8 @@ namespace NetworkingSystem
                 if (unitScript != null)
                 {
                     unitScript.teamId = PlayerTeamID;
+                    unitScript.FactionIndex = factionIndex;
                     GameStateSystem.GameStateManager.Instance.ReportUnitConstructed(unitScript);
-                    //Debug.Log($"Araç üretildi ({vehicleData.vehicleName}). Takım ID: {PlayerTeamID} atandı.");
                 }
             }
         }
