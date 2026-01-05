@@ -18,7 +18,7 @@ namespace GameStateSystem
         private NetworkDictionary<NetworkString<_32>, int> UnitCounts { get; }
 
         private ChangeDetector _changes;
-        private DeploymentMonitorHUDController deploymentMonitorHUDController;
+        private TacticalOverviewController tacticalOverviewController;
 
         private void Awake()
         {
@@ -28,7 +28,7 @@ namespace GameStateSystem
 
         private void Start()
         {
-            deploymentMonitorHUDController = GetComponent<DeploymentMonitorHUDController>();
+            tacticalOverviewController = GetComponent<TacticalOverviewController>();
         }
 
         public override void Spawned()
@@ -141,7 +141,7 @@ namespace GameStateSystem
 
         private void UpdateAllUI()
         {
-            if (deploymentMonitorHUDController == null) return;
+            if (tacticalOverviewController == null) return;
 
             foreach (var kvp in UnitCounts)
             {
@@ -149,7 +149,7 @@ namespace GameStateSystem
                 if (parts.Length < 2) continue;
 
                 if (int.TryParse(parts[0], out int teamId))
-                    deploymentMonitorHUDController.UpdateUnitSlots(teamId, parts[1], kvp.Value, 10); // 10 sayısı örnek max kapasite olarak kullanıldı.
+                    tacticalOverviewController.UpdateUnitSlots(teamId, parts[1], kvp.Value, 10); // 10 sayısı örnek max kapasite olarak kullanıldı.
             }
         }
 

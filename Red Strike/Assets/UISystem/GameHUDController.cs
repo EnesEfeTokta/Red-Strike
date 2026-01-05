@@ -15,7 +15,7 @@ namespace UISystem
         protected VisualElement gameOverPanel;
         protected VisualElement fadePanel;
         protected VisualElement victoryPanel;
-        protected VisualElement deploymentMonitorPanel;
+        protected VisualElement tacticalOverviewPanel;
         protected VisualElement vsPanel;
         protected VisualElement notificationContainer;
 
@@ -38,8 +38,8 @@ namespace UISystem
             vsPanel = root.Q<VisualElement>("vs-panel");
             notificationContainer = root.Q<VisualElement>("notification-list");
             if (notificationContainer != null) notificationContainer.Clear();
-            deploymentMonitorPanel = root.Q<VisualElement>("deployment-panel");
-            deploymentMonitorPanel.style.display = DisplayStyle.None;
+            tacticalOverviewPanel = root.Q<VisualElement>("tactical-window");
+            tacticalOverviewPanel.style.display = DisplayStyle.None;
         }
 
         protected virtual void OnDisable() { }

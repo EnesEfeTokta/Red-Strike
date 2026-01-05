@@ -1,5 +1,10 @@
 :root {
     --primary-cyan: #00FFFF;
+    --primary-bg: #0b1014;
+    --header-bg: rgba(0,0,0,0.5);
+    --border-color: #00FFFF;
+    --text-grey: #8a8a8a;
+    --text-light: #ffffff; 
     --secondary-blue: #0096FF;
     --danger-red: #FF2828;
     --panel-bg: rgba(5, 10, 15, 0.95);
@@ -7,6 +12,13 @@
     --notif-info: #00FFFF;
     --notif-warning: #FFCC00;
     --notif-error: #FF3333;
+    --monitor-bg: #05081a;
+    --monitor-border: #0044aa;
+    --header-text: #00FFFF;
+    --slot-green: #00ff66;          /* Parlak Neon Yeşil */
+    --slot-red: #aa3333;            /* Sönük Kırmızı */
+    --text-white: #eeeeee;
+
 }
 
 Label {
