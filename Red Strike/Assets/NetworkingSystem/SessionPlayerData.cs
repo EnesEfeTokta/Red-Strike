@@ -70,7 +70,7 @@ namespace NetworkingSystem
                 vsHud.UpdatePlayerAvatar(id, SyncedAvatarIndex);
             }
             
-            var dphud = FindFirstObjectByType<DeploymentMonitorHUDController>();
+            var dphud = FindFirstObjectByType<TacticalOverviewController>();
             if(dphud != null)
             {
                 int id = (Object.InputAuthority.PlayerId == 1) ? 1 : 2;

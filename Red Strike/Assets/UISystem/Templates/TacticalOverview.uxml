@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    
+    <!-- ANA PENCERE: İsim 'Tactical Overview' yapısına uygun güncellendi -->
+    <ui:VisualElement name="tactical-window" class="tactical-window" style="display: none;">
+        
+        <!-- ÜST BAR -->
+        <ui:VisualElement class="window-header-strip">
+            <ui:VisualElement class="header-deco-left" />
+            <ui:VisualElement class="tabs-container">
+                <ui:Button name="tab-forces" text="FORCE STATUS" class="tab-button tab-active" />
+                <ui:Button name="tab-sector" text="SECTOR MAP" class="tab-button" />
+            </ui:VisualElement>
+            <ui:Button name="btn-close-window" text="X" class="window-close-btn" tooltip="Close Interface" />
+        </ui:VisualElement>
+
+        <!-- İÇERİK ALANI -->
+        <ui:VisualElement class="window-content-area">
+
+            <!-- >>> GÖRÜNÜM 1: FORCE STATUS <<< -->
+            <ui:VisualElement name="view-forces" class="view-container" style="display: flex;">
+                <ui:ScrollView mode="Vertical" class="custom-scroll-view">
+                    <ui:VisualElement class="columns-wrapper">
+
+                        <!-- === PLAYER 1 (SOL) === -->
+                        <ui:VisualElement class="commander-column col-left">
+                            <ui:Label text="COMMANDER 01" class="commander-title" />
+
+                            <!-- Structures Group -->
+                            <ui:VisualElement class="group-container">
+                                <ui:Label text="STRUCTURES" class="group-header" />
+                                
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Main Station" class="row-label" />
+                                    <ui:VisualElement name="p1-main-station-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Hangar" class="row-label" />
+                                    <ui:VisualElement name="p1-hangar-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Energy Tower" class="row-label" />
+                                    <ui:VisualElement name="p1-energy-tower-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- Ground Forces Group -->
+                            <ui:VisualElement class="group-container">
+                                <ui:Label text="GROUND FORCES" class="group-header" />
+
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Infantry" class="row-label" />
+                                    <ui:VisualElement name="p1-infantry-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Trike" class="row-label" />
+                                    <ui:VisualElement name="p1-trike-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Quad" class="row-label" />
+                                    <ui:VisualElement name="p1-quad-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Tank Combat" class="row-label" />
+                                    <ui:VisualElement name="p1-tank-combat-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Tank Heavy A" class="row-label" />
+                                    <ui:VisualElement name="p1-tank-heavy-a-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Tank Heavy B" class="row-label" />
+                                    <ui:VisualElement name="p1-tank-heavy-b-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- Air Forces Group -->
+                            <ui:VisualElement class="group-container">
+                                <ui:Label text="AIR FORCES" class="group-header" />
+
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Ornithopter A" class="row-label" />
+                                    <ui:VisualElement name="p1-ornithopter-a-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Ornithopter B" class="row-label" />
+                                    <ui:VisualElement name="p1-ornithopter-b-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- DİKEY AYIRICI -->
+                        <ui:VisualElement class="vertical-divider">
+                            <ui:VisualElement class="divider-glow" />
+                        </ui:VisualElement>
+
+                        <!-- === PLAYER 2 (SAĞ) === -->
+                        <ui:VisualElement class="commander-column col-right">
+                            <ui:Label text="COMMANDER 02" class="commander-title title-enemy" />
+
+                            <!-- Structures -->
+                            <ui:VisualElement class="group-container">
+                                <ui:Label text="STRUCTURES" class="group-header" />
+                                
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Main Station" class="row-label" />
+                                    <ui:VisualElement name="p2-main-station-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Hangar" class="row-label" />
+                                    <ui:VisualElement name="p2-hangar-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Energy Tower" class="row-label" />
+                                    <ui:VisualElement name="p2-energy-tower-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- Ground Forces -->
+                            <ui:VisualElement class="group-container">
+                                <ui:Label text="GROUND FORCES" class="group-header" />
+
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Infantry" class="row-label" />
+                                    <ui:VisualElement name="p2-infantry-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Trike" class="row-label" />
+                                    <ui:VisualElement name="p2-trike-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Quad" class="row-label" />
+                                    <ui:VisualElement name="p2-quad-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Tank Combat" class="row-label" />
+                                    <ui:VisualElement name="p2-tank-combat-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Tank Heavy A" class="row-label" />
+                                    <ui:VisualElement name="p2-tank-heavy-a-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Tank Heavy B" class="row-label" />
+                                    <ui:VisualElement name="p2-tank-heavy-b-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- Air Forces -->
+                            <ui:VisualElement class="group-container">
+                                <ui:Label text="AIR FORCES" class="group-header" />
+
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Ornithopter A" class="row-label" />
+                                    <ui:VisualElement name="p2-ornithopter-a-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="unit-row">
+                                    <ui:Label text="Ornithopter B" class="row-label" />
+                                    <ui:VisualElement name="p2-ornithopter-b-slots" class="slots-wrapper" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                    </ui:VisualElement>
+                </ui:ScrollView>
+            </ui:VisualElement>
+
+            <!-- >>> GÖRÜNÜM 2: SECTOR MAP <<< -->
+            <ui:VisualElement name="view-sector" class="view-container" style="display: none;">
+                <ui:VisualElement name="map-surface" class="map-surface">
+                    <ui:VisualElement name="p1-unit-icon" class="map-icon icon-friendly" style="top: 50%; left: 20%;">
+                        <ui:Label text="P1" class="icon-label"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="map-footer">
+                   <ui:Label text="SATELLITE LINK // SECTOR 7G [ONLINE]" class="map-footer-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
