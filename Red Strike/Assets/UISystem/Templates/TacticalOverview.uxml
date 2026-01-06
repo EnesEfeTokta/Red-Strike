@@ -2,7 +2,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     
     <!-- ANA PENCERE: İsim 'Tactical Overview' yapısına uygun güncellendi -->
-    <ui:VisualElement name="tactical-window" class="tactical-window" style="display: none;">
+    <ui:VisualElement name="tactical-window" class="tactical-window" style="display: flex;">
         
         <!-- ÜST BAR -->
         <ui:VisualElement class="window-header-strip">
@@ -18,7 +18,7 @@
         <ui:VisualElement class="window-content-area">
 
             <!-- >>> GÖRÜNÜM 1: FORCE STATUS <<< -->
-            <ui:VisualElement name="view-forces" class="view-container" style="display: flex;">
+            <ui:VisualElement name="view-forces" class="view-container" style="display: none;">
                 <ui:ScrollView mode="Vertical" class="custom-scroll-view">
                     <ui:VisualElement class="columns-wrapper">
 
@@ -166,11 +166,9 @@
             </ui:VisualElement>
 
             <!-- >>> GÖRÜNÜM 2: SECTOR MAP <<< -->
-            <ui:VisualElement name="view-sector" class="view-container" style="display: none;">
+            <ui:VisualElement name="view-sector" class="view-container" style="display: flex;">
                 <ui:VisualElement name="map-surface" class="map-surface">
-                    <ui:VisualElement name="p1-unit-icon" class="map-icon icon-friendly" style="top: 50%; left: 20%;">
-                        <ui:Label text="P1" class="icon-label"/>
-                    </ui:VisualElement>
+                <ui:VisualElement name="radar-sweep" class="radar-sweep" />
                 </ui:VisualElement>
                 
                 <ui:VisualElement class="map-footer">

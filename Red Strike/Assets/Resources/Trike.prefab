@@ -5467,6 +5467,7 @@ GameObject:
   - component: {fileID: 1947969905624286606}
   - component: {fileID: 7577770279004504010}
   - component: {fileID: 3605361437367408651}
+  - component: {fileID: 1681437610180997044}
   m_Layer: 6
   m_Name: Trike
   m_TagString: Vehicle
@@ -5569,6 +5570,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8656917896441046910}
   - {fileID: 3875074439429232661}
+  - {fileID: 1681437610180997044}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &8656917896441046910
 MonoBehaviour:
@@ -5601,6 +5603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  _FactionIndex: 0
   objectRenderer: {fileID: 7967766069348825905}
   vehicleData: {fileID: 11400000, guid: 6b721204d4c46a24db720117c7fd198c, type: 2}
   targetObject: {fileID: 0}
@@ -5869,6 +5872,18 @@ MonoBehaviour:
   animationSpeed: 2
   lineWidth: 2
   textureTilingMultiplier: 0.3
+--- !u!114 &1681437610180997044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7311248439144974317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8195056607932559568
 GameObject:
   m_ObjectHideFlags: 0

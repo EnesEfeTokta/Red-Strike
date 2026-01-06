@@ -5301,6 +5301,7 @@ GameObject:
   - component: {fileID: 6342048877260788982}
   - component: {fileID: 7405582489252776889}
   - component: {fileID: 4997281557191300960}
+  - component: {fileID: 1350922969518296536}
   m_Layer: 6
   m_Name: Quad
   m_TagString: Vehicle
@@ -5388,6 +5389,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 4779281649917229894}
   - {fileID: 6581292964711823948}
+  - {fileID: 1350922969518296536}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &4779281649917229894
 MonoBehaviour:
@@ -5420,6 +5422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  _FactionIndex: 0
   objectRenderer: {fileID: 3752620858676474066}
   vehicleData: {fileID: 11400000, guid: ce97c2204a6a39643bf1b985564c1deb, type: 2}
   targetObject: {fileID: 0}
@@ -5707,6 +5710,18 @@ MonoBehaviour:
   animationSpeed: 2
   lineWidth: 2
   textureTilingMultiplier: 0.3
+--- !u!114 &1350922969518296536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322101594408336133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8363860335380567174
 GameObject:
   m_ObjectHideFlags: 0

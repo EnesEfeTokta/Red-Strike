@@ -13,6 +13,8 @@ namespace BuildingPlacement
         public int maxCreatableCount;
         public float heightOffset;
 
+        public Sprite buildingIcon;
+
         [Header("Effects")]
         public ParticleSystem explosionEffect;
 

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7065488202933544916}
   - component: {fileID: 8648573131848878044}
   - component: {fileID: 8544821528908757865}
+  - component: {fileID: 6207357259806991244}
   m_Layer: 6
   m_Name: EnergyTower
   m_TagString: Build
@@ -57,6 +58,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 88782762746948090}
   - {fileID: 2210238955859160192}
+  - {fileID: 6207357259806991244}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &88782762746948090
 MonoBehaviour:
@@ -89,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 1
+  _FactionIndex: 0
   objectRenderer: {fileID: 5118355424018258012}
   buildingData: {fileID: 11400000, guid: 99f7c912324c6684c915f1110a575fbf, type: 2}
   _health: 0
@@ -152,6 +155,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 8.761264, y: 11.885174, z: 9.725157}
   m_Center: {x: 0.030556202, y: 0.889719, z: -0.10213399}
+--- !u!114 &6207357259806991244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944538178676760682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2550113687263176039
 GameObject:
   m_ObjectHideFlags: 0

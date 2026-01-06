@@ -21,6 +21,8 @@ namespace VehicleSystem
         public float fuelCapacity;
         public float fuelConsumptionRate;
 
+        public Sprite vehicleIcon;
+
         [Header("Effects")]
         public ParticleSystem explosionEffect;
         public AudioClip engineSound;
