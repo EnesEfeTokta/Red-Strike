@@ -1,10 +1,12 @@
 using UnityEngine;
 using Fusion;
+using NetworkingSystem;
 
 namespace Unit
 {
     [RequireComponent(typeof(NetworkObject))]
     [RequireComponent(typeof(NetworkTransform))]
+    [RequireComponent(typeof(MapObjectRegistrar))]
     public class Unit : NetworkBehaviour
     {
         [Header("Unit Info")]

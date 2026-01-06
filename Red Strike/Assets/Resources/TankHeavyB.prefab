@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: 6178172298134301110}
   - component: {fileID: 1370274918256105714}
   - component: {fileID: 32491844978949601}
+  - component: {fileID: 6847287108853066519}
   m_Layer: 6
   m_Name: TankHeavyB
   m_TagString: Vehicle
@@ -425,6 +426,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 2709240583597913062}
   - {fileID: 1310403047266055805}
+  - {fileID: 6847287108853066519}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &2709240583597913062
 MonoBehaviour:
@@ -457,6 +459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  _FactionIndex: 0
   objectRenderer: {fileID: 9026957748338057138}
   vehicleData: {fileID: 11400000, guid: 2401c75b324e39040b0b2d2edbfe5039, type: 2}
   targetObject: {fileID: 0}
@@ -741,6 +744,18 @@ MonoBehaviour:
   animationSpeed: 2
   lineWidth: 2
   textureTilingMultiplier: 0.3
+--- !u!114 &6847287108853066519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3969752469904077645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4467546149094972049
 GameObject:
   m_ObjectHideFlags: 0

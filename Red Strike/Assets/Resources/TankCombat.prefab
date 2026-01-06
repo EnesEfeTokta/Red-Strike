@@ -4891,6 +4891,7 @@ GameObject:
   - component: {fileID: 4129111536197047261}
   - component: {fileID: 1378043658957075538}
   - component: {fileID: 6122536089765476409}
+  - component: {fileID: 594222948903161983}
   m_Layer: 6
   m_Name: TankCombat
   m_TagString: Vehicle
@@ -4973,6 +4974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  _FactionIndex: 0
   objectRenderer: {fileID: 2838713076769594124}
   vehicleData: {fileID: 11400000, guid: 1f1539dd50fac9945990afd398d5ff90, type: 2}
   targetObject: {fileID: 0}
@@ -5012,6 +5014,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8643037932132422401}
   - {fileID: 780750882487492682}
+  - {fileID: 594222948903161983}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &780750882487492682
 MonoBehaviour:
@@ -5294,6 +5297,18 @@ MonoBehaviour:
   animationSpeed: 2
   lineWidth: 2
   textureTilingMultiplier: 0.3
+--- !u!114 &594222948903161983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3852297137727675049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7575306567081892923
 GameObject:
   m_ObjectHideFlags: 0

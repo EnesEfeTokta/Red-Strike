@@ -13948,6 +13948,7 @@ GameObject:
   - component: {fileID: 3567686330717302428}
   - component: {fileID: 4654804428361377398}
   - component: {fileID: 7985558107384759400}
+  - component: {fileID: 962914730232275091}
   m_Layer: 6
   m_Name: Hangar
   m_TagString: Build
@@ -13990,6 +13991,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 3509944368574706312}
   - {fileID: 8342240107783803799}
+  - {fileID: 962914730232275091}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &3509944368574706312
 MonoBehaviour:
@@ -14022,6 +14024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 1
+  _FactionIndex: 0
   objectRenderer: {fileID: 6208390505865256630}
   buildingData: {fileID: 11400000, guid: a20ea262914989645a27af443d4c8b0b, type: 2}
   _health: 0
@@ -14180,6 +14183,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 18.07751, y: 10.097839, z: 27.140131}
   m_Center: {x: 0.0254879, y: -2.027196, z: -0.20185375}
+--- !u!114 &962914730232275091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4298143258487221820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5954511201580557661
 GameObject:
   m_ObjectHideFlags: 0

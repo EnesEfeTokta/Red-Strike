@@ -18,4 +18,5 @@ MonoBehaviour:
   buildTime: 0
   maxCreatableCount: 1
   heightOffset: 7
+  buildingIcon: {fileID: 21300000, guid: 539bd3e9e19439e409dafabe8ed33d05, type: 3}
   explosionEffect: {fileID: 198583976904112864, guid: 2056c3afdbd65d24f9d649085aed0898, type: 3}

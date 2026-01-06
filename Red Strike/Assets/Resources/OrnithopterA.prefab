@@ -5424,6 +5424,7 @@ GameObject:
   - component: {fileID: 477964570993649006}
   - component: {fileID: 5734832857669225373}
   - component: {fileID: 6594498029963689201}
+  - component: {fileID: 4078014780411790192}
   m_Layer: 6
   m_Name: OrnithopterA
   m_TagString: Vehicle
@@ -5489,6 +5490,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 3311410994927348829}
   - {fileID: 6092712150522189401}
+  - {fileID: 4078014780411790192}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &3311410994927348829
 MonoBehaviour:
@@ -5521,6 +5523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  _FactionIndex: 0
   objectRenderer: {fileID: 4961118802901759701}
   vehicleData: {fileID: 11400000, guid: 5d7c72c6670df4e408f287de587d7085, type: 2}
   targetObject: {fileID: 0}
@@ -5826,6 +5829,18 @@ MonoBehaviour:
   animationSpeed: 2
   lineWidth: 2
   textureTilingMultiplier: 0.3
+--- !u!114 &4078014780411790192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284546322829207217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6468861997717324996
 GameObject:
   m_ObjectHideFlags: 0

@@ -5346,6 +5346,7 @@ GameObject:
   - component: {fileID: 5216839334908128156}
   - component: {fileID: 3924491409344250184}
   - component: {fileID: 1066986060920935584}
+  - component: {fileID: 8493516111116253366}
   m_Layer: 6
   m_Name: Infantry
   m_TagString: Vehicle
@@ -5433,6 +5434,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 5151422036743500152}
   - {fileID: 1449279232023271400}
+  - {fileID: 8493516111116253366}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &5151422036743500152
 MonoBehaviour:
@@ -5465,6 +5467,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamId: 0
   unitType: 0
+  _FactionIndex: 0
+  objectRenderer: {fileID: 0}
   vehicleData: {fileID: 11400000, guid: b049ed01ebeaf174e82c98ba0beb4efa, type: 2}
   targetObject: {fileID: 0}
   smokeEffect: {fileID: 3722269451271966252}
@@ -5756,6 +5760,18 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &8493516111116253366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6427180487138741020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bc3645c01b7a74d994f40e5b59ed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7218765401593244663
 GameObject:
   m_ObjectHideFlags: 0
