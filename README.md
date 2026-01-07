@@ -1,33 +1,28 @@
 ![Red Strike Logo](https://via.placeholder.com/150)
 
-https://img.shields.io/badge/Unity-100000?style=for-the-badge&logo=unity&logoColor=white
-https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white
-https://img.shields.io/badge/microsoft%20azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white
-https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white
+# ATLAS
 
-# Red Strike
-
-**Red Strike**, Mars’ın kırmızı topraklarında geçen, gerçek zamanlı bir strateji oyunudur. İki oyuncu, modern tanklar, uçaklar ve teçhizatlarla donanmış ordularını kontrol ederek gezegenin hakimiyeti için çarpışır. Unity ile geliştirilen bu oyun, hızlı karar verme ve taktiksel zekayı ödüllendirir. Kızıl gezegendeki savaş seni bekliyor!
+**Atlas**, Atlas gezegeninin mavi topraklarında geçen, Unity ile geliştirilmiş gerçek zamanlı çok oyunculu bir strateji oyunudur. İki oyuncu, savunma kuleleri inşa ederek ve modern savaş araçları konuşlandırarak stratejik bir çarpışmaya girer. Oyuncular, rakiplerinin üslerini ele geçirmek için hem savunma yapıları hem de çeşitli kara ve hava birimlerini taktiksel olarak kullanmalıdır. Hızlı düşünme, kaynak yönetimi ve ustaca kule yerleştirme becerileriniz zafer için kritiktir!
 
 ## Özellikler
-- **Gerçek Zamanlı Strateji:** Hızlı tempolu maçlar, anlık kararlarla dolu.
-- **Modern Savaş Teknolojisi:** Tanklar, insansız hava araçları ve yüksek teknolojili üniteler.
-- **Mars Ortamı:** Kızıl çöller, kraterler ve üslerle dolu dinamik bir savaş alanı.
-- **Çok Oyunculu Deneyim:** 1v1 online maçlarla arkadaşlarına veya rakiplerine meydan oku.
-- **Stratejik Derinlik:** Kaynak yönetimi, üs inşası ve birlik konuşlandırma.
+- **Çok Oyunculu Strateji Savaşı:** İki oyuncunun gerçek zamanlı olarak karşı karşıya geldiği yoğun 1v1 maçlar.
+- **Kule Savunma Sistemi:** Stratejik noktalara savunma kuleleri inşa ederek bölgenizi koruyun ve düşman saldırılarını püskürtün.
+- **Çeşitli Savaş Araçları:** Tanklar, hava birimleri ve hafif araçlarla ordunuzu oluşturun ve saldırılarınızı planlayın.
+- **Atlas Savaş Alanı:** Mavi gezegendeki kraterler, tepeler ve stratejik noktalarla dolu dinamik haritada çarpışın.
+- **Kaynak ve Enerji Yönetimi:** Enerji kuleleri inşa ederek birimlerinizi güçlendirin ve fabrikalarınızla sürekli üretim yapın.
+- **Stratejik Derinlik:** Her birimin kendine özgü güçlü ve zayıf yönlerini kullanarak rakibinizi alt edin.
 
 ## Ekran Görüntüleri
 ![Gameplay](https://via.placeholder.com/600x300?text=Gameplay+Screenshot)
 ![Mars Base](https://via.placeholder.com/600x300?text=Mars+Base+Screenshot)
 
 ## Kurulum
-Red Strike’ı yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
+ATLAS ’ı yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 ### Gereksinimler
-- Unity 2022.3 veya üstü
+- Unity 6 veya üstü
 - Git/GitHub
-- Photon PUN 2 (multiplayer için, opsiyonel)
-- Azure PlayFab
+- Photon Fusion (multiplayer için, opsiyonel)
 
 ### Adımlar
 1. Bu depoyu klonlayın:
@@ -36,55 +31,60 @@ Red Strike’ı yerel makinenizde çalıştırmak için aşağıdaki adımları 
    ```
 2. Unity Hub’ı açın ve projeyi "Add" butonuyla ekleyin.
 3. Unity Editor’de projeyi açın.
-4. Gerekli paketleri (örneğin Photon PUN 2) Unity Package Manager’dan indirin.
+4. Gerekli paketleri (örneğin Photon Fusion) Unity Package Manager’dan indirin.
 5. "Scenes" klasöründen ana sahneyi açıp "Play" tuşuna basın!
 
 ## Oynanış
-**Amaç:** Rakibin ana üssünü yok et veya kaynaklarını tüketerek üstünlük sağla.
+**Amaç:** Stratejik kule savunması ve saldırı birimleriyle rakibinizin ana üssünü yok edin!
+
+**Oyun Mekaniği:**
+- **Kule İnşası:** Haritanın stratejik noktalarına savunma ve saldırı kuleleri yerleştirin.
+- **Birlik Üretimi:** Fabrikalarınızı kullanarak tanklar, hava araçları ve hafif birimler üretin.
+- **Enerji Yönetimi:** Enerji kuleleri inşa ederek araçlarınızın tam güçte çalışmasını sağlayın.
+- **Taktiksel Saldırı:** Kara ve hava birimlerinizi koordine ederek düşman savunmasını yıkın.
 
 **Kontroller:**
-*Sol Tık:* Birlik seçimi ve komut verme.
-
-*Sağ Tık:* Hareket ve saldırı yönlendirme.
-
-*Q/E:* Kamera döndürme.
+- **Sol Tık:** Birlik seçimi, kule yerleştirme ve hedef belirleme.
+- **Sağ Tık:** Hareket komutu ve saldırı yönlendirme.
+- **Q/E:** Kamera döndürme.
+- **WASD:** Kamera hareketi.
+- **1-5 Tuşları:** Hızlı birim/kule seçimi.
 
 **Strateji İpuçları:**
-Erken oyunda kaynak toplamaya odaklan.
-Uçaklarla rakibin savunmasını aşmayı dene.
+- Önce enerji kulelerini inşa edin - birimleriniz daha verimli çalışır.
+- Kuleleri yüksek noktalara yerleştirerek menzil avantajı kazanın.
+- Rakibin zayıf noktalarını keşfedin ve saldırılarınızı oraya yönlendirin.
+- Hem hava hem kara birimlerini dengeli kullanarak rakibinizi şaşırtın.
+- Fabrikalarınızı koruyun - sürekli üretim zafer için kritiktir!
 
 ## Oyun İçi Ögeler
 
-### Yapılar
+### Savunma ve Üretim Yapıları
 
 ---
 
-**Merkez Yapı** (Ana üssü temsil eder. Kaybedilirse oyun biter.)
+**Merkez Üs** (Ana karargah. Yok edilmesi oyunun kaybedilmesi anlamına gelir.)
    - **Can Değeri:** 800 lv
-   - **Korunma Değeri:** 500 hv
-   - **Hasar Verme Değeri:** 0 dv
    - **Menzil:** Yok
    - **Yoğunluk:** 1 (Tek başına bulunur)
    - **Tekrar Yaratma:** Hayır
+   - **Özellik:** Oyunun temel yapısıdır. Korumak için stratejik kule yerleşimi şarttır.
   
-**Fabrika** (Araç üretimi sağlar.)
+**Fabrika** (Tüm savaş araçlarının üretildiği merkez.)
    - **Can Değeri:** 400 lv
-   - **Korunma Değeri:** 300 hv
-   - **Hasar Verme Değeri:** 15 dv
    - **Menzil:** 10 birim
-   - **Yoğunluk:** 1 (Her oyuncunun bir tane olabilir.)
+   - **Yoğunluk:** 2
    - **Tekrar Yaratma:** Evet (90 saniye)
-   - **Üretim Kapasitesi:** Aynı anda en fazla 2 birim üretilebilir.
+   - **Üretim Kapasitesi:** Aynı anda en fazla 2 birim üretilebilir
+   - **Özellik:** Yok edilirse yeni birim üretimi durur. Mutlaka koruyun!
 
-**Enerji Kulesi** (Araçların çalışması için enerji üretir.)
+**Enerji Kulesi** (Araçların maksimum performansla çalışması için gerekli enerji sağlar.)
    - **Can Değeri:** 300 lv
-   - **Korunma Değeri:** 150 hv
-   - **Hasar Verme Değeri:** 0 dv
-   - **Menzil:** Yok
    - **Yoğunluk:** 3
    - **Tekrar Yaratma:** Evet (50 saniye)
-   - **Enerji Aktarım Kapasitesi:** Aynı anda en fazla 2 araca enerji aktarımı yapılabilir.
-   - **Özel Yetenek:** Enerji yoksa araçlar %50 daha yavaş çalışır.
+   - **Enerji Aktarım Kapasitesi:** Aynı anda en fazla 2 araca enerji aktarımı yapılabilir
+   - **Özel Yetenek:** Enerji yoksa araçlar %50 daha yavaş çalışır
+   - **Strateji:** Erken dönemde inşa edilmeli. Daha fazla enerji = Daha güçlü ordu!
 
 ### Hava Birimleri
 
@@ -92,7 +92,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Ornithopter A** (Hızlı ama düşük dayanıklılığa sahip.)  
 - **Can Değeri:** 120 lv 
-- **Korunma Değeri:** 50 hv 
 - **Hasar Verme Değeri:** 40 dv
 - **Hız:** 300
 - **Enerji:** 500 lt
@@ -105,7 +104,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Ornithopter B** (Daha dayanıklı ama daha yavaş.)  
 - **Can Değeri:** 250 lv
-- **Korunma Değeri:** 150 hv
 - **Hasar Verme Değeri:** 80 dv 
 - **Hız:** 100
 - **Enerji:** 400 lt
@@ -122,7 +120,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Tank Heavy A** (Oyundaki en güçlü tank.)  
 - **Can Değeri:** 300 lv
-- **Korunma Değeri:** 300 hv
 - **Hasar Verme Değeri:** 220 dv
 - **Hız:** 20
 - **Enerji:** 500 lt
@@ -135,7 +132,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Tank Heavy B** (A versiyonuna göre daha hafif ama hâlâ güçlü.)  
 - **Can Değeri:** 220 lv
-- **Korunma Değeri:** 200 hv 
 - **Hasar Verme Değeri:** 160 dv 
 - **Hız:** 40
 - **Enerji:** 400 lt
@@ -148,7 +144,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Tank Combat** (Daha hızlı bir tank.)  
 - **Can Değeri:** 180 lv
-- **Korunma Değeri:** 150 hv
 - **Hasar Verme Değeri:** 120 dv
 - **Hız:** 120
 - **Enerji:** 300 lt
@@ -165,7 +160,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Quat** (Çevik ve esnek birim.)  
 - **Can Değeri:** 140 lv
-- **Korunma Değeri:** 100 hv
 - **Hasar Verme Değeri:** 60 dv
 - **Hız:** 150
 - **Enerji:** 500 lt
@@ -176,9 +170,8 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 - **Üretim Maliyeti:** Düşük
 - **Özel Yetenek:** Kaçınma: Hareket halindeyken %15 daha az hasar alır.
 
-**🔟 Infantry Light** (En hızlı kara birimi.)  
+**Infantry Light** (En hızlı kara birimi.)  
 - **Can Değeri:** 120 lv
-- **Korunma Değeri:** 50 hv
 - **Hasar Verme Değeri:** 60 dv
 - **Hız:** 250
 - **Enerji:** 400 lt
@@ -191,7 +184,6 @@ Uçaklarla rakibin savunmasını aşmayı dene.
 
 **Trike** (Dengeli bir kara aracı.)  
 - **Can Değeri:** 150 lv
-- **Korunma Değeri:** 100 hv
 - **Hasar Verme Değeri:** 70 dv
 - **Hız:** 120
 - **Enerji:** 300 lt
