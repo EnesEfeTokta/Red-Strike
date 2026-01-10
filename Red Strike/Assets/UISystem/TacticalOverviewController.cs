@@ -9,9 +9,11 @@ namespace UISystem
     {
         private VisualElement viewForces;
         private VisualElement viewSector;
+        private VisualElement viewControls;
 
         private Button tabForces;
         private Button tabSector;
+        private Button tabControls;
         private Button btnClose;
 
         [Header("Map Settings")]
@@ -23,15 +25,13 @@ namespace UISystem
         [Header("UI Texture")]
         public RenderTexture MapTexture;
 
-        private VisualElement _mapSurface;
-        private VisualElement _p1Icon;
-        private VisualElement _enemyIcon;
+        private VisualElement mapSurface;
 
         private const string ActiveTabClass = "tab-active";
         private const string SlotBaseClass = "status-slot";
         private const string SlotFilledClass = "slot-filled";
 
-        private Dictionary<Unit.Unit, VisualElement> _trackedUnits = new Dictionary<Unit.Unit, VisualElement>();
+        private Dictionary<Unit.Unit, VisualElement> trackedUnits = new Dictionary<Unit.Unit, VisualElement>();
 
         private void Start()
         {
@@ -42,13 +42,13 @@ namespace UISystem
         {
             if (tacticalOverviewPanel == null) return;
 
-            if (_mapSurface == null)
+            if (mapSurface == null)
             {
-                _mapSurface = tacticalOverviewPanel.Q<VisualElement>("map-surface");
+                mapSurface = tacticalOverviewPanel.Q<VisualElement>("map-surface");
 
-                if (_mapSurface != null && MapTexture != null)
+                if (mapSurface != null && MapTexture != null)
                 {
-                    _mapSurface.style.backgroundImage = Background.FromRenderTexture(MapTexture);
+                    mapSurface.style.backgroundImage = Background.FromRenderTexture(MapTexture);
                 }
             }
         }
@@ -65,9 +65,11 @@ namespace UISystem
 
             viewForces = tacticalOverviewPanel.Q<VisualElement>("view-forces");
             viewSector = tacticalOverviewPanel.Q<VisualElement>("view-sector");
+            viewControls = tacticalOverviewPanel.Q<VisualElement>("view-controls");
 
             tabForces = tacticalOverviewPanel.Q<Button>("tab-forces");
             tabSector = tacticalOverviewPanel.Q<Button>("tab-sector");
+            tabControls = tacticalOverviewPanel.Q<Button>("tab-controls");
             btnClose = tacticalOverviewPanel.Q<Button>("btn-close-window");
 
             if (btnClose != null)
@@ -78,13 +80,16 @@ namespace UISystem
 
             if (tabSector != null)
                 tabSector.clicked += ShowSectorView;
+            
+            if (tabControls != null)
+                tabControls.clicked += ShowControlsView;
         }
 
         protected override void Update()
         {
             base.Update();
 
-            if (tacticalOverviewPanel == null || tacticalOverviewPanel == null) return;
+            if (tacticalOverviewPanel == null ) return;
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
@@ -100,9 +105,9 @@ namespace UISystem
                 }
             }
 
-            if (_mapSurface == null || _mapSurface.style.display == DisplayStyle.None) return;
+            if (mapSurface == null || mapSurface.style.display == DisplayStyle.None) return;
 
-            foreach (var kvp in _trackedUnits)
+            foreach (var kvp in trackedUnits)
             {
                 Unit.Unit unit = kvp.Key;
                 VisualElement icon = kvp.Value;
@@ -115,40 +120,38 @@ namespace UISystem
 
         public void RegisterUnit(Unit.Unit unit, Sprite iconSprite)
         {
-            if (_mapSurface == null) InitializeMapUI();
-            if (_mapSurface == null || _trackedUnits.ContainsKey(unit)) return;
+            if (mapSurface == null) InitializeMapUI();
+            if (mapSurface == null || trackedUnits.ContainsKey(unit)) return;
 
             VisualElement icon = new VisualElement();
             icon.AddToClassList("map-icon");
 
-            // EĞER SPRITE GELDİYSE ONU ARKAPLAN YAP
             if (iconSprite != null)
             {
                 icon.style.backgroundImage = new StyleBackground(iconSprite);
-                icon.style.backgroundColor = Color.clear; // Arka plan rengini kapat
+                icon.style.backgroundColor = Color.clear;
             }
             else
             {
-                // Sprite yoksa renkli yuvarlak olarak kalsın
                 int localTeamId = CommanderData.LocalCommander != null ? CommanderData.LocalCommander.PlayerTeamID : -1;
                 if (unit.teamId == localTeamId) icon.AddToClassList("icon-friendly");
                 else icon.AddToClassList("icon-enemy");
             }
 
-            _mapSurface.Add(icon);
-            _trackedUnits.Add(unit, icon);
+            mapSurface.Add(icon);
+            trackedUnits.Add(unit, icon);
         }
 
         public void UnregisterUnit(Unit.Unit unit)
         {
-            if (_trackedUnits.ContainsKey(unit))
+            if (trackedUnits.ContainsKey(unit))
             {
-                VisualElement icon = _trackedUnits[unit];
+                VisualElement icon = trackedUnits[unit];
 
-                if (_mapSurface != null)
-                    _mapSurface.Remove(icon);
+                if (mapSurface != null)
+                    mapSurface.Remove(icon);
 
-                _trackedUnits.Remove(unit);
+                trackedUnits.Remove(unit);
             }
         }
 
@@ -184,6 +187,7 @@ namespace UISystem
 
             viewForces.style.display = DisplayStyle.Flex;
             viewSector.style.display = DisplayStyle.None;
+            viewControls.style.display = DisplayStyle.None;
 
             tabForces?.AddToClassList(ActiveTabClass);
             tabSector?.RemoveFromClassList(ActiveTabClass);
@@ -195,9 +199,22 @@ namespace UISystem
 
             viewForces.style.display = DisplayStyle.None;
             viewSector.style.display = DisplayStyle.Flex;
+            viewControls.style.display = DisplayStyle.None;
 
             tabForces?.RemoveFromClassList(ActiveTabClass);
             tabSector?.AddToClassList(ActiveTabClass);
+        }
+
+        private void ShowControlsView()
+        {
+            if (viewForces == null || viewControls == null) return;
+
+            viewForces.style.display = DisplayStyle.None;
+            viewControls.style.display = DisplayStyle.Flex;
+            viewSector.style.display = DisplayStyle.None;
+
+            tabForces?.RemoveFromClassList(ActiveTabClass);
+            tabControls?.AddToClassList(ActiveTabClass);
         }
 
         public void UpdatePlayerName(int playerId, string playerName)
