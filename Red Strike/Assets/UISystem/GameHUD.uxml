@@ -1,20 +1,19 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:engine="UnityEngine.UIElements" editor-extension-mode="False">
-    
     <ui:Template name="TopBar" src="project://database/Assets/UISystem/Templates/TopBar.uxml?fileID=9197481963319205126&amp;guid=64ac0276179d92042be6c1918759d05e&amp;type=3#TopBar" />
     <ui:Template name="ConstructionPanel" src="project://database/Assets/UISystem/Templates/ConstructionPanel.uxml?fileID=9197481963319205126&amp;guid=9aa1e599dfc8cd14b929981e240e8eb3&amp;type=3#ConstructionPanel" />
     <ui:Template name="NotificationPanel" src="project://database/Assets/UISystem/Templates/NotificationPanel.uxml?fileID=9197481963319205126&amp;guid=390e022c72d05924b95c63812e94768f&amp;type=3#NotificationPanel" />
+    <ui:Template name="TacticalOverview" src="project://database/Assets/UISystem/Templates/TacticalOverview.uxml?fileID=9197481963319205126&amp;guid=9e2caa48e7ed22d4b89b27a987f5af09&amp;type=3#TacticalOverview" />
     <ui:Template name="InfoPanels" src="project://database/Assets/UISystem/Templates/InfoPanels.uxml?fileID=9197481963319205126&amp;guid=90ed04409a9899f4b979ec99b034e516&amp;type=3#InfoPanels" />
     <ui:Template name="VSPanel" src="project://database/Assets/UISystem/Templates/VSPanel.uxml?fileID=9197481963319205126&amp;guid=ca336e664243e0e4da6e6df43adbcc14&amp;type=3#VSPanel" />
     <ui:Template name="OverlayPanels" src="project://database/Assets/UISystem/Templates/OverlayPanels.uxml?fileID=9197481963319205126&amp;guid=837353a900555744c8b7ff84af0b7170&amp;type=3#OverlayPanels" />
-    <ui:Template name="TacticalOverview" src="project://database/Assets/UISystem/Templates/TacticalOverview.uxml?fileID=9197481963319205126&amp;guid=9e2caa48e7ed22d4b89b27a987f5af09&amp;type=3#TacticalOverview" />
-    
+    <ui:Template name="InputIcons" src="project://database/Assets/UISystem/Templates/InputIcons.uxml?fileID=9197481963319205126&amp;guid=03cea6cae1ac7144d8fd1b8436b95380&amp;type=3#InputIcons" />
     <Style src="project://database/Assets/UISystem/Styles/HUDVariables.uss?fileID=7433441132597879392&amp;guid=529a8cddc609549449b35620f337d689&amp;type=3#HUDVariables" />
     <Style src="project://database/Assets/UISystem/Styles/HUDLayouts.uss?fileID=7433441132597879392&amp;guid=9411b51df6374034386208321453b214&amp;type=3#HUDLayouts" />
     <Style src="project://database/Assets/UISystem/Styles/HUDComponents.uss?fileID=7433441132597879392&amp;guid=06d2fa809ade4fd4495f97ebd5509a2b&amp;type=3#HUDComponents" />
     <Style src="project://database/Assets/UISystem/Styles/HUDVSOverlays.uss?fileID=7433441132597879392&amp;guid=46f4d98b9b134ae498e7d57cce3fffa2&amp;type=3#HUDVSOverlays" />
     <Style src="project://database/Assets/UISystem/Styles/HUDNotifications.uss?fileID=7433441132597879392&amp;guid=d389986133b5b8946a260055f541d959&amp;type=3#HUDNotifications" />
     <Style src="project://database/Assets/UISystem/Styles/HUDTacticalOverview.uss?fileID=7433441132597879392&amp;guid=8896c9df1465fb646a89fbe786961e03&amp;type=3#HUDTacticalOverview" />
-    
+    <Style src="project://database/Assets/UISystem/Styles/KeyPromptStyle.uss?fileID=7433441132597879392&amp;guid=2e956fd6f48f2934a819fc9061e13c3f&amp;type=3#KeyPromptStyle" />
     <ui:VisualElement name="root-container" picking-mode="Ignore" class="root-interface">
         <ui:VisualElement picking-mode="Ignore" class="header-area">
             <ui:Instance template="TopBar" name="TopBarInstance" style="width: 100%; height: 100%;" />
@@ -34,6 +33,7 @@
         <ui:VisualElement picking-mode="Ignore" class="footer-area">
             <ui:Instance template="VSPanel" name="VSInstance" style="width: 100%; height: 100%;" />
         </ui:VisualElement>
+        <ui:Instance template="InputIcons" name="KeyPromptInstance" picking-mode="Ignore" style="width: 100%; height: 100%; position: absolute;" />
         <ui:Instance template="OverlayPanels" name="OverlayInstance" picking-mode="Ignore" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" />
         <ui:VisualElement name="fade-panel" class="fade-panel" style="display: none;" />
     </ui:VisualElement>

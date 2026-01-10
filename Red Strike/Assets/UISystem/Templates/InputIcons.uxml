@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -5,4 +6,40 @@
     xmlns:uie="UnityEditor.UIElements"
     xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd">
     
+=======
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="key-prompt-container" class="key-prompt-container" picking-mode="Ignore">
+        
+        <!-- Slot 0 -->
+        <ui:VisualElement name="Slot_0" class="key-slot key-slot--hidden">
+            <ui:VisualElement name="key-icon" class="key-icon" />
+            <ui:Label name="action-text" text="Action" class="action-text" />
+        </ui:VisualElement>
+
+        <!-- Slot 1 -->
+        <ui:VisualElement name="Slot_1" class="key-slot key-slot--hidden">
+            <ui:VisualElement name="key-icon" class="key-icon" />
+            <ui:Label name="action-text" text="Action" class="action-text" />
+        </ui:VisualElement>
+
+        <!-- Slot 2 -->
+        <ui:VisualElement name="Slot_2" class="key-slot key-slot--hidden">
+            <ui:VisualElement name="key-icon" class="key-icon" />
+            <ui:Label name="action-text" text="Action" class="action-text" />
+        </ui:VisualElement>
+
+        <!-- Slot 3 -->
+        <ui:VisualElement name="Slot_3" class="key-slot key-slot--hidden">
+            <ui:VisualElement name="key-icon" class="key-icon" />
+            <ui:Label name="action-text" text="Action" class="action-text" />
+        </ui:VisualElement>
+
+        <!-- Slot 4 -->
+        <ui:VisualElement name="Slot_4" class="key-slot key-slot--hidden">
+            <ui:VisualElement name="key-icon" class="key-icon" />
+            <ui:Label name="action-text" text="Action" class="action-text" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+>>>>>>> Stashed changes
 </ui:UXML>

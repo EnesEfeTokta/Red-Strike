@@ -18,6 +18,7 @@ namespace UISystem
         protected VisualElement tacticalOverviewPanel;
         protected VisualElement vsPanel;
         protected VisualElement notificationContainer;
+        protected VisualElement keyPromptContainer;
 
         protected void Awake()
         {
@@ -38,6 +39,7 @@ namespace UISystem
             vsPanel = root.Q<VisualElement>("vs-panel");
             notificationContainer = root.Q<VisualElement>("notification-list");
             if (notificationContainer != null) notificationContainer.Clear();
+            keyPromptContainer = root.Q<VisualElement>("key-prompt-container");
             tacticalOverviewPanel = root.Q<VisualElement>("tactical-window");
             tacticalOverviewPanel.style.display = DisplayStyle.None;
         }
