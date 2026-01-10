@@ -1,195 +1,198 @@
-![Red Strike Logo](https://via.placeholder.com/150)
+![Atlas Logo](https://github.com/EnesEfeTokta/Atlas/tree/main/Atlas/Assets/Logo)
 
 # ATLAS
 
-**Atlas**, Atlas gezegeninin mavi topraklarında geçen, Unity ile geliştirilmiş gerçek zamanlı çok oyunculu bir strateji oyunudur. İki oyuncu, savunma kuleleri inşa ederek ve modern savaş araçları konuşlandırarak stratejik bir çarpışmaya girer. Oyuncular, rakiplerinin üslerini ele geçirmek için hem savunma yapıları hem de çeşitli kara ve hava birimlerini taktiksel olarak kullanmalıdır. Hızlı düşünme, kaynak yönetimi ve ustaca kule yerleştirme becerileriniz zafer için kritiktir!
+**Atlas** is a real-time multiplayer strategy game developed with Unity, set in the blue lands of planet Atlas. Two players engage in strategic combat by building defense towers and deploying modern war vehicles. Players must tactically use both defensive structures and various ground and air units to capture their opponent's base. Quick thinking, resource management, and masterful tower placement skills are critical for victory!
 
-## Özellikler
-- **Çok Oyunculu Strateji Savaşı:** İki oyuncunun gerçek zamanlı olarak karşı karşıya geldiği yoğun 1v1 maçlar.
-- **Kule Savunma Sistemi:** Stratejik noktalara savunma kuleleri inşa ederek bölgenizi koruyun ve düşman saldırılarını püskürtün.
-- **Çeşitli Savaş Araçları:** Tanklar, hava birimleri ve hafif araçlarla ordunuzu oluşturun ve saldırılarınızı planlayın.
-- **Atlas Savaş Alanı:** Mavi gezegendeki kraterler, tepeler ve stratejik noktalarla dolu dinamik haritada çarpışın.
-- **Kaynak ve Enerji Yönetimi:** Enerji kuleleri inşa ederek birimlerinizi güçlendirin ve fabrikalarınızla sürekli üretim yapın.
-- **Stratejik Derinlik:** Her birimin kendine özgü güçlü ve zayıf yönlerini kullanarak rakibinizi alt edin.
+## Features
+- **Multiplayer Strategy Combat:** Intense 1v1 matches where two players face off in real-time.
+- **Tower Defense System:** Protect your territory and repel enemy attacks by building defense towers at strategic points.
+- **Diverse War Vehicles:** Build your army with tanks, air units, and light vehicles, and plan your attacks.
+- **Atlas Battlefield:** Fight on a dynamic map filled with craters, hills, and strategic points on the blue planet.
+- **Resource and Energy Management:** Empower your units by building energy towers and maintain continuous production with your factories.
+- **Strategic Depth:** Defeat your opponent by utilizing each unit's unique strengths and weaknesses.
 
-## Ekran Görüntüleri
-![Gameplay](https://via.placeholder.com/600x300?text=Gameplay+Screenshot)
-![Mars Base](https://via.placeholder.com/600x300?text=Mars+Base+Screenshot)
+## Screenshots
+![Main Menu](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/MainMenu.png)
+![Main Menu Settings 1](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/MainMenuSettings1.png)
+![Main Menu Settings 2](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/MainMenuSettings2.png)
+![Planet](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/Planet.png)
+![Area](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/Area.png)
+![GameScene 1](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene1.png)
+![GameScene 2](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene2.png)
+![GameScene 3](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene3.png)
+![GameScene 4](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene4.png)
+![GameScene 5](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene5.png)
+![GameScene 6](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene6.png)
+![GameScene 7](https://github.com/EnesEfeTokta/Atlas/blob/main/Screenshots/GameScene7.png)
 
-## Kurulum
-ATLAS ’ı yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
+## Installation
+Follow these steps to run ATLAS on your local machine:
 
-### Gereksinimler
-- Unity 6 veya üstü
+### Requirements
+- Unity 6 or higher
 - Git/GitHub
-- Photon Fusion (multiplayer için, opsiyonel)
+- Photon Fusion (for multiplayer, optional)
 
-### Adımlar
-1. Bu depoyu klonlayın:
+### Steps
+1. Clone this repository:
    ```bash
-   git clone https://github.com/kullanici-adi/red-strike.git
+   git clone https://github.com/username/red-strike.git
    ```
-2. Unity Hub’ı açın ve projeyi "Add" butonuyla ekleyin.
-3. Unity Editor’de projeyi açın.
-4. Gerekli paketleri (örneğin Photon Fusion) Unity Package Manager’dan indirin.
-5. "Scenes" klasöründen ana sahneyi açıp "Play" tuşuna basın!
+2. Open Unity Hub and add the project using the "Add" button.
+3. Open the project in Unity Editor.
+4. Download required packages (e.g., Photon Fusion) from Unity Package Manager.
+5. Open the main scene from the "Scenes" folder and press the "Play" button!
 
-## Oynanış
-**Amaç:** Stratejik kule savunması ve saldırı birimleriyle rakibinizin ana üssünü yok edin!
+## Gameplay
+**Objective:** Destroy your opponent's main base with strategic tower defense and attack units!
 
-**Oyun Mekaniği:**
-- **Kule İnşası:** Haritanın stratejik noktalarına savunma ve saldırı kuleleri yerleştirin.
-- **Birlik Üretimi:** Fabrikalarınızı kullanarak tanklar, hava araçları ve hafif birimler üretin.
-- **Enerji Yönetimi:** Enerji kuleleri inşa ederek araçlarınızın tam güçte çalışmasını sağlayın.
-- **Taktiksel Saldırı:** Kara ve hava birimlerinizi koordine ederek düşman savunmasını yıkın.
+**Game Mechanics:**
+- **Tower Construction:** Place defensive and offensive towers at strategic points on the map.
+- **Unit Production:** Use your factories to produce tanks, air vehicles, and light units.
+- **Energy Management:** Build energy towers to ensure your vehicles operate at full power.
+- **Tactical Attack:** Coordinate your ground and air units to break through enemy defenses.
 
-**Kontroller:**
-- **Sol Tık:** Birlik seçimi, kule yerleştirme ve hedef belirleme.
-- **Sağ Tık:** Hareket komutu ve saldırı yönlendirme.
-- **Q/E:** Kamera döndürme.
-- **WASD:** Kamera hareketi.
-- **1-5 Tuşları:** Hızlı birim/kule seçimi.
+**Strategy Tips:**
+- Build energy towers first - your units will work more efficiently.
+- Place towers on high ground to gain range advantage.
+- Discover your opponent's weak points and direct your attacks there.
+- Surprise your opponent by using both air and ground units in a balanced way.
+- Protect your factories - continuous production is critical for victory!
 
-**Strateji İpuçları:**
-- Önce enerji kulelerini inşa edin - birimleriniz daha verimli çalışır.
-- Kuleleri yüksek noktalara yerleştirerek menzil avantajı kazanın.
-- Rakibin zayıf noktalarını keşfedin ve saldırılarınızı oraya yönlendirin.
-- Hem hava hem kara birimlerini dengeli kullanarak rakibinizi şaşırtın.
-- Fabrikalarınızı koruyun - sürekli üretim zafer için kritiktir!
+## In-Game Elements
 
-## Oyun İçi Ögeler
-
-### Savunma ve Üretim Yapıları
+### Defense and Production Structures
 
 ---
 
-**Merkez Üs** (Ana karargah. Yok edilmesi oyunun kaybedilmesi anlamına gelir.)
-   - **Can Değeri:** 800 lv
-   - **Menzil:** Yok
-   - **Yoğunluk:** 1 (Tek başına bulunur)
-   - **Tekrar Yaratma:** Hayır
-   - **Özellik:** Oyunun temel yapısıdır. Korumak için stratejik kule yerleşimi şarttır.
+**Main Base** (Main headquarters. Its destruction means losing the game.)
+   - **Health:** 800 hp
+   - **Range:** None
+   - **Density:** 1 (Single instance)
+   - **Respawn:** No
+   - **Feature:** The fundamental structure of the game. Strategic tower placement is essential for protection.
   
-**Fabrika** (Tüm savaş araçlarının üretildiği merkez.)
-   - **Can Değeri:** 400 lv
-   - **Menzil:** 10 birim
-   - **Yoğunluk:** 2
-   - **Tekrar Yaratma:** Evet (90 saniye)
-   - **Üretim Kapasitesi:** Aynı anda en fazla 2 birim üretilebilir
-   - **Özellik:** Yok edilirse yeni birim üretimi durur. Mutlaka koruyun!
+**Factory** (The center where all war vehicles are produced.)
+   - **Health:** 400 hp
+   - **Range:** 10 units
+   - **Density:** 2
+   - **Respawn:** Yes (90 seconds)
+   - **Production Capacity:** Maximum 2 units can be produced simultaneously
+   - **Feature:** If destroyed, new unit production stops. Must protect!
 
-**Enerji Kulesi** (Araçların maksimum performansla çalışması için gerekli enerji sağlar.)
-   - **Can Değeri:** 300 lv
-   - **Yoğunluk:** 3
-   - **Tekrar Yaratma:** Evet (50 saniye)
-   - **Enerji Aktarım Kapasitesi:** Aynı anda en fazla 2 araca enerji aktarımı yapılabilir
-   - **Özel Yetenek:** Enerji yoksa araçlar %50 daha yavaş çalışır
-   - **Strateji:** Erken dönemde inşa edilmeli. Daha fazla enerji = Daha güçlü ordu!
+**Energy Tower** (Provides necessary energy for vehicles to operate at maximum performance.)
+   - **Health:** 300 hp
+   - **Density:** 3
+   - **Respawn:** Yes (50 seconds)
+   - **Energy Transfer Capacity:** Energy can be transferred to maximum 2 vehicles simultaneously
+   - **Special Ability:** Without energy, vehicles operate 50% slower
+   - **Strategy:** Should be built early game. More energy = Stronger army!
 
-### Hava Birimleri
-
----
-
-**Ornithopter A** (Hızlı ama düşük dayanıklılığa sahip.)  
-- **Can Değeri:** 120 lv 
-- **Hasar Verme Değeri:** 40 dv
-- **Hız:** 300
-- **Enerji:** 500 lt
-- **Atış Tekrarı:** 1 saniye
-- **Menzil:** 8 birim
-- **Yoğunluk:** 5
-- **Tekrar Yaratma:** Evet (10 saniye)
-- **Üretim Maliyeti:** Orta  
-- **Özel Yetenek:** Hareket Halindeyken %20 daha az hasar alır.  
-
-**Ornithopter B** (Daha dayanıklı ama daha yavaş.)  
-- **Can Değeri:** 250 lv
-- **Hasar Verme Değeri:** 80 dv 
-- **Hız:** 100
-- **Enerji:** 400 lt
-- **Atış Tekrarı:** 3 saniye
-- **Menzil:** 10 birim
-- **Yoğunluk:** 4  
-- **Tekrar Yaratma:** Evet (20 saniye)
-- **Üretim Maliyeti:** Yüksek
-- **Özel Yetenek:** Kalkan Aktif: İlk 2 saniye boyunca %50 daha az hasar alır.
-
-### Kara Birimleri
+### Air Units
 
 ---
 
-**Tank Heavy A** (Oyundaki en güçlü tank.)  
-- **Can Değeri:** 300 lv
-- **Hasar Verme Değeri:** 220 dv
-- **Hız:** 20
-- **Enerji:** 500 lt
-- **Atış Tekrarı:** 10 saniye
-- **Menzil:** 15 birim
-- **Yoğunluk:** 2
-- **Tekrar Yaratma:** Evet (40 saniye) 
-- **Üretim Maliyeti:** Çok Yüksek
-- **Özel Yetenek:** Zırh Kırıcı: Düşman zırhını %20 oranında deler. 
+**Ornithopter A** (Fast but low durability.)  
+- **Health:** 120 hp 
+- **Damage:** 40 dmg
+- **Speed:** 300
+- **Energy:** 500 lt
+- **Fire Rate:** 1 second
+- **Range:** 8 units
+- **Density:** 5
+- **Respawn:** Yes (10 seconds)
+- **Production Cost:** Medium  
+- **Special Ability:** Takes 20% less damage while moving.  
 
-**Tank Heavy B** (A versiyonuna göre daha hafif ama hâlâ güçlü.)  
-- **Can Değeri:** 220 lv
-- **Hasar Verme Değeri:** 160 dv 
-- **Hız:** 40
-- **Enerji:** 400 lt
-- **Atış Tekrarı:** 7 saniye
-- **Menzil:** 12 birim
-- **Yoğunluk:** 3
-- **Tekrar Yaratma:** Evet (30 saniye)
-- **Üretim Maliyeti:** Yüksek
-- **Özel Yetenek:** Düşük Yakıt Modu: %50 canı altına düştüğünde %30 daha hızlı hareket eder.
+**Ornithopter B** (More durable but slower.)  
+- **Health:** 250 hp
+- **Damage:** 80 dmg 
+- **Speed:** 100
+- **Energy:** 400 lt
+- **Fire Rate:** 3 seconds
+- **Range:** 10 units
+- **Density:** 4  
+- **Respawn:** Yes (20 seconds)
+- **Production Cost:** High
+- **Special Ability:** Shield Active: Takes 50% less damage for the first 2 seconds.
 
-**Tank Combat** (Daha hızlı bir tank.)  
-- **Can Değeri:** 180 lv
-- **Hasar Verme Değeri:** 120 dv
-- **Hız:** 120
-- **Enerji:** 300 lt
-- **Atış Tekrarı:** 4 saniye  
-- **Menzil:** 10 birim
-- **Yoğunluk:** 5
-- **Tekrar Yaratma:** Evet (15 saniye) 
-- **Üretim Maliyeti:** Orta
-- **Özel Yetenek:** Ani Saldırı: İlk atışında %25 ekstra hasar verir.
-
-### Hafif ve Çevik Birimler
+### Ground Units
 
 ---
 
-**Quat** (Çevik ve esnek birim.)  
-- **Can Değeri:** 140 lv
-- **Hasar Verme Değeri:** 60 dv
-- **Hız:** 150
-- **Enerji:** 500 lt
-- **Atış Tekrarı:** 4 saniye
-- **Menzil:** 6 birim
-- **Yoğunluk:** 5
-- **Tekrar Yaratma:** Evet (10 saniye)
-- **Üretim Maliyeti:** Düşük
-- **Özel Yetenek:** Kaçınma: Hareket halindeyken %15 daha az hasar alır.
+**Tank Heavy A** (The most powerful tank in the game.)  
+- **Health:** 300 hp
+- **Damage:** 220 dmg
+- **Speed:** 20
+- **Energy:** 500 lt
+- **Fire Rate:** 10 seconds
+- **Range:** 15 units
+- **Density:** 2
+- **Respawn:** Yes (40 seconds) 
+- **Production Cost:** Very High
+- **Special Ability:** Armor Piercing: Penetrates enemy armor by 20%. 
 
-**Infantry Light** (En hızlı kara birimi.)  
-- **Can Değeri:** 120 lv
-- **Hasar Verme Değeri:** 60 dv
-- **Hız:** 250
-- **Enerji:** 400 lt
-- **Atış Tekrarı:** 2 saniye
-- **Menzil:** 4 birim
-- **Yoğunluk:** 5
-- **Tekrar Yaratma:** Evet (5 saniye)  
-- **Üretim Maliyeti:** Çok Düşük
-- **Özel Yetenek:** Pusu: Düşmana saldırdığında ilk atışta %50 daha fazla hasar verir.
+**Tank Heavy B** (Lighter than A version but still powerful.)  
+- **Health:** 220 hp
+- **Damage:** 160 dmg 
+- **Speed:** 40
+- **Energy:** 400 lt
+- **Fire Rate:** 7 seconds
+- **Range:** 12 units
+- **Density:** 3
+- **Respawn:** Yes (30 seconds)
+- **Production Cost:** High
+- **Special Ability:** Low Fuel Mode: Moves 30% faster when health drops below 50%.
 
-**Trike** (Dengeli bir kara aracı.)  
-- **Can Değeri:** 150 lv
-- **Hasar Verme Değeri:** 70 dv
-- **Hız:** 120
-- **Enerji:** 300 lt
-- **Atış Tekrarı:** 4 saniye
-- **Menzil:** 8 birim
-- **Yoğunluk:** 5
-- **Tekrar Yaratma:** Evet (5 saniye)
-- **Üretim Maliyeti:** Orta 
-- **Özel Yetenek:** İkili Atış: %10 ihtimalle iki atış yapar.
+**Tank Combat** (A faster tank.)  
+- **Health:** 180 hp
+- **Damage:** 120 dmg
+- **Speed:** 120
+- **Energy:** 300 lt
+- **Fire Rate:** 4 seconds  
+- **Range:** 10 units
+- **Density:** 5
+- **Respawn:** Yes (15 seconds) 
+- **Production Cost:** Medium
+- **Special Ability:** Surprise Attack: Deals 25% extra damage on its first shot.
+
+### Light and Agile Units
+
+---
+
+**Quat** (Agile and flexible unit.)  
+- **Health:** 140 hp
+- **Damage:** 60 dmg
+- **Speed:** 150
+- **Energy:** 500 lt
+- **Fire Rate:** 4 seconds
+- **Range:** 6 units
+- **Density:** 5
+- **Respawn:** Yes (10 seconds)
+- **Production Cost:** Low
+- **Special Ability:** Evasion: Takes 15% less damage while moving.
+
+**Infantry Light** (The fastest ground unit.)  
+- **Health:** 120 hp
+- **Damage:** 60 dmg
+- **Speed:** 250
+- **Energy:** 400 lt
+- **Fire Rate:** 2 seconds
+- **Range:** 4 units
+- **Density:** 5
+- **Respawn:** Yes (5 seconds)  
+- **Production Cost:** Very Low
+- **Special Ability:** Ambush: Deals 50% more damage on the first shot when attacking an enemy.
+
+**Trike** (A balanced ground vehicle.)  
+- **Health:** 150 hp
+- **Damage:** 70 dmg
+- **Speed:** 120
+- **Energy:** 300 lt
+- **Fire Rate:** 4 seconds
+- **Range:** 8 units
+- **Density:** 5
+- **Respawn:** Yes (5 seconds)
+- **Production Cost:** Medium 
+- **Special Ability:** Double Shot: 10% chance to fire twice.
