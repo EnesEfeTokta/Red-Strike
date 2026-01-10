@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CloudMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: e8d3902fa1cfd47458150bf70812725d, type: 3}
+  m_Name: AtmosphereMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: 6f0882617f099a04da5510613123d375, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,12 +41,16 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0, g: 3.8274493, b: 5.992155, a: 1}
-    - _GunesYonu: {r: -1, g: 0, b: 0, a: 0}
-    - _SunDirection: {r: 0.074582145, g: 0.90306646, b: -0.422976, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorFar: {r: 0, g: 0.10351652, b: 0.4920352, a: 1}
+    - _ColorNear: {r: 0, g: 5.6706834, b: 7.9999995, a: 1}
+    - _GunesYonu: {r: -0.91, g: 0.4, b: 3.24, a: 0}
+    - _RenkUzak: {r: 0, g: 0.10166844, b: 2.152374, a: 1}
+    - _RenkYakin: {r: 0, g: 5.670685, b: 8, a: 1}
+    - _SunDirection: {r: 0.17294872, g: 0.08967322, b: -0.9808402, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &8499732345945835446
+--- !u!114 &1522106816477559216
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:VisualElement name="main-menu-container" class="main-menu-container" style="display: flex;">
         <!-- Oyun Başlığı -->
-        <ui:Label text="RED&#10;STRIKE" class="game-title" />
+        <ui:Label text="ATLAS" class="game-title" />
         
         <!-- Butonlar -->
         <ui:Button text="PLAY GAME" name="btn-play" class="menu-btn" />
