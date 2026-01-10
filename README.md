@@ -1,4 +1,4 @@
-![Atlas Logo](https://github.com/EnesEfeTokta/Atlas/tree/main/Atlas/Assets/Logo)
+<img src="https://github.com/EnesEfeTokta/Atlas/blob/main/Atlas/Assets/Logo/Logo.png" style="width:150px;" />
 
 # ATLAS
 
