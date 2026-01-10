@@ -5,11 +5,12 @@
             <ui:VisualElement class="tabs-container">
                 <ui:Button name="tab-forces" text="FORCE STATUS" class="tab-button tab-active" />
                 <ui:Button name="tab-sector" text="SECTOR MAP" class="tab-button" />
+                <ui:Button name="tab-controls" text="SYSTEM CONTROLS" class="tab-button" />
             </ui:VisualElement>
             <ui:Button name="btn-close-window" text="X" tooltip="Close Interface" class="window-close-btn" />
         </ui:VisualElement>
         <ui:VisualElement class="window-content-area">
-            <ui:VisualElement name="view-forces" class="view-container" style="display: none;">
+            <ui:VisualElement name="view-forces" class="view-container" style="display: flex;">
                 <ui:ScrollView mode="Vertical" class="custom-scroll-view">
                     <ui:VisualElement class="columns-wrapper">
                         <ui:VisualElement class="commander-column col-left">
@@ -130,11 +131,70 @@
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:VisualElement>
-            <ui:VisualElement name="view-sector" class="view-container" style="display: flex;">
+            <ui:VisualElement name="view-sector" class="view-container" style="display: none;">
                 <ui:Image style="background-image: url(&quot;project://database/Assets/Icons/MapBackround.png?fileID=2800000&amp;guid=bda327c21ec63634093b2809e80bb45d&amp;type=3#MapBackround&quot;); width: 100%; height: 100%;" />
                 <ui:VisualElement class="map-footer">
                     <ui:Label text="SATELLITE LINK // SECTOR 7G [ONLINE]" class="map-footer-text" />
                 </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="view-controls" class="view-container" style="display: none;">
+                <ui:Label text="SYSTEM CONTROLS" class="main-header" />
+                <ui:ScrollView mode="Vertical">
+                    <ui:VisualElement class="input-group">
+                        <ui:Label text="COMBAT &amp; INTERACTION" class="group-header" />
+                        <ui:VisualElement class="input-row">
+                            <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/mouse/mouse-solid/mouse-left.png?fileID=2800000&amp;guid=bffdf8cbd8232a14c9e2eb0ebe93c6c4&amp;type=3#mouse-left&quot;);" />
+                            <ui:Label text="Primary Fire / Select" class="input-label" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="input-row">
+                            <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/mouse/mouse-solid/mouse-right.png?fileID=2800000&amp;guid=3c477db1ce513e54c828b3ceeb5caf46&amp;type=3#mouse-right&quot;);" />
+                            <ui:Label text="Action Cancellation" class="input-label" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="input-group">
+                        <ui:Label text="BUILD ROTATION" class="group-header" />
+                        <ui:VisualElement class="input-row">
+                            <ui:VisualElement style="flex-direction: row;">
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-solid/ctrl.png?fileID=2800000&amp;guid=890a5e2564740ab459586c1121fee81e&amp;type=3#ctrl&quot;);" />
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-outlined/plus.png?fileID=2800000&amp;guid=951a55751bf167940a445f9a532ea858&amp;type=3#plus&quot;);" />
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-solid/r.png?fileID=2800000&amp;guid=ef04bf5a69063ed459dee8c038b66107&amp;type=3#r&quot;);" />
+                            </ui:VisualElement>
+                            <ui:Label text="Build Rotation" class="input-label" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="input-group">
+                        <ui:Label text="CAMERA MOVEMENT" class="group-header" />
+                        <ui:VisualElement class="input-row">
+                            <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-solid/keyboard-wasd.png?fileID=2800000&amp;guid=2bcba8b39558408428a71f04fd7be6b6&amp;type=3#keyboard-wasd&quot;);" />
+                            <ui:Label text="Movement" class="input-label" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="input-row">
+                            <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-solid/shift.png?fileID=2800000&amp;guid=185cf49fca2ff1f4c8fd8e3b993f700e&amp;type=3#shift&quot;);" />
+                            <ui:Label text="Sprint (Add Speed)" class="input-label" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="input-row">
+                            <ui:VisualElement style="flex-direction: row;">
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/mouse/mouse-solid/mouse-g1.png?fileID=2800000&amp;guid=d6c213c65751dc44f96262d3ea9cc0fb&amp;type=3#mouse-g1&quot;);" />
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/mouse/mouse-solid/mouse-g2.png?fileID=2800000&amp;guid=4d13b7133ac17aa47a8f32f25c6ec8a3&amp;type=3#mouse-g2&quot;);" />
+                            </ui:VisualElement>
+                            <ui:Label text="Camera Pan" class="input-label" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="input-row">
+                            <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/mouse/mouse-solid/mouse-middle.png?fileID=2800000&amp;guid=75d38e34a5887f3439d5351f8493e77b&amp;type=3#mouse-middle&quot;);" />
+                            <ui:Label text="Camera Drag" class="input-label" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="input-group">
+                        <ui:Label text="INTERFACE" class="group-header" />
+                        <ui:VisualElement class="input-row">
+                            <ui:VisualElement style="flex-direction: row;">
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-solid/tab.png?fileID=2800000&amp;guid=a2c89c67a31574b4eaf56799a7760024&amp;type=3#tab&quot;);" />
+                                <ui:Image class="input-icon" style="background-image: url(&quot;project://database/Assets/Icons/keyboard/keyboard-solid/esc.png?fileID=2800000&amp;guid=a51aac4521ec79b4f99279d63e8c4d78&amp;type=3#esc&quot;);" />
+                            </ui:VisualElement>
+                            <ui:Label text="Tactical Overview Open/Close" class="input-label" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:ScrollView>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

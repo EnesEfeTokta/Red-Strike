@@ -208,7 +208,6 @@
     border-color: #ccffcc;
 }
 
-/* Unity Scrollbar Özelleştirme */
 .unity-scroller--vertical { width: 8px; }
 .unity-scroller__slider { 
     background-color: rgba(0, 255, 255, 0.2); 
@@ -265,4 +264,57 @@
     rotate: 0deg;
     transition: rotate 2s linear;
     opacity: 0.3;
+}
+
+.main-header {
+    color: var(--primary-cyan);
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(7, 199, 199, 0.2);
+    letter-spacing: 1px;
+}
+
+.group-header {
+    color: var(--primary-cyan);
+    font-size: 15px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+    margin-top: 5px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    padding-left: 5px;
+}
+
+.input-row {
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    padding-left: 5px;
+}
+
+.input-row:hover {
+    background-color: rgba(32, 87, 87, 0.1)
+}
+
+.input-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 20px;
+    -unity-background-scale-mode: scale-to-fit;
+    opacity: 1;
+}
+
+.input-label {
+    font-size: 17px;
+    color: #ffffff;
+    -unity-text-align: middle-left;
 }

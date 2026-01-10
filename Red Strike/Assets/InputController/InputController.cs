@@ -22,7 +22,6 @@ namespace InputController
         public VehiclesDatabase vehiclesDatabase;
         public AmmunitionDatabase ammunitionDatabase;
         public User userData;
-        public KeyIconDatabase iconDatabase;
 
         [Header("Layers & Camera")]
         public LayerMask terrainLayer;
@@ -63,16 +62,6 @@ namespace InputController
             buildingHUDController = GetComponent<BuildingHUDController>();
 
             audioSource = GetComponentInChildren<AudioSource>();
-
-            var prompts = new List<KeyPromptController.PromptRequest>
-            {
-                new KeyPromptController.PromptRequest(InputType.W, "Move Forward"),
-                new KeyPromptController.PromptRequest(InputType.S, "Move Backward"),
-                new KeyPromptController.PromptRequest(InputType.A, "Move Left"),
-                new KeyPromptController.PromptRequest(InputType.D, "Move Right"),
-                new KeyPromptController.PromptRequest(InputType.Space, "Jump")
-            };
-            KeyPromptController.Instance?.UpdatePrompts(prompts);
         }
 
         private void Update()
